@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ActionBar -->
+    <color name="action_bar_baseline_color">#858585</color>
+
+    <!-- Navigation drawer -->
+    <color name="drawer_menu_background_color">#88FFFFFF</color>
+
+</resources>

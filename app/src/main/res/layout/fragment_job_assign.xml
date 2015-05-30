@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TabHost
+        android:id="@+id/worker_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/worker_container_weight">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tab_height"
+                android:showDividers="none">
+            </TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
+
+            <!--
+            <com.amk2.musicrunner.main.SwipeControllableViewPager
+                android:id="@+id/tab_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            -->
+
+        </RelativeLayout>
+
+    </TabHost>
+
+    <TabHost
+        android:id="@+id/job_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/job_container_weight">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tab_height"
+                android:showDividers="none">
+            </TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"/>
+
+            <!--
+            <com.amk2.musicrunner.main.SwipeControllableViewPager
+                android:id="@+id/tab_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            -->
+
+        </RelativeLayout>
+
+    </TabHost>
+
+</LinearLayout>
