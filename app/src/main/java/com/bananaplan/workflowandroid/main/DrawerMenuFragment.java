@@ -10,7 +10,7 @@ import com.bananaplan.workflowandroid.R;
 
 
 /**
- *
+ * The menu in navigation drawer
  *
  * @author Danny Lin
  * @since 2015.05.30

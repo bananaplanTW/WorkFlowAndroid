@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.taskassign.TaskAssignFragment;
+import com.bananaplan.workflowandroid.taskassign.AssignTaskFragment;
 
 
 /**
@@ -31,7 +31,7 @@ public class UIController {
 
     private FragmentManager mFragmentManager;
     private DrawerMenuFragment mDrawerMenuFragment;
-    private TaskAssignFragment mTaskAssignFragment;
+    private AssignTaskFragment mAssignTaskFragment;
 
 
     private static class FragmentTag {
@@ -89,14 +89,14 @@ public class UIController {
         mDrawerMenuFragment = (DrawerMenuFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
         if (mDrawerMenuFragment == null) {
             mDrawerMenuFragment = new DrawerMenuFragment();
+            fragmentTransaction.add(R.id.drawer_menu_container, mDrawerMenuFragment, FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
         }
-        fragmentTransaction.add(R.id.drawer_menu_container, mDrawerMenuFragment);
-
-        mTaskAssignFragment = (TaskAssignFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_TASK_ASSIGN_FRAGMENT);
-        if (mTaskAssignFragment == null) {
-            mTaskAssignFragment = new TaskAssignFragment();
+        
+        mAssignTaskFragment = (AssignTaskFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_TASK_ASSIGN_FRAGMENT);
+        if (mAssignTaskFragment == null) {
+            mAssignTaskFragment = new AssignTaskFragment();
+            fragmentTransaction.add(R.id.content_container, mAssignTaskFragment, FragmentTag.TAG_TASK_ASSIGN_FRAGMENT);
         }
-        fragmentTransaction.add(R.id.content_container, mTaskAssignFragment);
 
         fragmentTransaction.commit();
     }
