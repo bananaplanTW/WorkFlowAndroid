@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.jobassign.JobAssignFragment;
+import com.bananaplan.workflowandroid.taskassign.TaskAssignFragment;
 
 
 /**
@@ -31,12 +31,12 @@ public class UIController {
 
     private FragmentManager mFragmentManager;
     private DrawerMenuFragment mDrawerMenuFragment;
-    private JobAssignFragment mJobAssignFragment;
+    private TaskAssignFragment mTaskAssignFragment;
 
 
     private static class FragmentTag {
         public static final String TAG_DRAWER_MENU_FRAGMENT = "tag_drawer_menu_fragment";
-        public static final String TAG_JOB_ASSIGN_FRAGMENT = "tag_job_assign_fragment";
+        public static final String TAG_TASK_ASSIGN_FRAGMENT = "tag_task_assign_fragment";
     }
 
     public UIController(ActionBarActivity activity) {
@@ -92,11 +92,11 @@ public class UIController {
         }
         fragmentTransaction.add(R.id.drawer_menu_container, mDrawerMenuFragment);
 
-        mJobAssignFragment = (JobAssignFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_JOB_ASSIGN_FRAGMENT);
-        if (mJobAssignFragment == null) {
-            mJobAssignFragment = new JobAssignFragment();
+        mTaskAssignFragment = (TaskAssignFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_TASK_ASSIGN_FRAGMENT);
+        if (mTaskAssignFragment == null) {
+            mTaskAssignFragment = new TaskAssignFragment();
         }
-        fragmentTransaction.add(R.id.content_container, mJobAssignFragment);
+        fragmentTransaction.add(R.id.content_container, mTaskAssignFragment);
 
         fragmentTransaction.commit();
     }

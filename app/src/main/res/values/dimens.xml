@@ -3,7 +3,8 @@
     <!-- Main -->
     <dimen name="drawer_menu_container_width">240dp</dimen>
 
-    <!-- Job assign -->
-    <dimen name="tab_height">30dp</dimen>
+    <!-- Task assign -->
+    <dimen name="factory_spinner_text_size">25sp</dimen>
+    <dimen name="task_spinner_text_size">20sp</dimen>
 
 </resources>

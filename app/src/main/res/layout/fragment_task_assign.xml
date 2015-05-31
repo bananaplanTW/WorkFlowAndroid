@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/worker_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/worker_container_weight"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <Spinner
+            android:id="@+id/factory_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--
+        <ViewPager
+            android:id="@+id/worker_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" /> -->
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/task_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/task_container_weight"
+        android:background="@color/task_container_background_color"
+        android:gravity="center_horizontal">
+
+        <Spinner
+            android:id="@+id/task_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>
