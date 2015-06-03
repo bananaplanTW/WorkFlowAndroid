@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.taskassign.AssignTaskFragment;
+import com.bananaplan.workflowandroid.assigntask.AssignTaskFragment;
 
 
 /**
@@ -100,5 +100,4 @@ public class UIController {
 
         fragmentTransaction.commit();
     }
-
 }

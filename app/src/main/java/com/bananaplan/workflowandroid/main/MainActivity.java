@@ -12,6 +12,7 @@ public class MainActivity extends ActionBarActivity {
 
     private UIController mUIController;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -17,10 +17,6 @@ import com.bananaplan.workflowandroid.R;
  */
 public class DrawerMenuFragment extends Fragment {
 
-    public DrawerMenuFragment() {
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

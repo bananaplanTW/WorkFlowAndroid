@@ -1,10 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/worker_count_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <GridView
+        android:id="@+id/worker_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/worker_grid_view_padding_left_right"
+        android:paddingRight="@dimen/worker_grid_view_padding_left_right"
+        android:paddingTop="@dimen/worker_grid_view_padding_top_bottom"
+        android:paddingBottom="@dimen/worker_grid_view_padding_top_bottom"
+        android:verticalSpacing="@dimen/worker_grid_view_vertical_spacing"
+        android:horizontalSpacing="@dimen/worker_grid_view_horizontal_spacing"
+        android:columnWidth="@dimen/worker_grid_view_item_width"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:gravity="center"/>
 
-</LinearLayout>
+</RelativeLayout>

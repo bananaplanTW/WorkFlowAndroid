@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.taskassign;
+package com.bananaplan.workflowandroid.assigntask;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import com.bananaplan.workflowandroid.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -35,10 +36,10 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
 
     private Spinner mFactorySpinner;
     private Spinner mTaskSpinner;
-    private ArrayAdapter mFactoryAdapter;
-    private ArrayAdapter mTaskAdapter;
+    private ArrayAdapter mFactorySpinnerAdapter;
+    private ArrayAdapter mTaskSpinnerAdapter;
 
-    private ArrayList<WorkerFragment> mWorkerFragmentList = new ArrayList<WorkerFragment>();
+    private ArrayList<WorkerFragment> mWorkerFragmentList;
     private ViewPager mWorkerViewPager;
     private WorkerViewPagerAdapter mWorkerViewPagerAdapter;
     private int mMaxWorkerCountInPage;
@@ -49,13 +50,17 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
 
     private class WorkerViewPagerAdapter extends PagerAdapter {
 
-        protected FragmentManager mFragmentManager;
-        protected FragmentTransaction mCurTransaction = null;
-        protected int mAdapterSize = 0;
+        private FragmentManager mFragmentManager;
+        private FragmentTransaction mCurTransaction = null;
+        private int mAdapterSize = 0;
 
 
         public WorkerViewPagerAdapter(FragmentManager fm, int size) {
             mFragmentManager = fm;
+            mAdapterSize = size;
+        }
+
+        public void setAdapterSize(int size) {
             mAdapterSize = size;
         }
 
@@ -111,10 +116,6 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         }
     }
 
-    public AssignTaskFragment() {
-
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -123,7 +124,7 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_task_assign, container, false);
+        return inflater.inflate(R.layout.fragment_assign_task, container, false);
     }
 
     @Override
@@ -141,7 +142,7 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     private void initialize() {
         mFragmentView = getView();
         mFragmentManager = getFragmentManager();
-        mMaxWorkerCountInPage = MAX_WORKER_COUNT_IN_PAGE; // Need to get data according to the device size.
+        mMaxWorkerCountInPage = MAX_WORKER_COUNT_IN_PAGE; // Need to get count according to the device size.
         findViews();
         initFactorySpinner();
         initTaskSpinner();
@@ -156,15 +157,15 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     }
 
     private void initFactorySpinner() {
-        mFactoryAdapter = new ArrayAdapter(mActivity, R.layout.factory_spinner_item, mFactoryData);
-        mFactoryAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        mFactorySpinner.setAdapter(mFactoryAdapter);
+        mFactorySpinnerAdapter = new ArrayAdapter(mActivity, R.layout.factory_spinner_item, mFactoryData);
+        mFactorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        mFactorySpinner.setAdapter(mFactorySpinnerAdapter);
     }
 
     private void initTaskSpinner() {
-        mTaskAdapter = new ArrayAdapter(mActivity, R.layout.task_spinner_item, mTaskData);
-        mTaskAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        mTaskSpinner.setAdapter(mTaskAdapter);
+        mTaskSpinnerAdapter = new ArrayAdapter(mActivity, R.layout.task_spinner_item, mTaskData);
+        mTaskSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        mTaskSpinner.setAdapter(mTaskSpinnerAdapter);
     }
 
     private void initWorkerViewPager() {
@@ -177,19 +178,21 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         if (workerCount <= 0) return;
 
         int fragmentIndex = 0;
+        if (mWorkerFragmentList == null) {
+            mWorkerFragmentList = new ArrayList<WorkerFragment>();
+        }
         addWorkerFragment(TAG_WORKER + fragmentIndex);
         for (int i = 0 ; i < workerCount ; i++) {
-            if (MAX_WORKER_COUNT_IN_PAGE == mWorkerFragmentList.get(fragmentIndex).getWorkerDatas().size()) {
+            if (MAX_WORKER_COUNT_IN_PAGE == mWorkerFragmentList.get(fragmentIndex).getWorkerDatas().size()) {  // Need to refactory
                 fragmentIndex++;
                 addWorkerFragment(TAG_WORKER + fragmentIndex);
             }
-            mWorkerFragmentList.get(fragmentIndex).getWorkerDatas().add("Worker " + i);
+            mWorkerFragmentList.get(fragmentIndex).getWorkerDatas().add("Worker " + i);  // After DB is created, add worker information
         }
     }
 
     private void addWorkerFragment(String tag) {
-        WorkerFragment workerFragment;
-        workerFragment = (WorkerFragment) mFragmentManager.findFragmentByTag(tag);
+        WorkerFragment workerFragment = (WorkerFragment) mFragmentManager.findFragmentByTag(tag);
         if (workerFragment == null) {
             workerFragment = new WorkerFragment();
             FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -201,7 +204,7 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     }
 
     private void clearWorkers() {
-        mWorkerFragmentList.clear();
+        mWorkerFragmentList = null;
         mWorkerViewPager.removeAllViews();
     }
 

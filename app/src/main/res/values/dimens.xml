@@ -7,4 +7,26 @@
     <dimen name="factory_spinner_text_size">25sp</dimen>
     <dimen name="task_spinner_text_size">20sp</dimen>
 
+    <!-- Task assign: Worker grid view -->
+    <dimen name="worker_grid_view_padding_top_bottom">20dp</dimen>
+    <dimen name="worker_grid_view_padding_left_right">30dp</dimen>
+    <dimen name="worker_grid_view_vertical_spacing">30dp</dimen>
+    <dimen name="worker_grid_view_horizontal_spacing">30dp</dimen>
+    <dimen name="worker_grid_view_item_width">160dp</dimen>
+    <dimen name="worker_grid_view_item_height">100dp</dimen>
+    <dimen name="worker_grid_view_item_corner_radius">5dp</dimen>
+    <dimen name="worker_grid_view_item_stroke_width">1dp</dimen>
+
+    <dimen name="worker_title_container_padding_left_right">13dp</dimen>
+    <dimen name="worker_name_text_size">16dp</dimen>
+    <dimen name="worker_title_text_size">12dp</dimen>
+
+    <dimen name="working_content_container_margin_left_right">20dp</dimen>
+    <dimen name="working_content_text_size">14dp</dimen>
+    <dimen name="working_status_container_padding_left_right">13dp</dimen>
+
+    <dimen name="working_status_light_width_height">13dp</dimen>
+    <dimen name="working_status_padding_left_right">5dp</dimen>
+    <dimen name="working_status_text_size">13dp</dimen>
+
 </resources>

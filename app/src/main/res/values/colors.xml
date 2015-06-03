@@ -2,13 +2,18 @@
 <resources>
 
     <!-- ActionBar -->
-    <color name="action_bar_baseline_color">#858585</color>
+    <color name="action_bar_baseline_color">#FF858585</color>
 
     <!-- Navigation drawer -->
     <color name="drawer_menu_background_color">@android:color/white</color>
 
     <!-- Task assign -->
-    <color name="task_container_background_color">#393939</color>
+    <color name="task_container_background_color">#FF393939</color>
     <color name="task_spinner_text_color">@android:color/white</color>
+
+    <!-- Task assign: Worker grid view -->
+    <color name="worker_grid_view_item_background_color">#FFCFCFCF</color>
+    <color name="worker_grid_view_item_stroke_color">#FF858585</color>
+    <color name="working_status_ok">#FF55931F</color>
 
 </resources>
