@@ -7,6 +7,8 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +37,7 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     private FragmentManager mFragmentManager;
 
     private Spinner mFactorySpinner;
-    private Spinner mTaskSpinner;
+    private Spinner mCaseSpinner;
     private ArrayAdapter mFactorySpinnerAdapter;
     private ArrayAdapter mTaskSpinnerAdapter;
 
@@ -44,8 +46,13 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     private WorkerViewPagerAdapter mWorkerViewPagerAdapter;
     private int mMaxWorkerCountInPage;
 
-    private String[] mFactoryData = {"Factory 1", "Factory 2", "Factory 3"};
-    private String[] mTaskData = {"Case 1", "Case 2", "Case 3"};
+    private RecyclerView mTaskList;
+    private LinearLayoutManager mLinearLayoutManager;
+    private TaskListAdapter mTaskListAdapter;
+
+    private String[] mFactoryDatas = {"Factory 1", "Factory 2", "Factory 3"};
+    private String[] mCaseDatas = {"Case 1", "Case 2", "Case 3"};
+    private List<TaskItem> mTaskDatas = new ArrayList<TaskItem>();
 
 
     private class WorkerViewPagerAdapter extends PagerAdapter {
@@ -148,30 +155,53 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         initTaskSpinner();
         createWorkerFragments(10); // When DB is created, this part needs to be done after the loader has already loaded data.
         initWorkerViewPager();
+        initTaskListData();
+        initTaskList();  // When DB is created, this part needs to be done after the loader has already loaded data.
     }
 
     private void findViews() {
         mFactorySpinner = (Spinner) mFragmentView.findViewById(R.id.factory_spinner);
-        mTaskSpinner = (Spinner) mFragmentView.findViewById(R.id.task_spinner);
+        mCaseSpinner = (Spinner) mFragmentView.findViewById(R.id.task_spinner);
         mWorkerViewPager = (ViewPager) mFragmentView.findViewById(R.id.worker_viewpager);
+        mTaskList = (RecyclerView) mFragmentView.findViewById(R.id.task_list_view);
     }
 
     private void initFactorySpinner() {
-        mFactorySpinnerAdapter = new ArrayAdapter(mActivity, R.layout.factory_spinner_item, mFactoryData);
+        mFactorySpinnerAdapter = new ArrayAdapter(mActivity, R.layout.factory_spinner_item, mFactoryDatas);
         mFactorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         mFactorySpinner.setAdapter(mFactorySpinnerAdapter);
     }
 
     private void initTaskSpinner() {
-        mTaskSpinnerAdapter = new ArrayAdapter(mActivity, R.layout.task_spinner_item, mTaskData);
+        mTaskSpinnerAdapter = new ArrayAdapter(mActivity, R.layout.task_spinner_item, mCaseDatas);
         mTaskSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        mTaskSpinner.setAdapter(mTaskSpinnerAdapter);
+        mCaseSpinner.setAdapter(mTaskSpinnerAdapter);
     }
 
     private void initWorkerViewPager() {
         mWorkerViewPagerAdapter = new WorkerViewPagerAdapter(mFragmentManager, mWorkerFragmentList.size());
         mWorkerViewPager.setAdapter(mWorkerViewPagerAdapter);
         mWorkerViewPager.setOnPageChangeListener(this);
+    }
+
+    private void initTaskListData() {
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.COMPLETED, "11:00:00"));
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.OVERTIME, "11:00:00"));
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.UNDERGOING, "11:00:00"));
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.UNDERGOING, "11:00:00"));
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.UNDERGOING, "11:00:00"));
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.OVERTIME, "11:00:00"));
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.COMPLETED, "11:00:00"));
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.OVERTIME, "11:00:00"));
+        mTaskDatas.add(new TaskItem("外面鑽孔", "鑽孔機械A", TaskItem.Status.COMPLETED, "11:00:00"));
+    }
+
+    private void initTaskList() {
+        mTaskListAdapter = new TaskListAdapter(mActivity, mTaskDatas);
+        mLinearLayoutManager = new LinearLayoutManager(mActivity);
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mTaskList.setLayoutManager(mLinearLayoutManager);
+        mTaskList.setAdapter(mTaskListAdapter);
     }
 
     private void createWorkerFragments(int workerCount) {

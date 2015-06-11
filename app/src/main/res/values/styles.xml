@@ -10,4 +10,19 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
+    <style name="ToDoListTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/to_do_list_text_color</item>
+    </style>
+
+    <style name="ToDoListTextStyle.Title">
+        <item name="android:textSize">@dimen/to_do_list_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ToDoListTextStyle.Content">
+        <item name="android:textSize">@dimen/to_do_list_content_text_size</item>
+    </style>
+
 </resources>

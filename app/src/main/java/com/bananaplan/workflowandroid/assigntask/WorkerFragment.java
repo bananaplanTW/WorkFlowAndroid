@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fragment to show workers' working status
+ * Fragment to show all workers' working status
  *
  * @author Danny Lin
  * @since 2015.05.31
