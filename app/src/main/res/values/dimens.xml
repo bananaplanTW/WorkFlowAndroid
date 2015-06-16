@@ -3,7 +3,7 @@
     <!-- Main -->
     <dimen name="drawer_menu_container_width">240dp</dimen>
 
-    <!-- Task assign -->
+    <!-- Task assign: Tasks part -->
     <dimen name="task_spinner_text_size">25dp</dimen>
     <dimen name="person_in_charge_padding_right">30dp</dimen>
     <dimen name="to_do_list_container_padding_left_right">15dp</dimen>
@@ -24,8 +24,12 @@
     <dimen name="task_item_status_padding_top_bottom">3dp</dimen>
     <dimen name="task_item_time_text_size">11dp</dimen>
 
-    <!-- Task assign: Worker grid view -->
+    <!-- Task assign: Workers part -->
     <dimen name="factory_spinner_text_size">30dp</dimen>
+    <dimen name="worker_pager_indicator_container_padding_bottom">50dp</dimen>
+    <dimen name="worker_pager_indicator_width_height">15dp</dimen>
+    <dimen name="worker_pager_indicator_stroke_width">1dp</dimen>
+    <dimen name="worker_pager_indicator_margin_left_right">8dp</dimen>
     <dimen name="worker_grid_view_padding_top_bottom">20dp</dimen>
     <dimen name="worker_grid_view_padding_left_right">30dp</dimen>
     <dimen name="worker_grid_view_vertical_spacing">30dp</dimen>
@@ -34,15 +38,12 @@
     <dimen name="worker_grid_view_item_height">100dp</dimen>
     <dimen name="worker_grid_view_item_corner_radius">5dp</dimen>
     <dimen name="worker_grid_view_item_stroke_width">1dp</dimen>
-
-    <dimen name="worker_title_container_padding_left_right">13dp</dimen>
+    <dimen name="worker_title_margin_right">13dp</dimen>
     <dimen name="worker_name_text_size">16dp</dimen>
     <dimen name="worker_title_text_size">12dp</dimen>
-
     <dimen name="working_content_container_margin_left_right">20dp</dimen>
     <dimen name="working_content_text_size">14dp</dimen>
     <dimen name="working_status_container_padding_left_right">13dp</dimen>
-
     <dimen name="working_status_light_width_height">13dp</dimen>
     <dimen name="working_status_padding_left_right">5dp</dimen>
     <dimen name="working_status_text_size">13dp</dimen>

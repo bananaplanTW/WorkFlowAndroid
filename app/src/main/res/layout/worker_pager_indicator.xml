@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/worker_pager_indicator_width_height"
+    android:layout_height="@dimen/worker_pager_indicator_width_height"
+    android:layout_marginLeft="@dimen/worker_pager_indicator_margin_left_right"
+    android:layout_marginRight="@dimen/worker_pager_indicator_margin_left_right"
+    android:background="@drawable/worker_pager_indicator_background"/>

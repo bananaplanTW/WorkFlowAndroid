@@ -7,7 +7,7 @@
     <!-- Navigation drawer -->
     <color name="drawer_menu_background_color">@android:color/white</color>
 
-    <!-- Task assign -->
+    <!-- Task assign: Tasks part -->
     <color name="task_container_background_color">#FF393939</color>
     <color name="task_spinner_text_color">@android:color/white</color>
     <color name="task_spinner_divider_color">#FF858585</color>
@@ -22,7 +22,10 @@
     <color name="task_item_status_completed_color">@android:color/transparent</color>
     <color name="task_item_status_completed_filter_color">#FFECECEC</color>
 
-    <!-- Task assign: Worker grid view -->
+    <!-- Task assign: Workers part -->
+    <color name="worker_pager_indicator_stroke_color">#FF858585</color>
+    <color name="worker_pager_indicator_selected_color">#FF222222</color>
+    <color name="worker_pager_indicator_normal_color">#FFCFCFCF</color>
     <color name="worker_grid_view_item_background_color">#FFCFCFCF</color>
     <color name="worker_grid_view_item_stroke_color">#FF858585</color>
     <color name="working_status_ok">#FF55931F</color>

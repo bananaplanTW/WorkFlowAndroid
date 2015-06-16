@@ -47,10 +47,13 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     private ArrayAdapter mFactorySpinnerAdapter;
     private ArrayAdapter mTaskSpinnerAdapter;
 
-    private ArrayList<WorkerFragment> mWorkerFragmentList;
-    private ViewPager mWorkerViewPager;
-    private WorkerViewPagerAdapter mWorkerViewPagerAdapter;
+    private List<WorkerFragment> mWorkerFragmentList;
+    private ViewPager mWorkerPager;
+    private WorkerPagerAdapter mWorkerPagerAdapter;
     private int mMaxWorkerCountInPage;
+    private int mPreviousPagerIndex = 0;
+
+    private ViewGroup mWorkerPagerIndicatorContainer;
 
     private RecyclerView mTaskList;
     private LinearLayoutManager mLinearLayoutManager;
@@ -66,14 +69,14 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     private List<TaskCase> mTaskCases = new ArrayList<TaskCase>();
 
 
-    private class WorkerViewPagerAdapter extends PagerAdapter {
+    private class WorkerPagerAdapter extends PagerAdapter {
 
         private FragmentManager mFragmentManager;
         private FragmentTransaction mCurTransaction = null;
         private int mAdapterSize = 0;
 
 
-        public WorkerViewPagerAdapter(FragmentManager fm, int size) {
+        public WorkerPagerAdapter(FragmentManager fm, int size) {
             mFragmentManager = fm;
             mAdapterSize = size;
         }
@@ -151,12 +154,6 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         initialize();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        clearWorkers();
-    }
-
     private void initialize() {
         mFragmentView = getView();
         mFragmentManager = getFragmentManager();
@@ -164,19 +161,20 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         findViews();
 
         // When DB is created, this part needs to be done after the loader has already loaded data.
-        createWorkerFragments(10);
+        createWorkerPages(20);
         createTaskCaseData();
 
         initTaskList();
         initFactorySpinner();
         initCaseSpinner();
-        initWorkerViewPager();
+        initWorkerPager();
     }
 
     private void findViews() {
         mFactorySpinner = (Spinner) mFragmentView.findViewById(R.id.factory_spinner);
         mCaseSpinner = (Spinner) mFragmentView.findViewById(R.id.task_spinner);
-        mWorkerViewPager = (ViewPager) mFragmentView.findViewById(R.id.worker_viewpager);
+        mWorkerPager = (ViewPager) mFragmentView.findViewById(R.id.worker_pager);
+        mWorkerPagerIndicatorContainer = (ViewGroup) mFragmentView.findViewById(R.id.worker_pager_indicator_container);
         mTaskList = (RecyclerView) mFragmentView.findViewById(R.id.task_list_view);
         mPersonInCharge = (TextView) mFragmentView.findViewById(R.id.person_in_charge);
         mUncompletedTaskTime = (TextView) mFragmentView.findViewById(R.id.uncompleted_task_time);
@@ -212,10 +210,10 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         });
     }
 
-    private void initWorkerViewPager() {
-        mWorkerViewPagerAdapter = new WorkerViewPagerAdapter(mFragmentManager, mWorkerFragmentList.size());
-        mWorkerViewPager.setAdapter(mWorkerViewPagerAdapter);
-        mWorkerViewPager.setOnPageChangeListener(this);
+    private void initWorkerPager() {
+        mWorkerPagerAdapter = new WorkerPagerAdapter(mFragmentManager, mWorkerFragmentList.size());
+        mWorkerPager.setAdapter(mWorkerPagerAdapter);
+        mWorkerPager.setOnPageChangeListener(this);
     }
 
     private void createTaskCaseData() {
@@ -253,21 +251,28 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         mTaskList.setAdapter(mTaskListAdapter);
     }
 
-    private void createWorkerFragments(int workerCount) {
+    private void createWorkerPages(int workerCount) {
         if (workerCount <= 0) return;
 
         int fragmentIndex = 0;
         if (mWorkerFragmentList == null) {
             mWorkerFragmentList = new ArrayList<WorkerFragment>();
         }
-        addWorkerFragment(TAG_WORKER + fragmentIndex);
+        addWorkerPage(TAG_WORKER + fragmentIndex);
         for (int i = 0 ; i < workerCount ; i++) {
             if (MAX_WORKER_COUNT_IN_PAGE == mWorkerFragmentList.get(fragmentIndex).getWorkerDatas().size()) {  // Need to refactory
                 fragmentIndex++;
-                addWorkerFragment(TAG_WORKER + fragmentIndex);
+                addWorkerPage(TAG_WORKER + fragmentIndex);
             }
             mWorkerFragmentList.get(fragmentIndex).getWorkerDatas().add("Worker " + i);  // After DB is created, add worker information
         }
+        mWorkerPagerIndicatorContainer.getChildAt(0).setSelected(true);
+        mPreviousPagerIndex = 0;
+    }
+
+    private void addWorkerPage(String tag) {
+        addWorkerFragment(tag);
+        addWorkerPagerIndicator();
     }
 
     private void addWorkerFragment(String tag) {
@@ -275,16 +280,22 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         if (workerFragment == null) {
             workerFragment = new WorkerFragment();
             FragmentTransaction transaction = mFragmentManager.beginTransaction();
-            transaction.add(R.id.worker_viewpager, workerFragment, tag);
+            transaction.add(R.id.worker_pager, workerFragment, tag);
             transaction.hide(workerFragment);
             transaction.commit();
         }
         mWorkerFragmentList.add(workerFragment);
     }
 
+    private void addWorkerPagerIndicator() {
+        View indicator = LayoutInflater.from(mActivity).inflate(
+                R.layout.worker_pager_indicator, mWorkerPagerIndicatorContainer, false);
+        mWorkerPagerIndicatorContainer.addView(indicator);
+    }
+
     private void clearWorkers() {
         mWorkerFragmentList = null;
-        mWorkerViewPager.removeAllViews();
+        mWorkerPager.removeAllViews();
     }
 
     @Override
@@ -294,7 +305,9 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
 
     @Override
     public void onPageSelected(int position) {
-
+        mWorkerPagerIndicatorContainer.getChildAt(mPreviousPagerIndex).setSelected(false);
+        mWorkerPagerIndicatorContainer.getChildAt(position).setSelected(true);
+        mPreviousPagerIndex = position;
     }
 
     @Override
