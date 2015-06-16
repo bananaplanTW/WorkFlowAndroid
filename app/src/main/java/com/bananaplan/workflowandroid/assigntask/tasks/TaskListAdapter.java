@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.assigntask;
+package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,10 +21,10 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015.06.13
  */
-class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
+public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<TaskItem> mTaskDatas;
+    private List<TaskItem> mTaskDatas = new ArrayList<TaskItem>();
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,9 +46,8 @@ class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
         }
     }
 
-    public TaskListAdapter(Context context, List<TaskItem> taskDatas) {
+    public TaskListAdapter(Context context) {
         mContext = context;
-        mTaskDatas = taskDatas;
     }
 
     public void setTaskDatas(List<TaskItem> taskDatas) {

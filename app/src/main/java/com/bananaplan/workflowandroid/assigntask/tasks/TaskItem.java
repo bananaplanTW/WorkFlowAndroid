@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.assigntask;
+package com.bananaplan.workflowandroid.assigntask.tasks;
 
 
 /**
@@ -7,7 +7,7 @@ package com.bananaplan.workflowandroid.assigntask;
  * @author Danny Lin
  * @since 2015.06.13
  */
-class TaskItem {
+public class TaskItem {
 
     public static final class Status {
         public static final int UNDERGOING = 0;

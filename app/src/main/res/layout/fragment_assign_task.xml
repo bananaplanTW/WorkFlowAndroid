@@ -93,7 +93,7 @@
             <TextView
                 android:id="@+id/undergoing_task_time_text"
                 style="@style/ToDoListTextStyle.Content"
-                android:text="工作以進行時數"/>
+                android:text="工作已進行時數"/>
 
             <TextView
                 android:id="@+id/undergoing_task_time"
