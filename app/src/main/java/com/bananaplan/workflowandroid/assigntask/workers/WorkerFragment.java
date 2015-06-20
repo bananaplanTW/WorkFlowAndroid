@@ -4,7 +4,7 @@ package com.bananaplan.workflowandroid.assigntask.workers;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem.WorkingStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +27,15 @@ import java.util.List;
  */
 public class WorkerFragment extends Fragment {
 
+    public static final int MAX_WORKER_COUNT_IN_PAGE = 9;
+
     private Activity mActivity;
     private View mFragmentView;
 
     private GridView mWorkerGridView;
     private WorkerGridViewAdapter mWorkerGridViewAdapter;
 
-    private ArrayList<String> mWorkerDatas = new ArrayList<String>();
+    private ArrayList<WorkerItem> mWorkerDatas = new ArrayList<WorkerItem>();
 
 
     private class WorkerGridViewAdapter extends ArrayAdapter {
@@ -41,13 +44,13 @@ public class WorkerFragment extends Fragment {
 
 
         private class WorkerViewHolder {
-            ImageView workerAvatar;
-            TextView workerName;
-            TextView workerTitle;
-            TextView workingContent;
-            View workingStatusLight;
-            TextView workingStatus;
-            TextView workingTime;
+            ImageView avatar;
+            TextView name;
+            TextView title;
+            TextView task;
+            View statusLight;
+            TextView status;
+            TextView time;
         }
 
         public WorkerGridViewAdapter(Context context, int resource, List objects) {
@@ -64,30 +67,43 @@ public class WorkerFragment extends Fragment {
                 view = convertView;
                 workerViewHolder = (WorkerViewHolder) view.getTag();
             } else {
-                view = mActivity.getLayoutInflater().inflate(R.layout.worker_grid_view_item, parent, false);
+                view = mActivity.getLayoutInflater().inflate(R.layout.worker_item, parent, false);
                 workerViewHolder = createWorkerViewHolder(view);
                 view.setTag(workerViewHolder);
             }
 
-            setWorkerViewHolder(workerViewHolder, (String) getItem(position));
+            setWorkerViewHolder(workerViewHolder, (WorkerItem) getItem(position));
 
             return view;
         }
 
-        private void setWorkerViewHolder(WorkerViewHolder viewHolder, String item) {
-            viewHolder.workerName.setText(item);
+        private void setWorkerViewHolder(WorkerViewHolder viewHolder, WorkerItem workerItem) {
+            viewHolder.name.setText(workerItem.name);
+            viewHolder.title.setText(workerItem.title);
+            viewHolder.task.setText(workerItem.task);
+
+            // TODO: Status light
+            switch (workerItem.status) {
+                case WorkingStatus.NORMAL:
+                    viewHolder.status.setText("正常工作中");
+                    break;
+                case WorkingStatus.DELAY:
+                    break;
+            }
+
+            viewHolder.time.setText(workerItem.time);
         }
 
         private WorkerViewHolder createWorkerViewHolder(View view) {
             WorkerViewHolder workerViewHolder = new WorkerViewHolder();
 
-            workerViewHolder.workerAvatar = (ImageView) view.findViewById(R.id.worker_avatar);
-            workerViewHolder.workerName = (TextView) view.findViewById(R.id.worker_name);
-            workerViewHolder.workerTitle = (TextView) view.findViewById(R.id.worker_title);
-            workerViewHolder.workingContent = (TextView) view.findViewById(R.id.working_content);
-            workerViewHolder.workingStatusLight = view.findViewById(R.id.working_status_light);
-            workerViewHolder.workingStatus = (TextView) view.findViewById(R.id.working_status);
-            workerViewHolder.workingTime = (TextView) view.findViewById(R.id.working_time);
+            workerViewHolder.avatar = (ImageView) view.findViewById(R.id.worker_avatar);
+            workerViewHolder.name = (TextView) view.findViewById(R.id.worker_name);
+            workerViewHolder.title = (TextView) view.findViewById(R.id.worker_title);
+            workerViewHolder.task = (TextView) view.findViewById(R.id.task);
+            workerViewHolder.statusLight = view.findViewById(R.id.working_status_light);
+            workerViewHolder.status = (TextView) view.findViewById(R.id.working_status);
+            workerViewHolder.time = (TextView) view.findViewById(R.id.working_time);
 
             return workerViewHolder;
         }
@@ -122,19 +138,20 @@ public class WorkerFragment extends Fragment {
     }
 
     private void initWorkerGridView() {
-        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mActivity, R.layout.worker_grid_view_item, mWorkerDatas);
+        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mActivity, R.layout.worker_item, mWorkerDatas);
         mWorkerGridView.setAdapter(mWorkerGridViewAdapter);
     }
 
-    public void addWorker(String worker) {
-        mWorkerDatas.add(worker);
-    }
+//    public void addWorker(WorkerItem workerItem) {
+//        mWorkerDatas.add(workerItem);
+//    }
 
-    public void clearWorkers() {
-        mWorkerDatas.clear();
-    }
+//    public void clearWorkers() {
+//        mWorkerDatas.clear();
+//    }
 
-    public ArrayList<String> getWorkerDatas() {
+    // TODO: Might need to be modified. Use addWorker(), etc.
+    public ArrayList<WorkerItem> getWorkerDatas() {
         return mWorkerDatas;
     }
 }

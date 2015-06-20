@@ -60,8 +60,7 @@
                 android:layout_centerVertical="true"
                 android:paddingRight="@dimen/person_in_charge_padding_right"
                 android:textStyle="bold"
-                android:textColor="@color/person_in_charge_text_color"
-                android:text="負責人：X"/>
+                android:textColor="@color/person_in_charge_text_color" />
 
         </RelativeLayout>
 
@@ -97,8 +96,7 @@
 
             <TextView
                 android:id="@+id/uncompleted_task_time"
-                style="@style/ToDoListTextStyle.Content"
-                android:text="4:22:00"/>
+                style="@style/ToDoListTextStyle.Content"/>
 
             <TextView
                 android:id="@+id/undergoing_task_time_text"
@@ -107,8 +105,7 @@
 
             <TextView
                 android:id="@+id/undergoing_task_time"
-                style="@style/ToDoListTextStyle.Content"
-                android:text="11:23:11"/>
+                style="@style/ToDoListTextStyle.Content"/>
 
             <TextView
                 android:id="@+id/undergoing_worker_count_text"
@@ -117,8 +114,7 @@
 
             <TextView
                 android:id="@+id/undergoing_worker_count"
-                style="@style/ToDoListTextStyle.Content"
-                android:text="6"/>
+                style="@style/ToDoListTextStyle.Content"/>
 
         </LinearLayout>
 
