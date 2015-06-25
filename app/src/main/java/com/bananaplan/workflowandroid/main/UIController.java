@@ -2,12 +2,14 @@ package com.bananaplan.workflowandroid.main;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.bananaplan.workflowandroid.R;
@@ -43,8 +45,27 @@ public class UIController {
         mMainActivity = activity;
     }
 
-    public void onActivityCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         initialize();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        } else {
+            // Normal menu items put here
+            return false;
+        }
+    }
+
+    public void onPostCreate(Bundle savedInstanceState) {
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        // Pass any configuration change to the drawer toggles
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void initialize() {
@@ -67,8 +88,7 @@ public class UIController {
     }
 
     private void initDrawer() {
-        mDrawerToggle = new ActionBarDrawerToggle(mMainActivity, mDrawerLayout,
-                                                  mToolbar, R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(mMainActivity, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -79,7 +99,6 @@ public class UIController {
                 super.onDrawerClosed(drawerView);
             }
         };
-        mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
