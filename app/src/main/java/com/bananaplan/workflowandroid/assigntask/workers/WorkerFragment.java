@@ -33,81 +33,10 @@ public class WorkerFragment extends Fragment {
     private View mFragmentView;
 
     private GridView mWorkerGridView;
-    private WorkerGridViewAdapter mWorkerGridViewAdapter;
+    private WorkerGridAdapter mWorkerGridAdapter;
 
     private ArrayList<WorkerItem> mWorkerDatas = new ArrayList<WorkerItem>();
 
-
-    private class WorkerGridViewAdapter extends ArrayAdapter {
-
-        private Context mContext;
-
-
-        private class WorkerViewHolder {
-            ImageView avatar;
-            TextView name;
-            TextView title;
-            TextView task;
-            View statusLight;
-            TextView status;
-            TextView time;
-        }
-
-        public WorkerGridViewAdapter(Context context, int resource, List objects) {
-            super(context, resource, objects);
-            mContext = context;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = null;
-            WorkerViewHolder workerViewHolder;
-
-            if (convertView != null) {
-                view = convertView;
-                workerViewHolder = (WorkerViewHolder) view.getTag();
-            } else {
-                view = mActivity.getLayoutInflater().inflate(R.layout.worker_item, parent, false);
-                workerViewHolder = createWorkerViewHolder(view);
-                view.setTag(workerViewHolder);
-            }
-
-            setWorkerViewHolder(workerViewHolder, (WorkerItem) getItem(position));
-
-            return view;
-        }
-
-        private void setWorkerViewHolder(WorkerViewHolder viewHolder, WorkerItem workerItem) {
-            viewHolder.name.setText(workerItem.name);
-            viewHolder.title.setText(workerItem.title);
-            viewHolder.task.setText(workerItem.task);
-
-            // TODO: Status light
-            switch (workerItem.status) {
-                case WorkingStatus.NORMAL:
-                    viewHolder.status.setText("正常工作中");
-                    break;
-                case WorkingStatus.DELAY:
-                    break;
-            }
-
-            viewHolder.time.setText(workerItem.time);
-        }
-
-        private WorkerViewHolder createWorkerViewHolder(View view) {
-            WorkerViewHolder workerViewHolder = new WorkerViewHolder();
-
-            workerViewHolder.avatar = (ImageView) view.findViewById(R.id.worker_avatar);
-            workerViewHolder.name = (TextView) view.findViewById(R.id.worker_name);
-            workerViewHolder.title = (TextView) view.findViewById(R.id.worker_title);
-            workerViewHolder.task = (TextView) view.findViewById(R.id.task);
-            workerViewHolder.statusLight = view.findViewById(R.id.working_status_light);
-            workerViewHolder.status = (TextView) view.findViewById(R.id.working_status);
-            workerViewHolder.time = (TextView) view.findViewById(R.id.working_time);
-
-            return workerViewHolder;
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -138,8 +67,8 @@ public class WorkerFragment extends Fragment {
     }
 
     private void initWorkerGridView() {
-        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mActivity, R.layout.worker_item, mWorkerDatas);
-        mWorkerGridView.setAdapter(mWorkerGridViewAdapter);
+        mWorkerGridAdapter = new WorkerGridAdapter(mActivity, mWorkerGridView, R.layout.worker_item, mWorkerDatas);
+        mWorkerGridView.setAdapter(mWorkerGridAdapter);
     }
 
 //    public void addWorker(WorkerItem workerItem) {

@@ -1,5 +1,7 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
@@ -7,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnLongClickListener;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
@@ -23,8 +26,39 @@ import java.util.List;
  */
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
 
+    private static final String TAG = "TaskListAdapter";
+
     private Context mContext;
+
+    private RecyclerView mRecyclerView;
     private List<TaskItem> mTaskDatas = new ArrayList<TaskItem>();
+
+    private OnLongClickListener mOnLongClickListener = new OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+
+            int itemPosition = mRecyclerView.getChildAdapterPosition(v);
+
+            // Pass task content(type: string)
+            String passData = mTaskDatas.get(itemPosition).title;
+            ClipData.Item item = new ClipData.Item(passData);
+            ClipData dragData = new ClipData(passData,
+                                             new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
+                                             item);
+
+            // Instantiates the drag shadow image
+            View.DragShadowBuilder shadow = new View.DragShadowBuilder(v);
+
+            // Starts the drag
+            v.startDrag(dragData,  // the data to be dragged
+                        shadow,    // the drag shadow image
+                        null,      // no need to use local data
+                        0          // flags (not currently used, set to 0)
+            );
+
+            return true;
+        }
+    };
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -46,8 +80,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         }
     }
 
-    public TaskListAdapter(Context context) {
+    public TaskListAdapter(Context context, RecyclerView recyclerView) {
         mContext = context;
+        mRecyclerView = recyclerView;
     }
 
     public void setTaskDatas(List<TaskItem> taskDatas) {
@@ -57,16 +92,27 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     @Override
     public TaskListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.task_item, parent, false);
+
+        // Set long click listener to trigger drag start
+        v.setOnLongClickListener(mOnLongClickListener);
+
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+        // Title
         holder.taskTitle.setText(mTaskDatas.get(position).title);
+
+        // Subtitle
         holder.taskSubtitle.setText(mTaskDatas.get(position).subtitle);
+
+        // Task time
         holder.taskTime.setText(mTaskDatas.get(position).time);
 
+        // Status
         Resources res = mContext.getResources();
         int color = 0;
         switch (mTaskDatas.get(position).status) {

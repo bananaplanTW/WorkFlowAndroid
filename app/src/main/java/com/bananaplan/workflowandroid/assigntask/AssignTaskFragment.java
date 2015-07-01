@@ -300,10 +300,11 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     }
 
     private void initTaskList() {
-        mTaskListAdapter = new TaskListAdapter(mActivity);
         mLinearLayoutManager = new LinearLayoutManager(mActivity);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mTaskList.setLayoutManager(mLinearLayoutManager);
+
+        mTaskListAdapter = new TaskListAdapter(mActivity, mTaskList);
         mTaskList.setAdapter(mTaskListAdapter);
     }
 
