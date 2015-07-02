@@ -21,6 +21,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskListAdapter;
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskListOnTouchListener;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
@@ -61,6 +62,7 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     private RecyclerView mTaskList;
     private LinearLayoutManager mLinearLayoutManager;
     private TaskListAdapter mTaskListAdapter;
+    private TaskListOnTouchListener mTaskListOnTouchListener;
 
     private TextView mPersonInCharge;
     private TextView mUncompletedTaskTime;
@@ -300,11 +302,14 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     }
 
     private void initTaskList() {
+        mTaskListOnTouchListener = new TaskListOnTouchListener(mTaskList);
+        mTaskListAdapter = new TaskListAdapter(mActivity);
         mLinearLayoutManager = new LinearLayoutManager(mActivity);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mTaskList.setLayoutManager(mLinearLayoutManager);
 
-        mTaskListAdapter = new TaskListAdapter(mActivity, mTaskList);
+        mTaskList.setLayoutManager(mLinearLayoutManager);
+        mTaskList.setHasFixedSize(true);
+        mTaskList.setOnTouchListener(mTaskListOnTouchListener);
         mTaskList.setAdapter(mTaskListAdapter);
     }
 
