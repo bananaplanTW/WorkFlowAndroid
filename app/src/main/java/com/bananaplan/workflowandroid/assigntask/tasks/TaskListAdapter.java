@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
@@ -33,28 +35,67 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     private RecyclerView mRecyclerView;
     private List<TaskItem> mTaskDatas = new ArrayList<TaskItem>();
 
-    private OnLongClickListener mOnLongClickListener = new OnLongClickListener() {
+    private boolean mIsTouched = false;
+    private boolean mIsDragged = false;
+    private float mTouchDownX = 0F;
+    private float mTouchDownY = 0F;
+
+    private OnTouchListener mTaskItemOnTouchListener = new OnTouchListener() {
+
         @Override
-        public boolean onLongClick(View v) {
+        public boolean onTouch(View v, MotionEvent event) {
 
-            int itemPosition = mRecyclerView.getChildAdapterPosition(v);
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    mIsTouched = true;
+                    mTouchDownX = event.getRawX();
+                    mTouchDownY = event.getRawY();
 
-            // Pass task content(type: string)
-            String passData = mTaskDatas.get(itemPosition).title;
-            ClipData.Item item = new ClipData.Item(passData);
-            ClipData dragData = new ClipData(passData,
-                                             new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
-                                             item);
+                    break;
 
-            // Instantiates the drag shadow image
-            View.DragShadowBuilder shadow = new View.DragShadowBuilder(v);
+                case MotionEvent.ACTION_MOVE:
+                    float deltaX = event.getRawX() - mTouchDownX;
+                    float deltaY = event.getRawY() - mTouchDownY;
 
-            // Starts the drag
-            v.startDrag(dragData,  // the data to be dragged
-                        shadow,    // the drag shadow image
-                        null,      // no need to use local data
-                        0          // flags (not currently used, set to 0)
-            );
+                    if (!mIsTouched || mIsDragged || Math.abs(deltaX) >= 10 || Math.abs(deltaY) < 5) {
+                        break;
+                    }
+
+                    int itemPosition = mRecyclerView.getChildAdapterPosition(v);
+
+                    // Pass task content(type: string)
+                    String passData = mTaskDatas.get(itemPosition).title;
+                    ClipData.Item item = new ClipData.Item(passData);
+                    ClipData dragData = new ClipData(passData,
+                                                     new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
+                                                     item);
+
+                    // Instantiates the drag shadow image
+                    View.DragShadowBuilder shadow = new View.DragShadowBuilder(v);
+
+                    Log.d(TAG, "Pass data = " + passData);
+
+                    // Starts the drag
+                    v.startDrag(dragData,  // the data to be dragged
+                                shadow,    // the drag shadow image
+                                null,      // no need to use local data
+                                0          // flags (not currently used, set to 0)
+                    );
+
+                    mIsDragged = true;
+
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    resetTaskItemTouch();
+
+                    break;
+
+                case MotionEvent.ACTION_CANCEL:
+                    resetTaskItemTouch();
+
+                    break;
+            }
 
             return true;
         }
@@ -89,12 +130,19 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         mTaskDatas = taskDatas;
     }
 
+    public void resetTaskItemTouch() {
+        mIsTouched = false;
+        mIsDragged = false;
+        mTouchDownX = 0F;
+        mTouchDownY = 0F;
+    }
+
     @Override
     public TaskListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.task_item, parent, false);
 
-        // Set long click listener to trigger drag start
-        v.setOnLongClickListener(mOnLongClickListener);
+        // Set touch listener for triggering drag start
+        v.setOnTouchListener(mTaskItemOnTouchListener);
 
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
