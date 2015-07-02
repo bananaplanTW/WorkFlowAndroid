@@ -90,6 +90,10 @@ public class WorkerGridAdapter extends ArrayAdapter {
                 case DragEvent.ACTION_DRAG_ENDED:
                     v.getBackground().clearColorFilter();
                     v.invalidate();
+                    if (event.getResult()) {
+                        notifyDataSetChanged();
+                    }
+
                     return true;
 
                 default:
