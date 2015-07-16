@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/task_item_height"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <Spinner
+        android:id="@+id/task_case_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <LinearLayout
+        android:id="@+id/to_do_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/task_case_spinner"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/to_do_list_title"
+            style="@style/TaskContainerTextStyle.TaskItemTitle"
+            android:layout_gravity="center_horizontal"
+            android:text="待辦事項"/>
+
+        <TextView
+            android:id="@+id/uncompleted_task_time_text"
+            style="@style/TaskContainerTextStyle.TaskItemContent"
+            android:text="工作未完成時數"/>
+
+        <TextView
+            android:id="@+id/uncompleted_task_time"
+            style="@style/TaskContainerTextStyle.TaskItemContent"/>
+
+        <TextView
+            android:id="@+id/undergoing_task_time_text"
+            style="@style/TaskContainerTextStyle.TaskItemContent"
+            android:text="工作已進行時數"/>
+
+        <TextView
+            android:id="@+id/undergoing_task_time"
+            style="@style/TaskContainerTextStyle.TaskItemContent"/>
+
+        <TextView
+            android:id="@+id/undergoing_worker_count_text"
+            style="@style/TaskContainerTextStyle.TaskItemContent"
+            android:text="進行員工數"/>
+
+        <TextView
+            android:id="@+id/undergoing_worker_count"
+            style="@style/TaskContainerTextStyle.TaskItemContent"/>
+
+    </LinearLayout>
+
+</LinearLayout>

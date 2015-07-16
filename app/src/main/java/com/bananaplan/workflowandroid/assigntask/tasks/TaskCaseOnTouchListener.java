@@ -3,6 +3,7 @@ package com.bananaplan.workflowandroid.assigntask.tasks;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -14,22 +15,22 @@ import android.view.View;
  * @author Danny Lin
  * @since 2015/7/10.
  */
-public class TaskListOnTouchListener implements View.OnTouchListener {
+public class TaskCaseOnTouchListener implements View.OnTouchListener {
 
     private static final String TAG = "TaskListOnTouchListener";
 
-    private static final int THRESHOLD_DRAG_THETA = 30;
+    private static final int THRESHOLD_DRAG_THETA = 35;
 
     private RecyclerView mRecyclerView;
     private View mDownView = null;
 
     private boolean mIsTouched = false;
-    private boolean mIsDragged = false;
+    private boolean mIsDragging = false;
     private float mTouchDownX = 0F;
     private float mTouchDownY = 0F;
 
 
-    public TaskListOnTouchListener(RecyclerView recyclerView) {
+    public TaskCaseOnTouchListener(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
     }
 
@@ -45,7 +46,8 @@ public class TaskListOnTouchListener implements View.OnTouchListener {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mDownView = mRecyclerView.findChildViewUnder(event.getX(), event.getY());
-                if (mDownView == null) break;
+                Log.d(TAG, "Down position = " + mRecyclerView.getChildAdapterPosition(mDownView));
+                if (mDownView == null || mRecyclerView.getChildAdapterPosition(mDownView) == 0) break;
 
                 mIsTouched = true;
                 mTouchDownX = x;
@@ -54,14 +56,15 @@ public class TaskListOnTouchListener implements View.OnTouchListener {
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (mDownView == null) break;
-
                 float deltaX = Math.abs(x - mTouchDownX);
                 float deltaY = Math.abs(y - mTouchDownY);
+
+                if (mDownView == null || deltaX == 0F || deltaY == 0F) break;
+
                 double deltaZ = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
                 int theta = Math.round((float) (Math.asin(deltaY / deltaZ) / Math.PI*180));
 
-                if (!mIsTouched || mIsDragged || y > mTouchDownY || theta < THRESHOLD_DRAG_THETA) {
+                if (!mIsTouched || mIsDragging || x < mTouchDownX || theta > THRESHOLD_DRAG_THETA) {
                     break;
                 }
 
@@ -89,7 +92,7 @@ public class TaskListOnTouchListener implements View.OnTouchListener {
         int itemPosition = mRecyclerView.getChildAdapterPosition(mDownView);
 
         // Pass task content(type: string)
-        String passData = ((TaskListAdapter) mRecyclerView.getAdapter()).getTaskDatas().get(itemPosition).title;
+        String passData = ((TaskCaseAdapter) mRecyclerView.getAdapter()).getItem(itemPosition).title;
         ClipData.Item item = new ClipData.Item(passData);
         ClipData dragData = new ClipData(passData,
                 new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
@@ -105,13 +108,13 @@ public class TaskListOnTouchListener implements View.OnTouchListener {
                 0          // flags (not currently used, set to 0)
         );
 
-        mIsDragged = true;
+        mIsDragging = true;
     }
 
     private void resetTaskItemTouch() {
         mDownView = null;
         mIsTouched = false;
-        mIsDragged = false;
+        mIsDragging = false;
         mTouchDownX = 0F;
         mTouchDownY = 0F;
     }

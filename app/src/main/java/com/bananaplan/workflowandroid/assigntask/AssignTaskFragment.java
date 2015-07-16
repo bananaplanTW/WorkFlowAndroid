@@ -6,22 +6,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskListAdapter;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskListOnTouchListener;
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseOnTouchListener;
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseSpanSizeLookup;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
@@ -37,7 +37,8 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015.05.30
  */
-public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChangeListener {
+public class AssignTaskFragment extends Fragment implements
+        ViewPager.OnPageChangeListener, TaskCaseAdapter.OnSelectTaskCaseListener {
 
     private static final String TAG = "AssignTaskFragment";
     private static final String KEY_FACTORY_SPINNER_POSITION = "key_factory_spinner_position";
@@ -47,9 +48,7 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     private FragmentManager mFragmentManager;
 
     private Spinner mFactorySpinner;
-    private Spinner mCaseSpinner;
     private ArrayAdapter mFactorySpinnerAdapter;
-    private ArrayAdapter mTaskSpinnerAdapter;
 
     private List<WorkerFragment> mWorkerPageList;
     private ViewPager mWorkerPager;
@@ -59,15 +58,10 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
 
     private ViewGroup mWorkerPagerIndicatorContainer;
 
-    private RecyclerView mTaskList;
-    private LinearLayoutManager mLinearLayoutManager;
-    private TaskListAdapter mTaskListAdapter;
-    private TaskListOnTouchListener mTaskListOnTouchListener;
-
-    private TextView mPersonInCharge;
-    private TextView mUncompletedTaskTime;
-    private TextView mUndergoingTaskTime;
-    private TextView mUndergoingWorkerCount;
+    private RecyclerView mTaskCaseView;
+    private GridLayoutManager mGridLayoutManager;
+    private TaskCaseAdapter mTaskCaseAdapter;
+    private TaskCaseOnTouchListener mTaskCaseOnTouchListener;
 
     private String[] mFactorySpinnerDatas = {"武林廠", "豐原廠", "桃園廠"};
     private String[] mCaseSpinnerDatas = {"案件ㄧ", "案件二", "案件三"};
@@ -130,31 +124,41 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         mMaxWorkerCountInPage = WorkerFragment.MAX_WORKER_COUNT_IN_PAGE; // Need to get count according to the device size.
         findViews();
 
-        // When DB is created, this part needs to be done after the loader has already loaded data.
+        // TODO: When DB is created, this part needs to be done after the loader has already loaded data.
         createTaskCaseDatas();
         createWorkerDatas();
 
         initTaskList();
         initFactorySpinner();
-        initCaseSpinner();
         initWorkerPager(savedInstanceState);
     }
 
     private void findViews() {
         mFactorySpinner = (Spinner) mFragmentView.findViewById(R.id.factory_spinner);
-        mCaseSpinner = (Spinner) mFragmentView.findViewById(R.id.task_spinner);
         mWorkerPager = (ViewPager) mFragmentView.findViewById(R.id.worker_pager);
         mWorkerPagerIndicatorContainer = (ViewGroup) mFragmentView.findViewById(R.id.worker_pager_indicator_container);
-        mTaskList = (RecyclerView) mFragmentView.findViewById(R.id.task_list_view);
-        mPersonInCharge = (TextView) mFragmentView.findViewById(R.id.person_in_charge);
-        mUncompletedTaskTime = (TextView) mFragmentView.findViewById(R.id.uncompleted_task_time);
-        mUndergoingTaskTime = (TextView) mFragmentView.findViewById(R.id.undergoing_task_time);
-        mUndergoingWorkerCount = (TextView) mFragmentView.findViewById(R.id.undergoing_worker_count);
+        mTaskCaseView = (RecyclerView) mFragmentView.findViewById(R.id.task_list_view);
+    }
+
+    private void initTaskList() {
+        mTaskCaseAdapter = new TaskCaseAdapter(mActivity);
+        mTaskCaseAdapter.initTaskCaseDatas(mCaseSpinnerDatas, mTaskCaseDatas.get(0));
+        mTaskCaseAdapter.setOnSelectTaskCaseListener(this);
+
+        mTaskCaseOnTouchListener = new TaskCaseOnTouchListener(mTaskCaseView);
+
+        mGridLayoutManager =
+                new GridLayoutManager(mActivity, mActivity.getResources().getInteger(R.integer.task_list_column_count));
+        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mGridLayoutManager.setSpanSizeLookup(new TaskCaseSpanSizeLookup(mGridLayoutManager));
+
+        mTaskCaseView.setLayoutManager(mGridLayoutManager);
+        mTaskCaseView.setOnTouchListener(mTaskCaseOnTouchListener);
+        mTaskCaseView.setAdapter(mTaskCaseAdapter);
     }
 
     // TODO: Need to handle rotation
     private void initFactorySpinner() {
-        Log.d(TAG, "Init factory spinner");
         mFactorySpinnerAdapter = new ArrayAdapter(mActivity, R.layout.factory_spinner_item, mFactorySpinnerDatas);
         mFactorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         mFactorySpinner.setAdapter(mFactorySpinnerAdapter);
@@ -162,13 +166,11 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mIsFactorySpinnerFirstCalled) {
-                    Log.d(TAG, "Factory Spinner First Called");
                     mIsFactorySpinnerFirstCalled = false;
                     return;
                 }
-                Log.d(TAG, "Factory spinner select " + position);
                 clearWorkers();
-                switch(position) {
+                switch (position) {
                     case 0:
                         createWorkerPages(mFactoryDatas.get(0).workerDatas);
                         break;
@@ -192,31 +194,8 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         });
     }
 
-    private void initCaseSpinner() {
-        mTaskSpinnerAdapter = new ArrayAdapter(mActivity, R.layout.task_spinner_item, mCaseSpinnerDatas);
-        mTaskSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        mCaseSpinner.setAdapter(mTaskSpinnerAdapter);
-        mCaseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mPersonInCharge.setText("負責人：" + mTaskCaseDatas.get(position).personInCharge);
-                mUncompletedTaskTime.setText(mTaskCaseDatas.get(position).uncompletedTaskTime);
-                mUndergoingTaskTime.setText(mTaskCaseDatas.get(position).undergoingTaskTime);
-                mUndergoingWorkerCount.setText(String.valueOf(mTaskCaseDatas.get(position).undergoingWorkerCount));
-                mTaskListAdapter.setTaskDatas(mTaskCaseDatas.get(position).taskDatas);
-                mTaskListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
     // TODO: Need to handle rotation
     private void initWorkerPager(Bundle savedInstanceState) {
-        Log.d(TAG, "initWorkerPager");
         mWorkerPagerAdapter = new WorkerPagerAdapter(mFragmentManager);
         createWorkerPages(mFactoryDatas.get(savedInstanceState == null ?
                 0 : savedInstanceState.getInt(KEY_FACTORY_SPINNER_POSITION, 0)).workerDatas);
@@ -301,18 +280,6 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
         mFactoryDatas.add(new Factory(workerDatas3));
     }
 
-    private void initTaskList() {
-        mTaskListOnTouchListener = new TaskListOnTouchListener(mTaskList);
-        mTaskListAdapter = new TaskListAdapter(mActivity);
-        mLinearLayoutManager = new LinearLayoutManager(mActivity);
-        mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-        mTaskList.setLayoutManager(mLinearLayoutManager);
-        mTaskList.setHasFixedSize(true);
-        mTaskList.setOnTouchListener(mTaskListOnTouchListener);
-        mTaskList.setAdapter(mTaskListAdapter);
-    }
-
     private void createWorkerPages(List<WorkerItem> workerDatas) {
         int workerCount = workerDatas.size();
         if (workerCount <= 0) return;
@@ -365,5 +332,11 @@ public class AssignTaskFragment extends Fragment implements ViewPager.OnPageChan
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onSelectTaskCase(int position) {
+        mTaskCaseAdapter.swapTaskCase(mTaskCaseDatas.get(position));
+        mTaskCaseAdapter.notifyDataSetChanged();
     }
 }

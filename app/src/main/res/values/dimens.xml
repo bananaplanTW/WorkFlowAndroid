@@ -5,24 +5,10 @@
 
     <!-- Task assign: Tasks part -->
     <dimen name="task_spinner_text_size">25dp</dimen>
-    <dimen name="person_in_charge_padding_right">30dp</dimen>
-    <dimen name="to_do_list_container_padding_left_right">15dp</dimen>
-    <dimen name="to_do_list_title_padding_top_bottom">5dp</dimen>
-    <dimen name="to_do_list_title_text_size">17dp</dimen>
-    <dimen name="to_do_list_content_text_size">14dp</dimen>
-    <dimen name="task_list_corner_radius">5dp</dimen>
-    <!-- task_list_height = task_item_width_height + task_list_padding * 2 -->
-    <dimen name="task_list_height">120dp</dimen>
-    <dimen name="task_list_padding">10dp</dimen>
-    <dimen name="task_item_width_height">100dp</dimen>
-    <dimen name="task_item_padding">10dp</dimen>
+    <dimen name="task_item_height">200dp</dimen>
     <dimen name="task_item_corner_radius">5dp</dimen>
-    <dimen name="task_item_title_text_size">14dp</dimen>
-    <dimen name="task_item_subtitle_text_size">11dp</dimen>
-    <dimen name="task_item_status_text_size">11dp</dimen>
-    <dimen name="task_item_status_margin_top_bottom">5dp</dimen>
-    <dimen name="task_item_status_padding_top_bottom">3dp</dimen>
-    <dimen name="task_item_time_text_size">11dp</dimen>
+    <dimen name="task_item_title_text_size">15dp</dimen>
+    <dimen name="task_item_content_text_size">10dp</dimen>
 
     <!-- Task assign: Workers part -->
     <dimen name="factory_spinner_text_size">30dp</dimen>
