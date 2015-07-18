@@ -9,11 +9,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.AssignTaskFragment;
+import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
 
 
 /**
@@ -35,10 +37,12 @@ public class UIController {
     private DrawerMenuFragment mDrawerMenuFragment;
     private AssignTaskFragment mAssignTaskFragment;
 
+    private static final int MENU_ITEM_CASEOVERVIEW_FRAGMENT = 10000;
 
     private static class FragmentTag {
         public static final String TAG_DRAWER_MENU_FRAGMENT = "tag_drawer_menu_fragment";
         public static final String TAG_TASK_ASSIGN_FRAGMENT = "tag_task_assign_fragment";
+        public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_task_assign_fragment"; // +++ ben
     }
 
     public UIController(ActionBarActivity activity) {
@@ -54,9 +58,30 @@ public class UIController {
             return true;
         } else {
             // Normal menu items put here
+            // +++ ben
+            switch (item.getItemId()) {
+                case MENU_ITEM_CASEOVERVIEW_FRAGMENT:
+                    openCaseOverViewFragment();
+                    break;
+                default:
+                    break;
+            }
+            // --- ben
             return false;
         }
     }
+
+    // +++ ben
+    private boolean openCaseOverViewFragment() {
+        if (mFragmentManager == null) return false;
+        FragmentTransaction fraTransaction = mFragmentManager.beginTransaction();
+        if (fraTransaction == null) return false;
+        CaseOverviewFragment frag = new CaseOverviewFragment();
+        fraTransaction.replace(R.id.content_container, frag, FragmentTag.TAG_CASE_OVERVIEW_FRAGMENT).addToBackStack(null);
+        fraTransaction.commit();
+        return true;
+    }
+    // --- ben
 
     public void onPostCreate(Bundle savedInstanceState) {
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -110,7 +135,7 @@ public class UIController {
             mDrawerMenuFragment = new DrawerMenuFragment();
             fragmentTransaction.add(R.id.drawer_menu_container, mDrawerMenuFragment, FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
         }
-        
+
         mAssignTaskFragment = (AssignTaskFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_TASK_ASSIGN_FRAGMENT);
         if (mAssignTaskFragment == null) {
             mAssignTaskFragment = new AssignTaskFragment();
@@ -118,5 +143,11 @@ public class UIController {
         }
 
         fragmentTransaction.commit();
+    }
+
+    public void onCreateOptionsMenu(Menu menu) {
+        // +++ ben
+        menu.add(0, MENU_ITEM_CASEOVERVIEW_FRAGMENT, 0, "CaseOverView Fragment");
+        // --- ben
     }
 }

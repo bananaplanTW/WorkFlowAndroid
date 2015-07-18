@@ -227,9 +227,9 @@ public class AssignTaskFragment extends Fragment implements
 
         case3.add(new TaskItem("X", "Z", TaskItem.Status.UNDERGOING, "00:00:00"));
 
-        mTaskCaseDatas.add(new TaskCase("Tony", "8:00:12", "35:04:55", 3, case1));
-        mTaskCaseDatas.add(new TaskCase("Thor", "6:11:10", "5:04:55", 6, case2));
-        mTaskCaseDatas.add(new TaskCase("BBB", "4:32:11", "00:04:55", 5, case3));
+        mTaskCaseDatas.add(new TaskCase(1, "TaskCase1", "Tony", "8:00:12", "35:04:55", 3, case1));
+        mTaskCaseDatas.add(new TaskCase(2, "TaskCase2", "Thor", "6:11:10", "5:04:55", 6, case2));
+        mTaskCaseDatas.add(new TaskCase(3, "TaskCase3", "BBB", "4:32:11", "00:04:55", 5, case3));
     }
 
     private void createWorkerDatas() {

@@ -1,0 +1,9 @@
+<resources>
+    <!-- CaseOverView fragment-->
+    <string name="case_factory_selected">"委託廠商"</string>
+    <string name="case_person_in_charge_selected">"案件負責人"</string>
+    <string name="case_percent_selected">"案件進度"</string>
+    <string name="case_hours_passed_by">"已經進行時數"</string>
+    <string name="case_hours_unfinished">"尚未完成時數"</string>
+    <string name="case_hours_forecast">"預計延遲/提早時數"</string>
+</resources>

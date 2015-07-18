@@ -19,6 +19,9 @@ public class TaskItem {
     public String subtitle;
     public int status;
     public String time;
+    // +++ ben
+    private TaskCase mTaskCase;
+    // --- ben
 
 
     public TaskItem(String title, String subtitle, int status, String time) {
@@ -27,4 +30,10 @@ public class TaskItem {
         this.status = status;
         this.time = time;
     }
+
+    // +++ ben
+    public void setTaskCase(TaskCase taskCase) {
+        mTaskCase = taskCase;
+    }
+    // --- ben
 }
