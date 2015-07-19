@@ -172,7 +172,7 @@ public class WorkerGridAdapter extends ArrayAdapter {
         workerViewHolder.task = (TextView) view.findViewById(R.id.task);
         workerViewHolder.statusLight = view.findViewById(R.id.working_status_light);
         workerViewHolder.status = (TextView) view.findViewById(R.id.working_status);
-        workerViewHolder.time = (TextView) view.findViewById(R.id.working_time);
+        workerViewHolder.time = (TextView) view.findViewById(R.id.task_working_time);
 
         return workerViewHolder;
     }

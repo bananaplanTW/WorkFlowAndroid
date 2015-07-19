@@ -3,14 +3,21 @@
     <!-- Main -->
     <dimen name="drawer_menu_container_width">240dp</dimen>
 
-    <!-- Task assign: Tasks part -->
+    <!-- AssignTaskFragment: Tasks part -->
     <dimen name="task_spinner_text_size">25dp</dimen>
+    <dimen name="task_case_view_padding_left_right">10dp</dimen>
+    <dimen name="task_case_header_margin_bottom">10dp</dimen>
     <dimen name="task_item_height">200dp</dimen>
+    <dimen name="task_item_margin">10dp</dimen>
+    <dimen name="task_item_padding">10dp</dimen>
     <dimen name="task_item_corner_radius">5dp</dimen>
-    <dimen name="task_item_title_text_size">15dp</dimen>
-    <dimen name="task_item_content_text_size">10dp</dimen>
+    <dimen name="task_item_status_corner_radius">8dp</dimen>
+    <dimen name="task_item_status_padding_top_bottom">2dp</dimen>
+    <dimen name="task_item_status_padding_left_right">10dp</dimen>
+    <dimen name="task_item_title_text_size">18dp</dimen>
+    <dimen name="task_item_content_text_size">13dp</dimen>
 
-    <!-- Task assign: Workers part -->
+    <!-- AssignTaskFragment: Workers part -->
     <dimen name="factory_spinner_text_size">30dp</dimen>
     <dimen name="worker_pager_indicator_container_padding_bottom">50dp</dimen>
     <dimen name="worker_pager_indicator_width_height">15dp</dimen>

@@ -2,9 +2,11 @@ package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+
 
 /**
  * @author Danny Lin
@@ -12,19 +14,23 @@ import com.bananaplan.workflowandroid.R;
  */
 public class TaskItemViewHolder extends RecyclerView.ViewHolder {
 
-    public View taskItem;
-    public TextView taskTitle;
-    public TextView taskSubtitle;
-    public TextView taskStatus;
-    public TextView taskTime;
+    public View view;
+    public TextView title;
+    public ViewGroup statusContainer;
+    public TextView workingTime;
+    public TextView tool;
+    public TextView worker;
+    public TextView progress;
 
 
     public TaskItemViewHolder(View v) {
         super(v);
-        taskItem = v;
-        taskTitle = (TextView) v.findViewById(R.id.task_title);
-        taskSubtitle = (TextView) v.findViewById(R.id.task_subtitle);
-        taskStatus = (TextView) v.findViewById(R.id.task_status);
-        taskTime = (TextView) v.findViewById(R.id.task_time);
+        view = v;
+        title = (TextView) v.findViewById(R.id.task_title);
+        statusContainer = (ViewGroup) v.findViewById(R.id.task_status_container);
+        workingTime = (TextView) v.findViewById(R.id.task_working_time);
+        tool = (TextView) v.findViewById(R.id.task_tool);
+        worker = (TextView) v.findViewById(R.id.task_worker);
+        progress = (TextView) v.findViewById(R.id.task_progress);
     }
 }

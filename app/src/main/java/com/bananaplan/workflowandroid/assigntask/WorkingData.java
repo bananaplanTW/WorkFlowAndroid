@@ -30,22 +30,38 @@ public class WorkingData {
         List<TaskItem> case2 = new ArrayList<TaskItem>();
         List<TaskItem> case3 = new ArrayList<TaskItem>();
 
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.COMPLETED, "11:00:00"));
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.OVERTIME, "11:00:00"));
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.UNDERGOING, "11:00:00"));
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.UNDERGOING, "11:00:00"));
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.UNDERGOING, "11:00:00"));
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.OVERTIME, "11:00:00"));
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.COMPLETED, "11:00:00"));
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.OVERTIME, "11:00:00"));
-        case1.add(new TaskItem("Outside drilling", "MachineA", TaskItem.Status.COMPLETED, "11:00:00"));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(
+                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
 
-        case2.add(new TaskItem("Hand", "MachineA", TaskItem.Status.COMPLETED, "9:13:00"));
-        case2.add(new TaskItem("Head", "MachineA", TaskItem.Status.OVERTIME, "2:13:00"));
-        case2.add(new TaskItem("Body", "MachineA", TaskItem.Status.UNDERGOING, "9:18:00"));
-        case2.add(new TaskItem("Leg", "MachineA", TaskItem.Status.COMPLETED, "5:13:00"));
+        case2.add(new TaskItem(
+                "Hand", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case2.add(new TaskItem(
+                "Head", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case2.add(new TaskItem(
+                "Body", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case2.add(new TaskItem(
+                "Leg", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
 
-        case3.add(new TaskItem("X", "Z", TaskItem.Status.UNDERGOING, "00:00:00"));
+        case3.add(new TaskItem(
+                "X", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
 
         ArrayList<TaskCase> taskCaseDatas = new ArrayList<TaskCase>();
         taskCaseDatas.add(new TaskCase(1, "TaskCase1", "Tony", "8:00:12", "35:04:55", 3, case1));

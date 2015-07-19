@@ -85,7 +85,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/working_time"
+            android:id="@+id/task_working_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/working_status_text_size" />

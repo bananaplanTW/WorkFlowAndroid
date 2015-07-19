@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 
@@ -78,10 +78,10 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (ItemViewType.TYPE_HEADER == viewType) {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.task_list_header, parent, false);
+            View v = LayoutInflater.from(mContext).inflate(R.layout.task_case_header, parent, false);
             return new TaskCaseHeaderViewHolder(v);
         } else {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.task_list_item, parent, false);
+            View v = LayoutInflater.from(mContext).inflate(R.layout.task_item, parent, false);
             return new TaskItemViewHolder(v);
         }
     }
@@ -135,34 +135,52 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private void onBindItemViewHolder(ViewHolder vh, int position) {
         TaskItemViewHolder holder = (TaskItemViewHolder) vh;
+        TaskItem taskItem = getItem(position);
 
         // Title
-        holder.taskTitle.setText(getItem(position).title);
-
-        // Subtitle
-        holder.taskSubtitle.setText(getItem(position).subtitle);
-
-        // Task time
-        holder.taskTime.setText(getItem(position).time);
+        holder.title.setText(taskItem.title);
 
         // Status
-        Resources res = mContext.getResources();
-        int color = 0;
-        switch (getItem(position).status) {
-            case TaskItem.Status.UNDERGOING:
-                holder.taskStatus.setText("進行中");
-                break;
-            case TaskItem.Status.OVERTIME:
-                holder.taskStatus.setText("超過預定");
-                break;
-            case TaskItem.Status.COMPLETED:
-//                holder.taskItem.getBackground().setColorFilter(
-//                        res.getColor(R.color.task_item_status_completed_filter_color), PorterDuff.Mode.MULTIPLY);
-                holder.taskStatus.setText("已經完成");
+        int colorId = 0;
+        switch (taskItem.status) {
+            case TaskItem.Status.WARNING:
+                colorId = R.color.task_item_status_warning_color;
                 break;
         }
-        GradientDrawable taskStatusBackground = (GradientDrawable) holder.taskStatus.getBackground();
-        taskStatusBackground.setColor(color);
+        TextView taskStatus = (TextView) LayoutInflater.from(mContext).inflate(
+                R.layout.task_item_status, holder.statusContainer, false);
+        taskStatus.setText(taskItem.statusText);
+        GradientDrawable taskStatusBackground = (GradientDrawable) taskStatus.getBackground();
+        taskStatusBackground.setColor(mContext.getResources().getColor(colorId));
+        holder.statusContainer.removeAllViews();
+        holder.statusContainer.addView(taskStatus);
+
+        // Task time
+        holder.workingTime.setText(taskItem.workingTime);
+
+        // Tool
+        holder.tool.setText(taskItem.tool);
+
+        // Worker
+        holder.worker.setText(taskItem.worker);
+
+        // Progress
+        int progressStringId = 0;
+        switch (taskItem.progress) {
+            case TaskItem.Progress.IN_SCHEDULE:
+                progressStringId = R.string.task_progress_in_schedule;
+                break;
+            case TaskItem.Progress.NOT_START:
+                progressStringId = R.string.task_progress_not_start;
+                break;
+            case TaskItem.Progress.PAUSE:
+                progressStringId = R.string.task_progress_pause;
+                break;
+            case TaskItem.Progress.WORKING:
+                progressStringId = R.string.task_progress_working;
+                break;
+        }
+        holder.progress.setText(mContext.getString(progressStringId));
     }
 
     public TaskItem getItem(int position) {

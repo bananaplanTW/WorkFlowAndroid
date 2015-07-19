@@ -10,19 +10,27 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
-    <style name="TaskContainerTextStyle">
+    <style name="TaskCaseTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/to_do_list_text_color</item>
+        <item name="android:textColor">@color/task_case_text_color</item>
     </style>
 
-    <style name="TaskContainerTextStyle.TaskItemTitle">
+    <style name="TaskCaseTextStyle.TaskItemTitle">
         <item name="android:textSize">@dimen/task_item_title_text_size</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TaskContainerTextStyle.TaskItemContent">
+    <style name="TaskCaseTextStyle.TaskItemContent">
         <item name="android:textSize">@dimen/task_item_content_text_size</item>
+    </style>
+
+    <style name="TaskItemTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingLeft">@dimen/task_item_padding</item>
+        <item name="android:paddingRight">@dimen/task_item_padding</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
 </resources>

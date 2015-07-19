@@ -39,7 +39,7 @@ public class UIController {
 
     private static final int MENU_ITEM_CASEOVERVIEW_FRAGMENT = 10000;
 
-    private static class FragmentTag {
+    private static final class FragmentTag {
         public static final String TAG_DRAWER_MENU_FRAGMENT = "tag_drawer_menu_fragment";
         public static final String TAG_TASK_ASSIGN_FRAGMENT = "tag_task_assign_fragment";
         public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_task_assign_fragment"; // +++ ben

@@ -1,4 +1,10 @@
 <resources>
+    <!-- AssignTask fragment-->
+    <string name="task_progress_not_start">尚未開始</string>
+    <string name="task_progress_in_schedule">已排程</string>
+    <string name="task_progress_working">正常工作中</string>
+    <string name="task_progress_pause">暫停</string>
+
     <!-- CaseOverView fragment-->
     <string name="case_factory_selected">"委託廠商"</string>
     <string name="case_person_in_charge_selected">"案件負責人"</string>

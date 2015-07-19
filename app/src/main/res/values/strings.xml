@@ -6,6 +6,12 @@
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
 
+    <!-- AssignTask fragment-->
+    <string name="task_progress_not_start">Not start</string>
+    <string name="task_progress_in_schedule">In schedule</string>
+    <string name="task_progress_working">Working</string>
+    <string name="task_progress_pause">Pause</string>
+
     <!-- CaseOverView fragment-->
     <string name="case_factory_selected">"Principal manufacturers"</string>
     <string name="case_person_in_charge_selected">"Case officer"</string>

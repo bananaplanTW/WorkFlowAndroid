@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/task_item_height"
+    android:layout_marginBottom="@dimen/task_case_header_margin_bottom"
     android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:background="@color/task_case_header_background_color">
 
     <Spinner
         android:id="@+id/task_case_spinner"
@@ -21,36 +23,36 @@
 
         <TextView
             android:id="@+id/to_do_list_title"
-            style="@style/TaskContainerTextStyle.TaskItemTitle"
+            style="@style/TaskCaseTextStyle.TaskItemContent"
             android:layout_gravity="center_horizontal"
             android:text="待辦事項"/>
 
         <TextView
             android:id="@+id/uncompleted_task_time_text"
-            style="@style/TaskContainerTextStyle.TaskItemContent"
+            style="@style/TaskCaseTextStyle.TaskItemContent"
             android:text="工作未完成時數"/>
 
         <TextView
             android:id="@+id/uncompleted_task_time"
-            style="@style/TaskContainerTextStyle.TaskItemContent"/>
+            style="@style/TaskCaseTextStyle.TaskItemContent"/>
 
         <TextView
             android:id="@+id/undergoing_task_time_text"
-            style="@style/TaskContainerTextStyle.TaskItemContent"
+            style="@style/TaskCaseTextStyle.TaskItemContent"
             android:text="工作已進行時數"/>
 
         <TextView
             android:id="@+id/undergoing_task_time"
-            style="@style/TaskContainerTextStyle.TaskItemContent"/>
+            style="@style/TaskCaseTextStyle.TaskItemContent"/>
 
         <TextView
             android:id="@+id/undergoing_worker_count_text"
-            style="@style/TaskContainerTextStyle.TaskItemContent"
+            style="@style/TaskCaseTextStyle.TaskItemContent"
             android:text="進行員工數"/>
 
         <TextView
             android:id="@+id/undergoing_worker_count"
-            style="@style/TaskContainerTextStyle.TaskItemContent"/>
+            style="@style/TaskCaseTextStyle.TaskItemContent"/>
 
     </LinearLayout>
 

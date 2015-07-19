@@ -4,11 +4,13 @@
     android:orientation="horizontal">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/task_list_view"
+        android:id="@+id/task_case_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="@integer/task_container_weight"
-        android:background="@color/task_container_background_color"
+        android:paddingLeft="@dimen/task_case_view_padding_left_right"
+        android:paddingRight="@dimen/task_case_view_padding_left_right"
+        android:background="@color/task_case_view_background_color"
         android:scrollbars="vertical" />
 
     <RelativeLayout

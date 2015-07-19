@@ -7,14 +7,18 @@
     <!-- Navigation drawer -->
     <color name="drawer_menu_background_color">@android:color/white</color>
 
-    <!-- Task assign: Tasks part -->
-    <color name="task_container_background_color">#FF242424</color>
+    <!-- AssignTaskFragment: Tasks part -->
+    <color name="task_case_view_background_color">#FF242424</color>
     <color name="task_spinner_text_color">@android:color/white</color>
-    <color name="to_do_list_text_color">@android:color/white</color>
+    <color name="task_case_text_color">#FF393939</color>
+    <color name="task_case_header_background_color">#FFFFFFFF</color>
     <color name="task_item_background_color">#FFFFFFFF</color>
     <color name="task_item_stroke_color">#FF858585</color>
+    <color name="task_item_divider_color">#FF858585</color>
+    <color name="task_item_status_warning_color">#FFCE3C3E</color>
+    <color name="task_item_status_text_color">#FFFFFFFF</color>
 
-    <!-- Task assign: Workers part -->
+    <!-- AssignTaskFragment: Workers part -->
     <color name="worker_pager_indicator_stroke_color">#FF858585</color>
     <color name="worker_pager_indicator_selected_color">#FF222222</color>
     <color name="worker_pager_indicator_normal_color">#FFCFCFCF</color>
