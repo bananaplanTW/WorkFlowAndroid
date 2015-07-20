@@ -3,6 +3,8 @@
 
     <!-- ActionBar -->
     <color name="action_bar_baseline_color">#FF858585</color>
+    <color name="action_bar_primary_color">#FF242424</color>
+    <color name="action_bar_primary_dark_color">#FF040404</color>
 
     <!-- Navigation drawer -->
     <color name="drawer_menu_background_color">@android:color/white</color>

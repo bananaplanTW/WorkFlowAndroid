@@ -110,6 +110,7 @@ public class UIController {
         mMainActivity.setSupportActionBar(mToolbar);
         mActionBar = mMainActivity.getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(false);
     }
 
     private void initDrawer() {
