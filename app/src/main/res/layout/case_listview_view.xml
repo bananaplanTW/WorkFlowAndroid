@@ -2,18 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/case_overview_listview_padding_horizontal"
+    android:paddingRight="@dimen/case_overview_listview_padding_horizontal"
     android:id="@+id/case_listview_root">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_weight="1">
+        android:gravity="center_vertical"
+        android:layout_weight="2">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
             android:id="@+id/case_listview_view_tv_status" />
 
     </LinearLayout>
@@ -22,16 +27,21 @@
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="3">
+        android:layout_gravity="center_vertical"
+        android:layout_weight="5">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="20sp"
             android:id="@+id/case_listview_view_tv_case_name" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/case_listview_view_tv_factory_name" />
+            android:textColor="#808080"
+            android:textSize="16sp"
+            android:id="@+id/case_listview_view_tv_vendor_name" />
     </LinearLayout>
 </LinearLayout>

@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -26,7 +25,7 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.WorkingData;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
-import com.bananaplan.workflowandroid.assigntask.workers.Factory;
+import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
 import com.bananaplan.workflowandroid.main.MainActivity;
 
 import java.util.ArrayList;
@@ -37,20 +36,19 @@ import java.util.ArrayList;
  */
 public class CaseOverviewFragment extends Fragment implements TextWatcher, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
     private MainActivity mActivity;
-    private WorkingData mData;
+    private WorkingData mWorkingData;
 
     // views in left pane
     private Spinner mSpinner;
     private EditText mEtCaseSearch;
     private ListView mTaskCaseListView;
 
-
     private SpinnerAdapter mSpinnerAdapter;
     private ListViewAdapter mListviewAdapter;
 
     // views in right pane
     private TextView mTvCaseNameSelected;
-    private TextView mTvCaseFactorySelected;
+    private TextView mTvCaseVendorSelected;
     private TextView mTvCasePersonInChargeSelected;
     private ProgressBar mPbCaseSelected;
     private TextView mTvCaseHoursPassedBy;
@@ -61,7 +59,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (MainActivity) activity;
-        mData = mActivity.getWorkingData();
+        mWorkingData = mActivity.getWorkingData();
     }
 
     @Override
@@ -77,13 +75,13 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTaskCaseListView = (ListView) getActivity().findViewById(R.id.case_listview);
 
         mEtCaseSearch.addTextChangedListener(this);
-        mSpinnerAdapter = new SpinnerAdapter(getActivity(), R.layout.case_spinner_view, getFactoryNames());
+        mSpinnerAdapter = new SpinnerAdapter(getActivity(), R.layout.case_spinner_view, getSpinnerVendorData());
         mSpinner.setAdapter(mSpinnerAdapter);
         mSpinner.setOnItemSelectedListener(this);
 
         // right pane
         mTvCaseNameSelected = (TextView) getActivity().findViewById(R.id.case_tv_case_name_selected);
-        mTvCaseFactorySelected = (TextView) getActivity().findViewById(R.id.case_tv_factory_selected);
+        mTvCaseVendorSelected = (TextView) getActivity().findViewById(R.id.case_tv_vendor_selected);
         mTvCasePersonInChargeSelected = (TextView) getActivity().findViewById(R.id.case_tv_person_in_charge_selected);
         mPbCaseSelected = (ProgressBar) getActivity().findViewById(R.id.case_progressBar);
         mTvCaseHoursPassedBy = (TextView) getActivity().findViewById(R.id.case_tv_hours_passed_by);
@@ -95,21 +93,22 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTaskCaseListView.setOnItemClickListener(this);
     }
 
-    private ArrayList<Factory> getFactoryNames() {
-        return mData.getFactories();
+    private ArrayList<Vendor> getSpinnerVendorData() {
+        ArrayList<Vendor> tmp = new ArrayList<Vendor>();
+        tmp.add(new Vendor(-1L, getResources().getString(R.string.case_spinner_all_vendors))); // all vendors
+        tmp.addAll(mWorkingData.getVendors());
+        return tmp;
     }
 
     private ArrayList<TaskCase> getTaskCases() {
         ArrayList<TaskCase> cases = new ArrayList<>();
         TaskCase firstCase = null;
-        for (Factory factory : mData.getFactories()) {
-            if (factory.getId() == mSpinner.getSelectedItemId() || mSpinner.getSelectedItemId() == 0) {
-                for (TaskCase taskCase : factory.getTaskCases()) {
-                    if (firstCase == null) {
-                        firstCase = taskCase;
-                    }
-                    cases.add(taskCase);
+        for (Vendor vendor : mWorkingData.getVendors()) {
+            for (TaskCase taskCase : vendor.taskCases) {
+                if (firstCase == null) {
+                    firstCase = taskCase;
                 }
+                cases.add(taskCase);
             }
         }
         if (firstCase != null) {
@@ -118,35 +117,35 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         return cases;
     }
 
-    private class SpinnerAdapter extends ArrayAdapter<Factory> {
-        private LayoutInflater mInflator;
+    private class SpinnerAdapter extends ArrayAdapter<Vendor> {
+        private LayoutInflater mInflater;
 
-        public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<Factory> objects) {
+        public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<Vendor> objects) {
             super(context, textViewResourceId, objects);
-            mInflator = getActivity().getLayoutInflater();
+            mInflater = getActivity().getLayoutInflater();
         }
 
         @Override
         public long getItemId(int position) {
-            return getItem(position).getId();
+            return getItem(position).id;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             SpinnerViewHolder holder;
             if (convertView == null) {
-                convertView = mInflator.inflate(R.layout.case_spinner_view, null);
+                convertView = mInflater.inflate(R.layout.case_spinner_view, null);
                 holder = new SpinnerViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (SpinnerViewHolder) convertView.getTag();
             }
-            holder.mTv.setText(getItem(position).getName());
+            holder.tvSpinnerVendor.setText(getItem(position).name);
             return convertView;
         }
 
         @Override
-        public Factory getItem(int position) {
+        public Vendor getItem(int position) {
             return super.getItem(position);
         }
 
@@ -154,38 +153,35 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
             SpinnerDropdownViewHolder holder;
             if (convertView == null) {
-                convertView = mInflator.inflate(R.layout.case_spinner_dropdown_view, null);
+                convertView = mInflater.inflate(R.layout.case_spinner_dropdown_view, null);
                 holder = new SpinnerDropdownViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (SpinnerDropdownViewHolder) convertView.getTag();
             }
-            holder.mTv.setText(getItem(position).getName());
+            holder.tvDropdownSpinnerVendorName.setText(getItem(position).name);
             return convertView;
         }
 
         private class SpinnerDropdownViewHolder {
-            private TextView mTv;
+            private TextView tvDropdownSpinnerVendorName;
 
             public SpinnerDropdownViewHolder(View v) {
-                this.mTv = (TextView) v.findViewById(R.id.case_spinner_dropdown_view_tv_factory_name);
+                this.tvDropdownSpinnerVendorName = (TextView) v.findViewById(R.id.case_spinner_dropdown_view_tv_vendor_name);
             }
         }
 
         private class SpinnerViewHolder {
-            private ImageView mIv1, mIv2;
-            private TextView mTv;
+            private TextView tvSpinnerVendor;
 
             public SpinnerViewHolder(View v) {
-                this.mIv1 = (ImageView) v.findViewById(R.id.case_spinner_view_iv1);
-                this.mTv = (TextView) v.findViewById(R.id.case_spinner_view_tv_factory_name);
-                this.mIv2 = (ImageView) v.findViewById(R.id.case_spinner_view_iv2);
+                this.tvSpinnerVendor = (TextView) v.findViewById(R.id.case_spinner_view_tv_vendor_name);
             }
         }
     }
 
     private class ListViewAdapter extends ArrayAdapter<TaskCase> implements Filterable {
-        private LayoutInflater mInflator;
+        private LayoutInflater mInflater;
         private ArrayList<TaskCase> mOrigCases;
         private ArrayList<TaskCase> mFilteredCases;
         private CustomFilter mFilter;
@@ -193,9 +189,10 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
         public ListViewAdapter(Context context, ArrayList<TaskCase> cases) {
             super(context, 0, cases);
-            mInflator = getActivity().getLayoutInflater();
+            mInflater = getActivity().getLayoutInflater();
             mOrigCases = cases;
-            mFilteredCases = cases;
+            mFilteredCases = new ArrayList<TaskCase>();
+            mFilteredCases.addAll(cases);
             mFilter = new CustomFilter();
         }
 
@@ -206,7 +203,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
         @Override
         public long getItemId(int position) {
-            return mFilteredCases.get(position).getId();
+            return mFilteredCases.get(position).id;
         }
 
         @Override
@@ -218,33 +215,48 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflator.inflate(R.layout.case_listview_view, null);
+                convertView = mInflater.inflate(R.layout.case_listview_view, parent, false);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.mTvCaseName.setText(getItem(position).getName());
-            holder.mTvFactory.setText(getItem(position).getFactory().getName());
-            holder.mTvStatus.setText(String.valueOf(getItem(position).getFinishPercent()));
+            holder.mTvCaseName.setText(getItem(position).name);
+            holder.mTvVendor.setText(mWorkingData.getVendorById(getItem(position).vendorId).name);
+            int finishPercentage = getItem(position).getFinishPercent();
+            if (finishPercentage == 100) {
+                holder.mTvStatus.setText(getResources().getString(R.string.case_finished));
+                holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.case_border_textview_bg_gray));
+            } else {
+                holder.mTvStatus.setText(String.valueOf(finishPercentage) + "%");
+                if (finishPercentage <= 33) {
+                    holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.case_border_textview_bg_green));
+                } else if (finishPercentage <= 66) {
+                    holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.case_border_textview_bg_orange));
+                } else {
+                    holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.case_border_textview_bg_red));
+                }
+            }
             if (position == mPositionSelected) {
-                holder.mRoot.setBackgroundColor(Color.BLUE);
+                holder.mRoot.setBackgroundColor(Color.rgb(66, 139, 202));
             } else {
                 holder.mRoot.setBackgroundColor(Color.TRANSPARENT);
             }
+            final ViewGroup.LayoutParams params = convertView.getLayoutParams();
+            params.height = (int) getResources().getDimension(R.dimen.case_overview_listview_item_height);
             return convertView;
         }
 
         private class ViewHolder {
             LinearLayout mRoot;
             TextView mTvStatus;
-            TextView mTvFactory;
+            TextView mTvVendor;
             TextView mTvCaseName;
 
             public ViewHolder(View view) {
                 mRoot = (LinearLayout) view.findViewById(R.id.case_listview_root);
                 mTvStatus = (TextView) view.findViewById(R.id.case_listview_view_tv_status);
-                mTvFactory = (TextView) view.findViewById(R.id.case_listview_view_tv_factory_name);
+                mTvVendor = (TextView) view.findViewById(R.id.case_listview_view_tv_vendor_name);
                 mTvCaseName = (TextView) view.findViewById(R.id.case_listview_view_tv_case_name);
             }
         }
@@ -259,26 +271,23 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             protected FilterResults performFiltering(CharSequence constraint) {
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
-                if (!TextUtils.isEmpty(constraint)) {
-                    ArrayList<TaskCase> filterResult = new ArrayList<TaskCase>();
-                    for (TaskCase taskCase: mOrigCases) {
-                        if (taskCase.getName().toLowerCase().contains(constraint)) {
-                            filterResult.add(taskCase);
-                        }
+                ArrayList<TaskCase> filterResult = new ArrayList<TaskCase>();
+                for (TaskCase taskCase: mOrigCases) {
+                    if ((TextUtils.isEmpty(constraint) || taskCase.name.toLowerCase().contains(constraint))
+                            && (mSpinner.getSelectedItemId() == -1 || taskCase.vendorId == mSpinner.getSelectedItemId())) {
+                        filterResult.add(taskCase);
                     }
-                    result.values = filterResult;
-                    result.count = filterResult.size();
-                } else {
-                    result.values = mOrigCases;
-                    result.count = mOrigCases.size();
                 }
+                result.values = filterResult;
+                result.count = filterResult.size();
                 return result;
             }
 
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                mFilteredCases = (ArrayList<TaskCase>) results.values;
+                mFilteredCases.clear();
+                mFilteredCases.addAll((ArrayList<TaskCase>) results.values);
                 notifyDataSetChanged();
             }
         }
@@ -305,13 +314,15 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // TODO
+        if (parent.getId() == mSpinner.getId()) {
+            mListviewAdapter.getFilter().filter(mEtCaseSearch.getText().toString());
+        }
     }
 
     private void openCase(TaskCase taskCase) {
-        mTvCaseNameSelected.setText(taskCase.getName());
-        mTvCaseFactorySelected.setText(taskCase.getFactory().getName());
-        mTvCasePersonInChargeSelected.setText(taskCase.getPersonInCharge());
+        mTvCaseNameSelected.setText(taskCase.name);
+        mTvCaseVendorSelected.setText(mWorkingData.getVendorById(taskCase.vendorId).name);
+        mTvCasePersonInChargeSelected.setText(taskCase.personInCharge);
         mTvCaseHoursPassedBy.setText(taskCase.getHoursPassedBy());
         mTvCaseHoursUnfinished.setText(taskCase.getHoursUnFinished());
         mTvCaseHoursForecast.setText(taskCase.getHoursForecast());

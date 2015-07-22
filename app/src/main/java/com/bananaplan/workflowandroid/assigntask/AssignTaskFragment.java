@@ -172,13 +172,13 @@ public class AssignTaskFragment extends Fragment implements
                 clearWorkers();
                 switch (position) {
                     case 0:
-                        createWorkerPages(mFactoryDatas.get(0).workerDatas);
+                        createWorkerPages(mFactoryDatas.get(0).workerItems);
                         break;
                     case 1:
-                        createWorkerPages(mFactoryDatas.get(1).workerDatas);
+                        createWorkerPages(mFactoryDatas.get(1).workerItems);
                         break;
                     case 2:
-                        createWorkerPages(mFactoryDatas.get(2).workerDatas);
+                        createWorkerPages(mFactoryDatas.get(2).workerItems);
                         break;
                 }
                 initWorkerPagerIndicator();
@@ -198,7 +198,7 @@ public class AssignTaskFragment extends Fragment implements
     private void initWorkerPager(Bundle savedInstanceState) {
         mWorkerPagerAdapter = new WorkerPagerAdapter(mFragmentManager);
         createWorkerPages(mFactoryDatas.get(savedInstanceState == null ?
-                0 : savedInstanceState.getInt(KEY_FACTORY_SPINNER_POSITION, 0)).workerDatas);
+                0 : savedInstanceState.getInt(KEY_FACTORY_SPINNER_POSITION, 0)).workerItems);
         initWorkerPagerIndicator();
         mWorkerPagerAdapter.setWorkerPages(mWorkerPageList);
         mWorkerPager.setAdapter(mWorkerPagerAdapter);
@@ -291,9 +291,9 @@ public class AssignTaskFragment extends Fragment implements
         workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
         workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
 
-        mFactoryDatas.add(new Factory(workerDatas1));
-        mFactoryDatas.add(new Factory(workerDatas2));
-        mFactoryDatas.add(new Factory(workerDatas3));
+        mFactoryDatas.add(new Factory(1, "武林場", workerDatas1));
+        mFactoryDatas.add(new Factory(2, "豐原場", workerDatas2));
+        mFactoryDatas.add(new Factory(3, "桃園場", workerDatas3));
     }
 
     private void createWorkerPages(List<WorkerItem> workerDatas) {

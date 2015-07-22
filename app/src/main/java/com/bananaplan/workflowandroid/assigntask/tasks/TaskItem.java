@@ -21,6 +21,7 @@ public class TaskItem {
         public static final int PAUSE = 3;
     }
 
+    public long id;
     public String title;
     public int status;
     public String statusText;
@@ -28,14 +29,17 @@ public class TaskItem {
     public String tool;
     public String worker;
     public int progress;
-
-    // +++ ben
-    private TaskCase mTaskCase;
-    // --- ben
-
+    public long taskCaseId;
+    public long workerId;
 
     public TaskItem(String title, int status, String statusText,
                     String workingTime, String tool, String worker, int progress) {
+        this(-1, title, status, statusText, workingTime, tool, worker, progress);
+    }
+
+    public TaskItem(long id, String title, int status, String statusText,
+                    String workingTime, String tool, String worker, int progress) {
+        this.id = id;
         this.title = title;
         this.status = status;
         this.statusText = statusText;
@@ -44,10 +48,4 @@ public class TaskItem {
         this.worker = worker;
         this.progress = progress;
     }
-
-    // +++ ben
-    public void setTaskCase(TaskCase taskCase) {
-        mTaskCase = taskCase;
-    }
-    // --- ben
 }

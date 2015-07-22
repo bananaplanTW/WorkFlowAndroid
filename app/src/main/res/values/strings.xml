@@ -13,10 +13,12 @@
     <string name="task_progress_pause">Pause</string>
 
     <!-- CaseOverView fragment-->
+    <string name="case_spinner_all_vendors">"All factories"</string>
     <string name="case_factory_selected">"Principal manufacturers"</string>
     <string name="case_person_in_charge_selected">"Case officer"</string>
     <string name="case_percent_selected">"Case progress"</string>
     <string name="case_hours_passed_by">"Hours passed by"</string>
     <string name="case_hours_unfinished">"Hours not yet completed"</string>
     <string name="case_hours_forecast">"Expect delays/early hours"</string>
+    <string name="case_finished">"Finished"</string>
 </resources>

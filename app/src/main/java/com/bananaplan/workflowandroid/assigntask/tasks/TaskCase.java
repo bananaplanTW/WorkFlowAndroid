@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
-import com.bananaplan.workflowandroid.assigntask.workers.Factory;
-
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,55 +11,33 @@ import java.util.List;
  * @since 2015.06.13
  */
 public class TaskCase {
-
-    // +++ ben
     public long id;
     public String name;
-    private Factory factory;
-    // --- ben
-    public String personInCharge; // +++ ben: is personInCharge instance of WorkerItem
+    public long vendorId;
+    public String personInCharge;
     public String uncompletedTaskTime;
     public String undergoingTaskTime;
     public int undergoingWorkerCount;
-    public List<TaskItem> mTaskItems;
+    public List<TaskItem> taskItems;
 
+    public TaskCase(int id, String name, String personInCharge) {
+        this(id, name, personInCharge, "", "", 0, new ArrayList<TaskItem>());
+    }
 
     public TaskCase(int id, String name, String personInCharge, String uncompletedTaskTime, String undergoingTaskTime,
                     int undergoingWorkerCount, List<TaskItem> taskItems) {
-        // +++ ben
         this.id = id;
         this.name = name;
-        // --- ben
         this.personInCharge = personInCharge;
         this.uncompletedTaskTime = uncompletedTaskTime;
         this.undergoingTaskTime = undergoingTaskTime;
         this.undergoingWorkerCount = undergoingWorkerCount;
-        this.mTaskItems = taskItems;
-    }
-
-    // +++ ben
-    public String getName() {
-        return this.name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public Factory getFactory() {
-        return factory;
+        this.taskItems = taskItems;
+        this.vendorId = -1;
     }
 
     public int getFinishPercent() {
         return 50; // TODO
-    }
-
-    public void setFactory(Factory factory) {
-        this.factory = factory;
-    }
-
-    public String getPersonInCharge() {
-        return this.personInCharge;
     }
 
     public String getHoursPassedBy() {
@@ -74,5 +51,4 @@ public class TaskCase {
     public String getHoursForecast() {
         return "01 : 12 : 22"; // TODO
     }
-    // --- ben
 }

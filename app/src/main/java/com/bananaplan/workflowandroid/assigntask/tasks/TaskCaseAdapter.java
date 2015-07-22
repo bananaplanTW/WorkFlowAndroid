@@ -184,7 +184,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public TaskItem getItem(int position) {
-        return mTaskCase.mTaskItems.get(--position);
+        return mTaskCase.taskItems.get(--position);
     }
 
     @Override
@@ -203,6 +203,6 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mTaskCase.mTaskItems == null ? 0 : mTaskCase.mTaskItems.size() + 1;
+        return mTaskCase.taskItems == null ? 0 : mTaskCase.taskItems.size() + 1;
     }
 }

@@ -47,7 +47,10 @@
     <dimen name="case_overview_tv_factory_margin_left">25dp</dimen>
     <dimen name="case_overview_tv_factory_margin_right">40dp</dimen>
     <dimen name="case_overview_right_pant_padding_horizontal">10dp</dimen>
-    <dimen name="case_overview_right_pant_padding_vertical">15dp</dimen>
-    <dimen name="case_overview_border_tv_padding">5dp</dimen>
+    <dimen name="case_overview_right_pant_padding_vertical">35dp</dimen>
+    <dimen name="case_overview_border_tv_padding_horizontal">5dp</dimen>
+    <dimen name="case_overview_border_tv_padding_vertical">7dp</dimen>
+    <dimen name="case_overview_listview_item_height">60dp</dimen>
+    <dimen name="case_overview_listview_padding_horizontal">10dp</dimen>
 
 </resources>

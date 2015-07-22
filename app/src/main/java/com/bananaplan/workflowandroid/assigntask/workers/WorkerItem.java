@@ -1,5 +1,7 @@
 package com.bananaplan.workflowandroid.assigntask.workers;
 
+import android.graphics.drawable.Drawable;
+
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 
 import java.util.ArrayList;
@@ -15,15 +17,13 @@ public class WorkerItem {
         public static final int DELAY = 1;
     }
 
-    //public String avatar;
+    public Drawable avatar;
     public String name;
     public String title;
     public String task;
     public int status;
     public String time;
-    // +++ ben
-    private ArrayList<TaskItem> mTaskItems;
-    // --- ben
+    public ArrayList<TaskItem> taskItems;
 
 
     public WorkerItem(String name, String title, String task, int status, String time) {
@@ -32,14 +32,6 @@ public class WorkerItem {
         this.task = task;
         this.status = status;
         this.time = time;
-        // +++ ben
-        mTaskItems = new ArrayList<TaskItem>();
-        // --- ben
+        taskItems = new ArrayList<TaskItem>();
     }
-
-    // +++ ben
-    public ArrayList<TaskItem> getTaskItems() {
-        return mTaskItems;
-    }
-    // --- ben
 }

@@ -1,0 +1,24 @@
+package com.bananaplan.workflowandroid.assigntask.workers;
+
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Ben on 2015/7/22.
+ */
+public class Vendor {
+    public long id;
+    public String name;
+    public ArrayList<TaskCase> taskCases;
+
+    public Vendor(long id, String name) {
+        this(id, name, new ArrayList<TaskCase>());
+    }
+
+    public Vendor(long id, String name, ArrayList<TaskCase> taskCases) {
+        this.id = id;
+        this.name = name;
+        this.taskCases = taskCases;
+    }
+}

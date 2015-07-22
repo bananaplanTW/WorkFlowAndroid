@@ -32,6 +32,8 @@ public class CaseCustomProgressBar extends ProgressBar {
     private void init(AttributeSet attrs) {
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.WHITE);
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setTextSize(15);
     }
 
     @Override
@@ -42,6 +44,7 @@ public class CaseCustomProgressBar extends ProgressBar {
         Rect bounds = new Rect();
         String text = String.valueOf(getProgress()) + "%";
         mTextPaint.getTextBounds(text, 0, text.length(), bounds);
+        mTextPaint.setShadowLayer(3, 3, 3, 0xFFFFFF);
         int x = getWidth() / 2 - bounds.centerX();
         int y = getHeight() / 2 - bounds.centerY();
         canvas.drawText(text, x, y, mTextPaint);
