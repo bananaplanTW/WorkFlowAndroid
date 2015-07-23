@@ -152,7 +152,7 @@ public class WorkerGridAdapter extends ArrayAdapter {
         viewHolder.task.setText(workerItem.task);
 
         // TODO: Status light
-        switch (workerItem.status) {
+        switch (workerItem.getStatus()) {
             case WorkerItem.WorkingStatus.NORMAL:
                 viewHolder.status.setText("正常工作中");
                 break;
@@ -160,7 +160,7 @@ public class WorkerGridAdapter extends ArrayAdapter {
                 break;
         }
 
-        viewHolder.time.setText(workerItem.time);
+        viewHolder.time.setText(workerItem.getTime());
     }
 
     private WorkerViewHolder createWorkerViewHolder(View view) {

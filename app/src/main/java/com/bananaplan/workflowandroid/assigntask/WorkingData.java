@@ -3,9 +3,12 @@ package com.bananaplan.workflowandroid.assigntask;
 import android.content.Context;
 
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
+import com.bananaplan.workflowandroid.assigntask.workers.Tool;
 import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
+import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +19,10 @@ import java.util.HashMap;
 public class WorkingData {
     private Context mContext;
     private ArrayList<Factory> mFactories = new ArrayList<Factory>();
-    private ArrayList<Vendor> mVendors = new ArrayList<Vendor>();
-    private HashMap<Long, Vendor> mVendorMap = new HashMap<Long, Vendor>();
+    private HashMap<Long, Vendor> mVendorsMap = new HashMap<Long, Vendor>();
+    private HashMap<Long, WorkerItem> mWorkersMap = new HashMap<Long, WorkerItem>();
+    private HashMap<Long, TaskItem> mTaskItemsMap = new HashMap<Long, TaskItem>();
+    private HashMap<Long, Tool> mToolsMap = new HashMap<Long, Tool>();
 
     public WorkingData(Context context) {
         this.mContext = context;
@@ -28,80 +33,56 @@ public class WorkingData {
     }
 
     public ArrayList<Vendor> getVendors() {
-        return mVendors;
+        return new ArrayList<Vendor>(mVendorsMap.values());
     }
 
     public Vendor getVendorById(long vendorId) {
-        return mVendorMap.get(vendorId);
+        return mVendorsMap.get(vendorId);
+    }
+
+    public WorkerItem getWorkerItemById(long workerId) {
+        return mWorkersMap.get(workerId);
+    }
+
+    public Tool getToolById(long toolId) {
+        return mToolsMap.get(toolId);
+    }
+
+    public void updateWorkerItemForTaskItem(long taskItemId, long workerId) {
+        mTaskItemsMap.get(taskItemId).workerId = workerId;
     }
 
     // +++ only for test case
     public void generateFakeData() {
-        Vendor vendor1 = new Vendor(1, "Honda");
-        Vendor vendor2 = new Vendor(2, "Toyota");
-        Vendor vendor3 = new Vendor(3, "Yamaha");
-        mVendors.add(vendor1);
-        mVendors.add(vendor2);
-        mVendors.add(vendor3);
-        TaskCase taskCase1 = new TaskCase(1, "D037049", "Dannt Lin");
-        taskCase1.taskItems.add(new TaskItem(1,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(2,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(3,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(4,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(5,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(6,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(7,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(8,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(9,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase1.taskItems.add(new TaskItem(10,
-                "Outside drilling", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-
-        TaskCase taskCase2 = new TaskCase(2, "A147501", "Ben Lai");
-        taskCase2.taskItems.add(new TaskItem(11,
-                "Hand", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase2.taskItems.add(new TaskItem(12,
-                "Head", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase2.taskItems.add(new TaskItem(13,
-                "Body", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        taskCase2.taskItems.add(new TaskItem(14,
-                "Leg", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-
-        TaskCase taskCase3 = new TaskCase(3, "A147501", "Danny Chan");
-        taskCase3.taskItems.add(new TaskItem(15,
-                "X", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        vendor1.taskCases.add(taskCase1);
-        vendor1.taskCases.add(taskCase2);
-        vendor1.taskCases.add(taskCase3);
-
-        TaskCase taskCase4 = new TaskCase(4, "D037078", "Mary Wang");
-        taskCase4.taskItems.add(new TaskItem(16,
-                "X", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        vendor2.taskCases.add(taskCase4);
-
-        TaskCase taskCase5 = new TaskCase(5, "E339017", "Mary Wang");
-        taskCase5.taskItems.add(new TaskItem(17,
-                "Y", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        TaskCase taskCase6 = new TaskCase(6, "H827403", "Jane Chen");
-        taskCase6.taskItems.add(new TaskItem(18,
-                "Z", TaskItem.Status.WARNING, "Sand holes", "11:00:00", "Boring MachineA", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        vendor3.taskCases.add(taskCase5);
-        vendor3.taskCases.add(taskCase6);
-
-        for (Vendor vendor : mVendors) {
-            mVendorMap.put(vendor.id, vendor);
-            for (TaskCase taskCase : vendor.taskCases) {
+        final int factoryCount = 3;
+        final int workerCount = 20;
+        final int vendorCount = 3;
+        final int taskCaseCount = 3;
+        final int taskItemCount = 10;
+        for (int i = 1; i <= factoryCount; i++) {
+            Factory factory = new Factory(i, "Factory" + i);
+            mFactories.add(factory);
+            for (int j = 1; j <= workerCount; j++) {
+                WorkerItem workItem = new WorkerItem(j, "WorkerItemName" + j, "WorkerItemTitle" + j);
+                workItem.factoryId = factory.id;
+                factory.workerItems.add(workItem);
+            }
+        }
+        for (int i = 1; i <= vendorCount; i++) {
+            Vendor vendor = new Vendor(i, "VendorName" + i);
+            mVendorsMap.put(vendor.id, vendor);
+            for (int j = 1; j <= taskCaseCount; j++) {
+                TaskCase taskCase = new TaskCase(j, "TaskCaseName" + j);
                 taskCase.vendorId = vendor.id;
-                for (TaskItem taskItem : taskCase.taskItems) {
+                vendor.taskCases.add(taskCase);
+                for (int k = 1; k <= taskItemCount; k++) {
+                    Tool tool = new Tool(k, "ToolName" + k);
+                    mToolsMap.put(tool.id, tool);
+                    TaskItem taskItem = new TaskItem(k, "TaskItemName" + k);
                     taskItem.taskCaseId = taskCase.id;
+                    taskCase.taskItems.add(taskItem);
+                    mTaskItemsMap.put(taskItem.id, taskItem);
+                    taskItem.toolId = tool.id;
                 }
             }
         }

@@ -17,21 +17,30 @@ public class WorkerItem {
         public static final int DELAY = 1;
     }
 
-    public Drawable avatar;
+    public long id;
     public String name;
     public String title;
-    public String task;
-    public int status;
-    public String time;
+    public Drawable avatar;
+    public long factoryId;
     public ArrayList<TaskItem> taskItems;
+    public String task;
 
+    public WorkerItem(long id, String name, String title) {
+        this(id, name, title, new ArrayList<TaskItem>());
+    }
 
-    public WorkerItem(String name, String title, String task, int status, String time) {
+    public WorkerItem(long id, String name, String title, ArrayList<TaskItem> taskItems) {
+        this.id = id;
         this.name = name;
         this.title = title;
-        this.task = task;
-        this.status = status;
-        this.time = time;
-        taskItems = new ArrayList<TaskItem>();
+        this.taskItems = taskItems;
+    }
+
+    public int getStatus() {
+        return WorkingStatus.NORMAL;
+    }
+
+    public String getTime() {
+        return "6:33:11";
     }
 }

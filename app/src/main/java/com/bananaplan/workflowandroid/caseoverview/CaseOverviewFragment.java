@@ -26,6 +26,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.WorkingData;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
+import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.MainActivity;
 
 import java.util.ArrayList;
@@ -322,7 +323,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private void openCase(TaskCase taskCase) {
         mTvCaseNameSelected.setText(taskCase.name);
         mTvCaseVendorSelected.setText(mWorkingData.getVendorById(taskCase.vendorId).name);
-        mTvCasePersonInChargeSelected.setText(taskCase.personInCharge);
+        if (taskCase.workerId > 0) {
+            mTvCasePersonInChargeSelected.setText(mWorkingData.getWorkerItemById(taskCase.workerId).name);
+        }
         mTvCaseHoursPassedBy.setText(taskCase.getHoursPassedBy());
         mTvCaseHoursUnfinished.setText(taskCase.getHoursUnFinished());
         mTvCaseHoursForecast.setText(taskCase.getHoursForecast());

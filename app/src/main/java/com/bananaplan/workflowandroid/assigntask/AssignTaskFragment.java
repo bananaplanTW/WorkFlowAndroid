@@ -210,86 +210,71 @@ public class AssignTaskFragment extends Fragment implements
         List<TaskItem> case2 = new ArrayList<TaskItem>();
         List<TaskItem> case3 = new ArrayList<TaskItem>();
 
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case1.add(new TaskItem(
-                "外面鑽孔", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case1.add(new TaskItem(1, "外面鑽孔"));
+        case1.add(new TaskItem(2, "外面鑽孔"));
+        case1.add(new TaskItem(3, "外面鑽孔"));
+        case1.add(new TaskItem(4, "外面鑽孔"));
+        case1.add(new TaskItem(5, "外面鑽孔"));
+        case1.add(new TaskItem(6, "外面鑽孔"));
+        case1.add(new TaskItem(7, "外面鑽孔"));
+        case1.add(new TaskItem(8, "外面鑽孔"));
+        case1.add(new TaskItem(9, "外面鑽孔"));
+        case1.add(new TaskItem(10, "外面鑽孔"));
 
-        case2.add(new TaskItem(
-                "Hand", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case2.add(new TaskItem(
-                "Head", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case2.add(new TaskItem(
-                "Body", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
-        case2.add(new TaskItem(
-                "Leg", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case2.add(new TaskItem(11, "外面鑽孔"));
+        case2.add(new TaskItem(12, "外面鑽孔"));
+        case2.add(new TaskItem(13, "外面鑽孔"));
+        case2.add(new TaskItem(14, "外面鑽孔"));
 
-        case3.add(new TaskItem(
-                "X", TaskItem.Status.WARNING, "沙孔", "11:00:00", "鑽孔機械A", "Danny Lin", TaskItem.Progress.IN_SCHEDULE));
+        case3.add(new TaskItem(15, "外面鑽孔"));
 
-        mTaskCaseDatas.add(new TaskCase(1, "TaskCase1", "Tony", "8:00:12", "35:04:55", 3, case1));
-        mTaskCaseDatas.add(new TaskCase(2, "TaskCase2", "Thor", "6:11:10", "5:04:55", 6, case2));
-        mTaskCaseDatas.add(new TaskCase(3, "TaskCase3", "BBB", "4:32:11", "00:04:55", 5, case3));
+        mTaskCaseDatas.add(new TaskCase(1, "TaskCase1", case1));
+        mTaskCaseDatas.add(new TaskCase(2, "TaskCase2", case2));
+        mTaskCaseDatas.add(new TaskCase(3, "TaskCase3", case3));
     }
 
     private void createWorkerDatas() {
-        List<WorkerItem> workerDatas1 = new ArrayList<WorkerItem>();
-        List<WorkerItem> workerDatas2 = new ArrayList<WorkerItem>();
-        List<WorkerItem> workerDatas3 = new ArrayList<WorkerItem>();
+        ArrayList<WorkerItem> workerDatas1 = new ArrayList<WorkerItem>();
+        ArrayList<WorkerItem> workerDatas2 = new ArrayList<WorkerItem>();
+        ArrayList<WorkerItem> workerDatas3 = new ArrayList<WorkerItem>();
 
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas1.add(new WorkerItem("王1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
+        workerDatas1.add(new WorkerItem(1, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(2, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(3, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(4, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(5, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(6, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(7, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(8, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(9, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(10, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(11, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(12, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(13, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(14, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(15, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(16, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(17, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(18, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(19, "王1", "工頭"));
+        workerDatas1.add(new WorkerItem(20, "王1", "工頭"));
 
-        workerDatas2.add(new WorkerItem("陳1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas2.add(new WorkerItem("陳1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas2.add(new WorkerItem("陳1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas2.add(new WorkerItem("陳1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas2.add(new WorkerItem("陳1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
+        workerDatas2.add(new WorkerItem(21, "陳1", "工頭"));
+        workerDatas2.add(new WorkerItem(22, "陳1", "工頭"));
+        workerDatas2.add(new WorkerItem(23, "陳1", "工頭"));
+        workerDatas2.add(new WorkerItem(24, "陳1", "工頭"));
+        workerDatas2.add(new WorkerItem(25, "陳1", "工頭"));
 
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "6:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
-        workerDatas3.add(new WorkerItem("黃1", "工頭", "外面鑽孔 孔3", WorkingStatus.NORMAL, "1:33:11"));
+        workerDatas3.add(new WorkerItem(26, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(27, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(28, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(29, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(30, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(31, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(32, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(33, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(34, "黃1", "工頭"));
+        workerDatas3.add(new WorkerItem(35, "黃1", "工頭"));
 
         mFactoryDatas.add(new Factory(1, "武林場", workerDatas1));
         mFactoryDatas.add(new Factory(2, "豐原場", workerDatas2));

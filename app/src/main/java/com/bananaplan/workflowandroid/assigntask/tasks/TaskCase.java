@@ -14,30 +14,22 @@ public class TaskCase {
     public long id;
     public String name;
     public long vendorId;
-    public String personInCharge;
-    public String uncompletedTaskTime;
-    public String undergoingTaskTime;
-    public int undergoingWorkerCount;
+    public long workerId;
     public List<TaskItem> taskItems;
 
-    public TaskCase(int id, String name, String personInCharge) {
-        this(id, name, personInCharge, "", "", 0, new ArrayList<TaskItem>());
+    public TaskCase(int id, String name) {
+        this(id, name, new ArrayList<TaskItem>());
     }
 
-    public TaskCase(int id, String name, String personInCharge, String uncompletedTaskTime, String undergoingTaskTime,
-                    int undergoingWorkerCount, List<TaskItem> taskItems) {
+    public TaskCase(int id, String name, List<TaskItem> taskItems) {
         this.id = id;
         this.name = name;
-        this.personInCharge = personInCharge;
-        this.uncompletedTaskTime = uncompletedTaskTime;
-        this.undergoingTaskTime = undergoingTaskTime;
-        this.undergoingWorkerCount = undergoingWorkerCount;
-        this.taskItems = taskItems;
         this.vendorId = -1;
+        this.taskItems = taskItems;
     }
 
     public int getFinishPercent() {
-        return 50; // TODO
+        return (int) (Math.random() * 100 + 1); // TODO
     }
 
     public String getHoursPassedBy() {

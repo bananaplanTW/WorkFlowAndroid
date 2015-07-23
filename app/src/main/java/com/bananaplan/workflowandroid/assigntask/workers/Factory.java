@@ -14,13 +14,13 @@ import java.util.List;
 public class Factory {
     public long id;
     public String name;
-    public List<WorkerItem> workerItems;
+    public ArrayList<WorkerItem> workerItems;
 
     public Factory(long id, String name) {
         this(id, name, new ArrayList<WorkerItem>());
     }
 
-    public Factory(long id, String name, List<WorkerItem> workerDatas) {
+    public Factory(long id, String name, ArrayList<WorkerItem> workerDatas) {
         this.id = id;
         this.name = name;
         this.workerItems = workerDatas;

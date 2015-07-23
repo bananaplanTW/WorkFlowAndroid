@@ -23,29 +23,36 @@ public class TaskItem {
 
     public long id;
     public String title;
-    public int status;
-    public String statusText;
-    public String workingTime;
-    public String tool;
-    public String worker;
-    public int progress;
     public long taskCaseId;
     public long workerId;
+    public long toolId;
 
-    public TaskItem(String title, int status, String statusText,
-                    String workingTime, String tool, String worker, int progress) {
-        this(-1, title, status, statusText, workingTime, tool, worker, progress);
-    }
-
-    public TaskItem(long id, String title, int status, String statusText,
-                    String workingTime, String tool, String worker, int progress) {
+    public TaskItem(long id, String title) {
         this.id = id;
         this.title = title;
-        this.status = status;
-        this.statusText = statusText;
-        this.workingTime = workingTime;
-        this.tool = tool;
-        this.worker = worker;
-        this.progress = progress;
+    }
+
+    public int getStatus() {
+        return Status.WARNING;
+    }
+
+    public int getProgress() {
+        return Progress.IN_SCHEDULE;
+    }
+
+    public String getWorkingTime() {
+        return "11:00:00";
+    }
+
+    public String getWorningText() {
+        return "Sand holes";
+    }
+
+    public String getToolName() { // use for test
+        return "CNC";
+    }
+
+    public String getWorkerItemName() { // use for test
+        return "Danny Lin";
     }
 }
