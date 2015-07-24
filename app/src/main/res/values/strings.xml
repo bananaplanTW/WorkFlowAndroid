@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">WorkFlowAndroid</string>
     <string name="action_settings">Settings</string>
 
@@ -7,6 +8,9 @@
     <string name="drawer_close">drawer_close</string>
 
     <!-- AssignTask fragment-->
+    <string name="task_case_progress_text">Case Progress</string>
+    <string name="task_case_participated_employee_text">Participated Employee</string>
+    <string name="task_case_edit_text">Edit case</string>
     <string name="task_progress_not_start">Not start</string>
     <string name="task_progress_in_schedule">In schedule</string>
     <string name="task_progress_working">Working</string>
@@ -32,4 +36,5 @@
     <string name="case_overview_listview_taskitem_header_tool">"Tool"</string>
     <string name="case_overview_listview_taskitem_header_warning">"Warning"</string>
     <string name="case_overview_listview_taskitem_header_worker">"Duty"</string>
+
 </resources>

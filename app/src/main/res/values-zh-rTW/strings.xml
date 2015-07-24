@@ -1,5 +1,9 @@
 <resources>
+
     <!-- AssignTask fragment-->
+    <string name="task_case_progress_text">案件進度</string>
+    <string name="task_case_participated_employee_text">參與員工</string>
+    <string name="task_case_edit_text">修改案件</string>
     <string name="task_progress_not_start">尚未開始</string>
     <string name="task_progress_in_schedule">已排程</string>
     <string name="task_progress_working">正常工作中</string>
@@ -25,4 +29,5 @@
     <string name="case_overview_listview_taskitem_header_tool">"使用機器"</string>
     <string name="case_overview_listview_taskitem_header_warning">"警訊"</string>
     <string name="case_overview_listview_taskitem_header_worker">"負責人"</string>
+
 </resources>

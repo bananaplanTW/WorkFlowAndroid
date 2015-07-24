@@ -6,6 +6,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.caseoverview.CaseCustomProgressBar;
 
 /**
  * @author Danny Lin
@@ -15,9 +16,12 @@ public class TaskCaseHeaderViewHolder extends RecyclerView.ViewHolder {
 
     public View header;
     public Spinner taskCaseSpinner;
+    public CaseCustomProgressBar progressBar;
+    public TextView vendor;
+    public TextView personInCharge;
     public TextView uncompletedTaskTime;
     public TextView undergoingTaskTime;
-    public TextView undergoingWorkerCount;
+    public TextView editCaseButton;
 
     public boolean isTaskCaseSpinnerInitialized = false;
 
@@ -25,8 +29,11 @@ public class TaskCaseHeaderViewHolder extends RecyclerView.ViewHolder {
         super(v);
         header = v;
         taskCaseSpinner = (Spinner) v.findViewById(R.id.task_case_spinner);
-        uncompletedTaskTime = (TextView) v.findViewById(R.id.uncompleted_task_time);
-        undergoingTaskTime = (TextView) v.findViewById(R.id.undergoing_task_time);
-        undergoingWorkerCount = (TextView) v.findViewById(R.id.undergoing_worker_count);
+        progressBar = (CaseCustomProgressBar) v.findViewById(R.id.task_case_information_progressbar);
+        vendor = (TextView) v.findViewById(R.id.task_case_principal_vendor);
+        personInCharge = (TextView) v.findViewById(R.id.task_case_person_in_charge);
+        uncompletedTaskTime = (TextView) v.findViewById(R.id.task_case_hours_unfinished);
+        undergoingTaskTime = (TextView) v.findViewById(R.id.task_case_hours_pass_by);
+        editCaseButton = (TextView) v.findViewById(R.id.task_case_edit_button);
     }
 }

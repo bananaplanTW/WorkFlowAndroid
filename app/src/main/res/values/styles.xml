@@ -34,6 +34,10 @@
         <item name="android:textColor">@color/task_case_text_color</item>
     </style>
 
+    <style name="TaskCaseTextStyle.TaskCaseInformationTitle">
+        <item name="android:textSize">@dimen/task_case_information_title_text_size</item>
+    </style>
+
     <style name="TaskCaseTextStyle.TaskItemTitle">
         <item name="android:textSize">@dimen/task_item_title_text_size</item>
     </style>

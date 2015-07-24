@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
 
 
 /**
@@ -40,7 +42,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private String[] mTaskCaseTitles = null;
     private TaskCase mTaskCase = null;
 
-    private ArrayAdapter mTaskCaseSpinnerAdapter;
+    private IconSpinnerAdapter mTaskCaseSpinnerAdapter;
 
     private OnSelectTaskCaseListener mOnSelectTaskCaseListener;
 
@@ -105,7 +107,8 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private void bindTaskCaseSpinner(TaskCaseHeaderViewHolder holder) {
-        mTaskCaseSpinnerAdapter = new ArrayAdapter(mContext, R.layout.task_spinner_item, mTaskCaseTitles);
+        mTaskCaseSpinnerAdapter = new IconSpinnerAdapter(mContext, R.layout.icon_spinner_item, mTaskCaseTitles);
+        mTaskCaseSpinnerAdapter.setSpinnerIcon(R.drawable.case_spinner_icon);
         mTaskCaseSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         holder.taskCaseSpinner.setAdapter(mTaskCaseSpinnerAdapter);
         holder.taskCaseSpinner.setSelection(mSelectedTaskCasePosition);
@@ -129,9 +132,17 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private void bindTaskCaseInformation(TaskCaseHeaderViewHolder holder) {
+        holder.progressBar.setProgress(mTaskCase.getFinishPercent());
+        holder.vendor.setText("Honda");
+        holder.personInCharge.setText("Danny");
         holder.uncompletedTaskTime.setText(mTaskCase.getHoursUnFinished());
         holder.undergoingTaskTime.setText(mTaskCase.getHoursPassedBy());
-        //holder.undergoingWorkerCount.setText(mTaskCase.undergoingWorkerCount);
+        holder.editCaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Edit case", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void onBindItemViewHolder(ViewHolder vh, int position) {

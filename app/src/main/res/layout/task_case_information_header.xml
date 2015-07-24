@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/task_case_information_padding">
+
+    <TextView
+        android:id="@+id/task_case_progress_label"
+        style="@style/TaskCaseTextStyle.TaskCaseInformationTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/task_case_progress_text"/>
+
+    <ImageView
+        android:id="@+id/task_case_information_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/black_arrow_down"/>
+
+    <com.bananaplan.workflowandroid.caseoverview.CaseCustomProgressBar
+        android:id="@+id/task_case_information_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/task_case_information_progressbar_height"
+        android:layout_below="@+id/task_case_progress_label"
+        android:layout_marginTop="@dimen/task_case_information_progressbar_margin_top"
+        android:max="100"
+        android:progressDrawable="@drawable/case_progress_drawable"/>
+
+</RelativeLayout>
