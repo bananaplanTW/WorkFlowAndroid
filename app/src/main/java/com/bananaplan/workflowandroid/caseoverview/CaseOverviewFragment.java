@@ -3,6 +3,7 @@ package com.bananaplan.workflowandroid.caseoverview;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -53,6 +54,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private SpinnerAdapter mSpinnerAdapter;
     private TaskCaseListViewAdapter mTaskCaseListviewAdapter;
     private TaskItemListViewAdapter mTaskItemListViewAdapter;
+    private WorkerItemListViewAdapter mWorkerItemListViewAdapter;
 
     // views in right pane
     private TextView mTvCaseNameSelected;
@@ -63,6 +65,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private TextView mTvCaseHoursUnfinished;
     private TextView mTvCaseHoursForecast;
     private TextView mTvEditCase;
+    private HorizontalListView mWorkerListView;
 
     private TaskCase mSelectedTaskCase;
 
@@ -85,6 +88,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mEtCaseSearch = (EditText) getActivity().findViewById(R.id.case_et_search);
         mTaskCaseListView = (ListView) getActivity().findViewById(R.id.case_listview);
         mTaskItemListView = (ListView) getActivity().findViewById(R.id.case_listview_task_item);
+        mWorkerListView = (HorizontalListView) getActivity().findViewById(R.id.case_workers_listview);
 
         mEtCaseSearch.addTextChangedListener(this);
         mSpinnerAdapter = new SpinnerAdapter(getActivity(), R.layout.case_spinner_view, getSpinnerVendorData());
@@ -109,6 +113,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
         updateTaskItemHeaderView();
         updateTaskItemListView();
+        updateWorkerItemListView();
     }
 
     private ArrayList<Vendor> getSpinnerVendorData() {
@@ -132,6 +137,16 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             openCase();
         }
         return cases;
+    }
+
+    private ArrayList<WorkerItem> getWorkerItems() {
+        ArrayList<WorkerItem> workers = new ArrayList<WorkerItem>();
+        if (mSelectedTaskCase != null) {
+            for (TaskItem item : mSelectedTaskCase.taskItems) {
+                workers.add(mWorkingData.getWorkerItemById(item.workerId));
+            }
+        }
+        return workers;
     }
 
     private ArrayList<TaskItem> getTaskItems() {
@@ -200,6 +215,38 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
             public SpinnerViewHolder(View v) {
                 this.tvSpinnerVendor = (TextView) v.findViewById(R.id.case_spinner_view_tv_vendor_name);
+            }
+        }
+    }
+
+    private class WorkerItemListViewAdapter extends ArrayAdapter<WorkerItem> {
+        private LayoutInflater mInflater;
+
+        public WorkerItemListViewAdapter(Context context, ArrayList<WorkerItem> items) {
+            super(context, 0, items);
+            mInflater = getActivity().getLayoutInflater();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.case_workers_listview_item, parent, false);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            WorkerItem worker = getItem(position);
+            holder.avator.setImageDrawable(worker.avatar);
+            return convertView;
+        }
+
+        private class ViewHolder {
+            ImageView avator;
+
+            public ViewHolder(View view) {
+                avator = (ImageView) view.findViewById(R.id.case_workers_listview_item_iv);
             }
         }
     }
@@ -468,6 +515,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseHoursForecast.setText(mSelectedTaskCase.getHoursForecast());
         mPbCaseSelected.setProgress(mSelectedTaskCase.getFinishPercent());
         updateTaskItemListView();
+        updateWorkerItemListView();
     }
 
     private void updateTaskItemListView() {
@@ -477,6 +525,11 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
             params.height = (int) (getTaskItems().size() * getResources().getDimension(R.dimen.case_overview_taskitem_listview_item_height));
         }
+    }
+
+    private void updateWorkerItemListView() {
+        mWorkerItemListViewAdapter = new WorkerItemListViewAdapter(getActivity(), getWorkerItems());
+        mWorkerListView.setAdapter(mWorkerItemListViewAdapter);
     }
 
     private void updateTaskItemHeaderView() {

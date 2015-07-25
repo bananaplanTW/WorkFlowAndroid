@@ -252,20 +252,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/tv_worker_involved"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/workers_list_vg"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="24dp"
                         android:layout_marginTop="24dp"
-                        android:text="@string/case_overview_worker"/>
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tv_worker_involved"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/case_overview_worker"/>
+
+                        <com.bananaplan.workflowandroid.caseoverview.HorizontalListView
+                            xmlns:widget="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/case_workers_listview"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:divider="@null"
+                            widget:dividerWidth="10dp"
+                            android:layout_marginLeft="16.7dp"/>
+                    </LinearLayout>
 
                     <View
                         android:id="@+id/tv_worker_involved_divider1"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:background="#979797"
-                        android:layout_below="@id/tv_worker_involved"
+                        android:layout_below="@id/workers_list_vg"
                         android:layout_marginTop="16.5dp"/>
 
                     <include
