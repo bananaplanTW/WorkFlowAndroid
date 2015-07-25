@@ -28,4 +28,14 @@
     <color name="worker_grid_view_item_stroke_color">#FF858585</color>
     <color name="working_status_ok">#FF55931F</color>
 
+    <!-- CaseOverviewFragment -->
+    <color name="listview_taskcase_taskname_textcolor_finished">#9b9b9b</color>
+    <color name="listview_taskcase_taskname_textcolor_unfinished">#4a4a4a</color>
+    <color name="listview_taskcase_selected_bg">#428bca</color>
+    <color name="listview_taskitem_row_odd">#f7f7f7</color>
+    <color name="listview_taskitem_row_even">#ffffff</color>
+    <color name="taskitem_status_working">#5cb85c</color>
+    <color name="taskitem_status_finish">#9b9b9b</color>
+    <color name="taskitem_status_others">#303030</color>
+
 </resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="9dp"
+    android:id="@+id/case_listview_root">
+
+    <TextView
+        android:layout_width="49dp"
+        android:layout_height="36dp"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:padding="9dp"
+        android:layout_marginRight="12dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/case_listview_view_tv_status" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/case_listview_view_tv_status">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/listview_taskcase_taskname_textcolor_unfinished"
+            android:textSize="16sp"
+            android:id="@+id/case_listview_view_tv_case_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#9b9b9b"
+            android:textSize="14sp"
+            android:layout_below="@id/case_listview_view_tv_case_name"
+            android:layout_marginTop="7dp"
+            android:id="@+id/case_listview_view_tv_vendor_name"/>
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -12,6 +12,8 @@ import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Ben on 2015/7/18.
@@ -63,9 +65,11 @@ public class WorkingData {
             Factory factory = new Factory(i, "Factory" + i);
             mFactories.add(factory);
             for (int j = 1; j <= workerCount; j++) {
-                WorkerItem workItem = new WorkerItem(j, "WorkerItemName" + j, "WorkerItemTitle" + j);
+                WorkerItem workItem = new WorkerItem(j, "Worker" + j, "WorkerItemTitle" + j);
                 workItem.factoryId = factory.id;
                 factory.workerItems.add(workItem);
+                workItem.avatar = mContext.getResources().getDrawable(android.R.drawable.ic_lock_lock);
+                mWorkersMap.put(workItem.id, workItem);
             }
         }
         for (int i = 1; i <= vendorCount; i++) {
@@ -78,14 +82,23 @@ public class WorkingData {
                 for (int k = 1; k <= taskItemCount; k++) {
                     Tool tool = new Tool(k, "ToolName" + k);
                     mToolsMap.put(tool.id, tool);
-                    TaskItem taskItem = new TaskItem(k, "TaskItemName" + k);
+                    TaskItem taskItem = new TaskItem(k, "ItemName" + k);
                     taskItem.taskCaseId = taskCase.id;
                     taskCase.taskItems.add(taskItem);
                     mTaskItemsMap.put(taskItem.id, taskItem);
                     taskItem.toolId = tool.id;
+                    taskItem.workerId = getRandomWorkerId();
                 }
             }
         }
+    }
+
+    private long getRandomWorkerId() {
+        Random random = new Random();
+        int num = (int) (Math.random() * mWorkersMap.keySet().size());
+        List<Long> list = new ArrayList<Long>(mWorkersMap.keySet());
+        if (list.size() == 0) return 0;
+        return list.get(num);
     }
     // --- only for test case
 }

@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -145,6 +146,9 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         switch (taskItem.getStatus()) {
             case TaskItem.Status.WARNING:
                 colorId = R.color.task_item_status_warning_color;
+                break;
+            default:
+                colorId = R.color.task_item_status_text_color;
                 break;
         }
         TextView taskStatus = (TextView) LayoutInflater.from(mContext).inflate(

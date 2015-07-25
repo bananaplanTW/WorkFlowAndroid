@@ -19,6 +19,7 @@ public class TaskItem {
         public static final int NOT_START = 1;
         public static final int WORKING = 2;
         public static final int PAUSE = 3;
+        public static final int FINISH = 4;
     }
 
     public long id;
@@ -26,22 +27,30 @@ public class TaskItem {
     public long taskCaseId;
     public long workerId;
     public long toolId;
+    public int progress;
+    public int status;
 
     public TaskItem(long id, String title) {
         this.id = id;
         this.title = title;
+        this.progress = (int) (Math.random() * 4);
+        this.status = (int) (Math.random() * 2);
     }
 
     public int getStatus() {
-        return Status.WARNING;
+        return this.status;
     }
 
     public int getProgress() {
-        return Progress.IN_SCHEDULE;
+        return this.progress;
     }
 
     public String getWorkingTime() {
-        return "11:00:00";
+        return "11 : 00 : 00";
+    }
+
+    public String getExpectedFinishTime() {
+        return "11 : 00";
     }
 
     public String getWorningText() {

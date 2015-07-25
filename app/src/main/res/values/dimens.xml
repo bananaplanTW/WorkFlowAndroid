@@ -42,15 +42,18 @@
     <dimen name="working_status_text_size">13dp</dimen>
 
     <!-- CaseOverView fragment -->
-    <dimen name="case_overview_divider_height">10dp</dimen>
-    <dimen name="case_overview_divider_width">10dp</dimen>
+    <dimen name="case_overview_divider_height">8dp</dimen>
+    <dimen name="case_overview_divider_width">8dp</dimen>
     <dimen name="case_overview_tv_factory_margin_left">25dp</dimen>
     <dimen name="case_overview_tv_factory_margin_right">40dp</dimen>
     <dimen name="case_overview_right_pant_padding_horizontal">10dp</dimen>
     <dimen name="case_overview_right_pant_padding_vertical">35dp</dimen>
     <dimen name="case_overview_border_tv_padding_horizontal">5dp</dimen>
     <dimen name="case_overview_border_tv_padding_vertical">7dp</dimen>
-    <dimen name="case_overview_listview_item_height">60dp</dimen>
-    <dimen name="case_overview_listview_padding_horizontal">10dp</dimen>
+    <dimen name="case_overview_taskcase_listview_item_height">56dp</dimen>
+    <dimen name="case_overview_listview_padding_horizontal">18dp</dimen>
+    <dimen name="case_progress_bar_text_size">13sp</dimen>
+    <dimen name="case_overview_taskitem_listview_item_height">50dp</dimen>
+    <dimen name="case_overview_taskitem_listview_header_text_size">14sp</dimen>
 
 </resources>

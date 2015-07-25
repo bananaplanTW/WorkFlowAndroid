@@ -16,6 +16,7 @@ public class TaskCase {
     public long vendorId;
     public long workerId;
     public List<TaskItem> taskItems;
+    public int finishPercent;
 
     public TaskCase(int id, String name) {
         this(id, name, new ArrayList<TaskItem>());
@@ -26,10 +27,11 @@ public class TaskCase {
         this.name = name;
         this.vendorId = -1;
         this.taskItems = taskItems;
+        this.finishPercent = (int) (Math.random() * 100 + 1);
     }
 
     public int getFinishPercent() {
-        return (int) (Math.random() * 100 + 1); // TODO
+        return  this.finishPercent; // TODO
     }
 
     public String getHoursPassedBy() {

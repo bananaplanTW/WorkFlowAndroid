@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
+import com.bananaplan.workflowandroid.R;
+
 /**
  * Created by Ben on 2015/7/19.
  */
@@ -33,7 +35,7 @@ public class CaseCustomProgressBar extends ProgressBar {
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.WHITE);
         mTextPaint.setAntiAlias(true);
-        mTextPaint.setTextSize(15);
+        mTextPaint.setTextSize(getResources().getDimension(R.dimen.case_progress_bar_text_size));
     }
 
     @Override

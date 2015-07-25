@@ -42,7 +42,7 @@ public class UIController {
     private static final class FragmentTag {
         public static final String TAG_DRAWER_MENU_FRAGMENT = "tag_drawer_menu_fragment";
         public static final String TAG_TASK_ASSIGN_FRAGMENT = "tag_task_assign_fragment";
-        public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_task_assign_fragment"; // +++ ben
+        public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_task_assign_fragment";
     }
 
     public UIController(ActionBarActivity activity) {
@@ -51,6 +51,7 @@ public class UIController {
 
     public void onCreate(Bundle savedInstanceState) {
         initialize();
+//        openCaseOverViewFragment();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -58,7 +59,6 @@ public class UIController {
             return true;
         } else {
             // Normal menu items put here
-            // +++ ben
             switch (item.getItemId()) {
                 case MENU_ITEM_CASEOVERVIEW_FRAGMENT:
                     openCaseOverViewFragment();
@@ -66,12 +66,10 @@ public class UIController {
                 default:
                     break;
             }
-            // --- ben
             return false;
         }
     }
 
-    // +++ ben
     private boolean openCaseOverViewFragment() {
         if (mFragmentManager == null) return false;
         FragmentTransaction fraTransaction = mFragmentManager.beginTransaction();
@@ -81,7 +79,6 @@ public class UIController {
         fraTransaction.commit();
         return true;
     }
-    // --- ben
 
     public void onPostCreate(Bundle savedInstanceState) {
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -147,8 +144,6 @@ public class UIController {
     }
 
     public void onCreateOptionsMenu(Menu menu) {
-        // +++ ben
         menu.add(0, MENU_ITEM_CASEOVERVIEW_FRAGMENT, 0, "CaseOverView Fragment");
-        // --- ben
     }
 }

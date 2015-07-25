@@ -4,14 +4,25 @@
     <string name="task_progress_in_schedule">已排程</string>
     <string name="task_progress_working">正常工作中</string>
     <string name="task_progress_pause">暫停</string>
+    <string name="task_progress_finish">完成</string>
 
     <!-- CaseOverView fragment-->
     <string name="case_spinner_all_vendors">"全部廠商"</string>
-    <string name="case_factory_selected">"委託廠商"</string>
+    <string name="case_vendor_selected">"委託廠商"</string>
     <string name="case_person_in_charge_selected">"案件負責人"</string>
     <string name="case_percent_selected">"案件進度"</string>
     <string name="case_hours_passed_by">"已經進行時數"</string>
     <string name="case_hours_unfinished">"尚未完成時數"</string>
     <string name="case_hours_forecast">"預計延遲/提早時數"</string>
     <string name="case_finished">"完成"</string>
+    <string name="case_overview_edit_case">"修改案件"</string>
+    <string name="case_overview_worker">"參與員工"</string>
+    <string name="case_overview_listview_taskitem_header_id">"排序"</string>
+    <string name="case_overview_listview_taskitem_header_status">"項目狀況"</string>
+    <string name="case_overview_listview_taskitem_header_name">"項目名稱"</string>
+    <string name="case_overview_listview_taskitem_header_expect_time">"預期時間"</string>
+    <string name="case_overview_listview_taskitem_header_work_time">"工作時間"</string>
+    <string name="case_overview_listview_taskitem_header_tool">"使用機器"</string>
+    <string name="case_overview_listview_taskitem_header_warning">"警訊"</string>
+    <string name="case_overview_listview_taskitem_header_worker">"負責人"</string>
 </resources>
