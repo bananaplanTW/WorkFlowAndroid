@@ -37,6 +37,7 @@
     <color name="taskitem_status_working">#5cb85c</color>
     <color name="taskitem_status_finish">#9b9b9b</color>
     <color name="taskitem_status_others">#303030</color>
+    <color name="case_overview_taskcase_listview_vendor_textcolor">#9b9b9b</color>
     <color name="case_overview_statistics_bar_color">#428bca</color>
     <color name="case_overview_statistics_grid_color">#e1e1e1</color>
     <color name="case_overview_statistics_axis_color">#9b9b9b</color>

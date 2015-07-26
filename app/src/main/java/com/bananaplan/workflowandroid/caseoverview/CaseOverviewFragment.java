@@ -441,6 +441,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
                 holder.mTvVendor.setTextColor(Color.WHITE);
             } else {
                 holder.mRoot.setBackgroundColor(Color.TRANSPARENT);
+                holder.mTvVendor.setTextColor(getResources().getColor(R.color.case_overview_taskcase_listview_vendor_textcolor));
             }
             final ViewGroup.LayoutParams params = convertView.getLayoutParams();
             params.height = (int) getResources().getDimension(R.dimen.case_overview_taskcase_listview_item_height);
