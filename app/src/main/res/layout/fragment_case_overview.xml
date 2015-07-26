@@ -243,6 +243,39 @@
 
                 </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/statistics_choose_vg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="8dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="17dp"
+                    android:background="@drawable/border_textview_bg_gray">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@android:drawable/ic_delete"/>
+
+                    <TextView
+                        android:id="@+id/statistics_choose_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:text="5/14 - 5/20"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/case_statistics_vg"
+                    android:layout_width="match_parent"
+                    android:layout_height="236dp"
+                    android:orientation="vertical"></LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
@@ -266,13 +299,13 @@
                             android:layout_height="wrap_content"
                             android:text="@string/case_overview_worker"/>
 
-                        <com.bananaplan.workflowandroid.caseoverview.HorizontalListView
+                        <it.sephiroth.android.library.widget.HListView
                             xmlns:widget="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/case_workers_listview"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:divider="@null"
-                            widget:dividerWidth="10dp"
+                            widget:hlv_dividerWidth="10dp"
                             android:layout_marginLeft="16.7dp"/>
                     </LinearLayout>
 

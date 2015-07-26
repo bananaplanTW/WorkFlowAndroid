@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Defines the custom XML attributes supported for a HorizontalListView -->
-    <declare-styleable name="HorizontalListView">
-        <attr name="dividerWidth" format="dimension" />
+    <declare-styleable name="HListView">
+        <attr name="android:entries" />
         <attr name="android:divider" />
-        <attr name="android:requiresFadingEdge" />
-        <attr name="android:fadingEdgeLength" />
+        <attr name="hlv_dividerWidth" format="dimension" />
+        <attr name="hlv_headerDividersEnabled" format="boolean" />
+        <attr name="hlv_footerDividersEnabled" format="boolean" />
+        <attr name="hlv_overScrollHeader" format="reference|color" />
+        <attr name="hlv_overScrollFooter" format="reference|color" />
+        <attr name="hlv_measureWithChild" format="integer" />
     </declare-styleable>
-
 </resources>

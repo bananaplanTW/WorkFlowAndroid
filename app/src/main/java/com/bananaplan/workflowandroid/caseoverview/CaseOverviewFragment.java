@@ -3,14 +3,15 @@ package com.bananaplan.workflowandroid.caseoverview;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,13 +36,25 @@ import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.main.Utils;
 
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart;
+import org.achartengine.model.SeriesSelection;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
+
 import java.util.ArrayList;
+
+import it.sephiroth.android.library.widget.*;
 
 /**
  * @author Ben Lai
  * @since 2015/7/16.
  */
-public class CaseOverviewFragment extends Fragment implements TextWatcher, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class CaseOverviewFragment extends Fragment implements TextWatcher, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener
+        , View.OnClickListener, View.OnTouchListener {
     private MainActivity mActivity;
     private WorkingData mWorkingData;
 
@@ -65,7 +78,8 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private TextView mTvCaseHoursUnfinished;
     private TextView mTvCaseHoursForecast;
     private TextView mTvEditCase;
-    private HorizontalListView mWorkerListView;
+    private HListView mWorkerListView;
+    private LinearLayout mStatisticsViewGroup;
 
     private TaskCase mSelectedTaskCase;
 
@@ -88,7 +102,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mEtCaseSearch = (EditText) getActivity().findViewById(R.id.case_et_search);
         mTaskCaseListView = (ListView) getActivity().findViewById(R.id.case_listview);
         mTaskItemListView = (ListView) getActivity().findViewById(R.id.case_listview_task_item);
-        mWorkerListView = (HorizontalListView) getActivity().findViewById(R.id.case_workers_listview);
+        mWorkerListView = (HListView) getActivity().findViewById(R.id.case_workers_listview);
 
         mEtCaseSearch.addTextChangedListener(this);
         mSpinnerAdapter = new SpinnerAdapter(getActivity(), R.layout.case_spinner_view, getSpinnerVendorData());
@@ -104,6 +118,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseHoursUnfinished = (TextView) getActivity().findViewById(R.id.case_tv_hours_unfinished);
         mTvCaseHoursForecast = (TextView) getActivity().findViewById(R.id.case_tv_hours_forecast);
         mTvEditCase = (TextView) getActivity().findViewById(R.id.case_btn_edit_case);
+        mStatisticsViewGroup = (LinearLayout) getActivity().findViewById(R.id.case_statistics_vg);
 
         mTaskCaseListviewAdapter = new TaskCaseListViewAdapter(getActivity(), getTaskCases());
         mTaskCaseListView.setAdapter(mTaskCaseListviewAdapter);
@@ -516,6 +531,71 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mPbCaseSelected.setProgress(mSelectedTaskCase.getFinishPercent());
         updateTaskItemListView();
         updateWorkerItemListView();
+        updateStatisticsView();
+    }
+
+    private void updateStatisticsView() {
+        mStatisticsViewGroup.removeAllViews();
+        mStatisticsViewGroup.addView(getBarChart(), new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+    }
+
+    private View getBarChart() {
+        final String[] axis_x_string = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        final String[][] xy = new String[7][2];
+        for (int i = 0; i < axis_x_string.length; i++) {
+            xy[i][0] = axis_x_string[i];
+            xy[i][1] = String.valueOf(((int) (Math.random() * 24 + 1)));
+        }
+        View view = null;
+        final XYSeries series = new XYSeries("");
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(series);
+        final XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+        XYSeriesRenderer yRenderer = new XYSeriesRenderer();
+        renderer.addSeriesRenderer(yRenderer);
+        renderer.setApplyBackgroundColor(true);
+        renderer.setBackgroundColor(Color.WHITE);
+        renderer.setMarginsColor(Color.WHITE);
+        renderer.setTextTypeface(null, Typeface.NORMAL);
+
+        renderer.setShowGrid(true);
+        renderer.setGridColor(getResources().getColor(R.color.case_overview_statistics_grid_color));
+
+        renderer.setLabelsColor(Color.BLACK);
+        renderer.setAxesColor(getResources().getColor(R.color.case_overview_statistics_axis_color));
+        renderer.setBarSpacing(0.5);
+
+        renderer.setXTitle("");
+        renderer.setYTitle("");
+        renderer.setXLabelsColor(Color.BLACK);
+        renderer.setYLabelsColor(0, Color.BLACK);
+        renderer.setXLabelsPadding(getResources().getDimension(R.dimen.case_overview_statistics_x_axis_padding));
+        renderer.setYLabelsPadding(getResources().getDimension(R.dimen.case_overview_statistics_x_axis_padding));
+        renderer.setXLabelsAlign(Paint.Align.CENTER);
+        renderer.setYLabelsAlign(Paint.Align.CENTER);
+        renderer.setXLabelsAngle(0);
+
+        renderer.setXLabels(0);
+        renderer.setYAxisMin(0);
+        yRenderer.setColor(getResources().getColor(R.color.case_overview_statistics_bar_color));
+
+        series.add(0, 0);
+        renderer.addXTextLabel(0, "");
+        for (int r = 0; r < xy.length; r++) {
+            renderer.addXTextLabel(r + 1, xy[r][0]);
+            series.add(r + 1, Integer.parseInt(xy[r][1]));
+        }
+        series.add(xy.length + 1, 0);
+        renderer.addXTextLabel(xy.length + 1, "");
+        renderer.setZoomEnabled(false);
+        renderer.setZoomEnabled(false, false);
+        renderer.setClickEnabled(true);
+        renderer.setPanEnabled(false);
+        renderer.setShowLegend(false);
+        view = ChartFactory.getBarChartView(getActivity(), dataset, renderer, BarChart.Type.DEFAULT);
+        view.setOnClickListener(this);
+        view.setOnTouchListener(this);
+        return view;
     }
 
     private void updateTaskItemListView() {
@@ -536,13 +616,14 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         View view = getActivity().findViewById(R.id.case_listview_task_item_layout);
         if (view != null) {
             TaskItemListViewAdapterViewHolder holder = new TaskItemListViewAdapterViewHolder(view);
-            holder.tvStatus.setTextSize(getResources().getDimension(R.dimen.case_overview_taskitem_listview_header_text_size));
-            holder.tvTool.setTextSize(getResources().getDimension(R.dimen.case_overview_taskitem_listview_header_text_size));
-            holder.tvWorkTime.setTextSize(getResources().getDimension(R.dimen.case_overview_taskitem_listview_header_text_size));
-            holder.tvExpectedTime.setTextSize(getResources().getDimension(R.dimen.case_overview_taskitem_listview_header_text_size));
-            holder.tvId.setTextSize(getResources().getDimension(R.dimen.case_overview_taskitem_listview_header_text_size));
-            holder.tvWarning.setTextSize(getResources().getDimension(R.dimen.case_overview_taskitem_listview_header_text_size));
-            holder.tvName.setTextSize(getResources().getDimension(R.dimen.case_overview_taskitem_listview_header_text_size));
+            float textSize = getResources().getDimension(R.dimen.case_overview_taskitem_listview_header_text_size);
+            holder.tvStatus.setTextSize(textSize);
+            holder.tvTool.setTextSize(textSize);
+            holder.tvWorkTime.setTextSize(textSize);
+            holder.tvExpectedTime.setTextSize(textSize);
+            holder.tvId.setTextSize(textSize);
+            holder.tvWarning.setTextSize(textSize);
+            holder.tvName.setTextSize(textSize);
             holder.tvWorkerName.setVisibility(View.GONE);
             holder.ivWorkerAvator.setVisibility(View.GONE);
             holder.tvWorkerNameString.setVisibility(View.VISIBLE);
@@ -565,7 +646,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     }
 
     private void editTaskCase() {
-
+        // TODO
     }
 
     @Override
@@ -577,5 +658,10 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
     }
 }
