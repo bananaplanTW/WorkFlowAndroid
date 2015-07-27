@@ -21,7 +21,6 @@
             android:id="@+id/task_case_information"
             android:layout_width="match_parent"
             android:layout_height="@dimen/task_case_information_height"
-            android:padding="@dimen/task_case_information_padding"
             android:orientation="horizontal"
             android:gravity="center">
 

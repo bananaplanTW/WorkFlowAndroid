@@ -8,10 +8,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="@integer/task_container_weight"
-        android:paddingLeft="@dimen/task_case_view_padding_left_right"
-        android:paddingRight="@dimen/task_case_view_padding_left_right"
-        android:background="@color/task_case_view_background_color"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:background="@drawable/common_block_background"/>
 
     <RelativeLayout
         android:id="@+id/worker_container"

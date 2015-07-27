@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -9,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -149,26 +147,36 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         TaskItemViewHolder holder = (TaskItemViewHolder) vh;
         TaskItem taskItem = getItem(position);
 
+        // Margin
+        // For top and bottom
+//        if (position == 1 || position == 2 ||
+//            position == getItemCount()-1 || position == getItemCount()-2) {
+//            MarginLayoutParams params = (MarginLayoutParams) holder.view.getLayoutParams();
+//            params.topMargin = 30;
+//        }
+
         // Title
         holder.title.setText(taskItem.title);
 
         // Status
-        int colorId = 0;
+        int colorId = -1;
+        holder.statusContainer.removeAllViews();
         switch (taskItem.getStatus()) {
             case TaskItem.Status.WARNING:
                 colorId = R.color.task_item_status_warning_color;
                 break;
-            default:
-                colorId = R.color.task_item_status_text_color;
-                break;
         }
-        TextView taskStatus = (TextView) LayoutInflater.from(mContext).inflate(
-                R.layout.task_item_status, holder.statusContainer, false);
-        taskStatus.setText(taskItem.getWorningText());
-        GradientDrawable taskStatusBackground = (GradientDrawable) taskStatus.getBackground();
-        taskStatusBackground.setColor(mContext.getResources().getColor(colorId));
-        holder.statusContainer.removeAllViews();
-        holder.statusContainer.addView(taskStatus);
+        if (colorId != -1) {
+            TextView taskStatus = (TextView) LayoutInflater.from(mContext).inflate(
+                    R.layout.task_item_status, holder.statusContainer, false);
+            taskStatus.setText(taskItem.getWorningText());
+            GradientDrawable taskStatusBackground = (GradientDrawable) taskStatus.getBackground();
+            taskStatusBackground.setColor(mContext.getResources().getColor(colorId));
+            holder.statusContainer.setVisibility(View.VISIBLE);
+            holder.statusContainer.addView(taskStatus);
+        } else {
+            holder.statusContainer.setVisibility(View.GONE);
+        }
 
         // Task time
         holder.workingTime.setText(taskItem.getWorkingTime());

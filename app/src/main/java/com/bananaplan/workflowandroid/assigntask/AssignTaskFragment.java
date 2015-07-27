@@ -18,6 +18,7 @@ import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseItemDecoration;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseOnTouchListener;
@@ -25,7 +26,6 @@ import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseSpanSizeLookup;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem.WorkingStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +128,7 @@ public class AssignTaskFragment extends Fragment implements
         createTaskCaseDatas();
         createWorkerDatas();
 
-        initTaskList();
+        initTaskCaseView();
         initFactorySpinner();
         initWorkerPager(savedInstanceState);
     }
@@ -140,7 +140,7 @@ public class AssignTaskFragment extends Fragment implements
         mTaskCaseView = (RecyclerView) mFragmentView.findViewById(R.id.task_case_view);
     }
 
-    private void initTaskList() {
+    private void initTaskCaseView() {
         mTaskCaseAdapter = new TaskCaseAdapter(mActivity);
         mTaskCaseAdapter.initTaskCaseDatas(mCaseSpinnerDatas, mTaskCaseDatas.get(0));
         mTaskCaseAdapter.setOnSelectTaskCaseListener(this);
@@ -153,6 +153,7 @@ public class AssignTaskFragment extends Fragment implements
         mGridLayoutManager.setSpanSizeLookup(new TaskCaseSpanSizeLookup(mGridLayoutManager));
 
         mTaskCaseView.setLayoutManager(mGridLayoutManager);
+        mTaskCaseView.addItemDecoration(new TaskCaseItemDecoration(mActivity));
         mTaskCaseView.setOnTouchListener(mTaskCaseOnTouchListener);
         mTaskCaseView.setAdapter(mTaskCaseAdapter);
     }
