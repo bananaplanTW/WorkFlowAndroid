@@ -17,15 +17,13 @@
         android:background="@color/main_window_divider_color" />
 
     <RelativeLayout
-        android:id="@+id/worker_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="@integer/worker_container_weight">
 
         <Spinner
             android:id="@+id/factory_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CommonSpinnerStyle"
             android:layout_centerHorizontal="true"/>
 
         <View
@@ -35,21 +33,38 @@
             android:layout_below="@+id/factory_spinner"
             android:background="@color/main_window_divider_color" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/worker_pager"
+        <LinearLayout
+            android:id="@+id/worker_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/worker_container_divider"
-            android:layout_above="@+id/worker_pager_indicator_container"/>
+            android:paddingLeft="@dimen/worker_container_padding_left_right"
+            android:paddingRight="@dimen/worker_container_padding_left_right"
+            android:orientation="vertical"
+            android:background="@drawable/common_block_background"
+            android:gravity="center_horizontal">
 
-        <LinearLayout
-            android:id="@+id/worker_pager_indicator_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/worker_pager_indicator_container_padding_bottom"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true" />
+            <Button
+                android:id="@+id/worker_action_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:text="@string/worker_action_start" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/worker_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:id="@+id/worker_pager_indicator_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/worker_pager_indicator_container_padding"
+                android:orientation="horizontal"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/worker_grid_view_item_height"
+    android:layout_height="@dimen/worker_item_height"
+    android:padding="@dimen/worker_item_padding"
     android:orientation="vertical"
-    android:background="@drawable/worker_grid_view_item_background">
+    android:background="@drawable/worker_item_background">
 
     <RelativeLayout
         android:id="@+id/worker_title_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_weight="2">
 
         <ImageView
             android:id="@+id/worker_avatar"
@@ -24,71 +24,109 @@
             android:id="@+id/worker_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/worker_name_text_size"
-            android:textStyle="bold"
-            android:layout_centerInParent="true"/>
+            android:layout_toRightOf="@+id/worker_avatar"
+            android:layout_alignTop="@+id/worker_avatar"
+            android:textColor="@color/worker_item_text_black"
+            android:textSize="@dimen/worker_name_text_size"/>
 
         <TextView
             android:id="@+id/worker_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/worker_title_margin_right"
-            android:textSize="@dimen/worker_title_text_size"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:layout_toRightOf="@+id/worker_avatar"
+            android:layout_below="@+id/worker_name"
+            android:layout_alignBottom="@+id/worker_avatar"
+            android:textColor="@color/worker_item_text_gray"
+            android:textSize="@dimen/worker_title_text_size"/>
 
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/task_container"
+        android:id="@+id/worker_task_content_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="@dimen/working_content_container_margin_left_right"
-        android:layout_marginRight="@dimen/working_content_container_margin_left_right"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@drawable/working_content_container_background">
+        android:layout_weight="4"
+        android:layout_marginTop="@dimen/worker_task_content_container_margin_top"
+        android:orientation="vertical"
+        android:background="@drawable/worker_task_content_background">
 
-        <TextView
-            android:id="@+id/task"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/current_task_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/working_content_text_size"
-            android:textStyle="bold" />
+            android:padding="@dimen/current_task_container_padding">
+
+            <TextView
+                android:id="@+id/current_task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/worker_item_text_black"
+                android:textSize="@dimen/worker_item_content_text_size" />
+
+            <TextView
+                android:id="@+id/current_task_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/current_task_title"
+                android:textColor="@color/worker_item_text_gray"
+                android:textSize="@dimen/worker_item_content_text_size"
+                android:text="DC34753"/>
+
+            <LinearLayout
+                android:id="@+id/current_warning_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/current_task_title"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/worker_item_divider_color"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/current_task_working_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/current_task_working_time_text_size"
+                android:fontFamily="sans-serif-condensed" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/working_status_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingLeft="@dimen/working_status_container_padding_left_right"
-        android:paddingRight="@dimen/working_status_container_padding_left_right"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <View
-            android:id="@+id/working_status_light"
-            android:layout_width="@dimen/working_status_light_width_height"
-            android:layout_height="@dimen/working_status_light_width_height"
-            android:background="@drawable/working_status_light_background"/>
+        android:layout_weight="2"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/working_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/working_status_padding_left_right"
-            android:paddingRight="@dimen/working_status_padding_left_right"
-            android:textSize="@dimen/working_status_text_size"
-            android:textStyle="bold" />
+            android:textColor="@color/worker_item_text_black"
+            android:textSize="@dimen/worker_item_content_text_size"
+            android:text="@string/worker_item_next_task_text"/>
 
         <TextView
-            android:id="@+id/task_working_time"
+            android:id="@+id/worker_item_next_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/working_status_text_size" />
+            android:textColor="@color/worker_item_text_black"
+            android:textSize="@dimen/worker_item_content_text_size"
+            android:text="Iron template"/>
 
     </LinearLayout>
 

@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
@@ -26,6 +25,7 @@ import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseSpanSizeLookup;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
+import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class AssignTaskFragment extends Fragment implements
     private FragmentManager mFragmentManager;
 
     private Spinner mFactorySpinner;
-    private ArrayAdapter mFactorySpinnerAdapter;
+    private IconSpinnerAdapter mFactorySpinnerAdapter;
 
     private List<WorkerFragment> mWorkerPageList;
     private ViewPager mWorkerPager;
@@ -148,7 +148,7 @@ public class AssignTaskFragment extends Fragment implements
         mTaskCaseOnTouchListener = new TaskCaseOnTouchListener(mTaskCaseView);
 
         mGridLayoutManager =
-                new GridLayoutManager(mActivity, mActivity.getResources().getInteger(R.integer.task_list_column_count));
+                new GridLayoutManager(mActivity, mActivity.getResources().getInteger(R.integer.task_case_column_count));
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mGridLayoutManager.setSpanSizeLookup(new TaskCaseSpanSizeLookup(mGridLayoutManager));
 
@@ -160,7 +160,7 @@ public class AssignTaskFragment extends Fragment implements
 
     // TODO: Need to handle rotation
     private void initFactorySpinner() {
-        mFactorySpinnerAdapter = new ArrayAdapter(mActivity, R.layout.factory_spinner_item, mFactorySpinnerDatas);
+        mFactorySpinnerAdapter = new IconSpinnerAdapter(mActivity, R.layout.factory_spinner_item, mFactorySpinnerDatas);
         mFactorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         mFactorySpinner.setAdapter(mFactorySpinnerAdapter);
         mFactorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

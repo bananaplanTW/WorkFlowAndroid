@@ -28,7 +28,7 @@ public class TaskItemViewHolder extends RecyclerView.ViewHolder {
         view = v;
         title = (TextView) v.findViewById(R.id.task_title);
         statusContainer = (ViewGroup) v.findViewById(R.id.task_status_container);
-        workingTime = (TextView) v.findViewById(R.id.task_working_time);
+        workingTime = (TextView) v.findViewById(R.id.current_task_working_time);
         tool = (TextView) v.findViewById(R.id.task_tool);
         worker = (TextView) v.findViewById(R.id.task_worker);
         progress = (TextView) v.findViewById(R.id.task_progress);

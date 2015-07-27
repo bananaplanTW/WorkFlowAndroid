@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/task_working_time"
+                android:id="@+id/current_task_working_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/task_case_text_color"

@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <stroke
-        android:width="@dimen/worker_grid_view_item_stroke_width"
-        android:color="@color/worker_grid_view_item_stroke_color" />
+        android:width="@dimen/worker_item_stroke_width"
+        android:color="@color/worker_item_stroke_color" />
 
 </shape>

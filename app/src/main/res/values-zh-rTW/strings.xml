@@ -9,6 +9,8 @@
     <string name="task_progress_working">正常工作中</string>
     <string name="task_progress_pause">暫停</string>
     <string name="task_progress_finish">完成</string>
+    <string name="worker_action_start">全體動作</string>
+    <string name="worker_item_next_task_text">下個項目</string>
 
     <!-- CaseOverView fragment-->
     <string name="case_spinner_all_vendors">"全部廠商"</string>

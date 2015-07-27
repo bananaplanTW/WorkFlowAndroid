@@ -2,22 +2,19 @@ package com.bananaplan.workflowandroid.assigntask.workers;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem.WorkingStatus;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Fragment to show all workers' working status
@@ -32,8 +29,9 @@ public class WorkerFragment extends Fragment {
     private Activity mActivity;
     private View mFragmentView;
 
-    private GridView mWorkerGridView;
-    private WorkerGridAdapter mWorkerGridAdapter;
+    private RecyclerView mWorkerGridView;
+    private GridLayoutManager mGridLayoutManager;
+    private WorkerGridViewAdapter mWorkerGridViewAdapter;
 
     private ArrayList<WorkerItem> mWorkerDatas = new ArrayList<WorkerItem>();
 
@@ -63,12 +61,19 @@ public class WorkerFragment extends Fragment {
 
     private void findViews() {
         mFragmentView = getView();
-        mWorkerGridView = (GridView) mFragmentView.findViewById(R.id.worker_gridview);
+        mWorkerGridView = (RecyclerView) mFragmentView.findViewById(R.id.worker_gridview);
     }
 
     private void initWorkerGridView() {
-        mWorkerGridAdapter = new WorkerGridAdapter(mActivity, mWorkerGridView, R.layout.worker_item, mWorkerDatas);
-        mWorkerGridView.setAdapter(mWorkerGridAdapter);
+        mGridLayoutManager = new GridLayoutManager(
+                mActivity, mActivity.getResources().getInteger(R.integer.worker_gridview_column_count));
+        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mActivity, mWorkerGridView, mWorkerDatas);
+
+        mWorkerGridView.setLayoutManager(mGridLayoutManager);
+        mWorkerGridView.addItemDecoration(new WorkerItemDecoration(mActivity));
+        mWorkerGridView.setAdapter(mWorkerGridViewAdapter);
     }
 
 //    public void addWorker(WorkerItem workerItem) {

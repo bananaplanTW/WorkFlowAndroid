@@ -178,7 +178,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.statusContainer.setVisibility(View.GONE);
         }
 
-        // Task time
+        // Task working time
         holder.workingTime.setText(taskItem.getWorkingTime());
 
         // Tool
