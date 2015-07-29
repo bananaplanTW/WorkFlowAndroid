@@ -24,7 +24,7 @@
         android:id="@+id/case_spinner_view_tv_vendor_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textColor="#4a4a4a"
         android:layout_centerHorizontal="true"/>
 

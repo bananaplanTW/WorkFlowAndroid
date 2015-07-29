@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.caseoverview;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -82,6 +83,10 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private LinearLayout mStatisticsViewGroup;
 
     private TaskCase mSelectedTaskCase;
+    private View mBarChartView;
+    private View mToastView;
+    private RelativeLayout mRightPaneViewGroup;
+    private float mX;
 
     @Override
     public void onAttach(Activity activity) {
@@ -119,16 +124,19 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseHoursForecast = (TextView) getActivity().findViewById(R.id.case_tv_hours_forecast);
         mTvEditCase = (TextView) getActivity().findViewById(R.id.case_btn_edit_case);
         mStatisticsViewGroup = (LinearLayout) getActivity().findViewById(R.id.case_statistics_vg);
+        mRightPaneViewGroup = (RelativeLayout) getActivity().findViewById(R.id.case_right_pane);
 
         mTaskCaseListviewAdapter = new TaskCaseListViewAdapter(getActivity(), getTaskCases());
         mTaskCaseListView.setAdapter(mTaskCaseListviewAdapter);
         mTaskCaseListView.setOnItemClickListener(this);
+        mTaskItemListView.setOnItemClickListener(this);
 
         mTvEditCase.setOnClickListener(this);
 
         updateTaskItemHeaderView();
-        updateTaskItemListView();
-        updateWorkerItemListView();
+        if (mSelectedTaskCase != null) {
+            openCase();
+        }
     }
 
     private ArrayList<Vendor> getSpinnerVendorData() {
@@ -148,9 +156,6 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
                 cases.add(taskCase);
             }
         }
-        if (mSelectedTaskCase != null) {
-            openCase();
-        }
         return cases;
     }
 
@@ -166,7 +171,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
     private ArrayList<TaskItem> getTaskItems() {
         if (mSelectedTaskCase != null) {
-            return (ArrayList<TaskItem>) mSelectedTaskCase.taskItems;
+            return new ArrayList<TaskItem>(mSelectedTaskCase.taskItems);
         }
         return new ArrayList<TaskItem>();
     }
@@ -521,6 +526,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     }
 
     private void openCase() {
+        updateTaskItemListView();
+        updateWorkerItemListView();
+        updateStatisticsView();
         mTvCaseNameSelected.setText(mSelectedTaskCase.name);
         mTvCaseVendorSelected.setText(mWorkingData.getVendorById(mSelectedTaskCase.vendorId).name);
         if (mSelectedTaskCase.workerId > 0) {
@@ -530,24 +538,22 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseHoursUnfinished.setText(mSelectedTaskCase.getHoursUnFinished());
         mTvCaseHoursForecast.setText(mSelectedTaskCase.getHoursForecast());
         mPbCaseSelected.setProgress(mSelectedTaskCase.getFinishPercent());
-        updateTaskItemListView();
-        updateWorkerItemListView();
-        updateStatisticsView();
     }
 
     private void updateStatisticsView() {
+        genBarChart();
+        if (mBarChartView == null) return;
         mStatisticsViewGroup.removeAllViews();
-        mStatisticsViewGroup.addView(getBarChart(), new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        mStatisticsViewGroup.addView(mBarChartView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     }
 
-    private View getBarChart() {
+    private void genBarChart() {
         final String[] axis_x_string = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         final String[][] xy = new String[7][2];
         for (int i = 0; i < axis_x_string.length; i++) {
             xy[i][0] = axis_x_string[i];
             xy[i][1] = String.valueOf(((int) (Math.random() * 24 + 1)));
         }
-        View view = null;
         final XYSeries series = new XYSeries("");
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         dataset.addSeries(series);
@@ -593,24 +599,37 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         renderer.setClickEnabled(true);
         renderer.setPanEnabled(false);
         renderer.setShowLegend(false);
-        view = ChartFactory.getBarChartView(getActivity(), dataset, renderer, BarChart.Type.DEFAULT);
-        view.setOnClickListener(this);
-        view.setOnTouchListener(this);
-        return view;
+        mBarChartView = ChartFactory.getBarChartView(getActivity(), dataset, renderer, BarChart.Type.DEFAULT);
+        mBarChartView.setOnClickListener(this);
+        mBarChartView.setOnTouchListener(this);
     }
 
     private void updateTaskItemListView() {
-        mTaskItemListViewAdapter = new TaskItemListViewAdapter(getActivity(), getTaskItems());
-        mTaskItemListView.setAdapter(mTaskItemListViewAdapter);
-        if (getTaskItems().size() > 0) {
-            ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
-            params.height = (int) (getTaskItems().size() * getResources().getDimension(R.dimen.case_overview_taskitem_listview_item_height));
+        ArrayList<TaskItem> items = getTaskItems();
+        if (mTaskItemListViewAdapter == null) {
+            mTaskItemListViewAdapter = new TaskItemListViewAdapter(getActivity(), items);
+            mTaskItemListView.setAdapter(mTaskItemListViewAdapter);
+        } else {
+            mTaskItemListViewAdapter.clear();
+            mTaskItemListViewAdapter.addAll(items);
         }
+        if (items.size() > 0) {
+            ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
+            params.height = (int) (items.size() * getResources().getDimension(R.dimen.case_overview_taskitem_listview_item_height));
+        }
+        mTaskItemListViewAdapter.notifyDataSetChanged();
     }
 
     private void updateWorkerItemListView() {
-        mWorkerItemListViewAdapter = new WorkerItemListViewAdapter(getActivity(), getWorkerItems());
-        mWorkerListView.setAdapter(mWorkerItemListViewAdapter);
+        ArrayList<WorkerItem> workers = getWorkerItems();
+        if (mWorkerItemListViewAdapter == null) {
+            mWorkerItemListViewAdapter = new WorkerItemListViewAdapter(getActivity(), workers);
+            mWorkerListView.setAdapter(mWorkerItemListViewAdapter);
+        } else {
+            mWorkerItemListViewAdapter.clear();
+            mWorkerItemListViewAdapter.addAll(workers);
+        }
+        mWorkerItemListViewAdapter.notifyDataSetChanged();
     }
 
     private void updateTaskItemHeaderView() {
@@ -640,9 +659,11 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == mTaskCaseListView.getId()) {
             mSelectedTaskCase = mTaskCaseListviewAdapter.getItem(position);
-            openCase();
             mTaskCaseListviewAdapter.setPositionSelected(position);
             mTaskCaseListviewAdapter.notifyDataSetChanged();
+            openCase();
+        } else if (parent.getId() == mTaskItemListView.getId()) {
+            // TODO
         }
     }
 
@@ -659,10 +680,33 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             default:
                 break;
         }
+        if (v.getId() == mBarChartView.getId()) {
+            GraphicalView gView = null;
+            try {
+                gView = (GraphicalView) v;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (gView == null) return;
+            SeriesSelection currentSelection = gView.getCurrentSeriesAndPoint();
+            if (currentSelection == null) return;
+            // TODO
+        }
+    }
+
+    private View getToastView() {
+        if (mToastView == null) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            mToastView = inflater.inflate(R.layout.toast, null);
+        }
+        return mToastView;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (v.getId() == mBarChartView.getId()) {
+            // TODO
+        }
         return false;
     }
 }
