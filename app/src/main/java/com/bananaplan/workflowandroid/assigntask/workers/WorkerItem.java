@@ -12,18 +12,21 @@ import java.util.ArrayList;
  */
 public class WorkerItem {
 
+    // TODO: Delete
     public static final class WorkingStatus {
         public static final int NORMAL = 0;
         public static final int DELAY = 1;
     }
 
     public long id;
+    public String task; // TODO: Delete
     public String name;
     public String title;
     public Drawable avatar;
     public long factoryId;
     public ArrayList<TaskItem> taskItems;
-    public String task;
+    public TaskItem currentTaskItem;
+
 
     public WorkerItem(long id, String name, String title) {
         this(id, name, title, new ArrayList<TaskItem>());
@@ -36,10 +39,12 @@ public class WorkerItem {
         this.taskItems = taskItems;
     }
 
+    // TODO: Delete
     public int getStatus() {
         return WorkingStatus.NORMAL;
     }
 
+    // TODO: Delete
     public String getTime() {
         return "6:33:11";
     }

@@ -6,7 +6,7 @@ package com.bananaplan.workflowandroid.assigntask.workers;
 public class Tool {
     public long id;
     public String name;
-    public long workerId;
+    public WorkerItem worker;
 
     public Tool(long id, String name) {
         this.id = id;

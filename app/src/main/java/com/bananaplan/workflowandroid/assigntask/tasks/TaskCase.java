@@ -16,7 +16,7 @@ public class TaskCase {
     public long vendorId;
     public long workerId;
     public List<TaskItem> taskItems;
-    public int finishPercent;
+    public int finishPercent; // TODO: Delete
 
     public TaskCase(int id, String name) {
         this(id, name, new ArrayList<TaskItem>());
@@ -27,21 +27,25 @@ public class TaskCase {
         this.name = name;
         this.vendorId = -1;
         this.taskItems = taskItems;
-        this.finishPercent = (int) (Math.random() * 100 + 1);
+        this.finishPercent = (int) (Math.random() * 100 + 1); // TODO: Delete
     }
 
+    // Calaulate by taskitems
     public int getFinishPercent() {
         return  this.finishPercent; // TODO
     }
 
+    // Calaulate by taskitems
     public String getHoursPassedBy() {
         return "32 : 12 : 16"; // TODO
     }
 
+    // Calaulate by taskitems
     public String getHoursUnFinished() {
         return "12 : 12 : 46"; // TODO
     }
 
+    // Calaulate by taskitems
     public String getHoursForecast() {
         return "01 : 12 : 22"; // TODO
     }

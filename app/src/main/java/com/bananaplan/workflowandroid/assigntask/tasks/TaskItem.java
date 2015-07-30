@@ -9,11 +9,14 @@ package com.bananaplan.workflowandroid.assigntask.tasks;
  */
 public class TaskItem {
 
+    // TODO: ArrayList<Warning> warningList;
     public static final class Status {
         public static final int NORMAL = 0;
         public static final int WARNING = 1;
     }
 
+    // TODO: Progress -> Status
+    // TODO: enum
     public static final class Progress {
         public static final int IN_SCHEDULE = 0;
         public static final int NOT_START = 1;
@@ -27,8 +30,8 @@ public class TaskItem {
     public long taskCaseId;
     public long workerId;
     public long toolId;
-    public int progress;
-    public int status;
+    public int progress; // TODO: 改Status
+    public int status; //TODO: Delete
 
     public TaskItem(long id, String title) {
         this.id = id;
@@ -37,10 +40,12 @@ public class TaskItem {
         this.status = (int) (Math.random() * 2);
     }
 
+    // TODO: warningList
     public int getStatus() {
         return this.status;
     }
 
+    // TODO: Status
     public int getProgress() {
         return this.progress;
     }
@@ -53,6 +58,7 @@ public class TaskItem {
         return "11 : 00";
     }
 
+    // TODO: delete
     public String getWorningText() {
         return "Sand holes";
     }
