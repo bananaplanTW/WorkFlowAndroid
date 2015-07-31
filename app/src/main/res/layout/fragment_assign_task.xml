@@ -11,6 +11,11 @@
         android:scrollbars="vertical"
         android:background="@drawable/common_block_background"/>
 
+    <View
+        android:layout_width="@dimen/assign_task_divider_height"
+        android:layout_height="match_parent"
+        android:background="@color/main_window_divider_color" />
+
     <RelativeLayout
         android:id="@+id/worker_container"
         android:layout_width="0dp"
@@ -23,11 +28,18 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"/>
 
+        <View
+            android:id="@+id/worker_container_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/assign_task_divider_height"
+            android:layout_below="@+id/factory_spinner"
+            android:background="@color/main_window_divider_color" />
+
         <android.support.v4.view.ViewPager
             android:id="@+id/worker_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/factory_spinner"
+            android:layout_below="@+id/worker_container_divider"
             android:layout_above="@+id/worker_pager_indicator_container"/>
 
         <LinearLayout

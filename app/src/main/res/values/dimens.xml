@@ -4,7 +4,7 @@
     <dimen name="drawer_menu_container_width">240dp</dimen>
 
     <!-- AssignTaskFragment: Tasks part -->
-    <dimen name="task_case_view_divider_height">5dp</dimen>
+    <dimen name="assign_task_divider_height">5dp</dimen>
     <dimen name="task_case_spinner_padding">15dp</dimen>
     <dimen name="task_case_spinner_item_text_size">18dp</dimen>
     <dimen name="task_case_information_height">120dp</dimen>
