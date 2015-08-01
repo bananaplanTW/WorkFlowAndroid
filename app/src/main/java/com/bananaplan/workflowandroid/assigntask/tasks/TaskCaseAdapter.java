@@ -104,9 +104,24 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         bindTaskCaseInformation(holder);
     }
 
+    private class TaskCaseSpinnerAdapter extends IconSpinnerAdapter<String> {
+        public TaskCaseSpinnerAdapter(Context context, int resource, String[] objects) {
+            super(context, resource, objects);
+        }
+
+        @Override
+        public String getSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
+
+        @Override
+        public int getSpinnerIconResourceId() {
+            return R.drawable.case_spinner_icon;
+        }
+    }
+
     private void bindTaskCaseSpinner(TaskCaseHeaderViewHolder holder) {
-        mTaskCaseSpinnerAdapter = new IconSpinnerAdapter(mContext, R.layout.icon_spinner_item, mTaskCaseTitles);
-        mTaskCaseSpinnerAdapter.setSpinnerIcon(R.drawable.case_spinner_icon);
+        mTaskCaseSpinnerAdapter = new TaskCaseSpinnerAdapter(mContext, R.layout.icon_spinner_item, mTaskCaseTitles);
         mTaskCaseSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         holder.taskCaseSpinner.setAdapter(mTaskCaseSpinnerAdapter);
         holder.taskCaseSpinner.setSelection(mSelectedTaskCasePosition);

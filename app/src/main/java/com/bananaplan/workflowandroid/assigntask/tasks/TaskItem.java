@@ -30,7 +30,7 @@ public class TaskItem {
     public long taskCaseId;
     public long workerId;
     public long toolId;
-    public int progress; // TODO: 改Status
+    public int progress; // TODO: rename to status
     public int status; //TODO: Delete
 
     public TaskItem(long id, String title) {
@@ -51,7 +51,7 @@ public class TaskItem {
     }
 
     public String getWorkingTime() {
-        return "11 : 00 : 00";
+        return "11 : 00";
     }
 
     public String getExpectedFinishTime() {

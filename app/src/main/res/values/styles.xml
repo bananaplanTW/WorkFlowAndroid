@@ -13,6 +13,7 @@
         <item name="drawerArrowStyle">@style/BaseAppTheme.DrawerArrowStyle</item>
         <item name="android:windowBackground">@color/main_window_background_color</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:dropDownListViewStyle">@style/CommonSpinnerStyle</item>
     </style>
 
     <style name="BaseAppThemeOverlay.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
@@ -54,11 +55,12 @@
         <item name="android:paddingRight">@dimen/task_item_padding</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-
     <style name="CommonSpinnerStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@null</item>
+        <item name="android:divider">#979797</item>
+        <item name="android:dividerHeight">1dp</item>
     </style>
 
 </resources>

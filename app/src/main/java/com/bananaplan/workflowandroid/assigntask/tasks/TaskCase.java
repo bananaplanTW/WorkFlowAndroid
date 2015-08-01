@@ -37,16 +37,16 @@ public class TaskCase {
 
     // Calaulate by taskitems
     public String getHoursPassedBy() {
-        return "32 : 12 : 16"; // TODO
+        return "32 : 12"; // TODO
     }
 
     // Calaulate by taskitems
     public String getHoursUnFinished() {
-        return "12 : 12 : 46"; // TODO
+        return "12 : 12"; // TODO
     }
 
     // Calaulate by taskitems
     public String getHoursForecast() {
-        return "01 : 12 : 22"; // TODO
+        return "01 : 12"; // TODO
     }
 }

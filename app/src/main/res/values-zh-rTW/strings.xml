@@ -17,6 +17,7 @@
     <string name="case_vendor_selected">"委託廠商"</string>
     <string name="case_person_in_charge_selected">"案件負責人"</string>
     <string name="case_percent_selected">"案件進度"</string>
+    <string name="case_task_count_in_process">"現正進行項目數"</string>
     <string name="case_hours_passed_by">"已經進行時數"</string>
     <string name="case_hours_unfinished">"尚未完成時數"</string>
     <string name="case_hours_forecast">"預計延遲/提早時數"</string>
@@ -31,5 +32,15 @@
     <string name="case_overview_listview_taskitem_header_tool">"使用機器"</string>
     <string name="case_overview_listview_taskitem_header_warning">"警訊"</string>
     <string name="case_overview_listview_taskitem_header_worker">"負責人"</string>
+    <string name="case_overview_statistics_total_hours">"完成時數 <b>%d</b> 小時"</string>
+    <string-array name="week">
+        <item>"一"</item>
+        <item>"二"</item>
+        <item>"三"</item>
+        <item>"四"</item>
+        <item>"五"</item>
+        <item>"六"</item>
+        <item>"日"</item>
+    </string-array>
 
 </resources>

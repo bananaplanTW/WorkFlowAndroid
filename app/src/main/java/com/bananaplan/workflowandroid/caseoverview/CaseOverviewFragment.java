@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.caseoverview;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +36,7 @@ import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.main.Utils;
+import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -60,12 +61,12 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private WorkingData mWorkingData;
 
     // views in left pane
-    private Spinner mSpinner;
+    private Spinner mVendorSpinner;
     private EditText mEtCaseSearch;
     private ListView mTaskCaseListView;
     private ListView mTaskItemListView;
 
-    private SpinnerAdapter mSpinnerAdapter;
+    private VendorSpinnerAdapter mVendorSpinnerAdapter;
     private TaskCaseListViewAdapter mTaskCaseListviewAdapter;
     private TaskItemListViewAdapter mTaskItemListViewAdapter;
     private WorkerItemListViewAdapter mWorkerItemListViewAdapter;
@@ -81,10 +82,13 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private TextView mTvEditCase;
     private HListView mWorkerListView;
     private LinearLayout mStatisticsViewGroup;
+    private LinearLayout mWeekPickerViewGroup;
 
     private TaskCase mSelectedTaskCase;
     private View mBarChartView;
     private View mToastView;
+    private TextView mTvTaskItemCount;
+    private TextView mTvTotalHoursPerWeek;
     private RelativeLayout mRightPaneViewGroup;
     private float mX;
 
@@ -103,16 +107,16 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSpinner = (Spinner) getActivity().findViewById(R.id.case_spinner);
+        mVendorSpinner = (Spinner) getActivity().findViewById(R.id.case_spinner);
         mEtCaseSearch = (EditText) getActivity().findViewById(R.id.case_et_search);
         mTaskCaseListView = (ListView) getActivity().findViewById(R.id.case_listview);
         mTaskItemListView = (ListView) getActivity().findViewById(R.id.case_listview_task_item);
         mWorkerListView = (HListView) getActivity().findViewById(R.id.case_workers_listview);
 
         mEtCaseSearch.addTextChangedListener(this);
-        mSpinnerAdapter = new SpinnerAdapter(getActivity(), R.layout.case_spinner_view, getSpinnerVendorData());
-        mSpinner.setAdapter(mSpinnerAdapter);
-        mSpinner.setOnItemSelectedListener(this);
+        mVendorSpinnerAdapter = new VendorSpinnerAdapter(getActivity(), R.layout.case_spinner_view, getSpinnerVendorData());
+        mVendorSpinner.setAdapter(mVendorSpinnerAdapter);
+        mVendorSpinner.setOnItemSelectedListener(this);
 
         // right pane
         mTvCaseNameSelected = (TextView) getActivity().findViewById(R.id.case_tv_case_name_selected);
@@ -125,6 +129,10 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvEditCase = (TextView) getActivity().findViewById(R.id.case_btn_edit_case);
         mStatisticsViewGroup = (LinearLayout) getActivity().findViewById(R.id.case_statistics_vg);
         mRightPaneViewGroup = (RelativeLayout) getActivity().findViewById(R.id.case_right_pane);
+        mTvTaskItemCount = (TextView) getActivity().findViewById(R.id.case_tv_task_item_count);
+        mTvTotalHoursPerWeek = (TextView) getActivity().findViewById(R.id.case_statistics_total_hours_per_week);
+        mWeekPickerViewGroup = (LinearLayout) getActivity().findViewById(R.id.statistics_choose_vg);
+        mWeekPickerViewGroup.setOnClickListener(this);
 
         mTaskCaseListviewAdapter = new TaskCaseListViewAdapter(getActivity(), getTaskCases());
         mTaskCaseListView.setAdapter(mTaskCaseListviewAdapter);
@@ -176,12 +184,10 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         return new ArrayList<TaskItem>();
     }
 
-    private class SpinnerAdapter extends ArrayAdapter<Vendor> {
-        private LayoutInflater mInflater;
+    private class VendorSpinnerAdapter extends IconSpinnerAdapter<Vendor> {
 
-        public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<Vendor> objects) {
+        public VendorSpinnerAdapter(Context context, int textViewResourceId, ArrayList<Vendor> objects) {
             super(context, textViewResourceId, objects);
-            mInflater = getActivity().getLayoutInflater();
         }
 
         @Override
@@ -190,51 +196,46 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            SpinnerViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.case_spinner_view, null);
-                holder = new SpinnerViewHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (SpinnerViewHolder) convertView.getTag();
-            }
-            holder.tvSpinnerVendor.setText(getItem(position).name);
-            return convertView;
+        public Vendor getItem(int position) {
+            return (Vendor) super.getItem(position);
         }
 
         @Override
-        public Vendor getItem(int position) {
-            return super.getItem(position);
+        public String getSpinnerViewDisplayString(int position) {
+            return getItem(position).name;
+        }
+
+        @Override
+        public int getSpinnerIconResourceId() {
+            return R.drawable.ic_work_black;
         }
 
         @Override
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
             SpinnerDropdownViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.case_spinner_dropdown_view, null);
+                convertView = getLayoutInflater().inflate(R.layout.case_spinner_dropdown_view, null);
                 holder = new SpinnerDropdownViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (SpinnerDropdownViewHolder) convertView.getTag();
             }
             holder.tvDropdownSpinnerVendorName.setText(getItem(position).name);
+            if (mVendorSpinner.getSelectedItemId() == getItem(position).id) {
+                holder.ivDropdownSpinnerSelected.setVisibility(View.VISIBLE);
+            } else {
+                holder.ivDropdownSpinnerSelected.setVisibility(View.GONE);
+            }
             return convertView;
         }
 
         private class SpinnerDropdownViewHolder {
-            private TextView tvDropdownSpinnerVendorName;
+            TextView tvDropdownSpinnerVendorName;
+            ImageView ivDropdownSpinnerSelected;
 
             public SpinnerDropdownViewHolder(View v) {
                 this.tvDropdownSpinnerVendorName = (TextView) v.findViewById(R.id.case_spinner_dropdown_view_tv_vendor_name);
-            }
-        }
-
-        private class SpinnerViewHolder {
-            private TextView tvSpinnerVendor;
-
-            public SpinnerViewHolder(View v) {
-                this.tvSpinnerVendor = (TextView) v.findViewById(R.id.case_spinner_view_tv_vendor_name);
+                this.ivDropdownSpinnerSelected = (ImageView) v.findViewById(R.id.spinner_dropdown_iv_selected);
             }
         }
     }
@@ -258,7 +259,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
                 holder = (ViewHolder) convertView.getTag();
             }
             WorkerItem worker = getItem(position);
-            holder.avator.setImageDrawable(worker.avatar);
+            holder.avator.setImageDrawable(worker.getAvator());
             return convertView;
         }
 
@@ -326,12 +327,8 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             if (taskItem.workerId > 0) {
                 WorkerItem worker = mWorkingData.getWorkerItemById(taskItem.workerId);
                 holder.tvWorkerName.setText(worker.name);
-                if (worker.avatar != null) {
-                    holder.ivWorkerAvator.setVisibility(View.VISIBLE);
-                } else {
-                    holder.ivWorkerAvator.setVisibility(View.GONE);
-                }
-                holder.ivWorkerAvator.setImageDrawable(worker.avatar);
+                holder.ivWorkerAvator.setVisibility(View.VISIBLE);
+                holder.ivWorkerAvator.setImageDrawable(worker.getAvator());
             } else {
                 holder.tvWorkerName.setText("");
                 holder.ivWorkerAvator.setImageDrawable(null);
@@ -480,7 +477,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
                 ArrayList<TaskCase> filterResult = new ArrayList<TaskCase>();
                 for (TaskCase taskCase: mOrigCases) {
                     if ((TextUtils.isEmpty(constraint) || taskCase.name.toLowerCase().contains(constraint))
-                            && (mSpinner.getSelectedItemId() == -1 || taskCase.vendorId == mSpinner.getSelectedItemId())) {
+                            && (mVendorSpinner.getSelectedItemId() == -1 || taskCase.vendorId == mVendorSpinner.getSelectedItemId())) {
                         filterResult.add(taskCase);
                     }
                 }
@@ -520,7 +517,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == mSpinner.getId()) {
+        if (parent.getId() == mVendorSpinner.getId()) {
             mTaskCaseListviewAdapter.getFilter().filter(mEtCaseSearch.getText().toString());
         }
     }
@@ -538,17 +535,22 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseHoursUnfinished.setText(mSelectedTaskCase.getHoursUnFinished());
         mTvCaseHoursForecast.setText(mSelectedTaskCase.getHoursForecast());
         mPbCaseSelected.setProgress(mSelectedTaskCase.getFinishPercent());
+        mTvTaskItemCount.setText(String.valueOf(mSelectedTaskCase.taskItems.size()));
     }
 
     private void updateStatisticsView() {
         genBarChart();
         if (mBarChartView == null) return;
         mStatisticsViewGroup.removeAllViews();
-        mStatisticsViewGroup.addView(mBarChartView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        mStatisticsViewGroup.addView(mBarChartView,
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+        mTvTotalHoursPerWeek.setText(getResources().getString(R.string.case_overview_statistics_total_hours, 23));
     }
 
     private void genBarChart() {
-        final String[] axis_x_string = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        final String[] axis_x_string = getResources().getStringArray(R.array.week);
         final String[][] xy = new String[7][2];
         for (int i = 0; i < axis_x_string.length; i++) {
             xy[i][0] = axis_x_string[i];
@@ -676,6 +678,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         switch (v.getId()) {
             case R.id.case_btn_edit_case:
                 editTaskCase();
+                break;
+            case R.id.statistics_choose_vg:
+                // TODO
                 break;
             default:
                 break;

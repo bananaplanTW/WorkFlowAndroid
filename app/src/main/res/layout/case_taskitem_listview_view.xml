@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="41.7dp"
+        android:layout_width="42dp"
         android:layout_height="match_parent"
         android:gravity="center">
         <TextView
@@ -24,7 +24,7 @@
         android:id="@+id/listview_taskitem_divider"/>
 
     <LinearLayout
-        android:layout_width="100dp"
+        android:layout_width="109dp"
         android:layout_height="match_parent"
         android:gravity="center">
         <TextView
@@ -44,7 +44,7 @@
         android:id="@+id/listview_taskitem_divider"/>
 
     <LinearLayout
-        android:layout_width="119dp"
+        android:layout_width="115dp"
         android:layout_height="match_parent"
         android:gravity="center">
         <TextView
@@ -63,7 +63,7 @@
         android:id="@+id/listview_taskitem_divider"/>
 
     <LinearLayout
-        android:layout_width="86dp"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:gravity="center">
         <TextView
@@ -82,7 +82,7 @@
         android:id="@+id/listview_taskitem_divider"/>
 
     <LinearLayout
-        android:layout_width="115dp"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:gravity="center">
         <TextView
@@ -101,7 +101,7 @@
         android:id="@+id/listview_taskitem_divider"/>
 
     <LinearLayout
-        android:layout_width="105dp"
+        android:layout_width="110dp"
         android:layout_height="match_parent"
         android:gravity="center">
         <TextView
@@ -110,26 +110,6 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text="@string/case_overview_listview_taskitem_header_tool"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#e1e1e1"
-        android:visibility="invisible"
-        android:id="@+id/listview_taskitem_divider"/>
-
-    <LinearLayout
-        android:layout_width="89dp"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/taskitem_listview_warning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textSize="14sp"
-            android:text="@string/case_overview_listview_taskitem_header_warning"/>
     </LinearLayout>
 
     <View
@@ -155,7 +135,7 @@
             android:layout_centerHorizontal="true"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="112dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
@@ -173,8 +153,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:singleLine="true"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:visibility="invisible"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/taskitem_listview_warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:text="@string/case_overview_listview_taskitem_header_warning"/>
     </RelativeLayout>
 
 </LinearLayout>

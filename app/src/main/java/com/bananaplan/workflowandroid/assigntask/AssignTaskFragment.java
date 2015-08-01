@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.assigntask;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -158,9 +159,25 @@ public class AssignTaskFragment extends Fragment implements
         mTaskCaseView.setAdapter(mTaskCaseAdapter);
     }
 
+    private class FactorySpinnerAdapter extends IconSpinnerAdapter<String> {
+        public FactorySpinnerAdapter(Context context, int resource, String[] objects) {
+            super(context, resource, objects);
+        }
+
+        @Override
+        public String getSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
+
+        @Override
+        public int getSpinnerIconResourceId() {
+            return R.drawable.case_spinner_icon;
+        }
+    }
+
     // TODO: Need to handle rotation
     private void initFactorySpinner() {
-        mFactorySpinnerAdapter = new IconSpinnerAdapter(mActivity, R.layout.factory_spinner_item, mFactorySpinnerDatas);
+        mFactorySpinnerAdapter = new FactorySpinnerAdapter(mActivity, R.layout.factory_spinner_item, mFactorySpinnerDatas);
         mFactorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         mFactorySpinner.setAdapter(mFactorySpinnerAdapter);
         mFactorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

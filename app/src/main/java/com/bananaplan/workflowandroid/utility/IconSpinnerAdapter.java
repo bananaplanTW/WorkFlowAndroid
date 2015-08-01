@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 
 /**
  * Template of spinner style
@@ -20,11 +23,9 @@ import com.bananaplan.workflowandroid.R;
  * @author Danny Lin
  * @since 2015/7/24.
  */
-public class IconSpinnerAdapter extends ArrayAdapter<String> {
+public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
 
     private LayoutInflater mLayoutInflater;
-    private int mSpinnerIconResourceId = -1;
-
 
     private class ItemViewHolder {
 
@@ -35,20 +36,18 @@ public class IconSpinnerAdapter extends ArrayAdapter<String> {
         public ItemViewHolder(View v) {
             spinnerIcon = (ImageView) v.findViewById(R.id.spinner_icon);
             spinnerText = (TextView) v.findViewById(R.id.spinner_text);
-
-            if (mSpinnerIconResourceId != -1) {
-                spinnerIcon.setImageResource(mSpinnerIconResourceId);
-            }
+            spinnerIcon.setImageResource(getSpinnerIconResourceId());
         }
     }
 
-    public IconSpinnerAdapter(Context context, int resource, String[] objects) {
+    public IconSpinnerAdapter(Context context, int resource, ArrayList<T> objects) {
         super(context, resource, objects);
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public void setSpinnerIcon(int resourceId) {
-        mSpinnerIconResourceId = resourceId;
+    public IconSpinnerAdapter(Context context, int resource, T[] objects) {
+        super(context, resource, objects);
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -64,8 +63,15 @@ public class IconSpinnerAdapter extends ArrayAdapter<String> {
             holder = (ItemViewHolder) view.getTag();
         }
 
-        holder.spinnerText.setText(getItem(position));
+        holder.spinnerText.setText(getSpinnerViewDisplayString(position));
 
         return view;
+    }
+
+    public abstract String getSpinnerViewDisplayString(int position);
+    public abstract int getSpinnerIconResourceId();
+
+    public LayoutInflater getLayoutInflater() {
+        return mLayoutInflater;
     }
 }

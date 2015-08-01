@@ -24,6 +24,7 @@
     <string name="case_vendor_selected">"Principal manufacturers"</string>
     <string name="case_person_in_charge_selected">"Case officer"</string>
     <string name="case_percent_selected">"Case progress"</string>
+    <string name="case_task_count_in_process">"Task count int process"</string>
     <string name="case_hours_passed_by">"Hours passed by"</string>
     <string name="case_hours_unfinished">"Hours not yet completed"</string>
     <string name="case_hours_forecast">"Expect delays/early hours"</string>
@@ -38,5 +39,15 @@
     <string name="case_overview_listview_taskitem_header_tool">"Tool"</string>
     <string name="case_overview_listview_taskitem_header_warning">"Warning"</string>
     <string name="case_overview_listview_taskitem_header_worker">"Duty"</string>
+    <string name="case_overview_statistics_total_hours">"Total hours finished: <b>%d</b> hours"</string>
+    <string-array name="week">
+        <item>"Mon"</item>
+        <item>"Tue"</item>
+        <item>"Wed"</item>
+        <item>"Thu"</item>
+        <item>"Fri"</item>
+        <item>"Sat"</item>
+        <item>"Sun"</item>
+    </string-array>
 
 </resources>

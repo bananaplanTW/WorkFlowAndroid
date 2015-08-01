@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.assigntask;
 
 import android.content.Context;
 
+import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
@@ -28,6 +29,7 @@ public class WorkingData {
 
     public WorkingData(Context context) {
         this.mContext = context;
+        WorkerItem.sDefaultAvatarDrawable = mContext.getDrawable(R.drawable.ic_person_black);
     }
 
     public ArrayList<Factory> getFactories() {
@@ -68,7 +70,6 @@ public class WorkingData {
                 WorkerItem workItem = new WorkerItem(j, "Worker" + j, "WorkerItemTitle" + j);
                 workItem.factoryId = factory.id;
                 factory.workerItems.add(workItem);
-                workItem.avatar = mContext.getResources().getDrawable(android.R.drawable.ic_lock_lock);
                 mWorkersMap.put(workItem.id, workItem);
             }
         }

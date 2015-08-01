@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="52dp"
+    android:minWidth="231dp">
 
     <TextView
         android:id="@+id/case_spinner_dropdown_view_tv_vendor_name"
         android:layout_width="wrap_content"
-        android:textSize="22sp"
-        android:textColor="#000000"
-        android:layout_height="@dimen/case_overview_taskcase_listview_item_height" />
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#4a4a4a"
+        android:singleLine="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/spinner_dropdown_iv_selected"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_done_black"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:padding="3dp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

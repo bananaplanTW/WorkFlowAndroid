@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @since 2015/6/27.
  */
 public class WorkerItem {
+    public static Drawable sDefaultAvatarDrawable;
 
     // TODO: Delete
     public static final class WorkingStatus {
@@ -37,6 +38,13 @@ public class WorkerItem {
         this.name = name;
         this.title = title;
         this.taskItems = taskItems;
+    }
+
+    public Drawable getAvator() {
+        if (this.avatar != null) {
+            return this.avatar;
+        }
+        return sDefaultAvatarDrawable;
     }
 
     // TODO: Delete
