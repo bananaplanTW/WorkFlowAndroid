@@ -92,7 +92,7 @@ public class TaskCaseOnTouchListener implements View.OnTouchListener {
         int itemPosition = mRecyclerView.getChildAdapterPosition(mDownView);
 
         // Pass task content(type: string)
-        String passData = ((TaskCaseAdapter) mRecyclerView.getAdapter()).getItem(itemPosition).title;
+        String passData = String.valueOf(((TaskCaseAdapter) mRecyclerView.getAdapter()).getItem(itemPosition).id);
         ClipData.Item item = new ClipData.Item(passData);
         ClipData dragData = new ClipData(passData,
                 new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},

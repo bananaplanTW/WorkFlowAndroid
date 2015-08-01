@@ -21,9 +21,9 @@
     <dimen name="task_item_boundary_margin">23dp</dimen>
     <dimen name="task_item_padding">10dp</dimen>
     <dimen name="task_item_corner_radius">5dp</dimen>
-    <dimen name="task_item_status_corner_radius">8dp</dimen>
-    <dimen name="task_item_status_padding_top_bottom">2dp</dimen>
-    <dimen name="task_item_status_padding_left_right">10dp</dimen>
+    <dimen name="task_item_warning_corner_radius">8dp</dimen>
+    <dimen name="task_item_warning_padding_top_bottom">2dp</dimen>
+    <dimen name="task_item_warning_padding_left_right">10dp</dimen>
     <dimen name="task_item_title_text_size">18dp</dimen>
     <dimen name="task_item_content_text_size">13dp</dimen>
 

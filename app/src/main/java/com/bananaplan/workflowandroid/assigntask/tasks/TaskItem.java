@@ -1,6 +1,8 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
 
+import java.util.ArrayList;
+
 /**
  * Data in a task item
  *
@@ -9,47 +11,25 @@ package com.bananaplan.workflowandroid.assigntask.tasks;
  */
 public class TaskItem {
 
-    // TODO: ArrayList<Warning> warningList;
-    public static final class Status {
-        public static final int NORMAL = 0;
-        public static final int WARNING = 1;
-    }
-
-    // TODO: Progress -> Status
-    // TODO: enum
-    public static final class Progress {
-        public static final int IN_SCHEDULE = 0;
-        public static final int NOT_START = 1;
-        public static final int WORKING = 2;
-        public static final int PAUSE = 3;
-        public static final int FINISH = 4;
+    public enum Status {
+        IN_SCHEDULE, NOT_START, WORKING, PAUSE, FINISH
     }
 
     public long id;
     public String title;
+    public ArrayList<Warning> warningList = new ArrayList<Warning>();
     public long taskCaseId;
     public long workerId;
     public long toolId;
-    public int progress; // TODO: rename to status
-    public int status; //TODO: Delete
+    public Status status = Status.NOT_START;
+
 
     public TaskItem(long id, String title) {
         this.id = id;
         this.title = title;
-        this.progress = (int) (Math.random() * 4);
-        this.status = (int) (Math.random() * 2);
     }
 
-    // TODO: warningList
-    public int getStatus() {
-        return this.status;
-    }
-
-    // TODO: Status
-    public int getProgress() {
-        return this.progress;
-    }
-
+    // TODO: Get this information from server
     public String getWorkingTime() {
         return "11 : 00";
     }
@@ -58,16 +38,18 @@ public class TaskItem {
         return "11 : 00";
     }
 
-    // TODO: delete
-    public String getWorningText() {
-        return "Sand holes";
+    // TODO: Get this information from server
+    public String getExpectedFinishedTime() {
+        return "11:00";
     }
 
+    // TODO: Map to tool id
     public String getToolName() { // use for test
         return "CNC";
     }
 
-    public String getWorkerItemName() { // use for test
+    // TODO: Map to worker id
+    public String getWorkerName() { // use for test
         return "Danny Lin";
     }
 }

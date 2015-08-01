@@ -6,6 +6,7 @@ import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 
 import java.util.ArrayList;
 
+
 /**
  * @author Danny Lin
  * @since 2015/6/27.
@@ -13,22 +14,16 @@ import java.util.ArrayList;
 public class WorkerItem {
     public static Drawable sDefaultAvatarDrawable;
 
-    // TODO: Delete
-    public static final class WorkingStatus {
-        public static final int NORMAL = 0;
-        public static final int DELAY = 1;
-    }
-
     public long id;
-    public String task; // TODO: Delete
+    public long factoryId;
     public String name;
     public String title;
     public Drawable avatar;
-    public long factoryId;
-    public ArrayList<TaskItem> taskItems;
     public TaskItem currentTaskItem;
+    public ArrayList<TaskItem> taskItems;
     public String address;
     public String phone;
+
 
     public WorkerItem(long id, String name, String title) {
         this(id, name, title, new ArrayList<TaskItem>());
@@ -48,13 +43,7 @@ public class WorkerItem {
         return sDefaultAvatarDrawable;
     }
 
-    // TODO: Delete
-    public int getStatus() {
-        return WorkingStatus.NORMAL;
-    }
-
-    // TODO: Delete
-    public String getTime() {
-        return "6:33:11";
+    public boolean hasCurrentTaskItem() {
+        return currentTaskItem != null;
     }
 }

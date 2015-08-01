@@ -19,13 +19,13 @@ import android.widget.Spinner;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseItemDecoration;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseOnTouchListener;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseSpanSizeLookup;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
+import com.bananaplan.workflowandroid.main.WorkingData;
 import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
 
 import java.util.ArrayList;
@@ -50,28 +50,51 @@ public class AssignTaskFragment extends Fragment implements
 
     private Spinner mFactorySpinner;
     private IconSpinnerAdapter mFactorySpinnerAdapter;
+    private ArrayList<String> mFactorySpinnerDatas = new ArrayList<String>();
 
     private List<WorkerFragment> mWorkerPageList;
     private ViewPager mWorkerPager;
     private WorkerPagerAdapter mWorkerPagerAdapter;
     private int mMaxWorkerCountInPage;
     private int mPreviousPagerIndex = 0;
-
     private ViewGroup mWorkerPagerIndicatorContainer;
 
     private RecyclerView mTaskCaseView;
     private GridLayoutManager mGridLayoutManager;
     private TaskCaseAdapter mTaskCaseAdapter;
     private TaskCaseOnTouchListener mTaskCaseOnTouchListener;
+    private ArrayList<String> mTaskCaseSpinnerDatas = new ArrayList<String>();
 
-    private String[] mFactorySpinnerDatas = {"武林廠", "豐原廠", "桃園廠"};
-    private String[] mCaseSpinnerDatas = {"案件ㄧ", "案件二", "案件三"};
-
-    private List<TaskCase> mTaskCaseDatas = new ArrayList<TaskCase>();
-    private List<Factory> mFactoryDatas = new ArrayList<Factory>();
+    private WorkingData mWorkingData;
 
     private boolean mIsFactorySpinnerFirstCalled = true;
 
+
+    private class FactorySpinnerAdapter extends IconSpinnerAdapter<String> {
+        public FactorySpinnerAdapter(Context context, int resource, ArrayList<String> datas) {
+            super(context, resource, datas);
+        }
+
+        @Override
+        public String getSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
+
+        @Override
+        public int getSpinnerIconResourceId() {
+            return R.drawable.case_spinner_icon;
+        }
+
+        @Override
+        public String getDropdownSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
+
+        @Override
+        public boolean isDropdownSelectedIconVisible(int position) {
+            return mFactorySpinner.getSelectedItemPosition() == position;
+        }
+    }
 
     private class WorkerPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -123,15 +146,28 @@ public class AssignTaskFragment extends Fragment implements
         mFragmentView = getView();
         mFragmentManager = getFragmentManager();
         mMaxWorkerCountInPage = WorkerFragment.MAX_WORKER_COUNT_IN_PAGE; // Need to get count according to the device size.
-        findViews();
+        mWorkingData = WorkingData.getInstance(mActivity);
 
         // TODO: When DB is created, this part needs to be done after the loader has already loaded data.
-        createTaskCaseDatas();
-        createWorkerDatas();
+        getFactorySpinnerTitles();
+        getTaskCaseSpinnerTitles();
 
+        findViews();
         initTaskCaseView();
         initFactorySpinner();
         initWorkerPager(savedInstanceState);
+    }
+
+    private void getFactorySpinnerTitles() {
+        for (Factory factory : mWorkingData.getFactories()) {
+            mFactorySpinnerDatas.add(factory.name);
+        }
+    }
+
+    private void getTaskCaseSpinnerTitles() {
+        for (TaskCase taskCase : mWorkingData.getTaskCases()) {
+            mTaskCaseSpinnerDatas.add(taskCase.name);
+        }
     }
 
     private void findViews() {
@@ -143,7 +179,7 @@ public class AssignTaskFragment extends Fragment implements
 
     private void initTaskCaseView() {
         mTaskCaseAdapter = new TaskCaseAdapter(mActivity);
-        mTaskCaseAdapter.initTaskCaseDatas(mCaseSpinnerDatas, mTaskCaseDatas.get(0));
+        mTaskCaseAdapter.initTaskCaseDatas(mTaskCaseSpinnerDatas, mWorkingData.getTaskCases().get(0));
         mTaskCaseAdapter.setOnSelectTaskCaseListener(this);
 
         mTaskCaseOnTouchListener = new TaskCaseOnTouchListener(mTaskCaseView);
@@ -159,32 +195,6 @@ public class AssignTaskFragment extends Fragment implements
         mTaskCaseView.setAdapter(mTaskCaseAdapter);
     }
 
-    private class FactorySpinnerAdapter extends IconSpinnerAdapter<String> {
-        public FactorySpinnerAdapter(Context context, int resource, String[] objects) {
-            super(context, resource, objects);
-        }
-
-        @Override
-        public String getSpinnerViewDisplayString(int position) {
-            return (String) getItem(position);
-        }
-
-        @Override
-        public int getSpinnerIconResourceId() {
-            return R.drawable.case_spinner_icon;
-        }
-
-        @Override
-        public String getDropdownSpinnerViewDisplayString(int position) {
-            return (String) getItem(position);
-        }
-
-        @Override
-        public boolean isDropdownSelectedIconVisible(int position) {
-            return mFactorySpinner.getSelectedItemPosition() == position;
-        }
-    }
-
     // TODO: Need to handle rotation
     private void initFactorySpinner() {
         mFactorySpinnerAdapter = new FactorySpinnerAdapter(mActivity, R.layout.factory_spinner_item, mFactorySpinnerDatas);
@@ -198,17 +208,7 @@ public class AssignTaskFragment extends Fragment implements
                     return;
                 }
                 clearWorkers();
-                switch (position) {
-                    case 0:
-                        createWorkerPages(mFactoryDatas.get(0).workerItems);
-                        break;
-                    case 1:
-                        createWorkerPages(mFactoryDatas.get(1).workerItems);
-                        break;
-                    case 2:
-                        createWorkerPages(mFactoryDatas.get(2).workerItems);
-                        break;
-                }
+                createWorkerPages(mWorkingData.getFactories().get(position).workerItems);
                 initWorkerPagerIndicator();
                 mWorkerPagerAdapter.setWorkerPages(mWorkerPageList);
                 mWorkerPager.setAdapter(mWorkerPagerAdapter);
@@ -225,88 +225,12 @@ public class AssignTaskFragment extends Fragment implements
     // TODO: Need to handle rotation
     private void initWorkerPager(Bundle savedInstanceState) {
         mWorkerPagerAdapter = new WorkerPagerAdapter(mFragmentManager);
-        createWorkerPages(mFactoryDatas.get(savedInstanceState == null ?
+        createWorkerPages(mWorkingData.getFactories().get(savedInstanceState == null ?
                 0 : savedInstanceState.getInt(KEY_FACTORY_SPINNER_POSITION, 0)).workerItems);
         initWorkerPagerIndicator();
         mWorkerPagerAdapter.setWorkerPages(mWorkerPageList);
         mWorkerPager.setAdapter(mWorkerPagerAdapter);
         mWorkerPager.setOnPageChangeListener(this);
-    }
-
-    private void createTaskCaseDatas() {
-        List<TaskItem> case1 = new ArrayList<TaskItem>();
-        List<TaskItem> case2 = new ArrayList<TaskItem>();
-        List<TaskItem> case3 = new ArrayList<TaskItem>();
-
-        case1.add(new TaskItem(1, "外面鑽孔"));
-        case1.add(new TaskItem(2, "外面鑽孔"));
-        case1.add(new TaskItem(3, "外面鑽孔"));
-        case1.add(new TaskItem(4, "外面鑽孔"));
-        case1.add(new TaskItem(5, "外面鑽孔"));
-        case1.add(new TaskItem(6, "外面鑽孔"));
-        case1.add(new TaskItem(7, "外面鑽孔"));
-        case1.add(new TaskItem(8, "外面鑽孔"));
-        case1.add(new TaskItem(9, "外面鑽孔"));
-        case1.add(new TaskItem(10, "外面鑽孔"));
-
-        case2.add(new TaskItem(11, "外面鑽孔"));
-        case2.add(new TaskItem(12, "外面鑽孔"));
-        case2.add(new TaskItem(13, "外面鑽孔"));
-        case2.add(new TaskItem(14, "外面鑽孔"));
-
-        case3.add(new TaskItem(15, "外面鑽孔"));
-
-        mTaskCaseDatas.add(new TaskCase(1, "TaskCase1", case1));
-        mTaskCaseDatas.add(new TaskCase(2, "TaskCase2", case2));
-        mTaskCaseDatas.add(new TaskCase(3, "TaskCase3", case3));
-    }
-
-    private void createWorkerDatas() {
-        ArrayList<WorkerItem> workerDatas1 = new ArrayList<WorkerItem>();
-        ArrayList<WorkerItem> workerDatas2 = new ArrayList<WorkerItem>();
-        ArrayList<WorkerItem> workerDatas3 = new ArrayList<WorkerItem>();
-
-        workerDatas1.add(new WorkerItem(1, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(2, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(3, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(4, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(5, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(6, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(7, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(8, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(9, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(10, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(11, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(12, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(13, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(14, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(15, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(16, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(17, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(18, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(19, "王1", "工頭"));
-        workerDatas1.add(new WorkerItem(20, "王1", "工頭"));
-
-        workerDatas2.add(new WorkerItem(21, "陳1", "工頭"));
-        workerDatas2.add(new WorkerItem(22, "陳1", "工頭"));
-        workerDatas2.add(new WorkerItem(23, "陳1", "工頭"));
-        workerDatas2.add(new WorkerItem(24, "陳1", "工頭"));
-        workerDatas2.add(new WorkerItem(25, "陳1", "工頭"));
-
-        workerDatas3.add(new WorkerItem(26, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(27, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(28, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(29, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(30, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(31, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(32, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(33, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(34, "黃1", "工頭"));
-        workerDatas3.add(new WorkerItem(35, "黃1", "工頭"));
-
-        mFactoryDatas.add(new Factory(1, "武林場", workerDatas1));
-        mFactoryDatas.add(new Factory(2, "豐原場", workerDatas2));
-        mFactoryDatas.add(new Factory(3, "桃園場", workerDatas3));
     }
 
     private void createWorkerPages(List<WorkerItem> workerDatas) {
@@ -365,7 +289,7 @@ public class AssignTaskFragment extends Fragment implements
 
     @Override
     public void onSelectTaskCase(int position) {
-        mTaskCaseAdapter.swapTaskCase(mTaskCaseDatas.get(position));
+        mTaskCaseAdapter.swapTaskCase(mWorkingData.getTaskCases().get(position));
         mTaskCaseAdapter.notifyDataSetChanged();
     }
 }

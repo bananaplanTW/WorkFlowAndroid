@@ -8,9 +8,11 @@ import java.util.ArrayList;
  * Created by Ben on 2015/7/22.
  */
 public class Vendor {
+
     public long id;
     public String name;
     public ArrayList<TaskCase> taskCases;
+
 
     public Vendor(long id, String name) {
         this(id, name, new ArrayList<TaskCase>());

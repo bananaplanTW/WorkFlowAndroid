@@ -20,8 +20,9 @@
     <color name="task_item_background_color">@android:color/white</color>
     <color name="task_item_background_stroke_color">#FF979797</color>
     <color name="task_item_divider_color">#FFE1E1E1</color>
-    <color name="task_item_status_warning_color">#FFCE3C3E</color>
-    <color name="task_item_status_text_color">@android:color/white</color>
+    <color name="task_item_warning_unsolved_color">#FFCE3C3E</color>
+    <color name="task_item_warning_solved_color">#FF9B9B9B</color>
+    <color name="task_item_warning_text_color">@android:color/white</color>
 
     <!-- AssignTaskFragment: Workers part -->
     <color name="worker_pager_indicator_stroke_color">#FF858585</color>

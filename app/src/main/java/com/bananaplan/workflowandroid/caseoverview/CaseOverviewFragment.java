@@ -28,14 +28,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.WorkingData;
+import com.bananaplan.workflowandroid.main.WorkingData;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.MainActivity;
-import com.bananaplan.workflowandroid.main.Utils;
 import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -92,7 +92,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (MainActivity) activity;
-        mWorkingData = mActivity.getWorkingData();
+        mWorkingData = WorkingData.getInstance(mActivity);
     }
 
     @Override
@@ -490,16 +490,15 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             TaskItem taskItem = getItem(position);
             holder.tvId.setText(String.valueOf(position + 1));
 
-            int progress = taskItem.getProgress();
-            holder.tvStatus.setText(Utils.getTaskItemProgressString(getActivity(), progress));
-            if (progress == TaskItem.Progress.FINISH) {
+            holder.tvStatus.setText(Utils.getTaskItemStatusString(getActivity(), taskItem.status));
+            if (TaskItem.Status.FINISH == taskItem.status) {
                 holder.tvStatus.setBackground(getResources().getDrawable(R.drawable.border_textview_bg_gray));
                 holder.tvStatus.setTextColor(getResources().getColor(R.color.taskitem_status_finish));
                 holder.tvName.setTextColor(getResources().getColor(R.color.taskitem_status_finish));
                 holder.tvExpectedTime.setTextColor(getResources().getColor(R.color.taskitem_status_finish));
                 holder.tvWorkTime.setTextColor(getResources().getColor(R.color.taskitem_status_finish));
                 holder.tvTool.setTextColor(getResources().getColor(R.color.taskitem_status_finish));
-            } else if (progress == TaskItem.Progress.WORKING) {
+            } else if (TaskItem.Status.WORKING == taskItem.status) {
                 holder.tvStatus.setBackground(getResources().getDrawable(R.drawable.border_textview_bg_green));
                 holder.tvStatus.setTextColor(getResources().getColor(R.color.taskitem_status_working));
             } else {
@@ -508,14 +507,14 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             }
 
             holder.tvName.setText(taskItem.title);
-            holder.tvExpectedTime.setText(taskItem.getExpectedFinishTime());
+            holder.tvExpectedTime.setText(taskItem.getExpectedFinishedTime());
             holder.tvWorkTime.setText(taskItem.getWorkingTime());
             if (taskItem.toolId > 0) {
                 holder.tvTool.setText(mWorkingData.getToolById(taskItem.toolId).name);
             } else {
                 holder.tvTool.setText("");
             }
-            holder.tvWarning.setText(taskItem.getWorningText());
+            //holder.tvWarning.setText(taskItem.getWorningText());
             if (taskItem.workerId > 0) {
                 WorkerItem worker = mWorkingData.getWorkerItemById(taskItem.workerId);
                 holder.tvWorkerName.setText(worker.name);

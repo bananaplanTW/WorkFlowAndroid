@@ -16,21 +16,21 @@ public class TaskItemViewHolder extends RecyclerView.ViewHolder {
 
     public View view;
     public TextView title;
-    public ViewGroup statusContainer;
+    public ViewGroup warningContainer;
     public TextView workingTime;
     public TextView tool;
     public TextView worker;
-    public TextView progress;
+    public TextView status;
 
 
     public TaskItemViewHolder(View v) {
         super(v);
         view = v;
         title = (TextView) v.findViewById(R.id.task_title);
-        statusContainer = (ViewGroup) v.findViewById(R.id.task_status_container);
+        warningContainer = (ViewGroup) v.findViewById(R.id.task_status_container);
         workingTime = (TextView) v.findViewById(R.id.current_task_working_time);
         tool = (TextView) v.findViewById(R.id.task_tool);
         worker = (TextView) v.findViewById(R.id.task_worker);
-        progress = (TextView) v.findViewById(R.id.task_progress);
+        status = (TextView) v.findViewById(R.id.task_status);
     }
 }

@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
+import com.bananaplan.workflowandroid.utility.Utils;
+
+import java.util.ArrayList;
 
 
 /**
@@ -37,7 +40,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
 
-    private String[] mTaskCaseTitles = null;
+    private ArrayList<String> mTaskCaseTitles = null;
     private TaskCase mTaskCase = null;
 
     private IconSpinnerAdapter mTaskCaseSpinnerAdapter;
@@ -48,12 +51,38 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private boolean mIsTaskCaseSpinnerInitialized = false;
 
 
-    public void setOnSelectTaskCaseListener(OnSelectTaskCaseListener listener) {
-        mOnSelectTaskCaseListener = listener;
+    private class TaskCaseSpinnerAdapter extends IconSpinnerAdapter<String> {
+        public TaskCaseSpinnerAdapter(Context context, int resource, ArrayList<String> datas) {
+            super(context, resource, datas);
+        }
+
+        @Override
+        public String getSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
+
+        @Override
+        public int getSpinnerIconResourceId() {
+            return R.drawable.case_spinner_icon;
+        }
+
+        @Override
+        public boolean isDropdownSelectedIconVisible(int position) {
+            return mSelectedTaskCasePosition == position;
+        }
+
+        @Override
+        public String getDropdownSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
     }
 
     public TaskCaseAdapter(Context context) {
         mContext = context;
+    }
+
+    public void setOnSelectTaskCaseListener(OnSelectTaskCaseListener listener) {
+        mOnSelectTaskCaseListener = listener;
     }
 
     /**
@@ -63,7 +92,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
      * @param taskCaseTitles
      * @param firstDisplayedTaskCase
      */
-    public void initTaskCaseDatas(String[] taskCaseTitles, TaskCase firstDisplayedTaskCase) {
+    public void initTaskCaseDatas(ArrayList<String> taskCaseTitles, TaskCase firstDisplayedTaskCase) {
         mTaskCaseTitles = taskCaseTitles;
         mTaskCase = firstDisplayedTaskCase;
     }
@@ -102,32 +131,6 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         bindTaskCaseSpinner(holder);
         bindTaskCaseInformation(holder);
-    }
-
-    private class TaskCaseSpinnerAdapter extends IconSpinnerAdapter<String> {
-        public TaskCaseSpinnerAdapter(Context context, int resource, String[] objects) {
-            super(context, resource, objects);
-        }
-
-        @Override
-        public String getSpinnerViewDisplayString(int position) {
-            return (String) getItem(position);
-        }
-
-        @Override
-        public int getSpinnerIconResourceId() {
-            return R.drawable.case_spinner_icon;
-        }
-
-        @Override
-        public boolean isDropdownSelectedIconVisible(int position) {
-            return mSelectedTaskCasePosition == position;
-        }
-
-        @Override
-        public String getDropdownSpinnerViewDisplayString(int position) {
-            return (String) getItem(position);
-        }
     }
 
     private void bindTaskCaseSpinner(TaskCaseHeaderViewHolder holder) {
@@ -172,35 +175,34 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         TaskItemViewHolder holder = (TaskItemViewHolder) vh;
         TaskItem taskItem = getItem(position);
 
-        // Margin
-        // For top and bottom
-//        if (position == 1 || position == 2 ||
-//            position == getItemCount()-1 || position == getItemCount()-2) {
-//            MarginLayoutParams params = (MarginLayoutParams) holder.view.getLayoutParams();
-//            params.topMargin = 30;
-//        }
-
         // Title
         holder.title.setText(taskItem.title);
 
-        // Status
-        int colorId = -1;
-        holder.statusContainer.removeAllViews();
-        switch (taskItem.getStatus()) {
-            case TaskItem.Status.WARNING:
-                colorId = R.color.task_item_status_warning_color;
-                break;
-        }
-        if (colorId != -1) {
-            TextView taskStatus = (TextView) LayoutInflater.from(mContext).inflate(
-                    R.layout.task_item_status, holder.statusContainer, false);
-            taskStatus.setText(taskItem.getWorningText());
-            GradientDrawable taskStatusBackground = (GradientDrawable) taskStatus.getBackground();
-            taskStatusBackground.setColor(mContext.getResources().getColor(colorId));
-            holder.statusContainer.setVisibility(View.VISIBLE);
-            holder.statusContainer.addView(taskStatus);
+        // Warning
+        holder.warningContainer.removeAllViews();
+        if (taskItem.warningList.isEmpty()) {
+            holder.warningContainer.setVisibility(View.GONE);
         } else {
-            holder.statusContainer.setVisibility(View.GONE);
+            for (Warning warning : taskItem.warningList) {
+                int colorId = -1;
+                switch (warning.status) {
+                    case SOLVED:
+                        colorId = R.color.task_item_warning_unsolved_color;
+                        break;
+                    case UNSOLVED:
+                        colorId = R.color.task_item_warning_unsolved_color;
+                        break;
+                }
+                if (colorId != -1) {
+                    TextView taskWarning = (TextView) LayoutInflater.from(mContext).inflate(
+                            R.layout.task_item_warning, holder.warningContainer, false);
+                    taskWarning.setText(warning.title);
+                    GradientDrawable taskStatusBackground = (GradientDrawable) taskWarning.getBackground();
+                    taskStatusBackground.setColor(mContext.getResources().getColor(colorId));
+                    holder.warningContainer.setVisibility(View.VISIBLE);
+                    holder.warningContainer.addView(taskWarning);
+                }
+            }
         }
 
         // Task working time
@@ -210,25 +212,10 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.tool.setText(taskItem.getToolName());
 
         // Worker
-        holder.worker.setText(taskItem.getWorkerItemName());
+        holder.worker.setText(taskItem.getWorkerName());
 
-        // Progress
-        int progressStringId = 0;
-        switch (taskItem.getProgress()) {
-            case TaskItem.Progress.IN_SCHEDULE:
-                progressStringId = R.string.task_progress_in_schedule;
-                break;
-            case TaskItem.Progress.NOT_START:
-                progressStringId = R.string.task_progress_not_start;
-                break;
-            case TaskItem.Progress.PAUSE:
-                progressStringId = R.string.task_progress_pause;
-                break;
-            case TaskItem.Progress.WORKING:
-                progressStringId = R.string.task_progress_working;
-                break;
-        }
-        holder.progress.setText(mContext.getString(progressStringId));
+        // Status
+        holder.status.setText(Utils.getTaskItemStatusString(mContext, taskItem.status));
     }
 
     public TaskItem getItem(int position) {

@@ -7,13 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.WorkingData;
 
 
 public class MainActivity extends ActionBarActivity {
 
     private UIController mUIController;
-    private WorkingData mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +19,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         mUIController = new UIController(this);
         mUIController.onCreate(savedInstanceState);
-        mData = new WorkingData(this);
-        mData.generateFakeData();
     }
 
     @Override
@@ -50,9 +46,5 @@ public class MainActivity extends ActionBarActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mUIController.onConfigurationChanged(newConfig);
-    }
-
-    public WorkingData getWorkingData() {
-        return mData;
     }
 }

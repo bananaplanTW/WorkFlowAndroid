@@ -1,20 +1,21 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
 /**
- * Created by logicmelody on 2015/7/30.
+ * @author Danny Lin
+ * @since 2015/7/30.
  */
 public class Warning {
 
-    public enum Status {
+    public enum WarningStatus {
         SOLVED, UNSOLVED
-    };
+    }
 
-    public long id;
     public String title;
-    public Status status = Status.UNSOLVED;
+    public WarningStatus status = WarningStatus.UNSOLVED;
 
 
-    public Warning(long id, String title) {
-
+    public Warning(String title, WarningStatus status) {
+        this.title = title;
+        this.status = status;
     }
 }

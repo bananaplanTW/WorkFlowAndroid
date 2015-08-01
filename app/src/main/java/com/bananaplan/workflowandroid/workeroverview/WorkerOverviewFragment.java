@@ -22,11 +22,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.WorkingData;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.MainActivity;
+import com.bananaplan.workflowandroid.main.WorkingData;
 import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
 
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         super.onAttach(activity);
         if (!(activity instanceof MainActivity)) return;
         mActivity = (MainActivity) activity;
-        mWorkingData = mActivity.getWorkingData();
+        mWorkingData = WorkingData.getInstance(mActivity);
     }
 
     @Override

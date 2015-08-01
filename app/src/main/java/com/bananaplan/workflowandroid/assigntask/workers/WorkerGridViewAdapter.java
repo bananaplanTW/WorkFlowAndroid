@@ -14,6 +14,7 @@ import android.view.View.OnDragListener;
 import android.widget.GridView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.main.WorkingData;
 
 import java.util.List;
 
@@ -69,9 +70,10 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                     // Get the task data from the item
                     // Put the data into view
-                    String dragTaskData = item.getText().toString();
+                    String taskId = item.getText().toString();
                     if (GridView.INVALID_POSITION != mGridView.getChildAdapterPosition(v)) {
-                        mWorkerDatas.get(mGridView.getChildAdapterPosition(v)).task = dragTaskData;
+                        mWorkerDatas.get(mGridView.getChildAdapterPosition(v)).
+                                currentTaskItem = WorkingData.getInstance(mContext).getTaskItemById(Long.valueOf(taskId));
                     }
 
                     workerItemBackground.setStroke(strokeWidth, originalStrokeColor);
@@ -126,7 +128,8 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void setWorkerViewHolder(WorkerViewHolder viewHolder, WorkerItem workerItem) {
         viewHolder.name.setText(workerItem.name);
         viewHolder.title.setText(workerItem.title);
-        viewHolder.task.setText(workerItem.task);
-        viewHolder.currentTaskWorkingTime.setText(workerItem.getTime());
+        viewHolder.task.setText(workerItem.hasCurrentTaskItem() ? workerItem.currentTaskItem.title : "");
+        viewHolder.currentTaskWorkingTime.setText(
+                workerItem.hasCurrentTaskItem() ? workerItem.currentTaskItem.getWorkingTime() : "");
     }
 }

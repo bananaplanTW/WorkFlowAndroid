@@ -32,6 +32,29 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
 
     private LayoutInflater mLayoutInflater;
 
+
+    private class ItemViewHolder {
+
+        public ImageView spinnerIcon;
+        public TextView spinnerText;
+
+        public ItemViewHolder(View v) {
+            spinnerIcon = (ImageView) v.findViewById(R.id.spinner_icon);
+            spinnerText = (TextView) v.findViewById(R.id.spinner_text);
+            spinnerIcon.setImageResource(getSpinnerIconResourceId());
+        }
+    }
+
+    private class SpinnerDropdownViewHolder {
+        TextView tvDropdownSpinnerVendorName;
+        ImageView ivDropdownSpinnerSelected;
+
+        public SpinnerDropdownViewHolder(View v) {
+            this.tvDropdownSpinnerVendorName = (TextView) v.findViewById(R.id.case_spinner_dropdown_view_tv_vendor_name);
+            this.ivDropdownSpinnerSelected = (ImageView) v.findViewById(R.id.spinner_dropdown_iv_selected);
+        }
+    }
+
     public IconSpinnerAdapter(Context context, int resource, ArrayList<T> objects) {
         super(context, resource, objects);
         mLayoutInflater = LayoutInflater.from(context);
@@ -60,18 +83,6 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
         return view;
     }
 
-    private class ItemViewHolder {
-
-        public ImageView spinnerIcon;
-        public TextView spinnerText;
-
-        public ItemViewHolder(View v) {
-            spinnerIcon = (ImageView) v.findViewById(R.id.spinner_icon);
-            spinnerText = (TextView) v.findViewById(R.id.spinner_text);
-            spinnerIcon.setImageResource(getSpinnerIconResourceId());
-        }
-    }
-
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         SpinnerDropdownViewHolder holder;
@@ -85,16 +96,6 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
         holder.tvDropdownSpinnerVendorName.setText(getDropdownSpinnerViewDisplayString(position));
         holder.ivDropdownSpinnerSelected.setVisibility(isDropdownSelectedIconVisible(position) ? View.VISIBLE : View.GONE);
         return convertView;
-    }
-
-    private class SpinnerDropdownViewHolder {
-        TextView tvDropdownSpinnerVendorName;
-        ImageView ivDropdownSpinnerSelected;
-
-        public SpinnerDropdownViewHolder(View v) {
-            this.tvDropdownSpinnerVendorName = (TextView) v.findViewById(R.id.case_spinner_dropdown_view_tv_vendor_name);
-            this.ivDropdownSpinnerSelected = (ImageView) v.findViewById(R.id.spinner_dropdown_iv_selected);
-        }
     }
 
     public LayoutInflater getLayoutInflater() {

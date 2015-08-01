@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.main;
+package com.bananaplan.workflowandroid.utility;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,23 +11,23 @@ import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
  */
 public class Utils {
 
-    public static String getTaskItemProgressString(final Context context, final int progress) {
+    public static String getTaskItemStatusString(final Context context, final TaskItem.Status status) {
         String r = "";
         Resources resources = context.getResources();
-        switch (progress) {
-            case TaskItem.Progress.IN_SCHEDULE:
+        switch (status) {
+            case IN_SCHEDULE:
                 r = resources.getString(R.string.task_progress_in_schedule);
                 break;
-            case TaskItem.Progress.NOT_START:
+            case NOT_START:
                 r = resources.getString(R.string.task_progress_not_start);
                 break;
-            case TaskItem.Progress.PAUSE:
+            case PAUSE:
                 r = resources.getString(R.string.task_progress_pause);
                 break;
-            case TaskItem.Progress.WORKING:
+            case WORKING:
                 r = resources.getString(R.string.task_progress_working);
                 break;
-            case TaskItem.Progress.FINISH:
+            case FINISH:
                 r = resources.getString(R.string.task_progress_finish);
                 break;
             default:
