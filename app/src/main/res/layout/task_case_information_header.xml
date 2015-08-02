@@ -19,14 +19,12 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/black_arrow_down"/>
 
-    <com.bananaplan.workflowandroid.caseoverview.CaseCustomProgressBar
+    <com.bananaplan.workflowandroid.utility.CustomProgressBar
         android:id="@+id/task_case_information_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/task_case_information_progressbar_height"
         android:layout_below="@+id/task_case_progress_label"
-        android:layout_marginTop="@dimen/task_case_information_progressbar_margin_top"
-        android:max="100"
-        android:progressDrawable="@drawable/case_progress_drawable"/>
+        android:layout_marginTop="@dimen/task_case_information_progressbar_margin_top"/>
 
 </RelativeLayout>

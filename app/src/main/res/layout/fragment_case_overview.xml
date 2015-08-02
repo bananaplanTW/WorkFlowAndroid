@@ -11,7 +11,7 @@
         <Spinner
             android:id="@+id/case_spinner"
             android:layout_width="match_parent"
-            android:layout_height="51dp"
+            android:layout_height="wrap_content"
             android:background="@null"
             android:popupBackground="#ffffff"
             android:spinnerMode="dropdown"/>
@@ -33,7 +33,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#80000000" />
+            android:background="#979797" />
 
         <ListView
             android:id="@+id/case_listview"
@@ -149,15 +149,13 @@
                             android:layout_toRightOf="@id/case_tv_person_in_charge_selected_string"
                             android:textSize="16sp"/>
 
-                        <com.bananaplan.workflowandroid.caseoverview.CaseCustomProgressBar
+                        <com.bananaplan.workflowandroid.utility.CustomProgressBar
                             android:id="@+id/case_progressBar"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="360dp"
                             android:layout_height="24dp"
                             android:layout_marginLeft="195dp"
-                            android:layout_toRightOf="@id/case_tv_person_in_charge_selected_string"
-                            android:max="100"
-                            android:progressDrawable="@drawable/case_progress_drawable"/>
+                            android:layout_toRightOf="@id/case_tv_person_in_charge_selected_string"/>
 
                     </RelativeLayout>
 

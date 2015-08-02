@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.caseoverview;
+package com.bananaplan.workflowandroid.utility;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,29 +13,31 @@ import com.bananaplan.workflowandroid.R;
 /**
  * Created by Ben on 2015/7/19.
  */
-public class CaseCustomProgressBar extends ProgressBar {
+public class CustomProgressBar extends ProgressBar {
     private Paint mTextPaint;
 
-    public CaseCustomProgressBar(Context context) {
+    public CustomProgressBar(Context context) {
         super(context);
-        init(null);
+        init();
     }
 
-    public CaseCustomProgressBar(Context context, AttributeSet attrs) {
+    public CustomProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
+        init();
     }
 
-    public CaseCustomProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
+        init();
     }
 
-    private void init(AttributeSet attrs) {
+    private void init() {
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.WHITE);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextSize(getResources().getDimension(R.dimen.case_progress_bar_text_size));
+        setProgressDrawable(getResources().getDrawable(R.drawable.case_progress_drawable));
+        setMax(100);
     }
 
     @Override

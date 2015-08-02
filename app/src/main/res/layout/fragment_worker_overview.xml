@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/worker_ov_left_pane"
+        android:layout_width="227dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/worker_ov_factory_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:spinnerMode="dropdown"
+            android:popupBackground="#ffffff"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/divider_h"/>
+
+        <EditText
+            android:id="@+id/worker_ov_worker_search_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="50.5dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_search_black"
+            android:paddingLeft="14dp"
+            android:singleLine="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#979797" />
+
+        <ListView
+            android:id="@+id/worker_ov_workers_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#979797"
+            android:dividerHeight="2dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/worker_ov_vertical_divider"
+        android:layout_width="8dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/worker_ov_left_pane"
+        android:background="@drawable/divider_v"/>
+
+</RelativeLayout>

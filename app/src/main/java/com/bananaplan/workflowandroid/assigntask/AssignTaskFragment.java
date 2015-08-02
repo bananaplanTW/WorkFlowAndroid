@@ -173,6 +173,16 @@ public class AssignTaskFragment extends Fragment implements
         public int getSpinnerIconResourceId() {
             return R.drawable.case_spinner_icon;
         }
+
+        @Override
+        public String getDropdownSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
+
+        @Override
+        public boolean isDropdownSelectedIconVisible(int position) {
+            return mFactorySpinner.getSelectedItemPosition() == position;
+        }
     }
 
     // TODO: Need to handle rotation

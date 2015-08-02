@@ -27,7 +27,8 @@ public class WorkerItem {
     public long factoryId;
     public ArrayList<TaskItem> taskItems;
     public TaskItem currentTaskItem;
-
+    public String address;
+    public String phone;
 
     public WorkerItem(long id, String name, String title) {
         this(id, name, title, new ArrayList<TaskItem>());

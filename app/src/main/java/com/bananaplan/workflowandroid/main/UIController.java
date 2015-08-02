@@ -16,6 +16,7 @@ import android.view.View;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.AssignTaskFragment;
 import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
+import com.bananaplan.workflowandroid.workeroverview.WorkerOverviewFragment;
 
 
 /**
@@ -37,12 +38,14 @@ public class UIController {
     private DrawerMenuFragment mDrawerMenuFragment;
     private AssignTaskFragment mAssignTaskFragment;
 
-    private static final int MENU_ITEM_CASEOVERVIEW_FRAGMENT = 10000;
+    private static final int MENU_ITEM_CASE_OVERVIEW_FRAGMENT = 10000;
+    private static final int MENU_ITEM_WORKER_OVERVIEW_FRAGMENT = MENU_ITEM_CASE_OVERVIEW_FRAGMENT + 1;
 
     private static final class FragmentTag {
         public static final String TAG_DRAWER_MENU_FRAGMENT = "tag_drawer_menu_fragment";
         public static final String TAG_TASK_ASSIGN_FRAGMENT = "tag_task_assign_fragment";
-        public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_task_assign_fragment";
+        public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_case_overview_fragment";
+        public static final String TAG_WORKER_OVERVIEW_FRAGMENT = "tag_worker_overview_fragment";
     }
 
     public UIController(ActionBarActivity activity) {
@@ -51,7 +54,6 @@ public class UIController {
 
     public void onCreate(Bundle savedInstanceState) {
         initialize();
-//        openCaseOverViewFragment();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -60,14 +62,25 @@ public class UIController {
         } else {
             // Normal menu items put here
             switch (item.getItemId()) {
-                case MENU_ITEM_CASEOVERVIEW_FRAGMENT:
-                    openCaseOverViewFragment();
-                    break;
+                case MENU_ITEM_CASE_OVERVIEW_FRAGMENT:
+                    return openCaseOverViewFragment();
+                case MENU_ITEM_WORKER_OVERVIEW_FRAGMENT:
+                    return openWorkerOverViewFragment();
                 default:
                     break;
             }
             return false;
         }
+    }
+
+    private boolean openWorkerOverViewFragment() {
+        if (mFragmentManager == null) return false;
+        FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+        if (fragTransaction == null) return false;
+        WorkerOverviewFragment frag = new WorkerOverviewFragment();
+        fragTransaction.replace(R.id.content_container, frag, FragmentTag.TAG_WORKER_OVERVIEW_FRAGMENT).addToBackStack(null);
+        fragTransaction.commit();
+        return true;
     }
 
     private boolean openCaseOverViewFragment() {
@@ -144,6 +157,7 @@ public class UIController {
     }
 
     public void onCreateOptionsMenu(Menu menu) {
-        menu.add(0, MENU_ITEM_CASEOVERVIEW_FRAGMENT, 0, "CaseOverView Fragment");
+        menu.add(0, MENU_ITEM_CASE_OVERVIEW_FRAGMENT, 0, "CaseOverView Fragment");
+        menu.add(0, MENU_ITEM_WORKER_OVERVIEW_FRAGMENT, 0, "WorkerOverView Fragment");
     }
 }

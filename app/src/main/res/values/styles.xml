@@ -55,6 +55,7 @@
         <item name="android:paddingRight">@dimen/task_item_padding</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
     <style name="CommonSpinnerStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

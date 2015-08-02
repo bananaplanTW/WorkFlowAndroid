@@ -118,6 +118,16 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         public int getSpinnerIconResourceId() {
             return R.drawable.case_spinner_icon;
         }
+
+        @Override
+        public boolean isDropdownSelectedIconVisible(int position) {
+            return mSelectedTaskCasePosition == position;
+        }
+
+        @Override
+        public String getDropdownSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
     }
 
     private void bindTaskCaseSpinner(TaskCaseHeaderViewHolder holder) {

@@ -6,7 +6,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.caseoverview.CaseCustomProgressBar;
+import com.bananaplan.workflowandroid.utility.CustomProgressBar;
 
 /**
  * @author Danny Lin
@@ -16,7 +16,7 @@ public class TaskCaseHeaderViewHolder extends RecyclerView.ViewHolder {
 
     public View header;
     public Spinner taskCaseSpinner;
-    public CaseCustomProgressBar progressBar;
+    public CustomProgressBar progressBar;
     public TextView vendor;
     public TextView personInCharge;
     public TextView uncompletedTaskTime;
@@ -29,7 +29,7 @@ public class TaskCaseHeaderViewHolder extends RecyclerView.ViewHolder {
         super(v);
         header = v;
         taskCaseSpinner = (Spinner) v.findViewById(R.id.task_case_spinner);
-        progressBar = (CaseCustomProgressBar) v.findViewById(R.id.task_case_information_progressbar);
+        progressBar = (CustomProgressBar) v.findViewById(R.id.task_case_information_progressbar);
         vendor = (TextView) v.findViewById(R.id.task_case_principal_vendor);
         personInCharge = (TextView) v.findViewById(R.id.task_case_person_in_charge);
         uncompletedTaskTime = (TextView) v.findViewById(R.id.task_case_hours_unfinished);

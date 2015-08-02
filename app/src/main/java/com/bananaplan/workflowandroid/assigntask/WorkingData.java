@@ -67,7 +67,7 @@ public class WorkingData {
             Factory factory = new Factory(i, "Factory" + i);
             mFactories.add(factory);
             for (int j = 1; j <= workerCount; j++) {
-                WorkerItem workItem = new WorkerItem(j, "Worker" + j, "WorkerItemTitle" + j);
+                WorkerItem workItem = new WorkerItem(j, "Worker" + j, "Title" + j);
                 workItem.factoryId = factory.id;
                 factory.workerItems.add(workItem);
                 mWorkersMap.put(workItem.id, workItem);

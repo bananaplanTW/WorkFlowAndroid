@@ -43,4 +43,7 @@
         <item>"日"</item>
     </string-array>
 
+    <!-- WorkerOverView fragment-->
+    <string name="worker_ov_all_factories">"全部工廠"</string>
+
 </resources>

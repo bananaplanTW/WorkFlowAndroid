@@ -20,7 +20,7 @@
     <string name="worker_item_next_task_text">Next task</string>
 
     <!-- CaseOverView fragment-->
-    <string name="case_spinner_all_vendors">"All factories"</string>
+    <string name="case_spinner_all_vendors">"All vendors"</string>
     <string name="case_vendor_selected">"Principal manufacturers"</string>
     <string name="case_person_in_charge_selected">"Case officer"</string>
     <string name="case_percent_selected">"Case progress"</string>
@@ -49,5 +49,8 @@
         <item>"Sat"</item>
         <item>"Sun"</item>
     </string-array>
+
+    <!-- WorkerOverView fragment-->
+    <string name="worker_ov_all_factories">"All factories"</string>
 
 </resources>
