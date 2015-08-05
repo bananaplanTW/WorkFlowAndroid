@@ -12,17 +12,19 @@ import java.util.ArrayList;
  * @since 2015/6/27.
  */
 public class WorkerItem {
+
     public static Drawable sDefaultAvatarDrawable;
 
     public long id;
     public long factoryId;
     public String name;
     public String title;
-    public Drawable avatar;
     public TaskItem currentTaskItem;
     public ArrayList<TaskItem> taskItems;
     public String address;
     public String phone;
+
+    private Drawable avatar;
 
 
     public WorkerItem(long id, String name, String title) {

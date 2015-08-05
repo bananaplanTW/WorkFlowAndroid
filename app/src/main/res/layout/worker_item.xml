@@ -17,8 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_person_black"/>
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/worker_name"
@@ -71,8 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/current_task_title"
                 android:textColor="@color/worker_item_text_gray"
-                android:textSize="@dimen/worker_item_content_text_size"
-                android:text="DC34753"/>
+                android:textSize="@dimen/worker_item_content_text_size"/>
 
             <LinearLayout
                 android:id="@+id/current_warning_container"

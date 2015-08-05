@@ -126,10 +126,17 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void setWorkerViewHolder(WorkerViewHolder viewHolder, WorkerItem workerItem) {
+        viewHolder.avatar.setImageDrawable(workerItem.getAvator());
         viewHolder.name.setText(workerItem.name);
         viewHolder.title.setText(workerItem.title);
-        viewHolder.task.setText(workerItem.hasCurrentTaskItem() ? workerItem.currentTaskItem.title : "");
-        viewHolder.currentTaskWorkingTime.setText(
-                workerItem.hasCurrentTaskItem() ? workerItem.currentTaskItem.getWorkingTime() : "");
+
+        if (workerItem.hasCurrentTaskItem()) {
+            viewHolder.currentTaskTitle.setText(workerItem.currentTaskItem.title);
+            viewHolder.currentTaskId.setText("DX94478");
+            viewHolder.currentTaskWorkingTime.setText(workerItem.currentTaskItem.getWorkingTime());
+        } else {
+            viewHolder.currentTaskTitle.setText("");
+            viewHolder.currentTaskWorkingTime.setText("");
+        }
     }
 }

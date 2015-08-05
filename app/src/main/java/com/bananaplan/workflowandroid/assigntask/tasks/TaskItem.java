@@ -16,11 +16,13 @@ public class TaskItem {
     }
 
     public long id;
-    public String title;
-    public ArrayList<Warning> warningList = new ArrayList<Warning>();
     public long taskCaseId;
     public long workerId;
     public long toolId;
+
+    public String title;
+    public ArrayList<Warning> warningList = new ArrayList<Warning>();
+
     public Status status = Status.NOT_START;
 
 
