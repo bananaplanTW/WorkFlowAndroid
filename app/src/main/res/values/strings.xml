@@ -24,12 +24,20 @@
     <string name="case_vendor_selected">"Principal manufacturers"</string>
     <string name="case_person_in_charge_selected">"Case officer"</string>
     <string name="case_percent_selected">"Case progress"</string>
+    <string name="case_feed_date">"Feed Date"</string>
+    <string name="case_sheet">"Sheet"</string>
+    <string name="case_figure_date">"Figure Date"</string>
+    <string name="case_model">"Model"</string>
+    <string name="case_size">"Size"</string>
+    <string name="case_delivery">"Delivery"</string>
+    <string name="case_others">"Others"</string>
     <string name="case_task_count_in_process">"Task count int process"</string>
     <string name="case_hours_passed_by">"Hours passed by"</string>
     <string name="case_hours_unfinished">"Hours not yet completed"</string>
     <string name="case_hours_forecast">"Expect delays/early hours"</string>
     <string name="case_finished">"Finished"</string>
     <string name="case_overview_edit_case">"Edit"</string>
+    <string name="case_overview_edit_worker">"Edit"</string>
     <string name="case_overview_worker">"Workers"</string>
     <string name="case_overview_listview_taskitem_header_id">"ID"</string>
     <string name="case_overview_listview_taskitem_header_status">"Status"</string>
@@ -39,7 +47,9 @@
     <string name="case_overview_listview_taskitem_header_tool">"Tool"</string>
     <string name="case_overview_listview_taskitem_header_warning">"Warning"</string>
     <string name="case_overview_listview_taskitem_header_worker">"Duty"</string>
-    <string name="case_overview_statistics_total_hours">"Total hours finished: <b>%d</b> hours"</string>
+    <string name="overview_working_hours">"Total hours finished: <b>%d</b> hours"</string>
+    <string name="overview_overtime_hours">"Total hours overtime: <b>%d</b> hours"</string>
+    <string name="overview_idle_hours">"Total hours idle: <b>%d</b> hours"</string>
     <string-array name="week">
         <item>"Mon"</item>
         <item>"Tue"</item>
@@ -52,5 +62,19 @@
 
     <!-- WorkerOverView fragment-->
     <string name="worker_ov_all_factories">"All factories"</string>
+    <string name="worker_ov_worker_address">"Address:"</string>
+    <string name="worker_ov_worker_phone">"Phone:"</string>
+    <string name="worker_ov_worker_tab_title_task_items">"Task Items"</string>
+    <string name="worker_ov_worker_tab_title_worker_status">"Worker's status"</string>
+    <string name="worker_ov_edit_task_item">"Edit Item"</string>
+    <string name="worker_ov_taskitem_listview_start_date">"Start Date"</string>
+    <string name="worker_ov_taskitem_listview_status">"Status"</string>
+    <string name="worker_ov_taskitem_listview_case_name">"Case Name"</string>
+    <string name="worker_ov_taskitem_listview_item_name">"Item Name"</string>
+    <string name="worker_ov_taskitem_listview_expected_time">"Expected Time"</string>
+    <string name="worker_ov_taskitem_listview_working_time">"Work Time"</string>
+    <string name="worker_ov_taskitem_listview_tool_used">"Tool"</string>
+    <string name="worker_ov_taskitem_listview_error_count">"Error"</string>
+    <string name="worker_ov_taskitem_listview_warning">"Warning"</string>
 
 </resources>

@@ -10,9 +10,9 @@ public class Warning {
         SOLVED, UNSOLVED
     }
 
+    public long id;
     public String title;
     public WarningStatus status = WarningStatus.UNSOLVED;
-
 
     public Warning(String title, WarningStatus status) {
         this.title = title;

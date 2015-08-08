@@ -11,13 +11,24 @@ import java.util.List;
  * @since 2015.06.13
  */
 public class TaskCase {
+    public class Size {
+        public int length;
+        public int width;
+        public int height;
+    }
 
     public long id;
     public String name;
     public long vendorId;
     public long workerId;
+    public long deliveryDateTimestamp;
+    public long feedDateTimestamp;
+    public long figureDateTimestamp;
+    public int sheetCount;
+    public int modelCount;
+    public String others;
+    public Size size;
     public List<TaskItem> taskItems;
-
 
     public TaskCase(int id, String name) {
         this(id, name, new ArrayList<TaskItem>());
@@ -30,9 +41,9 @@ public class TaskCase {
         this.taskItems = taskItems;
     }
 
-    // TODO: Calaulate by taskitems
     public int getFinishPercent() {
-        return (int) (Math.random() * 100);
+        if (taskItems.size() == 0) return 100;
+        return getFinishItemsCount() * 100 / taskItems.size();
     }
 
     // TODO: Calaulate by taskitems
@@ -48,5 +59,20 @@ public class TaskCase {
     // TODO: Calaulate by taskitems
     public String getHoursForecast() {
         return "01 : 12"; // TODO
+    }
+
+    public int getFinishItemsCount() {
+        int count = 0;
+        for (TaskItem item : taskItems) {
+            if (item.status == TaskItem.Status.FINISH) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public String getSize() {
+        if (this.size == null) return "0 x 0 x 0";
+        return this.size.length + " x " + this.size.width + " x " + this.size.height;
     }
 }

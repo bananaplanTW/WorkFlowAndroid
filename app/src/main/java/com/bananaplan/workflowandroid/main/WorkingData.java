@@ -26,13 +26,12 @@ public final class WorkingData {
 
     private Context mContext;
 
-    private ArrayList<Factory> mFactories = new ArrayList<Factory>();
-    private ArrayList<TaskCase> mTaskCases = new ArrayList<TaskCase>();
-
-    private HashMap<Long, Vendor> mVendorsMap = new HashMap<Long, Vendor>();
-    private HashMap<Long, WorkerItem> mWorkersMap = new HashMap<Long, WorkerItem>();
-    private HashMap<Long, TaskItem> mTaskItemsMap = new HashMap<Long, TaskItem>();
-    private HashMap<Long, Tool> mToolsMap = new HashMap<Long, Tool>();
+    private HashMap<Long, Vendor> mVendorsMap = new HashMap<>();
+    private HashMap<Long, WorkerItem> mWorkersMap = new HashMap<>();
+    private HashMap<Long, TaskItem> mTaskItemsMap = new HashMap<>();
+    private HashMap<Long, TaskCase> mTaskCaseMap = new HashMap<>();
+    private HashMap<Long, Tool> mToolsMap = new HashMap<>();
+    private HashMap<Long, Factory> mFactoriesMap = new HashMap<>();
 
 
     public static WorkingData getInstance(Context context) {
@@ -48,23 +47,34 @@ public final class WorkingData {
 
     private WorkingData(Context context) {
         mContext = context;
-
-        // TODO: Why initialize here, not in WorkerItem?
-        WorkerItem.sDefaultAvatarDrawable = mContext.getDrawable(R.drawable.ic_person_black);
-
-        generateFakeData();
+        generateFakeData(); // +++ only for test case
     }
 
     public ArrayList<Factory> getFactories() {
-        return mFactories;
+        return new ArrayList<>(mFactoriesMap.values());
     }
 
     public ArrayList<Vendor> getVendors() {
-        return new ArrayList<Vendor>(mVendorsMap.values());
+        return new ArrayList<>(mVendorsMap.values());
     }
 
     public ArrayList<TaskCase> getTaskCases() {
-        return mTaskCases;
+        return new ArrayList<>(mTaskCaseMap.values());
+    }
+
+    public ArrayList<TaskItem> getTaskItemsByWorker(WorkerItem worker) {
+        ArrayList<TaskItem> tmp = new ArrayList<>();
+        ArrayList<TaskItem> orig = new ArrayList<>(mTaskItemsMap.values());
+        for (TaskItem item : orig) {
+            if (item.workerId == worker.id) {
+                tmp.add(item);
+            }
+        }
+        return tmp;
+    }
+
+    public TaskCase getTaskCaseById(long taskCaseId) {
+        return mTaskCaseMap.get(taskCaseId);
     }
 
     public Vendor getVendorById(long vendorId) {
@@ -83,6 +93,10 @@ public final class WorkingData {
         return mToolsMap.get(toolId);
     }
 
+    public Factory getFactoryById(long factoryId) {
+        return mFactoriesMap.get(factoryId);
+    }
+
     public void updateWorkerItemInTaskItem(long taskItemId, long workerId) {
         mTaskItemsMap.get(taskItemId).workerId = workerId;
     }
@@ -97,9 +111,9 @@ public final class WorkingData {
 
         for (int i = 1; i <= factoryCount; i++) {
             Factory factory = new Factory(i, "Factory" + i);
-            mFactories.add(factory);
+            mFactoriesMap.put(factory.id, factory);
             for (int j = 1; j <= workerCount; j++) {
-                WorkerItem workItem = new WorkerItem(j, "Worker" + j, "Title" + j);
+                WorkerItem workItem = new WorkerItem(mContext, j, "Worker" + j, "Title" + j);
                 workItem.factoryId = factory.id;
                 factory.workerItems.add(workItem);
                 mWorkersMap.put(workItem.id, workItem);
@@ -107,16 +121,18 @@ public final class WorkingData {
         }
 
         for (int i = 1; i <= vendorCount; i++) {
-            Vendor vendor = new Vendor(i, "VendorName" + i);
+            Vendor vendor = new Vendor(i, "Vendor" + i);
             mVendorsMap.put(vendor.id, vendor);
             for (int j = 1; j <= taskCaseCount; j++) {
-                TaskCase taskCase = new TaskCase(j, "TaskCaseName" + j);
+                TaskCase taskCase = new TaskCase(j, "Case" + j);
+                mTaskCaseMap.put(taskCase.id, taskCase);
                 taskCase.vendorId = vendor.id;
+                taskCase.workerId = getRandomWorkerId();
                 vendor.taskCases.add(taskCase);
                 for (int k = 1; k <= taskItemCount; k++) {
-                    Tool tool = new Tool(k, "ToolName" + k);
+                    Tool tool = new Tool(k, "Tool" + k);
                     mToolsMap.put(tool.id, tool);
-                    TaskItem taskItem = new TaskItem(k, "ItemName" + k);
+                    TaskItem taskItem = new TaskItem(100 * i + 10 * j + k, "Item" + k);
                     taskItem.taskCaseId = taskCase.id;
                     taskItem.warningList.add(new Warning("No power", WarningStatus.UNSOLVED));
                     taskCase.taskItems.add(taskItem);
@@ -124,7 +140,6 @@ public final class WorkingData {
                     taskItem.toolId = tool.id;
                     taskItem.workerId = getRandomWorkerId();
                 }
-                mTaskCases.add(taskCase);
             }
         }
     }

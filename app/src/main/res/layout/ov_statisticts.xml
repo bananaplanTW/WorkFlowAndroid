@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ov_statistics_week_chooser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border_textview_bg_gray"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_event_busy_black"/>
+
+        <TextView
+            android:id="@+id/ov_statistics_week_chooser_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="5/14 - 5/20"
+            android:textSize="16sp"
+            android:textColor="#4a4a4a"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ov_statistics_chart_container"
+        android:layout_width="match_parent"
+        android:layout_height="236dp"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:paddingRight="17dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/ov_statistics_working_hour_vg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/ov_statistics_working_hour_iv"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/statistics_working_hours_indicator"/>
+            <TextView
+                android:id="@+id/ov_statistics_working_hour_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4a4a4a"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:layout_toRightOf="@id/ov_statistics_working_hour_iv"
+                android:layout_marginLeft="8dp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ov_statistics_overtime_hour_vg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/ov_statistics_overtime_hour_iv"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/statistics_overtime_hours_indicator"/>
+            <TextView
+                android:id="@+id/ov_statistics_overtime_hour_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4a4a4a"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:layout_toRightOf="@id/ov_statistics_overtime_hour_iv"
+                android:layout_marginLeft="8dp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ov_statistics_idle_hour_vg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/ov_statistics_idle_hour_iv"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/statistics_idle_hours_indicator"/>
+            <TextView
+                android:id="@+id/ov_statistics_idle_hour_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4a4a4a"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:layout_toRightOf="@id/ov_statistics_idle_hour_iv"
+                android:layout_marginLeft="8dp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

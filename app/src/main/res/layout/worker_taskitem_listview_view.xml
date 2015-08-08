@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/worker_ov_task_item_listview_vg">
+
+    <LinearLayout
+        android:layout_width="72dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#4a4a4a"
+            android:textSize="14dp"
+            android:text="@string/worker_ov_taskitem_listview_start_date"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <LinearLayout
+        android:layout_width="92dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="@string/worker_ov_taskitem_listview_status"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_case_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="@string/worker_ov_taskitem_listview_case_name"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <LinearLayout
+        android:layout_width="105dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_task_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="@string/worker_ov_taskitem_listview_item_name"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <LinearLayout
+        android:layout_width="82dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_expected_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="@string/worker_ov_taskitem_listview_expected_time"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <LinearLayout
+        android:layout_width="82dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_work_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="@string/worker_ov_taskitem_listview_working_time"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <LinearLayout
+        android:layout_width="105dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_tool_used"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="@string/worker_ov_taskitem_listview_tool_used"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <LinearLayout
+        android:layout_width="57dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_error_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="@string/worker_ov_taskitem_listview_error_count"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#e1e1e1"
+        android:id="@+id/listview_taskitem_divider"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/worker_taskitem_listview_warning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="14dp"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:text="@string/worker_ov_taskitem_listview_warning"/>
+    </RelativeLayout>
+
+</LinearLayout>

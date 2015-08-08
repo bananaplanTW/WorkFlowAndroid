@@ -63,5 +63,4 @@
         <item name="android:divider">#979797</item>
         <item name="android:dividerHeight">1dp</item>
     </style>
-
 </resources>

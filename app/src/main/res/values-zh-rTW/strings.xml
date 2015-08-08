@@ -17,12 +17,20 @@
     <string name="case_vendor_selected">"委託廠商"</string>
     <string name="case_person_in_charge_selected">"案件負責人"</string>
     <string name="case_percent_selected">"案件進度"</string>
+    <string name="case_feed_date">"進料日期"</string>
+    <string name="case_sheet">"板材"</string>
+    <string name="case_figure_date">"圖到日期"</string>
+    <string name="case_model">"模腳"</string>
+    <string name="case_size">"尺寸"</string>
+    <string name="case_delivery">"交期"</string>
+    <string name="case_others">"其他"</string>
     <string name="case_task_count_in_process">"現正進行項目數"</string>
     <string name="case_hours_passed_by">"已經進行時數"</string>
     <string name="case_hours_unfinished">"尚未完成時數"</string>
     <string name="case_hours_forecast">"預計延遲/提早時數"</string>
     <string name="case_finished">"完成"</string>
     <string name="case_overview_edit_case">"修改案件"</string>
+    <string name="case_overview_edit_worker">"修改個人資訊"</string>
     <string name="case_overview_worker">"參與員工"</string>
     <string name="case_overview_listview_taskitem_header_id">"排序"</string>
     <string name="case_overview_listview_taskitem_header_status">"項目狀況"</string>
@@ -32,7 +40,9 @@
     <string name="case_overview_listview_taskitem_header_tool">"使用機器"</string>
     <string name="case_overview_listview_taskitem_header_warning">"警訊"</string>
     <string name="case_overview_listview_taskitem_header_worker">"負責人"</string>
-    <string name="case_overview_statistics_total_hours">"完成時數 <b>%d</b> 小時"</string>
+    <string name="overview_working_hours">"完成時數 <b>%d</b> 小時"</string>
+    <string name="overview_overtime_hours">"加班時數 <b>%d</b> 小時"</string>
+    <string name="overview_idle_hours">"閒置時數 <b>%d</b> 小時"</string>
     <string-array name="week">
         <item>"一"</item>
         <item>"二"</item>
@@ -45,5 +55,20 @@
 
     <!-- WorkerOverView fragment-->
     <string name="worker_ov_all_factories">"全部工廠"</string>
+    <string name="worker_ov_worker_address">"地址："</string>
+    <string name="worker_ov_worker_phone">"電話："</string>
+    <string name="worker_ov_worker_tab_title_task_items">"工作項目"</string>
+    <string name="worker_ov_worker_tab_title_worker_status">"員工狀況"</string>
+    <string name="worker_ov_edit_task_item">"修改項目"</string>
+
+    <string name="worker_ov_taskitem_listview_start_date">"開始日期"</string>
+    <string name="worker_ov_taskitem_listview_status">"工作狀態"</string>
+    <string name="worker_ov_taskitem_listview_case_name">"案件名稱"</string>
+    <string name="worker_ov_taskitem_listview_item_name">"項目名稱"</string>
+    <string name="worker_ov_taskitem_listview_expected_time">"預期時間"</string>
+    <string name="worker_ov_taskitem_listview_working_time">"工作時間"</string>
+    <string name="worker_ov_taskitem_listview_tool_used">"使用機器"</string>
+    <string name="worker_ov_taskitem_listview_error_count">"錯誤"</string>
+    <string name="worker_ov_taskitem_listview_warning">"警訊"</string>
 
 </resources>

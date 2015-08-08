@@ -2,53 +2,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <include
         android:id="@+id/case_left_pane"
-        android:layout_width="227dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        layout="@layout/overview_left_pane"/>
 
-        <Spinner
-            android:id="@+id/case_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:popupBackground="#ffffff"
-            android:spinnerMode="dropdown"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@drawable/divider_h"/>
-
-        <EditText
-            android:id="@+id/case_et_search"
-            android:layout_width="match_parent"
-            android:layout_height="50.5dp"
-            android:background="@null"
-            android:drawableLeft="@drawable/ic_search_black"
-            android:paddingLeft="14dp"
-            android:singleLine="true"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#979797" />
-
-        <ListView
-            android:id="@+id/case_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="#979797"
-            android:dividerHeight="2dp" />
-    </LinearLayout>
-
-    <View
+    <include
         android:id="@+id/case_pane_vertical_divider"
         android:layout_width="8dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@id/case_left_pane"
-        android:background="@drawable/divider_v"/>
+        layout="@layout/v_divider"/>
 
     <RelativeLayout
         android:id="@+id/case_right_pane"
@@ -66,105 +29,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="24dp">
-
-                    <TextView
-                        android:id="@+id/case_btn_edit_case"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:background="@drawable/border_textview_edit_case_bg"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="8dp"
-                        android:text="@string/case_overview_edit_case"
-                        android:textColor="#ffffff"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:id="@+id/case_tv_case_name_selected"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/case_tv_case_name_selected"
-                        android:layout_marginTop="14dp">
-
-                        <TextView
-                            android:id="@+id/case_vendor_selected_string"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/case_vendor_selected"
-                            android:textSize="14sp"/>
-
-                        <TextView
-                            android:id="@+id/case_tv_vendor_selected"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="26dp"
-                            android:layout_toRightOf="@id/case_vendor_selected_string"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="209dp"
-                            android:layout_toRightOf="@id/case_vendor_selected_string"
-                            android:text="@string/case_percent_selected"
-                            android:textSize="14sp"/>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/case_tv_case_name_selected"
-                        android:layout_marginTop="49dp">
-
-                        <TextView
-                            android:id="@+id/case_tv_person_in_charge_selected_string"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/case_person_in_charge_selected"
-                            android:textSize="14sp"/>
-
-                        <TextView
-                            android:id="@+id/case_tv_person_in_charge_selected"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_toRightOf="@id/case_tv_person_in_charge_selected_string"
-                            android:textSize="16sp"/>
-
-                        <com.bananaplan.workflowandroid.utility.CustomProgressBar
-                            android:id="@+id/case_progressBar"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="360dp"
-                            android:layout_height="24dp"
-                            android:layout_marginLeft="195dp"
-                            android:layout_toRightOf="@id/case_tv_person_in_charge_selected_string"/>
-
-                    </RelativeLayout>
-
-                </RelativeLayout>
+                <include layout="@layout/case_ov_right_top_pane"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
+                    android:layout_marginBottom="24dp"
                     android:paddingLeft="11dp"
                     android:paddingRight="11dp">
 
@@ -314,76 +185,11 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="24dp"
-                    android:background="@drawable/divider_h"/>
+                <include layout="@layout/h_divider"/>
 
-                <LinearLayout
-                    android:id="@+id/statistics_choose_vg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/border_textview_bg_gray"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
+                <include layout="@layout/ov_statisticts"/>
 
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_event_busy_black"/>
-
-                    <TextView
-                        android:id="@+id/statistics_choose_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:text="5/14 - 5/20"
-                        android:textSize="16sp"
-                        android:textColor="#4a4a4a"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/case_statistics_vg"
-                    android:layout_width="match_parent"
-                    android:layout_height="236dp"
-                    android:orientation="vertical"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="20dp"></LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp">
-                    <ImageView
-                        android:id="@+id/iv_total_hours_indicator"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="616dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/case_statistics_total_hours_indicator"/>
-
-                    <TextView
-                        android:id="@+id/case_statistics_total_hours_per_week"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#4a4a4a"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:layout_toRightOf="@id/iv_total_hours_indicator"
-                        android:layout_marginLeft="8dp"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:background="@drawable/divider_h" />
+                <include layout="@layout/h_divider"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"

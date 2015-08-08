@@ -21,7 +21,7 @@ public class TaskItem {
     public long toolId;
 
     public String title;
-    public ArrayList<Warning> warningList = new ArrayList<Warning>();
+    public ArrayList<Warning> warningList = new ArrayList<>();
 
     public Status status = Status.NOT_START;
 
@@ -36,13 +36,13 @@ public class TaskItem {
         return "11 : 00";
     }
 
-    public String getExpectedFinishTime() {
-        return "11 : 00";
-    }
-
     // TODO: Get this information from server
     public String getExpectedFinishedTime() {
         return "11:00";
+    }
+
+    public String getStartedDate() {
+        return "7/26";
     }
 
     // TODO: Map to tool id

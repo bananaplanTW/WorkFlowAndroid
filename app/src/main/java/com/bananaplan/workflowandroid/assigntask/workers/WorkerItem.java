@@ -1,7 +1,9 @@
 package com.bananaplan.workflowandroid.assigntask.workers;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 
 import java.util.ArrayList;
@@ -26,16 +28,18 @@ public class WorkerItem {
 
     private Drawable avatar;
 
-
-    public WorkerItem(long id, String name, String title) {
-        this(id, name, title, new ArrayList<TaskItem>());
+    public WorkerItem(final Context context, long id, String name, String title) {
+        this(context, id, name, title, new ArrayList<TaskItem>());
     }
 
-    public WorkerItem(long id, String name, String title, ArrayList<TaskItem> taskItems) {
+    public WorkerItem(final Context context, long id, String name, String title, ArrayList<TaskItem> taskItems) {
         this.id = id;
         this.name = name;
         this.title = title;
         this.taskItems = taskItems;
+        if (sDefaultAvatarDrawable == null) {
+            sDefaultAvatarDrawable = context.getDrawable(R.drawable.ic_person_black);
+        }
     }
 
     public Drawable getAvator() {

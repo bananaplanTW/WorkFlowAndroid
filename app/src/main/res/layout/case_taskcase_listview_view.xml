@@ -3,18 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="9dp"
-    android:minHeight="@dimen/overview_listview_item_height"
     android:id="@+id/case_listview_root">
 
     <TextView
         android:layout_width="49dp"
         android:layout_height="36dp"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textColor="#ffffff"
         android:gravity="center"
-        android:padding="9dp"
-        android:layout_marginRight="12dp"
+        android:padding="3dp"
+        android:layout_marginRight="13dp"
         android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/case_listview_view_tv_status" />
 
     <RelativeLayout
