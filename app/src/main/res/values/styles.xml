@@ -63,4 +63,49 @@
         <item name="android:divider">#979797</item>
         <item name="android:dividerHeight">1dp</item>
     </style>
+
+    <style name="DrawerItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/drawer_item_height</item>
+        <item name="android:paddingLeft">@dimen/drawer_item_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/drawer_item_padding_left_right</item>
+    </style>
+
+    <style name="DrawerSettingItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/drawer_item_setting_height</item>
+        <item name="android:background">@color/drawer_setting_background_color</item>
+    </style>
+
+    <style name="DrawerItemNormalTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/drawer_item_text_margin_left</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/drawer_item_text_color</item>
+        <item name="android:textSize">@dimen/drawer_item_text_size</item>
+    </style>
+
+    <style name="DrawerItemInfoCountTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/drawer_item_text_color</item>
+        <item name="android:paddingLeft">@dimen/drawer_item_number_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/drawer_item_number_padding_left_right</item>
+        <item name="android:paddingTop">@dimen/drawer_item_number_padding_top_bottom</item>
+        <item name="android:paddingBottom">@dimen/drawer_item_number_padding_top_bottom</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@drawable/drawer_menu_item_number_background</item>
+    </style>
+
+    <style name="DrawerSubItemTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/drawer_item_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/drawer_item_padding_left_right</item>
+        <item name="android:textColor">@color/drawer_subitem_text_color</item>
+        <item name="android:textSize">@dimen/drawer_subitem_text_size</item>
+    </style>
+
 </resources>

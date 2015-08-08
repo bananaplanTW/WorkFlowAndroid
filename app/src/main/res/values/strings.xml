@@ -87,4 +87,17 @@
     <string name="worker_ov_tab_file">"Photo"</string>
     <string name="worker_ov_tab_history">"History"</string>
 
+    <!-- DrawerMenu fragment -->
+    <string name="drawer_main">Main Information</string>
+    <string name="drawer_assign_task">Asign Task</string>
+    <string name="drawer_case">Case</string>
+    <string name="drawer_case_overview">Case Overview</string>
+    <string name="drawer_add_case">Add Case</string>
+    <string name="drawer_worker">Worker</string>
+    <string name="drawer_worker_overview">Worker Overview</string>
+    <string name="drawer_add_worker">Add Worker</string>
+    <string name="drawer_equipment">Equipment</string>
+    <string name="drawer_equipment_overview">Equipment Overview</string>
+    <string name="drawer_add_equipment">Add equipment</string>
+
 </resources>

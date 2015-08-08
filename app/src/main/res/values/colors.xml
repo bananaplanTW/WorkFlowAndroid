@@ -24,9 +24,6 @@
     <color name="action_bar_primary_color">#FF242424</color>
     <color name="action_bar_primary_dark_color">#FF040404</color>
 
-    <!-- Navigation drawer -->
-    <color name="drawer_menu_background_color">@android:color/white</color>
-
     <!-- AssignTaskFragment: Tasks part -->
     <color name="task_case_text_color">#FF4A4A4A</color>
     <color name="task_case_information_divider_color">#FFDADADA</color>
@@ -49,5 +46,34 @@
     <color name="worker_item_text_gray">#FF9B9B9B</color>
     <color name="worker_item_divider_color">#FFE1E1E1</color>
     <color name="working_status_ok">#FF55931F</color>
+
+    <!-- CaseOverviewFragment -->
+    <color name="listview_taskcase_taskname_textcolor_finished">#9b9b9b</color>
+    <color name="listview_taskcase_taskname_textcolor_unfinished">#4a4a4a</color>
+    <color name="listview_selected_bg">#428bca</color>
+    <color name="listview_taskitem_row_odd">#f7f7f7</color>
+    <color name="listview_taskitem_row_even">#ffffff</color>
+    <color name="taskitem_status_working">#5cb85c</color>
+    <color name="taskitem_status_finish">#9b9b9b</color>
+    <color name="taskitem_status_others">#303030</color>
+    <color name="case_overview_statistics_grid_color">#e1e1e1</color>
+    <color name="case_overview_statistics_axis_color">#9b9b9b</color>
+    <color name="overview_listview_first_item_textcolor">#4a4a4a</color>
+    <color name="overview_listview_second_item_textcolor">#9b9b9b</color>
+    <color name="tab_unselected">#9b9b9b</color>
+    <color name="tab_selected">#428bca</color>
+    <color name="statistics_bar_color1">#428bca</color>
+    <color name="statistics_bar_color2">#f0ad4e</color>
+    <color name="statistics_bar_color3">#d9534f</color>
+
+    <!-- DrawerMenuFragment -->
+    <color name="drawer_background_color">@android:color/white</color>
+    <color name="drawer_divider_color">#FFE1E1E1</color>
+    <color name="drawer_item_text_color">#FF4A4A4A</color>
+    <color name="drawer_item_setting_text_color">@android:color/white</color>
+    <color name="drawer_item_info_count_background_color">#FF9B9B9B</color>
+    <color name="drawer_item_info_count_text_color">@android:color/white</color>
+    <color name="drawer_subitem_text_color">#FF9B9B9B</color>
+    <color name="drawer_setting_background_color">#545454</color>
 
 </resources>

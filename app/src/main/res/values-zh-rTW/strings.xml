@@ -81,4 +81,17 @@
     <string name="worker_ov_tab_file">"照片"</string>
     <string name="worker_ov_tab_history">"日誌"</string>
 
+    <!-- DrawerMenu fragment -->
+    <string name="drawer_main">資訊主頁</string>
+    <string name="drawer_assign_task">員工排程</string>
+    <string name="drawer_case">案件資訊</string>
+    <string name="drawer_case_overview">案件概況</string>
+    <string name="drawer_add_case">新增新案件</string>
+    <string name="drawer_worker">員工資訊</string>
+    <string name="drawer_worker_overview">員工概況</string>
+    <string name="drawer_add_worker">新增新員工</string>
+    <string name="drawer_equipment">設備資訊</string>
+    <string name="drawer_equipment_overview">設備概況</string>
+    <string name="drawer_add_equipment">新增新設備</string>
+
 </resources>

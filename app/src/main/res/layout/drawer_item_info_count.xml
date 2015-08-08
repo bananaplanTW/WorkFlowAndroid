@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DrawerItemStyle"
+    android:background="?android:selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/left_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/drawer_item_text"
+        style="@style/DrawerItemNormalTextStyle"
+        android:layout_toRightOf="@+id/left_icon"/>
+
+    <TextView
+        android:id="@+id/drawer_item_info_count"
+        style="@style/DrawerItemInfoCountTextStyle"/>
+
+</RelativeLayout>

@@ -25,9 +25,9 @@
     <!-- Navigation drawer -->
     <FrameLayout
         android:id="@+id/drawer_menu_container"
-        android:layout_width="@dimen/drawer_menu_container_width"
+        android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/drawer_menu_background_color" />
+        android:background="@color/drawer_background_color" />
 
 </android.support.v4.widget.DrawerLayout>

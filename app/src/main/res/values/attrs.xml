@@ -14,6 +14,7 @@
 
     <declare-styleable name="ExpandableLayout">
         <attr name="el_headerLayout" format="reference"/>
+        <attr name="el_headerHeight" format="dimension" />
         <attr name="el_contentLayout" format="reference" />
         <attr name="el_duration" format="integer" />
     </declare-styleable>

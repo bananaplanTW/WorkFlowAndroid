@@ -66,6 +66,7 @@ public class ExpandableLayout extends RelativeLayout {
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
         final int headerID = typedArray.getResourceId(R.styleable.ExpandableLayout_el_headerLayout, -1);
         final int contentID = typedArray.getResourceId(R.styleable.ExpandableLayout_el_contentLayout, -1);
+        final int headerHeight = typedArray.getDimensionPixelSize(R.styleable.ExpandableLayout_el_headerHeight, -1);
         mDuration = typedArray.getInt(
                 R.styleable.ExpandableLayout_el_duration,
                 context.getResources().getInteger(android.R.integer.config_shortAnimTime));
@@ -79,12 +80,15 @@ public class ExpandableLayout extends RelativeLayout {
         }
 
         final View headerView = View.inflate(context, headerID, null);
-        headerView.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        headerView.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT,
+                                                              headerHeight == -1 ? LayoutParams.WRAP_CONTENT : headerHeight));
         mHeaderLayout.addView(headerView);
+
         final View contentView = View.inflate(context, contentID, null);
-        contentView.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        contentView.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         mContentLayout.addView(contentView);
         mContentLayout.setVisibility(GONE);
+
         mHeaderLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.AssignTaskFragment;
+import com.bananaplan.workflowandroid.drawermenu.DrawerFragment;
 import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.workeroverview.WorkerOverviewFragment;
 
@@ -35,7 +36,7 @@ public class UIController {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private FragmentManager mFragmentManager;
-    private DrawerMenuFragment mDrawerMenuFragment;
+    private DrawerFragment mDrawerFragment;
     private AssignTaskFragment mAssignTaskFragment;
 
     private static final int MENU_ITEM_CASE_OVERVIEW_FRAGMENT = 10000;
@@ -141,10 +142,10 @@ public class UIController {
     private void initFragments() {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
-        mDrawerMenuFragment = (DrawerMenuFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
-        if (mDrawerMenuFragment == null) {
-            mDrawerMenuFragment = new DrawerMenuFragment();
-            fragmentTransaction.add(R.id.drawer_menu_container, mDrawerMenuFragment, FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
+        mDrawerFragment = (DrawerFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
+        if (mDrawerFragment == null) {
+            mDrawerFragment = new DrawerFragment();
+            fragmentTransaction.add(R.id.drawer_menu_container, mDrawerFragment, FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
         }
 
         mAssignTaskFragment = (AssignTaskFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_TASK_ASSIGN_FRAGMENT);
