@@ -8,7 +8,7 @@
         <!-- Action bar color -->
         <item name="colorPrimary">@color/action_bar_primary_color</item>
         <!-- Status bar color -->
-        <item name="colorPrimaryDark">@color/action_bar_primary_dark_color</item>
+        <item name="colorPrimaryDark">@color/action_bar_primary_color</item>
 
         <item name="drawerArrowStyle">@style/BaseAppTheme.DrawerArrowStyle</item>
         <item name="android:windowBackground">@color/main_window_background_color</item>
