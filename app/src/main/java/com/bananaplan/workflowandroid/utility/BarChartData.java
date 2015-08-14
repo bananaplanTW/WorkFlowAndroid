@@ -32,11 +32,11 @@ public class BarChartData {
         }
         for (int i = 0; i < mColorId.length; i++) {
             if (i == 1) {
-                mColorId[i] = R.color.statistics_bar_color2;
+                mColorId[i] = R.color.orange;
             } else if (i == 2) {
-                mColorId[i] = R.color.statistics_bar_color3;
+                mColorId[i] = R.color.red;
             } else {
-                mColorId[i] = R.color.statistics_bar_color1;
+                mColorId[i] = R.color.blue;
             }
         }
     }

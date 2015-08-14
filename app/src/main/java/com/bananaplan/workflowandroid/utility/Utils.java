@@ -63,10 +63,10 @@ public class Utils {
         renderer.setTextTypeface(null, Typeface.NORMAL);
 
         renderer.setShowGrid(true);
-        renderer.setGridColor(resources.getColor(R.color.case_overview_statistics_grid_color));
+        renderer.setGridColor(resources.getColor(R.color.gray3));
 
         renderer.setLabelsColor(Color.BLACK);
-        renderer.setAxesColor(resources.getColor(R.color.case_overview_statistics_axis_color));
+        renderer.setAxesColor(resources.getColor(R.color.gray1));
         renderer.setBarSpacing(0.5);
 
         renderer.setXTitle("");

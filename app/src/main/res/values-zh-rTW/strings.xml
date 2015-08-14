@@ -6,7 +6,7 @@
     <string name="task_case_edit_text">修改案件</string>
     <string name="task_progress_not_start">尚未開始</string>
     <string name="task_progress_in_schedule">已排程</string>
-    <string name="task_progress_working">正常工作中</string>
+    <string name="task_progress_working">進行中</string>
     <string name="task_progress_pause">暫停</string>
     <string name="task_progress_finish">完成</string>
     <string name="worker_action_start">全體動作</string>
@@ -59,6 +59,7 @@
     <string name="worker_ov_worker_phone">"電話："</string>
     <string name="worker_ov_worker_tab_title_task_items">"工作項目"</string>
     <string name="worker_ov_worker_tab_title_worker_status">"員工狀況"</string>
+    <string name="worker_ov_worker_tab_title_worker_attendance_status">"出勤狀況"</string>
     <string name="worker_ov_edit_task_item">"修改項目"</string>
 
     <string name="worker_ov_taskitem_listview_start_date">"開始日期"</string>
@@ -70,5 +71,14 @@
     <string name="worker_ov_taskitem_listview_tool_used">"使用機器"</string>
     <string name="worker_ov_taskitem_listview_error_count">"錯誤"</string>
     <string name="worker_ov_taskitem_listview_warning">"警訊"</string>
+    <string name="worker_ov_edittext_record_hint">"寫下紀錄..."</string>
+    <string name="worker_ov_btn_upload">"上傳"</string>
+    <string name="worker_ov_btn_capture">"照相"</string>
+    <string name="worker_ov_btn_finish_record">"紀錄完成"</string>
+    <string name="worker_ov_tab_all">"全部"</string>
+    <string name="worker_ov_tab_record">"紀錄"</string>
+    <string name="worker_ov_tab_photo">"檔案"</string>
+    <string name="worker_ov_tab_file">"照片"</string>
+    <string name="worker_ov_tab_history">"日誌"</string>
 
 </resources>

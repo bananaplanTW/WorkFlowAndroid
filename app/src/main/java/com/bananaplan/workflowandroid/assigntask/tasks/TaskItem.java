@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.assigntask.tasks;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Data in a task item
@@ -19,12 +20,13 @@ public class TaskItem {
     public long taskCaseId;
     public long workerId;
     public long toolId;
+    public Date startDate;
+    public Date finishDate;
 
     public String title;
     public ArrayList<Warning> warningList = new ArrayList<>();
 
     public Status status = Status.NOT_START;
-
 
     public TaskItem(long id, String title) {
         this.id = id;

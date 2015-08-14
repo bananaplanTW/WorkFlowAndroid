@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:spinnerMode="dropdown"
-        android:popupBackground="#ffffff"/>
+        android:popupBackground="@android:color/white"/>
 
     <include layout="@layout/h_divider"/>
 
@@ -26,12 +26,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#979797" />
+        android:background="@color/gray5" />
 
     <ListView
         android:id="@+id/ov_leftpane_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#979797"
+        android:divider="@color/gray5"
         android:dividerHeight="2dp" />
 </LinearLayout>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/worker_ov_left_pane"
+        layout="@layout/overview_left_pane"/>
+
+    <View
+        android:id="@+id/worker_ov_vertical_divider"
+        android:layout_width="8dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/worker_ov_left_pane"
+        android:background="@drawable/divider_v"/>
+
+    <RelativeLayout
+        android:id="@+id/worker_ov_right_pane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/worker_ov_vertical_divider">
+
+        <RelativeLayout
+            android:id="@+id/worker_ov_right_pane_worker_personal_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="34dp">
+
+            <ImageView
+                android:id="@+id/worker_ov_right_pane_worker_avatar"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/border_avatar"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="14dp"/>
+
+            <TextView
+                android:id="@+id/worker_ov_right_pane_worker_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/worker_ov_right_pane_worker_avatar"
+                android:layout_alignParentTop="true"
+                android:textSize="18dp"
+                android:textColor="@android:color/black"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/worker_ov_right_pane_worker_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_toRightOf="@id/worker_ov_right_pane_worker_avatar"
+                android:layout_below="@id/worker_ov_right_pane_worker_name"
+                android:textSize="18dp"
+                android:textColor="@color/gray1"/>
+
+            <TextView
+                android:id="@+id/worker_ov_right_pane_worker_factory_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_toRightOf="@id/worker_ov_right_pane_worker_avatar"
+                android:layout_below="@id/worker_ov_right_pane_worker_title"
+                android:textSize="18dp"
+                android:textColor="@color/gray1"/>
+
+            <TextView
+                android:id="@+id/worker_ov_right_pane_worker_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:textSize="16dp"
+                android:textColor="@color/gray1"
+                android:layout_marginLeft="266dp"/>
+
+            <TextView
+                android:id="@+id/worker_ov_right_pane_worker_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/worker_ov_right_pane_worker_address"
+                android:textSize="16dp"
+                android:textColor="@color/gray1"
+                android:layout_marginLeft="266dp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/worker_ov_right_pane_edit_worker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/worker_ov_right_pane_worker_avatar"
+                android:background="@drawable/border_textview_edit_case_bg"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/case_overview_edit_worker"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"
+                android:layout_marginRight="16dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/worker_ov_right_pane_horozontal_divider"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/divider_h"
+            android:layout_below="@id/worker_ov_right_pane_worker_personal_info"/>
+
+        <TabHost
+            android:id="@+id/worker_ov_right_pane_tab_host"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/worker_ov_right_pane_horozontal_divider">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:divider="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </TabHost>
+
+    </RelativeLayout>
+
+</RelativeLayout>

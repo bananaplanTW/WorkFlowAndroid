@@ -133,6 +133,10 @@ public final class WorkingData {
                     Tool tool = new Tool(k, "Tool" + k);
                     mToolsMap.put(tool.id, tool);
                     TaskItem taskItem = new TaskItem(100 * i + 10 * j + k, "Item" + k);
+                    taskItem.status = getRandomStatus();
+                    if (taskItem.status != TaskItem.Status.NOT_START) {
+
+                    }
                     taskItem.taskCaseId = taskCase.id;
                     taskItem.warningList.add(new Warning("No power", WarningStatus.UNSOLVED));
                     taskCase.taskItems.add(taskItem);
@@ -144,10 +148,15 @@ public final class WorkingData {
         }
     }
 
+    private TaskItem.Status getRandomStatus() {
+        TaskItem.Status[] statuses = TaskItem.Status.values();
+        int idx = (int) (Math.random() * statuses.length);
+        return statuses[idx];
+    }
+
     private long getRandomWorkerId() {
-        Random random = new Random();
         int num = (int) (Math.random() * mWorkersMap.keySet().size());
-        List<Long> list = new ArrayList<Long>(mWorkersMap.keySet());
+        List<Long> list = new ArrayList<>(mWorkersMap.keySet());
         if (list.size() == 0) return 0;
         return list.get(num);
     }

@@ -9,7 +9,7 @@
         android:layout_width="49dp"
         android:layout_height="36dp"
         android:textSize="16dp"
-        android:textColor="#ffffff"
+        android:textColor="@android:color/white"
         android:gravity="center"
         android:padding="3dp"
         android:layout_marginRight="13dp"
@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/listview_taskcase_taskname_textcolor_unfinished"
+            android:textColor="@color/black1"
             android:textSize="16sp"
             android:singleLine="true"
             android:id="@+id/case_listview_view_tv_case_name" />
@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/overview_listview_second_item_textcolor"
+            android:textColor="@color/gray1"
             android:textSize="14sp"
             android:layout_below="@id/case_listview_view_tv_case_name"
             android:layout_marginTop="7dp"

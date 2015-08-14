@@ -8,11 +8,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/action_bar_baseline_color" />
-
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"

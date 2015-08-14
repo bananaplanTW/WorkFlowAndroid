@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:minHeight="@dimen/overview_listview_item_height"
+    android:id="@+id/worker_ov_worker_listview_root">
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="12dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_person_black"
+        android:background="@drawable/border_avatar"
+        android:id="@+id/worker_ov_worker_listview_worker_avatar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/worker_ov_worker_listview_worker_avatar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black1"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:id="@+id/worker_ov_worker_listview_worker_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray1"
+            android:textSize="14sp"
+            android:layout_below="@id/worker_ov_worker_listview_worker_name"
+            android:layout_marginTop="7dp"
+            android:singleLine="true"
+            android:id="@+id/worker_ov_worker_listview_worker_title"/>
+
+    </RelativeLayout>
+</RelativeLayout>

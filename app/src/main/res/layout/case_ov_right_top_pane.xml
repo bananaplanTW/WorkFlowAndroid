@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="123dp"
             android:text="@string/case_percent_selected"
-            android:textColor="#696969"
+            android:textColor="@color/gray2"
             android:textSize="14dp"
             android:layout_centerVertical="true"/>
         <TextView
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="195dp"
-            android:textColor="#4a4a4a"
+            android:textColor="@color/black1"
             android:textSize="14dp"
             android:layout_centerVertical="true"/>
         <com.bananaplan.workflowandroid.utility.CustomProgressBar
@@ -53,7 +53,7 @@
             android:paddingRight="16dp"
             android:paddingTop="8dp"
             android:text="@string/case_overview_edit_case"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:textSize="16dp"/>
     </RelativeLayout>
 

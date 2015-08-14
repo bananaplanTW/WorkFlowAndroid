@@ -1,0 +1,237 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/case_left_pane"
+        layout="@layout/overview_left_pane"/>
+
+    <include
+        android:id="@+id/case_pane_vertical_divider"
+        android:layout_width="8dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/case_left_pane"
+        layout="@layout/v_divider"/>
+
+    <RelativeLayout
+        android:id="@+id/case_right_pane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/case_pane_vertical_divider">
+
+        <ScrollView
+            android:id="@+id/case_right_pane_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/case_ov_right_top_pane"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="24dp"
+                    android:paddingLeft="11dp"
+                    android:paddingRight="11dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="21dp"
+                        android:layout_marginRight="21dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_viewgroup_bg_gray"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/linearlayout_bg_gray"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7.5dp"
+                                android:layout_marginTop="7.5dp"
+                                android:singleLine="true"
+                                android:text="@string/case_task_count_in_process"
+                                android:textColor="@color/gray2"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/case_tv_task_item_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="19.5dp"
+                            android:layout_marginTop="19dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="24sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="21dp"
+                        android:layout_marginRight="21dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_viewgroup_bg_gray"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/linearlayout_bg_gray"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7.5dp"
+                                android:layout_marginTop="7.5dp"
+                                android:singleLine="true"
+                                android:text="@string/case_hours_passed_by"
+                                android:textColor="@color/gray2"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/case_tv_hours_passed_by"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="19.5dp"
+                            android:layout_marginTop="19dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="24sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="21dp"
+                        android:layout_marginRight="21dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_viewgroup_bg_gray"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/linearlayout_bg_gray"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7.5dp"
+                                android:layout_marginTop="7.5dp"
+                                android:singleLine="true"
+                                android:text="@string/case_hours_unfinished"
+                                android:textColor="@color/gray2"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/case_tv_hours_unfinished"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="19.5dp"
+                            android:layout_marginTop="19dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="24sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="21dp"
+                        android:layout_marginRight="21dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_viewgroup_bg_gray"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/linearlayout_bg_gray"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7.5dp"
+                                android:layout_marginTop="7.5dp"
+                                android:singleLine="true"
+                                android:text="@string/case_hours_forecast"
+                                android:textColor="@color/gray2"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/case_tv_hours_forecast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="19.5dp"
+                            android:layout_marginTop="19dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="24sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <include layout="@layout/h_divider"/>
+
+                <include layout="@layout/ov_statisticts"/>
+
+                <include layout="@layout/h_divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/workers_list_vg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tv_worker_involved"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/case_overview_worker"/>
+
+                        <it.sephiroth.android.library.widget.HListView
+                            xmlns:widget="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/case_workers_listview"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="16.7dp"
+                            android:divider="@null"
+                            widget:hlv_dividerWidth="10dp"/>
+                    </LinearLayout>
+
+                    <ListView
+                        android:id="@+id/case_listview_task_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/workers_list_vg"
+                        android:layout_marginTop="16.5dp"
+                        android:divider="@null"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+</RelativeLayout>

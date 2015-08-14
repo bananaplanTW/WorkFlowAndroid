@@ -1,183 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:layout_width="42dp"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/taskitem_listview_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#4a4a4a"
-            android:textSize="16sp"
-            android:text="@string/case_overview_listview_taskitem_header_id"/>
-    </LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#e1e1e1"
-        android:visibility="invisible"
-        android:id="@+id/listview_taskitem_divider"/>
+        android:id="@+id/horozontal_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray5"
+        android:visibility="gone"/>
 
     <LinearLayout
-        android:layout_width="109dp"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/taskitem_listview_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:padding="8dp"
-            android:text="@string/case_overview_listview_taskitem_header_status"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#e1e1e1"
-        android:visibility="invisible"
-        android:id="@+id/listview_taskitem_divider"/>
-
-    <LinearLayout
-        android:layout_width="115dp"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/taskitem_listview_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/case_overview_listview_taskitem_header_name"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#e1e1e1"
-        android:visibility="invisible"
-        android:id="@+id/listview_taskitem_divider"/>
-
-    <LinearLayout
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/taskitem_listview_expected_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/case_overview_listview_taskitem_header_expect_time"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#e1e1e1"
-        android:visibility="invisible"
-        android:id="@+id/listview_taskitem_divider"/>
-
-    <LinearLayout
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/taskitem_listview_work_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/case_overview_listview_taskitem_header_work_time"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#e1e1e1"
-        android:visibility="invisible"
-        android:id="@+id/listview_taskitem_divider"/>
-
-    <LinearLayout
-        android:layout_width="110dp"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/taskitem_listview_work_tool"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="@string/case_overview_listview_taskitem_header_tool"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#e1e1e1"
-        android:visibility="invisible"
-        android:id="@+id/listview_taskitem_divider"/>
-
-    <RelativeLayout
-        android:layout_width="119dp"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/taskitem_listview_worker_name_string"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textSize="14sp"
-            android:text="@string/case_overview_listview_taskitem_header_worker"
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="112dp"
+            android:layout_width="42dp"
             android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="15.4dp">
-
-            <ImageView
-                android:id="@+id/taskitem_listview_worker_avator"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
+            android:gravity="center">
 
             <TextView
-                android:id="@+id/taskitem_listview_worker_name"
+                android:id="@+id/taskitem_listview_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:singleLine="true"
-                android:textSize="14sp"/>
+                android:text="@string/case_overview_listview_taskitem_header_id"
+                android:textColor="@color/black1"
+                android:textSize="16sp" />
         </LinearLayout>
-    </RelativeLayout>
+
+        <View
+            android:id="@+id/listview_taskitem_divider"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray3"/>
+
+        <LinearLayout
+            android:layout_width="109dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/taskitem_listview_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/case_overview_listview_taskitem_header_status"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/listview_taskitem_divider"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray3"/>
+
+        <LinearLayout
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/taskitem_listview_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/case_overview_listview_taskitem_header_name"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/listview_taskitem_divider"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray3"/>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/taskitem_listview_expected_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/case_overview_listview_taskitem_header_expect_time"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/listview_taskitem_divider"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray3"/>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/taskitem_listview_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/case_overview_listview_taskitem_header_work_time"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/listview_taskitem_divider"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray3"/>
+
+        <LinearLayout
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/taskitem_listview_work_tool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/case_overview_listview_taskitem_header_tool"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/listview_taskitem_divider"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray3"/>
+
+        <RelativeLayout
+            android:layout_width="119dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/taskitem_listview_worker_name_string"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:text="@string/case_overview_listview_taskitem_header_worker"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="112dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15.4dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/taskitem_listview_worker_avator"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+
+                <TextView
+                    android:id="@+id/taskitem_listview_worker_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/listview_taskitem_divider"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray3"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/taskitem_listview_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:text="@string/case_overview_listview_taskitem_header_warning"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#e1e1e1"
-        android:visibility="invisible"
-        android:id="@+id/listview_taskitem_divider"/>
-
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/taskitem_listview_warning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textSize="14sp"
-            android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:text="@string/case_overview_listview_taskitem_header_warning"/>
-    </RelativeLayout>
+        android:id="@+id/horozontal_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray5"
+        android:visibility="gone"/>
 
 </LinearLayout>
