@@ -9,7 +9,7 @@
         android:layout_alignParentBottom="true">
 
         <ImageView
-            android:id="@+id/avatar"
+            android:id="@+id/left_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -17,23 +17,25 @@
             android:src="@drawable/ic_person_black"/>
 
         <TextView
-            android:id="@+id/drawer_setting_text"
+            android:id="@+id/drawer_item_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:layout_toRightOf="@+id/avatar"
+            android:layout_toRightOf="@+id/left_icon"
             android:layout_centerVertical="true"
             android:textColor="@color/drawer_item_setting_text_color"
             android:textSize="@dimen/drawer_item_setting_text_size"
             android:textStyle="bold"/>
 
         <ImageView
-            android:id="@+id/drawer_setting"
+            android:id="@+id/drawer_setting_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/drawer_setting_button_padding"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/setting"/>
+            android:src="@drawable/setting"
+            android:background="?selectableItemBackgroundBorderless"/>
 
     </RelativeLayout>
 

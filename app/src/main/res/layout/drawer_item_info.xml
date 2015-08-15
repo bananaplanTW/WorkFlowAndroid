@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/DrawerItemStyle"
-    android:background="?android:selectableItemBackground">
+    android:background="?selectableItemBackground">
 
     <ImageView
         android:id="@+id/left_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:src="@drawable/selector_drawer_info_icon"/>
 
     <TextView
         android:id="@+id/drawer_item_text"
-        style="@style/DrawerItemNormalTextStyle"
-        android:layout_toRightOf="@+id/left_icon"/>
+        style="@style/DrawerItemTextStyle"
+        android:layout_toRightOf="@+id/left_icon"
+        android:text="@string/drawer_main"/>
 
     <TextView
         android:id="@+id/drawer_item_info_count"

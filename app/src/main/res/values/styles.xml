@@ -77,12 +77,12 @@
         <item name="android:background">@color/drawer_setting_background_color</item>
     </style>
 
-    <style name="DrawerItemNormalTextStyle">
+    <style name="DrawerItemTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/drawer_item_text_margin_left</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:textColor">@color/drawer_item_text_color</item>
+        <item name="android:textColor">@drawable/selector_drawer_item_text_color</item>
         <item name="android:textSize">@dimen/drawer_item_text_size</item>
     </style>
 
@@ -96,7 +96,7 @@
         <item name="android:paddingBottom">@dimen/drawer_item_number_padding_top_bottom</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:background">@drawable/drawer_menu_item_number_background</item>
+        <item name="android:background">@drawable/drawer_item_number_background</item>
     </style>
 
     <style name="DrawerSubItemTextStyle">
@@ -104,7 +104,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">@dimen/drawer_item_padding_left_right</item>
         <item name="android:paddingRight">@dimen/drawer_item_padding_left_right</item>
-        <item name="android:textColor">@color/drawer_subitem_text_color</item>
+        <item name="android:textColor">@drawable/selector_drawer_subitem_text_color</item>
         <item name="android:textSize">@dimen/drawer_subitem_text_size</item>
     </style>
 

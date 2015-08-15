@@ -74,6 +74,7 @@
     <!-- DrawerMenu fragment -->
     <dimen name="drawer_width">300dp</dimen>
     <dimen name="drawer_divider_height">1dp</dimen>
+    <dimen name="drawer_setting_button_padding">10dp</dimen>
     <dimen name="drawer_item_height">65dp</dimen>
     <dimen name="drawer_item_padding_left_right">15dp</dimen>
     <dimen name="drawer_item_text_size">20dp</dimen>

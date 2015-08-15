@@ -66,7 +66,7 @@ public class DrawerFragment extends Fragment {
 
         mDrawerMenu.setLayoutManager(mLinearLayoutManager);
         mDrawerMenu.addItemDecoration(new DividerItemDecoration(mActivity.getResources().
-                                                                getDrawable(R.drawable.drawer_menu_divider), false, true));
+                                                                getDrawable(R.drawable.drawer_divider), false, true));
         mDrawerMenu.setAdapter(mDrawerAdapter);
     }
 }

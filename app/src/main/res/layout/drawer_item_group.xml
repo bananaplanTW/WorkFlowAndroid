@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:el_headerLayout="@layout/drawer_item_lr_icon"
+    app:el_headerLayout="@layout/drawer_item_group_header"
     app:el_headerHeight="@dimen/drawer_item_height"
     app:el_contentLayout="@layout/drawer_subitem_container" />

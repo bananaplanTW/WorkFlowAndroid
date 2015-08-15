@@ -2,7 +2,7 @@
 <resources>
 
     <!-- DrawerMenu fragment -->
-    <item name="drawer_main" type="id"/>
+    <item name="drawer_info" type="id"/>
     <item name="drawer_assign_task" type="id"/>
     <item name="drawer_case_overview" type="id"/>
     <item name="drawer_add_case" type="id"/>

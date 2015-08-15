@@ -68,12 +68,15 @@
 
     <!-- DrawerMenuFragment -->
     <color name="drawer_background_color">@android:color/white</color>
+    <color name="drawer_subitem_selected_background_color">#FF4A90E2</color>
     <color name="drawer_divider_color">#FFE1E1E1</color>
     <color name="drawer_item_text_color">#FF4A4A4A</color>
+    <color name="drawer_item_selected_text_color">#FF4A90E2</color>
     <color name="drawer_item_setting_text_color">@android:color/white</color>
     <color name="drawer_item_info_count_background_color">#FF9B9B9B</color>
     <color name="drawer_item_info_count_text_color">@android:color/white</color>
     <color name="drawer_subitem_text_color">#FF9B9B9B</color>
+    <color name="drawer_subitem_selected_text_color">@android:color/white</color>
     <color name="drawer_setting_background_color">#545454</color>
 
 </resources>
