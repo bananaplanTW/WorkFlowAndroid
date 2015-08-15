@@ -17,8 +17,8 @@ import com.bananaplan.workflowandroid.R;
 public class ExpandableLayout extends RelativeLayout {
 
     public interface OnExpandCollapseListener {
-        public void onExpand();
-        public void onCollapse();
+        public void onExpand(ExpandableLayout v);
+        public void onCollapse(ExpandableLayout v);
     }
 
     private Boolean mIsAnimationRunning = false;
@@ -137,7 +137,7 @@ public class ExpandableLayout extends RelativeLayout {
         mAnimation.setDuration(mDuration);
         v.startAnimation(mAnimation);
         if (mOnExpandCollapseListener != null) {
-            mOnExpandCollapseListener.onExpand();
+            mOnExpandCollapseListener.onExpand(this);
         }
     }
 
@@ -164,7 +164,7 @@ public class ExpandableLayout extends RelativeLayout {
         mAnimation.setDuration(mDuration);
         v.startAnimation(mAnimation);
         if (mOnExpandCollapseListener != null) {
-            mOnExpandCollapseListener.onCollapse();
+            mOnExpandCollapseListener.onCollapse(this);
         }
     }
 

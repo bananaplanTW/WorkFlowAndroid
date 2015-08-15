@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.utility.ExpandableLayout;
+import com.bananaplan.workflowandroid.utility.ExpandableLayout.OnExpandCollapseListener;
 
 import java.util.ArrayList;
 
@@ -19,8 +21,30 @@ import java.util.ArrayList;
  */
 public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
+    private static final String TAG = "DrawerAdapter";
+
     private Context mContext;
     private ArrayList<DrawerItem> mDrawerDatas = new ArrayList<DrawerItem>();
+
+    private ExpandableLayout mLastExpandedGroup = null;
+
+    private OnExpandCollapseListener mOnExpandCollapseListener = new OnExpandCollapseListener() {
+        @Override
+        public void onExpand(ExpandableLayout v) {
+            if (mLastExpandedGroup == null) {
+                mLastExpandedGroup = v;
+                return;
+            }
+            if (mLastExpandedGroup == v) return;
+            mLastExpandedGroup.hide();
+            mLastExpandedGroup = v;
+        }
+
+        @Override
+        public void onCollapse(ExpandableLayout v) {
+
+        }
+    };
 
     private static final class DrawerItemIndex {
         public static final int SIZE = 6;
@@ -32,7 +56,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public static final int EQUIPMENT = 5;
     }
 
-    private static final class SettingViewHolder extends RecyclerView.ViewHolder {
+    private final class SettingViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView avatar;
         public TextView text;
@@ -46,7 +70,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private static class BaseViewHolder extends RecyclerView.ViewHolder {
+    private class BaseViewHolder extends RecyclerView.ViewHolder {
 
         public View view;
         public TextView text;
@@ -60,7 +84,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private static final class LRIconViewHolder extends BaseViewHolder {
+    private final class LRIconViewHolder extends BaseViewHolder {
 
         public ImageView ricon;
 
@@ -70,7 +94,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private static final class InfoCountViewHolder extends BaseViewHolder {
+    private final class InfoCountViewHolder extends BaseViewHolder {
 
         public TextView number;
 
@@ -81,7 +105,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private static final class GroupViewHolder extends BaseViewHolder {
+    private final class GroupViewHolder extends BaseViewHolder {
 
         public ImageView ricon;
         public ViewGroup subItemsContainer;
@@ -89,6 +113,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public GroupViewHolder(View v) {
             super(v);
+            ((ExpandableLayout) v).setOnExpandCollapseListener(mOnExpandCollapseListener);
             ricon = (ImageView) v.findViewById(R.id.right_icon);
             subItemsContainer = (ViewGroup) v.findViewById(R.id.drawer_subitems_container);
         }
