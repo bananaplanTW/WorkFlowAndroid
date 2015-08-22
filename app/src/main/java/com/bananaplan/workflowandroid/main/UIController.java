@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -28,6 +29,16 @@ import com.bananaplan.workflowandroid.workeroverview.WorkerOverviewFragment;
  */
 public class UIController {
 
+    private static final int MENU_ITEM_CASE_OVERVIEW_FRAGMENT = 10000;
+    private static final int MENU_ITEM_WORKER_OVERVIEW_FRAGMENT = MENU_ITEM_CASE_OVERVIEW_FRAGMENT + 1;
+
+    public static final class FragmentTag {
+        public static final String TAG_DRAWER_MENU_FRAGMENT = "tag_drawer_menu_fragment";
+        public static final String TAG_TASK_ASSIGN_FRAGMENT = "tag_task_assign_fragment";
+        public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_case_overview_fragment";
+        public static final String TAG_WORKER_OVERVIEW_FRAGMENT = "tag_worker_overview_fragment";
+    }
+
     private ActionBarActivity mMainActivity;
     private ActionBar mActionBar;
     private Toolbar mToolbar;
@@ -39,15 +50,6 @@ public class UIController {
     private DrawerFragment mDrawerFragment;
     private AssignTaskFragment mAssignTaskFragment;
 
-    private static final int MENU_ITEM_CASE_OVERVIEW_FRAGMENT = 10000;
-    private static final int MENU_ITEM_WORKER_OVERVIEW_FRAGMENT = MENU_ITEM_CASE_OVERVIEW_FRAGMENT + 1;
-
-    public static final class FragmentTag {
-        public static final String TAG_DRAWER_MENU_FRAGMENT = "tag_drawer_menu_fragment";
-        public static final String TAG_TASK_ASSIGN_FRAGMENT = "tag_task_assign_fragment";
-        public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_case_overview_fragment";
-        public static final String TAG_WORKER_OVERVIEW_FRAGMENT = "tag_worker_overview_fragment";
-    }
 
     public UIController(ActionBarActivity activity) {
         mMainActivity = activity;
@@ -160,5 +162,13 @@ public class UIController {
     public void onCreateOptionsMenu(Menu menu) {
         menu.add(0, MENU_ITEM_CASE_OVERVIEW_FRAGMENT, 0, "CaseOverView Fragment");
         menu.add(0, MENU_ITEM_WORKER_OVERVIEW_FRAGMENT, 0, "WorkerOverView Fragment");
+    }
+
+    public boolean isDrawerOpen() {
+        return mDrawerLayout.isDrawerOpen(GravityCompat.START);
+    }
+
+    public void closeDrawer() {
+        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 }
