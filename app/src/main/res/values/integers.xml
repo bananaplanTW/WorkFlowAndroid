@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <integer name="fragment_fade_animation_duration">600</integer>
+
     <!-- Task assign page -->
     <integer name="worker_container_weight">5</integer>
     <integer name="task_container_weight">3</integer>

@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.main;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -10,14 +11,20 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.addcase.AddCaseFragment;
+import com.bananaplan.workflowandroid.addequipment.AddEquipmentFragment;
+import com.bananaplan.workflowandroid.addworker.AddWorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.AssignTaskFragment;
 import com.bananaplan.workflowandroid.drawermenu.DrawerFragment;
 import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
+import com.bananaplan.workflowandroid.drawermenu.OnClickDrawerItemListener;
+import com.bananaplan.workflowandroid.equipmentoverview.EquipmentOverviewFragment;
+import com.bananaplan.workflowandroid.info.InfoFragment;
 import com.bananaplan.workflowandroid.workeroverview.WorkerOverviewFragment;
 
 
@@ -26,17 +33,21 @@ import com.bananaplan.workflowandroid.workeroverview.WorkerOverviewFragment;
  *
  * @author Danny Lin
  * @since 2015.05.28
+ *
+ * TODO: Animation of closing the drawer is laggy
  */
-public class UIController {
-
-    private static final int MENU_ITEM_CASE_OVERVIEW_FRAGMENT = 10000;
-    private static final int MENU_ITEM_WORKER_OVERVIEW_FRAGMENT = MENU_ITEM_CASE_OVERVIEW_FRAGMENT + 1;
+public class UIController implements OnClickDrawerItemListener {
 
     public static final class FragmentTag {
-        public static final String TAG_DRAWER_MENU_FRAGMENT = "tag_drawer_menu_fragment";
-        public static final String TAG_TASK_ASSIGN_FRAGMENT = "tag_task_assign_fragment";
-        public static final String TAG_CASE_OVERVIEW_FRAGMENT = "tag_case_overview_fragment";
-        public static final String TAG_WORKER_OVERVIEW_FRAGMENT = "tag_worker_overview_fragment";
+        public static final String DRAWER_MENU_FRAGMENT = "drawer_menu_fragment";
+        public static final String INFO_FRAGMENT = "info_fragment";
+        public static final String ASSIGN_TASK_FRAGMENT = "assign_task_fragment";
+        public static final String CASE_OVERVIEW_FRAGMENT = "case_overview_fragment";
+        public static final String ADD_CASE_FRAGMENT = "add_case_fragment";
+        public static final String WORKER_OVERVIEW_FRAGMENT = "worker_overview_fragment";
+        public static final String ADD_WORKER_FRAGMENT = "add_worker_fragment";
+        public static final String EQUIPMENT_OVERVIEW_FRAGMENT = "equipment_overview_fragment";
+        public static final String ADD_EQUIPMENT_FRAGMENT = "add_equipment_fragment";
     }
 
     private ActionBarActivity mMainActivity;
@@ -48,8 +59,9 @@ public class UIController {
 
     private FragmentManager mFragmentManager;
     private DrawerFragment mDrawerFragment;
-    private AssignTaskFragment mAssignTaskFragment;
+    private Fragment mCurrentFragment;
 
+    private int mDrawerItemId = -1;
 
     public UIController(ActionBarActivity activity) {
         mMainActivity = activity;
@@ -64,36 +76,8 @@ public class UIController {
             return true;
         } else {
             // Normal menu items put here
-            switch (item.getItemId()) {
-                case MENU_ITEM_CASE_OVERVIEW_FRAGMENT:
-                    return openCaseOverViewFragment();
-                case MENU_ITEM_WORKER_OVERVIEW_FRAGMENT:
-                    return openWorkerOverViewFragment();
-                default:
-                    break;
-            }
             return false;
         }
-    }
-
-    private boolean openWorkerOverViewFragment() {
-        if (mFragmentManager == null) return false;
-        FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
-        if (fragTransaction == null) return false;
-        WorkerOverviewFragment frag = new WorkerOverviewFragment();
-        fragTransaction.replace(R.id.content_container, frag, FragmentTag.TAG_WORKER_OVERVIEW_FRAGMENT).addToBackStack(null);
-        fragTransaction.commit();
-        return true;
-    }
-
-    private boolean openCaseOverViewFragment() {
-        if (mFragmentManager == null) return false;
-        FragmentTransaction fraTransaction = mFragmentManager.beginTransaction();
-        if (fraTransaction == null) return false;
-        CaseOverviewFragment frag = new CaseOverviewFragment();
-        fraTransaction.replace(R.id.content_container, frag, FragmentTag.TAG_CASE_OVERVIEW_FRAGMENT).addToBackStack(null);
-        fraTransaction.commit();
-        return true;
     }
 
     public void onPostCreate(Bundle savedInstanceState) {
@@ -136,6 +120,7 @@ public class UIController {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                //replaceContent();
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -144,24 +129,22 @@ public class UIController {
     private void initFragments() {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
-        mDrawerFragment = (DrawerFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
+        mDrawerFragment = (DrawerFragment) mFragmentManager.findFragmentByTag(FragmentTag.DRAWER_MENU_FRAGMENT);
         if (mDrawerFragment == null) {
             mDrawerFragment = new DrawerFragment();
-            fragmentTransaction.add(R.id.drawer_menu_container, mDrawerFragment, FragmentTag.TAG_DRAWER_MENU_FRAGMENT);
+            fragmentTransaction.add(R.id.drawer_menu_container, mDrawerFragment, FragmentTag.DRAWER_MENU_FRAGMENT);
+        }
+        mDrawerFragment.setOnClickDrawerItemListener(this);
+
+        // Default fragment when launch app
+        InfoFragment infoFragment = (InfoFragment) mFragmentManager.findFragmentByTag(FragmentTag.INFO_FRAGMENT);
+        if (infoFragment == null) {
+            infoFragment = new InfoFragment();
+            fragmentTransaction.add(R.id.content_container, infoFragment, FragmentTag.INFO_FRAGMENT);
         }
 
-        mAssignTaskFragment = (AssignTaskFragment) mFragmentManager.findFragmentByTag(FragmentTag.TAG_TASK_ASSIGN_FRAGMENT);
-        if (mAssignTaskFragment == null) {
-            mAssignTaskFragment = new AssignTaskFragment();
-            fragmentTransaction.add(R.id.content_container, mAssignTaskFragment, FragmentTag.TAG_TASK_ASSIGN_FRAGMENT);
-        }
-
+        mCurrentFragment = infoFragment;
         fragmentTransaction.commit();
-    }
-
-    public void onCreateOptionsMenu(Menu menu) {
-        menu.add(0, MENU_ITEM_CASE_OVERVIEW_FRAGMENT, 0, "CaseOverView Fragment");
-        menu.add(0, MENU_ITEM_WORKER_OVERVIEW_FRAGMENT, 0, "WorkerOverView Fragment");
     }
 
     public boolean isDrawerOpen() {
@@ -170,5 +153,80 @@ public class UIController {
 
     public void closeDrawer() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onClickDrawerItem(int id) {
+        closeDrawer();
+        mDrawerItemId = id;
+        replaceContent();
+    }
+
+    private void replaceContent() {
+        switch (mDrawerItemId) {
+            case R.id.drawer_setting_button:
+                Toast.makeText(mMainActivity, "Setting", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.drawer_info:
+                if (mCurrentFragment instanceof InfoFragment) break;
+                replaceTo(InfoFragment.class, FragmentTag.INFO_FRAGMENT);
+                break;
+
+            case R.id.drawer_assign_task:
+                if (mCurrentFragment instanceof AssignTaskFragment) break;
+                replaceTo(AssignTaskFragment.class, FragmentTag.ASSIGN_TASK_FRAGMENT);
+                break;
+
+            case R.id.drawer_case_overview:
+                if (mCurrentFragment instanceof CaseOverviewFragment) break;
+                replaceTo(CaseOverviewFragment.class, FragmentTag.CASE_OVERVIEW_FRAGMENT);
+                break;
+
+            case R.id.drawer_add_case:
+                if (mCurrentFragment instanceof AddCaseFragment) break;
+                replaceTo(AddCaseFragment.class, FragmentTag.ADD_CASE_FRAGMENT);
+                break;
+
+            case R.id.drawer_worker_overview:
+                if (mCurrentFragment instanceof WorkerOverviewFragment) break;
+                replaceTo(WorkerOverviewFragment.class, FragmentTag.WORKER_OVERVIEW_FRAGMENT);
+                break;
+
+            case R.id.drawer_add_worker:
+                if (mCurrentFragment instanceof AddWorkerFragment) break;
+                replaceTo(AddWorkerFragment.class, FragmentTag.ADD_WORKER_FRAGMENT);
+                break;
+
+            case R.id.drawer_equipment_overview:
+                if (mCurrentFragment instanceof EquipmentOverviewFragment) break;
+                replaceTo(EquipmentOverviewFragment.class, FragmentTag.EQUIPMENT_OVERVIEW_FRAGMENT);
+                break;
+
+            case R.id.drawer_add_equipment:
+                if (mCurrentFragment instanceof AddEquipmentFragment) break;
+                replaceTo(AddEquipmentFragment.class, FragmentTag.ADD_EQUIPMENT_FRAGMENT);
+                break;
+        }
+    }
+
+    private void replaceTo(Class<?> fragmentClass, String fragmentTag) {
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
+
+        Fragment fragment = mFragmentManager.findFragmentByTag(fragmentTag);
+        if (fragment == null) {
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+                fragmentTransaction.replace(R.id.content_container, fragment, fragmentTag);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        mCurrentFragment = fragment;
+        fragmentTransaction.commit();
     }
 }

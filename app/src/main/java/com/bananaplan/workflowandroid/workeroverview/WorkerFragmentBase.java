@@ -11,7 +11,7 @@ import com.bananaplan.workflowandroid.main.UIController;
 public abstract class WorkerFragmentBase extends Fragment {
     public abstract void onWorkerSelected(WorkerItem worker);
     public WorkerItem getSelectedWorker() {
-        Fragment frag = getFragmentManager().findFragmentByTag(UIController.FragmentTag.TAG_WORKER_OVERVIEW_FRAGMENT);
+        Fragment frag = getFragmentManager().findFragmentByTag(UIController.FragmentTag.WORKER_OVERVIEW_FRAGMENT);
         if (frag == null) return null;
         return ((WorkerOverviewFragment) frag).getSelectedWorker();
     }

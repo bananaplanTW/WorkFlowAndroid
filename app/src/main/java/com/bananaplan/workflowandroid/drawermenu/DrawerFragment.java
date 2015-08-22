@@ -25,6 +25,8 @@ public class DrawerFragment extends Fragment {
     private Activity mActivity;
     private View mFragmentView;
 
+    private OnClickDrawerItemListener mOnClickDrawerItemListener;
+
     private RecyclerView mDrawerMenu;
     private DrawerAdapter mDrawerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -48,6 +50,10 @@ public class DrawerFragment extends Fragment {
         initialize();
     }
 
+    public void setOnClickDrawerItemListener(OnClickDrawerItemListener listener) {
+        mOnClickDrawerItemListener = listener;
+    }
+
     private void initialize() {
         findViews();
         setupDrawerMenu();
@@ -62,7 +68,7 @@ public class DrawerFragment extends Fragment {
         mLinearLayoutManager = new LinearLayoutManager(mActivity);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mDrawerAdapter = new DrawerAdapter(mActivity);
+        mDrawerAdapter = new DrawerAdapter(mActivity, mOnClickDrawerItemListener);
 
         mDrawerMenu.setLayoutManager(mLinearLayoutManager);
         mDrawerMenu.addItemDecoration(new DividerItemDecoration(mActivity.getResources().

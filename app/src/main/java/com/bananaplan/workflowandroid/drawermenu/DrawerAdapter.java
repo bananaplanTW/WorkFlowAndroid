@@ -28,6 +28,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context mContext;
     private ArrayList<DrawerItem> mDrawerItemDatas = new ArrayList<DrawerItem>();
 
+    private OnClickDrawerItemListener mOnClickDrawerItemListener;
+
     private ExpandableLayout mLastExpandedGroup = null;
     private View mLastSelectedItem = null;
     private View mLastSelectedGroupHeaderItem = null;
@@ -107,8 +109,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public DrawerAdapter(Context context) {
+    public DrawerAdapter(Context context, OnClickDrawerItemListener listener) {
         mContext = context;
+        mOnClickDrawerItemListener = listener;
         setupDrawerItemDatas();
     }
 
@@ -244,6 +247,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private void onBindInfoViewHolder(InfoViewHolder holder, int position) {
+        // Default drawer item when launch app
+        setSelectedItem(holder.view, false);
+
         int number = mDrawerItemDatas.get(position).infoCount;
 
         if (number != 0) {
@@ -309,44 +315,15 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.drawer_setting_button:
-                Toast.makeText(mContext, "Settings", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.drawer_info:
+        int id = v.getId();
+        if (id != R.id.drawer_setting_button) {
+            if (id == R.id.drawer_info || id == R.id.drawer_assign_task) {
                 setSelectedItem(v, false);
-                Toast.makeText(mContext, "Main", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.drawer_assign_task:
-                setSelectedItem(v, false);
-                Toast.makeText(mContext, "AssignTask", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.drawer_case_overview:
+            } else {
                 setSelectedItem(v, true);
-                Toast.makeText(mContext, "CaseOverview", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.drawer_add_case:
-                setSelectedItem(v, true);
-                ((ExpandableLayout) v.getTag()).getHeaderLayout().setSelected(true);
-                Toast.makeText(mContext, "AddCase", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.drawer_worker_overview:
-                setSelectedItem(v, true);
-                Toast.makeText(mContext, "WorkerOverview", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.drawer_add_worker:
-                setSelectedItem(v, true);
-                Toast.makeText(mContext, "AddWorker", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.drawer_equipment_overview:
-                setSelectedItem(v, true);
-                Toast.makeText(mContext, "EquipmentOverview", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.drawer_add_equipment:
-                setSelectedItem(v, true);
-                Toast.makeText(mContext, "AddEquipment", Toast.LENGTH_SHORT).show();
-                break;
+            }
         }
+        mOnClickDrawerItemListener.onClickDrawerItem(id);
     }
 
     private void setSelectedItem(View v, boolean isSubitem) {
