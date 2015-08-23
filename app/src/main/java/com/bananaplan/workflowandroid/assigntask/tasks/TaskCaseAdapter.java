@@ -1,5 +1,6 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
@@ -179,31 +180,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.title.setText(taskItem.title);
 
         // Warning
-        holder.warningContainer.removeAllViews();
-        if (taskItem.warningList.isEmpty()) {
-            holder.warningContainer.setVisibility(View.GONE);
-        } else {
-            for (Warning warning : taskItem.warningList) {
-                int colorId = -1;
-                switch (warning.status) {
-                    case SOLVED:
-                        colorId = R.color.task_item_warning_unsolved_color;
-                        break;
-                    case UNSOLVED:
-                        colorId = R.color.task_item_warning_unsolved_color;
-                        break;
-                }
-                if (colorId != -1) {
-                    TextView taskWarning = (TextView) LayoutInflater.from(mContext).inflate(
-                            R.layout.task_item_warning, holder.warningContainer, false);
-                    taskWarning.setText(warning.title);
-                    GradientDrawable taskStatusBackground = (GradientDrawable) taskWarning.getBackground();
-                    taskStatusBackground.setColor(mContext.getResources().getColor(colorId));
-                    holder.warningContainer.setVisibility(View.VISIBLE);
-                    holder.warningContainer.addView(taskWarning);
-                }
-            }
-        }
+        Utils.setTaskItemWarningTextView((Activity) mContext, taskItem, holder.warning, false);
 
         // Task working time
         holder.workingTime.setText(taskItem.getWorkingTime());
@@ -215,7 +192,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.worker.setText(taskItem.getWorkerName());
 
         // Status
-        holder.status.setText(Utils.getTaskItemStatusString(mContext, taskItem.status));
+        holder.status.setText(Utils.getTaskItemStatusString(mContext, taskItem));
     }
 
     public TaskItem getItem(int position) {

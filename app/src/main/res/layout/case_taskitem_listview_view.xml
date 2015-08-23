@@ -20,7 +20,6 @@
             android:layout_width="42dp"
             android:layout_height="match_parent"
             android:gravity="center">
-
             <TextView
                 android:id="@+id/taskitem_listview_id"
                 android:layout_width="wrap_content"
@@ -40,7 +39,6 @@
             android:layout_width="109dp"
             android:layout_height="match_parent"
             android:gravity="center">
-
             <TextView
                 android:id="@+id/taskitem_listview_status"
                 android:layout_width="wrap_content"
@@ -60,7 +58,6 @@
             android:layout_width="115dp"
             android:layout_height="match_parent"
             android:gravity="center">
-
             <TextView
                 android:id="@+id/taskitem_listview_name"
                 android:layout_width="wrap_content"
@@ -79,7 +76,6 @@
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:gravity="center">
-
             <TextView
                 android:id="@+id/taskitem_listview_expected_time"
                 android:layout_width="wrap_content"
@@ -98,7 +94,6 @@
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:gravity="center">
-
             <TextView
                 android:id="@+id/taskitem_listview_work_time"
                 android:layout_width="wrap_content"
@@ -117,7 +112,6 @@
             android:layout_width="110dp"
             android:layout_height="match_parent"
             android:gravity="center">
-
             <TextView
                 android:id="@+id/taskitem_listview_work_tool"
                 android:layout_width="wrap_content"
@@ -135,7 +129,6 @@
         <RelativeLayout
             android:layout_width="119dp"
             android:layout_height="match_parent">
-
             <TextView
                 android:id="@+id/taskitem_listview_worker_name_string"
                 android:layout_width="wrap_content"
@@ -146,20 +139,18 @@
                 android:text="@string/case_overview_listview_taskitem_header_worker"
                 android:textSize="14sp"
                 android:visibility="gone" />
-
             <LinearLayout
-                android:layout_width="112dp"
+                android:id="@+id/taskitem_listview_worker_info"
+                android:layout_width="119dp"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15.4dp"
                 android:gravity="center_vertical">
-
                 <ImageView
                     android:id="@+id/taskitem_listview_worker_avator"
                     android:layout_width="24dp"
                     android:layout_height="24dp" />
-
                 <TextView
                     android:id="@+id/taskitem_listview_worker_name"
                     android:layout_width="wrap_content"
@@ -181,18 +172,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center">
-
-            <TextView
-                android:id="@+id/taskitem_listview_warning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:padding="8dp"
-                android:text="@string/case_overview_listview_taskitem_header_warning"
-                android:textSize="14sp" />
+            <include layout="@layout/warning_textview_layout"/>
         </RelativeLayout>
-
     </LinearLayout>
 
     <View

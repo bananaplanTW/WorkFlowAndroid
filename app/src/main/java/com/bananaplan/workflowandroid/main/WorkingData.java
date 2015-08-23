@@ -12,9 +12,13 @@ import com.bananaplan.workflowandroid.assigntask.workers.Tool;
 import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -135,10 +139,16 @@ public final class WorkingData {
                     TaskItem taskItem = new TaskItem(100 * i + 10 * j + k, "Item" + k);
                     taskItem.status = getRandomStatus();
                     if (taskItem.status != TaskItem.Status.NOT_START) {
-
+                        taskItem.startDate = getRandomDate();
+                        if (taskItem.status == TaskItem.Status.FINISH) {
+                            taskItem.finishDate = getRandomDate();
+                        }
                     }
                     taskItem.taskCaseId = taskCase.id;
-                    taskItem.warningList.add(new Warning("No power", WarningStatus.UNSOLVED));
+                    taskItem.warningList.add(new Warning("No power", WarningStatus.SOLVED));
+                    taskItem.warningList.add(new Warning("No power", WarningStatus.SOLVED));
+                    taskItem.warningList.add(new Warning("No resource", WarningStatus.UNSOLVED));
+                    taskItem.warningList.add(new Warning("No resource", WarningStatus.UNSOLVED));
                     taskCase.taskItems.add(taskItem);
                     mTaskItemsMap.put(taskItem.id, taskItem);
                     taskItem.toolId = tool.id;
@@ -159,6 +169,19 @@ public final class WorkingData {
         List<Long> list = new ArrayList<>(mWorkersMap.keySet());
         if (list.size() == 0) return 0;
         return list.get(num);
+    }
+
+    private Date getRandomDate() {
+        int year = randBetween(2015, 2015);
+        int month = randBetween(0, 11);
+        GregorianCalendar gc = new GregorianCalendar(year, month, 1);
+        int day = randBetween(1, gc.getActualMaximum(gc.DAY_OF_MONTH));
+        gc.set(year, month, day);
+        return gc.getTime();
+    }
+
+    private int randBetween(int start, int end) {
+        return start + (int) Math.round(Math.random() * (end - start));
     }
     // --- only for test case
 }

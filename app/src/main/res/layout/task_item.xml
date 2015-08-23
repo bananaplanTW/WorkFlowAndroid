@@ -16,10 +16,12 @@
             android:textColor="@color/task_case_text_color"
             android:textSize="@dimen/task_item_title_text_size"/>
 
-        <LinearLayout
-            android:id="@+id/task_status_container"
-            style="@style/TaskItemTextStyle"
-            android:orientation="horizontal" />
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/warning_textview_layout"
+            android:layout_marginLeft="@dimen/task_item_padding"
+            android:layout_marginBottom="5dp"/>
 
     </LinearLayout>
 

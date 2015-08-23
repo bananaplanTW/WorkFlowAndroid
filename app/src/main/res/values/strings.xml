@@ -47,9 +47,11 @@
     <string name="case_overview_listview_taskitem_header_tool">"Tool"</string>
     <string name="case_overview_listview_taskitem_header_warning">"Warning"</string>
     <string name="case_overview_listview_taskitem_header_worker">"Duty"</string>
-    <string name="overview_working_hours">"Total hours finished: <b>%d</b> hours"</string>
+    <string name="overview_finish_hours">"Total hours finished: <b>%d</b> hours"</string>
+    <string name="overview_working_hours">"Total hours Worked: <b>%d</b> hours"</string>
     <string name="overview_overtime_hours">"Total hours overtime: <b>%d</b> hours"</string>
     <string name="overview_idle_hours">"Total hours idle: <b>%d</b> hours"</string>
+    <string name="overview_display_warning_txt">"%d"</string>
     <string-array name="week">
         <item>"Mon"</item>
         <item>"Tue"</item>
@@ -59,6 +61,10 @@
         <item>"Sat"</item>
         <item>"Sun"</item>
     </string-array>
+    <string name="statistics_popup_time_finish">"Finish"</string>
+    <string name="statistics_popup_time_work">"Work"</string>
+    <string name="statistics_popup_time_overtime">"Overtime"</string>
+    <string name="statistics_popup_time_idle">"Idle"</string>
 
     <!-- WorkerOverView fragment-->
     <string name="worker_ov_all_factories">"All factories"</string>

@@ -47,6 +47,7 @@ public class WorkerTaskItemFragment extends WorkerFragmentBase implements View.O
         super.onActivityCreated(savedInstanceState);
         mDateChoosed = (TextView) getActivity().findViewById(R.id.ov_statistics_week_chooser_date);
         mBarChartContainer = (LinearLayout) getActivity().findViewById(R.id.ov_statistics_chart_container);
+        ((LinearLayout.LayoutParams)mBarChartContainer.getLayoutParams()).topMargin = getResources().getDimensionPixelOffset(R.dimen.worker_ov_statistics_margin_top);
         mTvWorkingHours = (TextView) getActivity().findViewById(R.id.ov_statistics_working_hour_tv);
         mTvOvertimeHours = (TextView) getActivity().findViewById(R.id.ov_statistics_overtime_hour_tv);
         mTvIdleHours = (TextView) getActivity().findViewById(R.id.ov_statistics_idle_hour_tv);
@@ -111,15 +112,36 @@ public class WorkerTaskItemFragment extends WorkerFragmentBase implements View.O
                 holder = (TaskItemListViewAdapterViewHolder) convertView.getTag();
             }
             TaskItem taskItem = getItem(position);
-            holder.tvStartDate.setText(taskItem.getStartedDate());
-            holder.tvStatus.setText(Utils.getTaskItemStatusString(getActivity(), taskItem.status));
+            holder.tvStartDate.setText(Utils.timestamp2Date(taskItem.startDate, false));
+            holder.tvStatus.setText(Utils.getTaskItemStatusString(getActivity(), taskItem));
             holder.tvCaseName.setText(WorkingData.getInstance(getActivity()).getTaskCaseById(taskItem.taskCaseId).name);
             holder.tvItemName.setText(taskItem.title);
             holder.tvExpectedTime.setText(taskItem.getExpectedFinishedTime());
             holder.tvWorkTime.setText(taskItem.getWorkingTime());
             holder.tvTool.setText(WorkingData.getInstance(getActivity()).getToolById(taskItem.toolId).name);
-            holder.tvErrorCount.setText("1");
-            holder.tvWarning.setText("");
+            holder.tvErrorCount.setText(String.valueOf(taskItem.errorCount));
+            Utils.setTaskItemWarningTextView(getActivity(), taskItem, holder.tvWarning, true);
+            int txtColor;
+            if (taskItem.status == TaskItem.Status.FINISH) {
+                txtColor = getResources().getColor(R.color.gray1);
+                holder.tvStatus.setTextColor(txtColor);
+            } else {
+                txtColor = getResources().getColor(R.color.black1);
+                if (TaskItem.Status.WORKING == taskItem.status) {
+                    holder.tvStatus.setBackground(getResources().getDrawable(R.drawable.border_textview_bg_green, null));
+                    holder.tvStatus.setTextColor(getResources().getColor(R.color.green));
+                } else {
+                    holder.tvStatus.setBackground(null);
+                    holder.tvStatus.setTextColor(txtColor);
+                }
+            }
+            holder.tvStartDate.setTextColor(txtColor);
+            holder.tvCaseName.setTextColor(txtColor);
+            holder.tvItemName.setTextColor(txtColor);
+            holder.tvExpectedTime.setTextColor(txtColor);
+            holder.tvWorkTime.setTextColor(txtColor);
+            holder.tvTool.setTextColor(txtColor);
+            holder.tvErrorCount.setTextColor(txtColor);
             return convertView;
         }
     }
@@ -197,7 +219,7 @@ public class WorkerTaskItemFragment extends WorkerFragmentBase implements View.O
     }
 
     private void updateStatisticsView() {
-        BarChartData data = new BarChartData();
+        BarChartData data = new BarChartData(this.getClass().getName());
         data.genRandomData(getActivity(), 3);
         mBarChartContainer.removeAllViews();
         mBarChartContainer.addView(Utils.genBarChart(getActivity(), data),

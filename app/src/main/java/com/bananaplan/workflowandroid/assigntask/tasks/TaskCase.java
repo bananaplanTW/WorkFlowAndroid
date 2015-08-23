@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,9 +22,9 @@ public class TaskCase {
     public String name;
     public long vendorId;
     public long workerId;
-    public long deliveryDateTimestamp;
-    public long feedDateTimestamp;
-    public long figureDateTimestamp;
+    public Date deliveryDate;
+    public Date feedDate;
+    public Date figureDate;
     public int sheetCount;
     public int modelCount;
     public String others;

@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -24,14 +23,11 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.main.WorkingData;
-import com.bananaplan.workflowandroid.utility.BarChartData;
 import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
-import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
 
@@ -245,7 +241,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
 
             // update background of selected item
             if (position == mSelectedPosition) {
-                holder.root.setBackgroundColor(getResources().getColor(R.color.blue));
+                holder.root.setBackgroundColor(getResources().getColor(R.color.blue1));
                 holder.name.setTextColor(Color.WHITE);
                 holder.title.setTextColor(Color.WHITE);
             } else {

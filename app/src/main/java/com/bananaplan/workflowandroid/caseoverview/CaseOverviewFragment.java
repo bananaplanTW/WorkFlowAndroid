@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.main.WorkingData;
@@ -125,6 +126,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseHoursExpected = (TextView) getActivity().findViewById(R.id.case_tv_hours_forecast);
         mTvEditCase = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_edit_case);
         mStatisticsViewGroup = (LinearLayout) getActivity().findViewById(R.id.ov_statistics_chart_container);
+        ((LinearLayout.LayoutParams)mStatisticsViewGroup.getLayoutParams()).topMargin = getResources().getDimensionPixelOffset(R.dimen.case_ov_statistics_margin_top);
         mTvTaskItemCount = (TextView) getActivity().findViewById(R.id.case_tv_task_item_count);
         mTvTotalHoursPerWeek = (TextView) getActivity().findViewById(R.id.ov_statistics_working_hour_tv);
         mWeekPickerViewGroup = (LinearLayout) getActivity().findViewById(R.id.ov_statistics_week_chooser);
@@ -224,9 +226,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mPbCaseSelected.setProgress(taskCase.getFinishPercent());
         mTvTaskItemCount.setText(String.valueOf(taskCase.taskItems.size()));
         mTvCaseProgress.setText(taskCase.getFinishItemsCount() + "/" + taskCase.taskItems.size());
-        mTvCaseFeedDate.setText(Utils.timestamp2Date(taskCase.feedDateTimestamp));
-        mTvCaseFigureDate.setText(Utils.timestamp2Date(taskCase.figureDateTimestamp));
-        mTvCaseDeliveryDate.setText(Utils.timestamp2Date(taskCase.deliveryDateTimestamp));
+        mTvCaseFeedDate.setText(Utils.timestamp2Date(taskCase.feedDate, true));
+        mTvCaseFigureDate.setText(Utils.timestamp2Date(taskCase.figureDate, true));
+        mTvCaseDeliveryDate.setText(Utils.timestamp2Date(taskCase.deliveryDate, true));
         mTvCaseSheetCount.setText(String.valueOf(taskCase.sheetCount));
         mTvCaseModelCount.setText(String.valueOf(taskCase.modelCount));
         mTvCaseOthers.setText(taskCase.others);
@@ -234,14 +236,14 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     }
 
     private void updateStatisticsView() {
-        BarChartData data = new BarChartData();
+        BarChartData data = new BarChartData(this.getClass().getName());
         data.genRandomData(mActivity, 1);
         mStatisticsViewGroup.removeAllViews();
         mStatisticsViewGroup.addView(Utils.genBarChart(mActivity, data),
                 new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
-        mTvTotalHoursPerWeek.setText(getResources().getString(R.string.overview_working_hours, data.getWorkingHours()));
+        mTvTotalHoursPerWeek.setText(getResources().getString(R.string.overview_finish_hours, data.getWorkingHours()));
     }
 
     private void updateTaskItemListView() {
@@ -284,13 +286,12 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         holder.tvId.setTextSize(textSize);
         holder.tvWarning.setTextSize(textSize);
         holder.tvName.setTextSize(textSize);
-        holder.tvWorkerName.setVisibility(View.GONE);
-        holder.ivWorkerAvator.setVisibility(View.GONE);
+        holder.llWorkerInfo.setVisibility(View.GONE);
         holder.tvWorkerNameString.setVisibility(View.VISIBLE);
         for (View divider : holder.dividerViews) {
             divider.setVisibility(View.INVISIBLE);
         }
-        for (View divider : holder.horozontalDividerViews) {
+        for (View divider : holder.horizontalDividerViews) {
             divider.setVisibility(View.VISIBLE);
         }
         ViewTreeObserver observer = view.getViewTreeObserver();
@@ -449,6 +450,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.case_taskitem_listview_view, parent, false);
                 holder = new TaskItemListViewAdapterViewHolder(convertView);
+                holder.tvWarning.setText("");
                 convertView.setTag(holder);
                 final ViewGroup.LayoutParams params = convertView.getLayoutParams();
                 params.height = (int) getResources().getDimension(R.dimen.ov_taskitem_listview_item_height);
@@ -460,23 +462,30 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             } else {
                 holder = (TaskItemListViewAdapterViewHolder) convertView.getTag();
             }
-            TaskItem taskItem = getItem(position);
+            final TaskItem taskItem = getItem(position);
             holder.tvId.setText(String.valueOf(position + 1));
-            holder.tvStatus.setText(Utils.getTaskItemStatusString(getActivity(), taskItem.status));
+            holder.tvStatus.setText(Utils.getTaskItemStatusString(getActivity(), taskItem));
             if (TaskItem.Status.FINISH == taskItem.status) {
+                holder.tvStatus.setBackground(null);
                 holder.tvStatus.setTextColor(getResources().getColor(R.color.gray1));
                 holder.tvName.setTextColor(getResources().getColor(R.color.gray1));
                 holder.tvExpectedTime.setTextColor(getResources().getColor(R.color.gray1));
                 holder.tvWorkTime.setTextColor(getResources().getColor(R.color.gray1));
                 holder.tvTool.setTextColor(getResources().getColor(R.color.gray1));
-            } else if (TaskItem.Status.WORKING == taskItem.status) {
-                holder.tvStatus.setBackground(getResources().getDrawable(R.drawable.border_textview_bg_green, null));
-                holder.tvStatus.setTextColor(getResources().getColor(R.color.green));
             } else {
-                holder.tvStatus.setBackground(null);
-                holder.tvStatus.setTextColor(getResources().getColor(R.color.black2));
+                if (TaskItem.Status.WORKING == taskItem.status) {
+                    holder.tvStatus.setBackground(getResources().getDrawable(R.drawable.border_textview_bg_green, null));
+                    holder.tvStatus.setTextColor(getResources().getColor(R.color.green));
+                } else {
+                    holder.tvStatus.setBackground(null);
+                    holder.tvStatus.setTextColor(getResources().getColor(R.color.black2));
+                }
+                holder.tvName.setTextColor(getResources().getColor(R.color.black2));
+                holder.tvExpectedTime.setTextColor(getResources().getColor(R.color.black2));
+                holder.tvWorkTime.setTextColor(getResources().getColor(R.color.black2));
+                holder.tvTool.setTextColor(getResources().getColor(R.color.black2));
             }
-
+            Utils.setTaskItemWarningTextView(getActivity(), taskItem, holder.tvWarning, true);
             holder.tvName.setText(taskItem.title);
             holder.tvExpectedTime.setText(taskItem.getExpectedFinishedTime());
             holder.tvWorkTime.setText(taskItem.getWorkingTime());
@@ -485,12 +494,18 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             } else {
                 holder.tvTool.setText("");
             }
-            //holder.tvWarning.setText(taskItem.getWorningText());
             if (taskItem.workerId > 0) {
-                WorkerItem worker = WorkingData.getInstance(mActivity).getWorkerItemById(taskItem.workerId);
+                final WorkerItem worker = WorkingData.getInstance(getActivity()).getWorkerItemById(taskItem.workerId);
                 holder.tvWorkerName.setText(worker.name);
                 holder.ivWorkerAvator.setVisibility(View.VISIBLE);
                 holder.ivWorkerAvator.setImageDrawable(worker.getAvator());
+                holder.llWorkerInfo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO: view worker's info
+                        Toast.makeText(getActivity(), "View worker's info", Toast.LENGTH_SHORT).show();
+                    }
+                });
             } else {
                 holder.tvWorkerName.setText("");
                 holder.ivWorkerAvator.setImageDrawable(null);
@@ -510,8 +525,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         TextView tvWorkerName;
         TextView tvWorkerNameString;
         ImageView ivWorkerAvator;
+        LinearLayout llWorkerInfo;
         ArrayList<View> dividerViews = new ArrayList<>();
-        ArrayList<View> horozontalDividerViews = new ArrayList<>();
+        ArrayList<View> horizontalDividerViews = new ArrayList<>();
 
         public TaskItemListViewAdapterViewHolder(View view) {
             if (!(view instanceof LinearLayout)) return;
@@ -526,10 +542,11 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             tvWorkerName = (TextView) view.findViewById(R.id.taskitem_listview_worker_name);
             tvWorkerNameString = (TextView) view.findViewById(R.id.taskitem_listview_worker_name_string);
             ivWorkerAvator = (ImageView) view.findViewById(R.id.taskitem_listview_worker_avator);
+            llWorkerInfo = (LinearLayout) view.findViewById(R.id.taskitem_listview_worker_info);
             for (int i = 0; i < root.getChildCount(); i++) {
                 View child = root.getChildAt(i);
                 if (child.getId() == R.id.horozontal_divider) {
-                    horozontalDividerViews.add(child);
+                    horizontalDividerViews.add(child);
                 }
                 if (!(child instanceof LinearLayout)) continue;
                 LinearLayout secondRoot = (LinearLayout) child;
@@ -593,7 +610,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
                 holder.mTvCaseName.setTextColor(getResources().getColor(R.color.black1));
             }
             if (position == mPositionSelected) {
-                holder.mRoot.setBackgroundColor(getResources().getColor(R.color.blue));
+                holder.mRoot.setBackgroundColor(getResources().getColor(R.color.blue1));
                 holder.mTvCaseName.setTextColor(Color.WHITE);
                 holder.mTvVendor.setTextColor(Color.WHITE);
             } else {

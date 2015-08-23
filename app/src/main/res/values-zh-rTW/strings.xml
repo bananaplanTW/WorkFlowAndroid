@@ -40,9 +40,11 @@
     <string name="case_overview_listview_taskitem_header_tool">"使用機器"</string>
     <string name="case_overview_listview_taskitem_header_warning">"警訊"</string>
     <string name="case_overview_listview_taskitem_header_worker">"負責人"</string>
-    <string name="overview_working_hours">"完成時數 <b>%d</b> 小時"</string>
+    <string name="overview_finish_hours">"完成時數 <b>%d</b> hours"</string>
+    <string name="overview_working_hours">"工作時數 <b>%d</b> 小時"</string>
     <string name="overview_overtime_hours">"加班時數 <b>%d</b> 小時"</string>
     <string name="overview_idle_hours">"閒置時數 <b>%d</b> 小時"</string>
+    <string name="overview_display_warning_txt">"%d項"</string>
     <string-array name="week">
         <item>"一"</item>
         <item>"二"</item>
@@ -52,6 +54,10 @@
         <item>"六"</item>
         <item>"日"</item>
     </string-array>
+    <string name="statistics_popup_time_finish">"完成"</string>
+    <string name="statistics_popup_time_work">"上班"</string>
+    <string name="statistics_popup_time_overtime">"加班"</string>
+    <string name="statistics_popup_time_idle">"閒置"</string>
 
     <!-- WorkerOverView fragment-->
     <string name="worker_ov_all_factories">"全部工廠"</string>
