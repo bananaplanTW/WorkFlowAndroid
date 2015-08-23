@@ -19,6 +19,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.tasks.Warning;
 import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
+import com.bananaplan.workflowandroid.caseoverview.CaseTaskItemFargment;
 import com.bananaplan.workflowandroid.workeroverview.WorkerTaskItemFragment;
 
 import org.achartengine.ChartFactory;
@@ -144,7 +145,7 @@ public class Utils {
                 if (selection == null) return;
                 int idx = selection.getPointIndex() - 1;
                 View popupView = activity.getLayoutInflater().inflate(R.layout.bar_chart_popup, null);
-                if (data.from.equals(CaseOverviewFragment.class.getName())) {
+                if (data.from.equals(CaseTaskItemFargment.class.getName())) {
                     ((TextView) popupView.findViewById(R.id.date)).setText(data.getDates()[idx]);
                     if (data.getData()[0][idx] != 0) {
                         ((TextView) popupView.findViewById(R.id.working_time)).setText(activity.getResources().getString(R.string.statistics_popup_time_finish) + " " + data.getData()[0][idx] + " : 00");
@@ -260,14 +261,7 @@ public class Utils {
                     LinearLayout root = (LinearLayout) view.findViewById(R.id.warning_list_container);
                     for (Warning warning : item.warningList) {
                         TextView tv = (TextView) activity.getLayoutInflater().inflate(R.layout.warning_textview_layout, null);
-                        tv.setText(warning.title);
-                        if (warning.status == Warning.WarningStatus.UNSOLVED) {
-                            tv.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_red, null));
-                            tv.setTextColor(Color.WHITE);
-                        } else {
-                            tv.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_gray, null));
-                            tv.setTextColor(activity.getResources().getColor(R.color.gray1));
-                        }
+                        setTaskItemWarningTextView(activity, warning, tv);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -286,6 +280,17 @@ public class Utils {
                     popup.showAtLocation(v, Gravity.NO_GRAVITY, locations[0] + v.getMeasuredWidth() - view.getMeasuredWidth(), locations[1] - view.getMeasuredHeight());
                 }
             });
+        }
+    }
+
+    public static void setTaskItemWarningTextView(final Activity activity, final Warning warning, final TextView v) {
+        v.setText(warning.title);
+        if (warning.status == Warning.WarningStatus.UNSOLVED) {
+            v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_red, null));
+            v.setTextColor(Color.WHITE);
+        } else {
+            v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_gray, null));
+            v.setTextColor(activity.getResources().getColor(R.color.gray1));
         }
     }
 }

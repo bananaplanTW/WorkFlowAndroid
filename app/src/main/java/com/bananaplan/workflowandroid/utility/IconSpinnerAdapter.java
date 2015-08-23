@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 /**
@@ -87,7 +86,7 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         SpinnerDropdownViewHolder holder;
         if (convertView == null) {
-            convertView = getLayoutInflater().inflate(R.layout.case_spinner_dropdown_view, null);
+            convertView = getLayoutInflater().inflate(R.layout.spinner_dropdown_itemview, null);
             holder = new SpinnerDropdownViewHolder(convertView);
             convertView.setTag(holder);
         } else {

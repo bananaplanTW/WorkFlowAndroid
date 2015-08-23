@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.workeroverview;
+package com.bananaplan.workflowandroid.utility;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.TabHost;
 
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
         private final String tag;
         private final Class<?> clss;
         private final Bundle args;
-        private WorkerFragmentBase fragment;
+        private OvTabFragmentBase fragment;
 
         TabInfo(String _tag, Class<?> _class, Bundle _args) {
             tag = _tag;
@@ -67,7 +68,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
         TabInfo info = new TabInfo(tag, clss, args);
 
         Fragment frag = mActivity.getSupportFragmentManager().findFragmentByTag(tag);
-        info.fragment = (WorkerFragmentBase) frag;
+        info.fragment = (OvTabFragmentBase) frag;
         if (info.fragment != null && !info.fragment.isDetached()) {
             FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
             ft.detach(info.fragment);
@@ -91,7 +92,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
             }
 
             if (newTab != null) {
-                newTab.fragment = (WorkerFragmentBase) Fragment.instantiate(mActivity,
+                newTab.fragment = (OvTabFragmentBase) Fragment.instantiate(mActivity,
                         newTab.clss.getName(), newTab.args);
                 ft.add(mContainerId, newTab.fragment, newTab.tag);
                 if (newTab.fragment == null) {
@@ -107,11 +108,15 @@ public class TabManager implements TabHost.OnTabChangeListener {
             ft.commit();
             mActivity.getFragmentManager().executePendingTransactions();
         }
-
     }
 
-    public void onWorkerSelected(WorkerItem worker) {
+    public void selectWorker(WorkerItem worker) {
         if (mLastTab == null) return;
-        mLastTab.fragment.onWorkerSelected(worker);
+        mLastTab.fragment.selectWorker(worker);
+    }
+
+    public void selectTaskCase(TaskCase taskCase) {
+        if (mLastTab == null) return;
+        mLastTab.fragment.selectTaskCase(taskCase);
     }
 }

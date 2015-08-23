@@ -12,13 +12,14 @@ import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
+import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 
 import java.util.ArrayList;
 
 /**
  * Created by Ben on 2015/8/14.
  */
-public class WorkerStatusFragment extends WorkerFragmentBase implements View.OnClickListener {
+public class WorkerStatusFragment extends OvTabFragmentBase implements View.OnClickListener, OvTabFragmentBase.WorkerOvCallBack {
 
     private static class TAB_TAG {
         private final static String ALL = "worker_status_tab_tag_all";
@@ -117,11 +118,6 @@ public class WorkerStatusFragment extends WorkerFragmentBase implements View.OnC
     }
 
     @Override
-    public void onWorkerSelected(WorkerItem worker) {
-
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.upload:
@@ -152,5 +148,15 @@ public class WorkerStatusFragment extends WorkerFragmentBase implements View.OnC
                 getActivity().findViewById(info.tabResId).setSelected(false);
             }
         }
+    }
+
+    @Override
+    public void onWorkerSelected(WorkerItem worker) {
+
+    }
+
+    @Override
+    public Object getCallBack() {
+        return this;
     }
 }

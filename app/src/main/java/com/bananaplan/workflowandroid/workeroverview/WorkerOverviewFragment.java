@@ -28,6 +28,7 @@ import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.main.WorkingData;
 import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
+import com.bananaplan.workflowandroid.utility.TabManager;
 
 import java.util.ArrayList;
 
@@ -124,7 +125,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     }
 
     private View getTabTitleView(final String tag) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.worker_ov_tab, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.ov_tab, null);
         int titleResId;
         switch (tag) {
             case TAB_TAG.TASK_ITEMS:
@@ -141,7 +142,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
                 break;
         }
         String text = titleResId != -1 ? getResources().getString(titleResId) : "";
-        ((TextView) view.findViewById(R.id.worker_ov_tab_title)).setText(text);
+        ((TextView) view.findViewById(R.id.ov_tab_title)).setText(text);
         return view;
     }
 
@@ -370,7 +371,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         mTvWorkerPhone.setText(getResources().getString(R.string.worker_ov_worker_phone)
                 + (TextUtils.isEmpty(worker.phone) ? "" : worker.phone));
         if (mTabMgr != null && !calledFromActivityCreated) {
-            mTabMgr.onWorkerSelected(worker);
+            mTabMgr.selectWorker(worker);
         }
     }
 

@@ -9,11 +9,17 @@ import android.view.ViewGroup;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
+import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 
 /**
  * Created by Ben on 2015/8/14.
  */
-public class WorkerAttendanceStatusFragment extends WorkerFragmentBase {
+public class WorkerAttendanceStatusFragment extends OvTabFragmentBase implements OvTabFragmentBase.WorkerOvCallBack {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,5 +29,10 @@ public class WorkerAttendanceStatusFragment extends WorkerFragmentBase {
     @Override
     public void onWorkerSelected(WorkerItem worker) {
 
+    }
+
+    @Override
+    public Object getCallBack() {
+        return this;
     }
 }

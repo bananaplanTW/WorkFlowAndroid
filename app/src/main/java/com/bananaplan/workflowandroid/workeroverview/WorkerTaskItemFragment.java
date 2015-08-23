@@ -18,6 +18,7 @@ import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.WorkingData;
 import com.bananaplan.workflowandroid.utility.BarChartData;
+import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Ben on 2015/8/14.
  */
-public class WorkerTaskItemFragment extends WorkerFragmentBase implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.OnClickListener, AdapterView.OnItemClickListener, OvTabFragmentBase.WorkerOvCallBack {
     private TextView mDateChoosed;
     private LinearLayout mBarChartContainer;
     private TextView mTvWorkingHours;
@@ -229,5 +230,10 @@ public class WorkerTaskItemFragment extends WorkerFragmentBase implements View.O
         mTvWorkingHours.setText(getResources().getString(R.string.overview_working_hours, data.getWorkingHours()));
         mTvOvertimeHours.setText(getResources().getString(R.string.overview_overtime_hours, data.getOvertimeHours()));
         mTvIdleHours.setText(getResources().getString(R.string.overview_idle_hours, data.getIdleHours()));
+    }
+
+    @Override
+    public Object getCallBack() {
+        return this;
     }
 }

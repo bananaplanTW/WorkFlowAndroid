@@ -46,7 +46,10 @@
     <string name="case_overview_listview_taskitem_header_work_time">"Work time"</string>
     <string name="case_overview_listview_taskitem_header_tool">"Tool"</string>
     <string name="case_overview_listview_taskitem_header_warning">"Warning"</string>
-    <string name="case_overview_listview_taskitem_header_worker">"Duty"</string>
+    <string name="case_overview_listview_taskitem_header_resposible_worker">"Duty"</string>
+    <string name="case_overview_listview_taskitem_header_handle_worker">"Handle"</string>
+    <string name="case_overview_listview_taskitem_header_time">"Time"</string>
+    <string name="case_overview_listview_taskitem_header_description">"Description"</string>
     <string name="overview_finish_hours">"Total hours finished: <b>%d</b> hours"</string>
     <string name="overview_working_hours">"Total hours Worked: <b>%d</b> hours"</string>
     <string name="overview_overtime_hours">"Total hours overtime: <b>%d</b> hours"</string>
@@ -65,6 +68,8 @@
     <string name="statistics_popup_time_work">"Work"</string>
     <string name="statistics_popup_time_overtime">"Overtime"</string>
     <string name="statistics_popup_time_idle">"Idle"</string>
+    <string name="case_ov_tab_title_task_items">"Task Items"</string>
+    <string name="case_ov_tab_title_warning">"Warning"</string>
 
     <!-- WorkerOverView fragment-->
     <string name="worker_ov_all_factories">"All factories"</string>

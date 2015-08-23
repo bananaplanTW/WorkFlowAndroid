@@ -13,6 +13,9 @@ public class Warning {
     public long id;
     public String title;
     public WarningStatus status = WarningStatus.UNSOLVED;
+    public long taskItemId;
+    public long handle;
+    public String description;
 
     public Warning(String title, WarningStatus status) {
         this.title = title;

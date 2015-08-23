@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/ov_listview_horizontal_divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="99dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <include layout="@layout/warning_textview_layout"/>
+        </LinearLayout>
+        <include layout="@layout/ov_listview_vertical_divider"/>
+        <LinearLayout
+            android:layout_width="113dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/case_overview_listview_taskitem_header_name"
+                android:textColor="@color/black1"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <include layout="@layout/ov_listview_vertical_divider"/>
+        <RelativeLayout
+            android:layout_width="102dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/worker_name_string"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:text="@string/case_overview_listview_taskitem_header_resposible_worker"
+                android:textSize="14sp"
+                android:visibility="gone" />
+            <LinearLayout
+                android:id="@+id/resposible_worker_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:id="@+id/resposible_worker_avator"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+                <TextView
+                    android:id="@+id/resposible_worker_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:singleLine="true"
+                    android:textSize="14sp"
+                    android:textColor="@color/black1"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <include layout="@layout/ov_listview_vertical_divider"/>
+        <LinearLayout
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/handle_worker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/case_overview_listview_taskitem_header_handle_worker"
+                android:textColor="@color/black1"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <include layout="@layout/ov_listview_vertical_divider"/>
+        <LinearLayout
+            android:layout_width="79dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/case_overview_listview_taskitem_header_time"
+                android:textColor="@color/black1"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <include layout="@layout/ov_listview_vertical_divider"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/case_overview_listview_taskitem_header_description"
+                android:textColor="@color/black1"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/ov_listview_horizontal_divider"/>
+
+</LinearLayout>

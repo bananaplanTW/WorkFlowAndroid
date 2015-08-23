@@ -4,12 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/horozontal_divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/gray5"
-        android:visibility="gone"/>
+    <include layout="@layout/ov_listview_horizontal_divider"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,11 +24,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/listview_taskitem_divider"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/gray3"/>
+        <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
             android:layout_width="109dp"
@@ -48,11 +39,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/listview_taskitem_divider"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/gray3"/>
+        <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
             android:layout_width="115dp"
@@ -66,11 +53,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/listview_taskitem_divider"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/gray3"/>
+        <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
             android:layout_width="80dp"
@@ -84,11 +67,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/listview_taskitem_divider"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/gray3"/>
+        <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
             android:layout_width="80dp"
@@ -102,11 +81,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/listview_taskitem_divider"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/gray3"/>
+        <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
             android:layout_width="110dp"
@@ -120,11 +95,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/listview_taskitem_divider"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/gray3"/>
+        <include layout="@layout/ov_listview_vertical_divider"/>
 
         <RelativeLayout
             android:layout_width="119dp"
@@ -136,7 +107,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:singleLine="true"
-                android:text="@string/case_overview_listview_taskitem_header_worker"
+                android:text="@string/case_overview_listview_taskitem_header_resposible_worker"
                 android:textSize="14sp"
                 android:visibility="gone" />
             <LinearLayout
@@ -161,11 +132,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <View
-            android:id="@+id/listview_taskitem_divider"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/gray3"/>
+        <include layout="@layout/ov_listview_vertical_divider"/>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -176,11 +143,6 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/horozontal_divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/gray5"
-        android:visibility="gone"/>
+    <include layout="@layout/ov_listview_horizontal_divider"/>
 
 </LinearLayout>

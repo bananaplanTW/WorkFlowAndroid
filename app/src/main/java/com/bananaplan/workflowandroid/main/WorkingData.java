@@ -132,6 +132,9 @@ public final class WorkingData {
                 mTaskCaseMap.put(taskCase.id, taskCase);
                 taskCase.vendorId = vendor.id;
                 taskCase.workerId = getRandomWorkerId();
+                taskCase.feedDate = getRandomDate();
+                taskCase.deliveryDate = getRandomDate();
+                taskCase.figureDate = getRandomDate();
                 vendor.taskCases.add(taskCase);
                 for (int k = 1; k <= taskItemCount; k++) {
                     Tool tool = new Tool(k, "Tool" + k);
@@ -145,10 +148,22 @@ public final class WorkingData {
                         }
                     }
                     taskItem.taskCaseId = taskCase.id;
-                    taskItem.warningList.add(new Warning("No power", WarningStatus.SOLVED));
-                    taskItem.warningList.add(new Warning("No power", WarningStatus.SOLVED));
-                    taskItem.warningList.add(new Warning("No resource", WarningStatus.UNSOLVED));
-                    taskItem.warningList.add(new Warning("No resource", WarningStatus.UNSOLVED));
+                    Warning w1 = new Warning("No power", WarningStatus.SOLVED);
+                    Warning w2 = new Warning("No power", WarningStatus.SOLVED);
+                    Warning w3 = new Warning("No resource", WarningStatus.UNSOLVED);
+                    Warning w4 = new Warning("No resource", WarningStatus.UNSOLVED);
+                    w1.taskItemId = taskItem.id;
+                    w2.taskItemId = taskItem.id;
+                    w3.taskItemId = taskItem.id;
+                    w4.taskItemId = taskItem.id;
+                    w1.handle = getRandomWorkerId();
+                    w2.handle = getRandomWorkerId();
+                    w3.handle = getRandomWorkerId();
+                    w4.handle = getRandomWorkerId();
+                    taskItem.warningList.add(w1);
+                    taskItem.warningList.add(w2);
+                    taskItem.warningList.add(w3);
+                    taskItem.warningList.add(w4);
                     taskCase.taskItems.add(taskItem);
                     mTaskItemsMap.put(taskItem.id, taskItem);
                     taskItem.toolId = tool.id;
