@@ -108,4 +108,11 @@
         <item name="android:textSize">@dimen/drawer_subitem_text_size</item>
     </style>
 
+    <style name="AddCaseLeftPartTitleTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/add_case_title_text_color</item>
+        <item name="android:textSize">@dimen/add_case_left_part_title_text_size</item>
+    </style>
+
 </resources>

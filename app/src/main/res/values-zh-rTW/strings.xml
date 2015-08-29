@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- AssignTask fragment-->
+    <!-- Assign task -->
     <string name="task_case_progress_text">案件進度</string>
     <string name="task_case_participated_employee_text">參與員工</string>
     <string name="task_case_edit_text">修改案件</string>
@@ -104,7 +104,7 @@
     <string name="worker_ov_tab_attendance_leave_reason_work">"公假"</string>
     <string name="worker_ov_tab_attendance_leave_reason_sick">"病假"</string>
 
-    <!-- DrawerMenu fragment -->
+    <!-- Drawer menu -->
     <string name="drawer_main">資訊主頁</string>
     <string name="drawer_assign_task">員工排程</string>
     <string name="drawer_case">案件資訊</string>
@@ -124,5 +124,15 @@
     <string name="worker_ov_worker_tab_title_fix_record">"維修紀錄"</string>
     <string name="overview_used_hours">"完成時數 <b>%d</b> 小時"</string>
     <string name="add_maintenance_record">"新增維修"</string>
+
+    <!-- Add case -->
+    <string name="add_case_expected_spending_time_text">預計花費時間</string>
+    <string name="add_case_expected_device">預計使用機器</string>
+    <string name="add_case_task_title_hint">工作項目名稱</string>
+    <string name="add_case_task_expected_working_time_hint">預計工作時間</string>
+    <string name="add_case_task_expected_working_time">%1$s 小時 %2$s 分鐘</string>
+    <string name="add_case_task_working_device_hint">選擇使用幾台</string>
+    <string name="add_case_task_worker_hint">工作項目負責人</string>
+    <string name="add_case_task_detail">詳細內容</string>
 
 </resources>

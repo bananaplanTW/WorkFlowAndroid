@@ -1,12 +1,71 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="This is AddCaseFragment"
-        android:textSize="30dp"/>
+        android:layout_weight="@integer/add_case_left_part_weight"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <Spinner
+            android:id="@+id/module_spinner"
+            style="@style/CommonSpinnerStyle" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/add_case_divider_width_height"
+            android:background="@color/main_window_divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/add_case_left_part_content_padding"
+            android:orientation="vertical"
+            android:background="@drawable/common_block_background">
+
+            <TextView
+                style="@style/AddCaseLeftPartTitleTextStyle"
+                android:text="@string/add_case_expected_spending_time_text" />
+
+            <TextView
+                android:id="@+id/expected_spending_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/add_case_expected_spending_time_text_size"
+                android:textColor="@color/add_case_expected_spending_time_text_color"
+                android:fontFamily="sans-serif-condensed"
+                android:text="32:12:34"/>
+
+            <LinearLayout
+                android:id="@+id/expected_devices_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/add_case_expected_devices_container_margin_top"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/AddCaseLeftPartTitleTextStyle"
+                    android:text="@string/add_case_expected_device" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="@dimen/add_case_divider_width_height"
+        android:layout_height="match_parent"
+        android:background="@color/main_window_divider_color" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/add_task_grid_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="@integer/add_case_right_part_weight"
+        android:background="@drawable/common_block_background"
+        android:scrollbars="vertical" />
+
+</LinearLayout>

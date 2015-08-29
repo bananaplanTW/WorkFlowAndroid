@@ -24,12 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.Factory;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
+import com.bananaplan.workflowandroid.data.Factory;
+import com.bananaplan.workflowandroid.data.WorkerItem;
 import com.bananaplan.workflowandroid.main.MainActivity;
-import com.bananaplan.workflowandroid.main.WorkingData;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.TabManager;
 
 import java.util.ArrayList;

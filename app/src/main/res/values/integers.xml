@@ -3,10 +3,15 @@
 
     <integer name="fragment_fade_animation_duration">600</integer>
 
-    <!-- Task assign page -->
+    <!-- Assign task -->
     <integer name="worker_container_weight">5</integer>
     <integer name="task_container_weight">3</integer>
     <integer name="task_case_column_count">2</integer>
     <integer name="worker_gridview_column_count">3</integer>
+
+    <!-- Add case -->
+    <integer name="add_case_left_part_weight">1</integer>
+    <integer name="add_case_right_part_weight">3</integer>
+    <integer name="add_case_grid_view_span_count">4</integer>
 
 </resources>

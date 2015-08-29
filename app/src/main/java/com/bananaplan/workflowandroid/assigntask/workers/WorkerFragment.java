@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.WorkerItem;
 
 import java.util.ArrayList;
 

@@ -3,13 +3,13 @@ package com.bananaplan.workflowandroid.utility;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.main.UIController;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
+import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.WorkerItem;
 
 import java.util.ArrayList;
 

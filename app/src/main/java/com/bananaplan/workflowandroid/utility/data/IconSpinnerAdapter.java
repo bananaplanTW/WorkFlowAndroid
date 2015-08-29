@@ -45,11 +45,11 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
     }
 
     private class SpinnerDropdownViewHolder {
-        TextView tvDropdownSpinnerVendorName;
+        TextView tvDropdownSpinnerText;
         ImageView ivDropdownSpinnerSelected;
 
         public SpinnerDropdownViewHolder(View v) {
-            this.tvDropdownSpinnerVendorName = (TextView) v.findViewById(R.id.case_spinner_dropdown_view_tv_vendor_name);
+            this.tvDropdownSpinnerText = (TextView) v.findViewById(R.id.spinner_dropdown_iv_text);
             this.ivDropdownSpinnerSelected = (ImageView) v.findViewById(R.id.spinner_dropdown_iv_selected);
         }
     }
@@ -92,7 +92,7 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
         } else {
             holder = (SpinnerDropdownViewHolder) convertView.getTag();
         }
-        holder.tvDropdownSpinnerVendorName.setText(getDropdownSpinnerViewDisplayString(position));
+        holder.tvDropdownSpinnerText.setText(getDropdownSpinnerViewDisplayString(position));
         holder.ivDropdownSpinnerSelected.setVisibility(isDropdownSelectedIconVisible(position) ? View.VISIBLE : View.GONE);
         return convertView;
     }

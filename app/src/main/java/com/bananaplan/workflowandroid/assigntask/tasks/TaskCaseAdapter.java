@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
+import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.TaskItem;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ArrayList<String> mTaskCaseTitles = null;
     private TaskCase mTaskCase = null;
 
-    private IconSpinnerAdapter mTaskCaseSpinnerAdapter;
+    private TaskCaseSpinnerAdapter mTaskCaseSpinnerAdapter;
 
     private OnSelectTaskCaseListener mOnSelectTaskCaseListener;
 

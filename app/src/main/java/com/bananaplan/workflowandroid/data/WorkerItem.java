@@ -1,10 +1,9 @@
-package com.bananaplan.workflowandroid.assigntask.workers;
+package com.bananaplan.workflowandroid.data;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.overview.workeroverview.data.attendance.LeaveData;
 import com.bananaplan.workflowandroid.overview.workeroverview.data.status.BaseData;
 

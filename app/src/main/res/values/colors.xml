@@ -20,12 +20,12 @@
     <color name="orange">#f0ad4e</color>
     <color name="green">#5cb85c</color>
 
-    <!-- ActionBar -->
+    <!-- Action bar -->
     <color name="action_bar_baseline_color">#FF858585</color>
     <color name="action_bar_primary_color">#FF242424</color>
     <color name="action_bar_primary_dark_color">#FF040404</color>
 
-    <!-- AssignTaskFragment: Tasks part -->
+    <!-- Assign task: Tasks part -->
     <color name="task_case_text_color">#FF4A4A4A</color>
     <color name="task_case_information_divider_color">#FFDADADA</color>
     <color name="task_case_edit_button_text_color">#FF428BCA</color>
@@ -36,7 +36,7 @@
     <color name="task_item_warning_solved_color">#FF9B9B9B</color>
     <color name="task_item_warning_text_color">@android:color/white</color>
 
-    <!-- AssignTaskFragment: Workers part -->
+    <!-- Assign task: Workers part -->
     <color name="worker_pager_indicator_stroke_color">#FF858585</color>
     <color name="worker_pager_indicator_selected_color">#FF222222</color>
     <color name="worker_pager_indicator_normal_color">#FFCFCFCF</color>
@@ -67,7 +67,7 @@
     <color name="statistics_bar_color2">#f0ad4e</color>
     <color name="statistics_bar_color3">#d9534f</color>
 
-    <!-- DrawerMenuFragment -->
+    <!-- Drawer menu -->
     <color name="drawer_background_color">@android:color/white</color>
     <color name="drawer_subitem_selected_background_color">#FF4A90E2</color>
     <color name="drawer_divider_color">#FFE1E1E1</color>
@@ -79,5 +79,14 @@
     <color name="drawer_subitem_text_color">#FF9B9B9B</color>
     <color name="drawer_subitem_selected_text_color">@android:color/white</color>
     <color name="drawer_setting_background_color">#545454</color>
+
+    <!-- Add case -->
+    <color name="add_case_title_text_color">#FF4A4A4A</color>
+    <color name="add_case_expected_spending_time_text_color">@android:color/black</color>
+    <color name="add_case_task_item_background_color">#FFFFFFFF</color>
+    <color name="add_case_task_item_stroke_color">#FF979797</color>
+    <color name="add_case_task_item_index_text_color">@android:color/black</color>
+    <color name="add_case_add_item_background_color">#FFE1E1E1</color>
+    <color name="add_case_task_item_detail_text_color">#FF428BCA</color>
 
 </resources>

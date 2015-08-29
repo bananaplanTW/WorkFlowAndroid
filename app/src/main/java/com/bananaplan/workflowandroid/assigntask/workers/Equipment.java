@@ -1,5 +1,6 @@
 package com.bananaplan.workflowandroid.assigntask.workers;
 
+import com.bananaplan.workflowandroid.data.WorkerItem;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.data.MaintenanceRecord;
 
 import java.util.ArrayList;

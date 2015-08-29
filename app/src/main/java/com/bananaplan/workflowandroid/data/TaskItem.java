@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.assigntask.tasks;
+package com.bananaplan.workflowandroid.data;
 
 
 import java.util.ArrayList;
@@ -16,21 +16,37 @@ public class TaskItem {
         IN_SCHEDULE, NOT_START, WORKING, PAUSE, FINISH
     }
 
+    public String title;
+
     public long id;
     public long taskCaseId;
     public long workerId;
     public long equipmentId;
+
     public Date startDate;
     public Date finishDate;
-    public int errorCount;
-    public String title;
+    public long expectedWorkingTime = -1L;
+
     public ArrayList<Warning> warningList = new ArrayList<>();
+    public int errorCount;
 
     public Status status = Status.NOT_START;
 
-    public TaskItem(long id, String title) {
+
+    public TaskItem() {
+
+    }
+
+    public TaskItem(int id, String title) {
         this.id = id;
         this.title = title;
+    }
+
+    public TaskItem(String title, long expectedWorkingTime, long equipmentId, long workerId) {
+        this.title = title;
+        this.expectedWorkingTime = expectedWorkingTime;
+        this.equipmentId = equipmentId;
+        this.workerId = workerId;
     }
 
     public int getUnSolvedWarningCount() {

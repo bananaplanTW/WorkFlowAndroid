@@ -1,6 +1,4 @@
-package com.bananaplan.workflowandroid.assigntask.workers;
-
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
+package com.bananaplan.workflowandroid.data;
 
 import java.util.ArrayList;
 

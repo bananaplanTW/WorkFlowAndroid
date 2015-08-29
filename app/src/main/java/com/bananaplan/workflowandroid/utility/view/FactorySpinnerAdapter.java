@@ -4,11 +4,11 @@ import android.content.Context;
 import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.Factory;
-import com.bananaplan.workflowandroid.main.WorkingData;
+import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by Ben on 2015/9/3.

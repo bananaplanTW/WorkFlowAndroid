@@ -14,11 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
-import com.bananaplan.workflowandroid.assigntask.tasks.Warning;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
-import com.bananaplan.workflowandroid.main.WorkingData;
+import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.TaskItem;
+import com.bananaplan.workflowandroid.data.Warning;
+import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
 

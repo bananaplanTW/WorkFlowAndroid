@@ -12,7 +12,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/assign_task_divider_height"
+        android:layout_height="@dimen/assign_task_divider_width_height"
         android:background="@color/main_window_divider_color" />
 
     <com.bananaplan.workflowandroid.utility.view.ExpandableLayout
@@ -25,7 +25,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/assign_task_divider_height"
+        android:layout_height="@dimen/assign_task_divider_width_height"
         android:background="@color/main_window_divider_color" />
 
 </LinearLayout>

@@ -1,16 +1,9 @@
-package com.bananaplan.workflowandroid.main;
+package com.bananaplan.workflowandroid.data;
 
 import android.content.Context;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
-import com.bananaplan.workflowandroid.assigntask.tasks.Warning;
-import com.bananaplan.workflowandroid.assigntask.tasks.Warning.WarningStatus;
 import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
-import com.bananaplan.workflowandroid.assigntask.workers.Factory;
-import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.data.MaintenanceRecord;
 import com.bananaplan.workflowandroid.overview.workeroverview.data.attendance.LeaveData;
 import com.bananaplan.workflowandroid.overview.workeroverview.data.status.BaseData;
@@ -19,6 +12,7 @@ import com.bananaplan.workflowandroid.overview.workeroverview.data.status.FileDa
 import com.bananaplan.workflowandroid.overview.workeroverview.data.status.HistoryData;
 import com.bananaplan.workflowandroid.overview.workeroverview.data.status.PhotoData;
 import com.bananaplan.workflowandroid.overview.workeroverview.data.status.RecordData;
+import com.bananaplan.workflowandroid.data.Warning.WarningStatus;
 
 import java.util.ArrayList;
 import java.util.Date;

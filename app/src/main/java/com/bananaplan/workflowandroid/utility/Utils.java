@@ -16,12 +16,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
-import com.bananaplan.workflowandroid.assigntask.tasks.Warning;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.utility.data.BarChartData;
+import com.bananaplan.workflowandroid.data.TaskItem;
+import com.bananaplan.workflowandroid.data.Warning;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -36,6 +36,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Ben on 2015/7/25.
@@ -291,5 +292,38 @@ public class Utils {
             v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_gray, null));
             v.setTextColor(activity.getResources().getColor(R.color.gray1));
         }
+    }
+
+    public static String pad(int c) {
+        if (c >= 10) {
+            return String.valueOf(c);
+        } else {
+            return "0" + String.valueOf(c);
+        }
+    }
+
+    /**
+     * Convert time(hours and minutes) to milliseconds format.
+     *
+     * @param hours
+     * @param minutes
+     * @return Equal time in milliseconds
+     */
+    public static long timeToMilliseconds(int hours, int minutes) {
+        return TimeUnit.HOURS.toMillis(hours) + TimeUnit.MINUTES.toMillis(minutes);
+    }
+
+    /**
+     * Convert time in milliseconds to hours-and-minutes format.
+     *
+     * @param milliseconds
+     * @return Equal time in xx hours xx minutes
+     */
+    public static int[] millisecondsToTime(long milliseconds) {
+        long hours = TimeUnit.MILLISECONDS.toHours(milliseconds);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds);
+        long hoursInMinutes = TimeUnit.HOURS.toMinutes(hours);
+
+        return new int[] {(int) hours, (int) (minutes-hoursInMinutes)};
     }
 }

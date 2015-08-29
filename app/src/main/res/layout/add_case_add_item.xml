@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/add_case_task_item_height"
+    android:layout_marginLeft="@dimen/add_case_task_item_elevation"
+    android:layout_marginRight="@dimen/add_case_task_item_elevation"
+    android:orientation="vertical"
+    android:background="@drawable/add_case_add_item_background"
+    android:elevation="@dimen/add_case_task_item_elevation"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/add_case_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:textStyle="bold"
+        android:textSize="50dp"/>
+
+</LinearLayout>

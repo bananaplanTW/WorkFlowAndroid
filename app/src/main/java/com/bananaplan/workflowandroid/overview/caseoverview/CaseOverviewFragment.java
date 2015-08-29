@@ -24,9 +24,9 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.main.WorkingData;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
-import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
+import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;

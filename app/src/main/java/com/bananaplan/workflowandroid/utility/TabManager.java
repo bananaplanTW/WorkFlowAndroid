@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.TabHost;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 
 import java.util.HashMap;
 

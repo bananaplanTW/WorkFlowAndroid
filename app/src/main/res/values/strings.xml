@@ -3,11 +3,7 @@
     <string name="app_name">WorkFlowAndroid</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Navigation drawer -->
-    <string name="drawer_open">drawer_open</string>
-    <string name="drawer_close">drawer_close</string>
-
-    <!-- AssignTask fragment-->
+    <!-- Assign task -->
     <string name="task_case_progress_text">Case Progress</string>
     <string name="task_case_participated_employee_text">Participated Employee</string>
     <string name="task_case_edit_text">Edit case</string>
@@ -112,7 +108,9 @@
     <string name="worker_ov_tab_attendance_leave_reason_work">"Work"</string>
     <string name="worker_ov_tab_attendance_leave_reason_sick">"Sick"</string>
 
-    <!-- DrawerMenu fragment -->
+    <!-- Drawer menu -->
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
     <string name="drawer_main">Main Information</string>
     <string name="drawer_assign_task">Asign Task</string>
     <string name="drawer_case">Case</string>
@@ -132,5 +130,15 @@
     <string name="worker_ov_worker_tab_title_fix_record">"Fix records"</string>
     <string name="overview_used_hours">"Total hours used: <b>%d</b> hours"</string>
     <string name="add_maintenance_record">"Add maintenance record"</string>
+
+    <!-- Add case -->
+    <string name="add_case_expected_spending_time_text">Expected Spending Time</string>
+    <string name="add_case_expected_device">Expected Device</string>
+    <string name="add_case_task_title_hint">Task title</string>
+    <string name="add_case_task_expected_working_time_hint">Expected Working Time</string>
+    <string name="add_case_task_expected_working_time">%1$s hours %2$s mins</string>
+    <string name="add_case_task_working_device_hint">Choose Device</string>
+    <string name="add_case_task_worker_hint">Worker</string>
+    <string name="add_case_task_detail">Detail</string>
 
 </resources>

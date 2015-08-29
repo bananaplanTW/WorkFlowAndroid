@@ -14,7 +14,8 @@ import android.view.View.OnDragListener;
 import android.widget.GridView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.main.WorkingData;
+import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.WorkingData;
 
 import java.util.List;
 

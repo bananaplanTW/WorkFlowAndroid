@@ -17,16 +17,16 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
+import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseItemDecoration;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseOnTouchListener;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseSpanSizeLookup;
-import com.bananaplan.workflowandroid.assigntask.workers.Factory;
+import com.bananaplan.workflowandroid.utility.GridSpanSizeLookup;
+import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
-import com.bananaplan.workflowandroid.main.WorkingData;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
+import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.WorkingData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,7 +187,7 @@ public class AssignTaskFragment extends Fragment implements
         mGridLayoutManager =
                 new GridLayoutManager(mActivity, mActivity.getResources().getInteger(R.integer.task_case_column_count));
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mGridLayoutManager.setSpanSizeLookup(new TaskCaseSpanSizeLookup(mGridLayoutManager));
+        mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
 
         mTaskCaseView.setLayoutManager(mGridLayoutManager);
         mTaskCaseView.addItemDecoration(new TaskCaseItemDecoration(mActivity));

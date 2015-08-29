@@ -1,7 +1,7 @@
 <resources>
 
-    <!-- AssignTaskFragment: Tasks part -->
-    <dimen name="assign_task_divider_height">5dp</dimen>
+    <!-- Assign task: Tasks part -->
+    <dimen name="assign_task_divider_width_height">5dp</dimen>
     <dimen name="task_case_spinner_padding">15dp</dimen>
     <dimen name="task_case_spinner_item_text_size">18dp</dimen>
     <dimen name="task_case_information_height">120dp</dimen>
@@ -24,7 +24,7 @@
     <dimen name="task_item_title_text_size">18dp</dimen>
     <dimen name="task_item_content_text_size">13dp</dimen>
 
-    <!-- AssignTaskFragment: Workers part -->
+    <!-- Assign task: Workers part -->
     <dimen name="worker_container_padding_left_right">15dp</dimen>
     <dimen name="factory_spinner_margin_bottom">5dp</dimen>
     <dimen name="factory_spinner_text_size">30dp</dimen>
@@ -79,7 +79,7 @@
     <dimen name="worker_ov_statistics_margin_top">112dp</dimen>
     <dimen name="ov_statistics_highlight_stroke_width">3dp</dimen>
 
-    <!-- DrawerMenu fragment -->
+    <!-- Drawer menu -->
     <dimen name="drawer_width">300dp</dimen>
     <dimen name="drawer_divider_height">1dp</dimen>
     <dimen name="drawer_setting_button_padding">10dp</dimen>
@@ -95,5 +95,20 @@
     <dimen name="drawer_item_number_padding_top_bottom">6dp</dimen>
     <dimen name="drawer_subitem_height">50dp</dimen>
     <dimen name="drawer_subitem_text_size">15dp</dimen>
+
+    <!-- Add case -->
+    <dimen name="add_case_add_task_grid_view_padding">15dp</dimen>
+    <dimen name="add_case_task_item_height">260dp</dimen>
+    <dimen name="add_case_task_item_elevation">3dp</dimen>
+    <dimen name="add_case_task_item_margin_left_right">6dp</dimen>
+    <dimen name="add_case_task_item_margin_top_down">7dp</dimen>
+    <dimen name="add_case_task_item_index_text_size">18dp</dimen>
+    <dimen name="add_case_task_item_index_padding">5dp</dimen>
+    <dimen name="add_case_task_item_detail_text_size">18dp</dimen>
+    <dimen name="add_case_divider_width_height">5dp</dimen>
+    <dimen name="add_case_left_part_content_padding">20dp</dimen>
+    <dimen name="add_case_left_part_title_text_size">15dp</dimen>
+    <dimen name="add_case_expected_spending_time_text_size">28dp</dimen>
+    <dimen name="add_case_expected_devices_container_margin_top">40dp</dimen>
 
 </resources>

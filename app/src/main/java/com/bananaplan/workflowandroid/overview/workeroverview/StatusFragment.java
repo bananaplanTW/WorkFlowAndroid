@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
-import com.bananaplan.workflowandroid.main.WorkingData;
+import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.overview.workeroverview.data.status.BaseData;
