@@ -18,14 +18,11 @@ import com.bananaplan.workflowandroid.workeroverview.data.HistoryData;
 import com.bananaplan.workflowandroid.workeroverview.data.PhotoData;
 import com.bananaplan.workflowandroid.workeroverview.data.RecordData;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Random;
 
 /**
  * Created by Ben on 2015/7/18.

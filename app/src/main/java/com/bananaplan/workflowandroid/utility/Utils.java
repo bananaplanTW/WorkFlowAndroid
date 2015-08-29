@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.tasks.Warning;
-import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.caseoverview.CaseTaskItemFargment;
 import com.bananaplan.workflowandroid.workeroverview.WorkerTaskItemFragment;
 
@@ -42,7 +41,7 @@ import java.util.Locale;
 public class Utils {
 
     public static final String DATE_FORMAT_YMD = "yyyy/MM/dd";
-    public static final String DATE_FORMAT_MD = "yyyy/MM/dd";
+    public static final String DATE_FORMAT_MD = "MM/dd";
     public static final String DATE_FORMAT_YMD_HM_AMPM = "yyyy/MM/dd hh:mm aa";
 
     public static String getTaskItemStatusString(final Context context, final TaskItem item) {

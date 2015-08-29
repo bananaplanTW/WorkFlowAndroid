@@ -156,7 +156,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     }
 
     private ArrayList<Vendor> getSpinnerVendorData() {
-        ArrayList<Vendor> tmp = new ArrayList<Vendor>();
+        ArrayList<Vendor> tmp = new ArrayList<>();
         tmp.add(new Vendor(-1L, getResources().getString(R.string.case_spinner_all_vendors))); // all vendors
         tmp.addAll(WorkingData.getInstance(mActivity).getVendors());
         return tmp;

@@ -174,7 +174,7 @@ public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.On
             tvWarning = (TextView) view.findViewById(R.id.worker_taskitem_listview_warning);
             for (int i = 0; i < root.getChildCount(); i++) {
                 View child = root.getChildAt(i);
-                if (child.getId() == R.id.listview_taskitem_horozontal_divider) {
+                if (child.getId() == R.id.horozontal_divider) {
                     horozontalDividerViews.add(child);
                 }
                 if (!(child instanceof LinearLayout)) continue;

@@ -70,7 +70,9 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (!(activity instanceof MainActivity)) return;
+        if (!(activity instanceof MainActivity)) {
+            throw new IllegalArgumentException("WorkerOverviewFragment activity = " + activity);
+        }
     }
 
     @Override

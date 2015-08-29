@@ -106,7 +106,7 @@
                     android:textSize="18dp"
                     android:textColor="@color/black1"
                     android:background="@drawable/bg_solid_btn_bg_gray"
-                    android:text="-"
+                    android:text="@string/worker_ov_tab_status_minus"
                     android:gravity="center"/>
                 <TextView
                     android:id="@+id/score"
@@ -123,7 +123,7 @@
                     android:textSize="18dp"
                     android:textColor="@color/black1"
                     android:background="@drawable/bg_solid_btn_bg_gray"
-                    android:text="+"
+                    android:text="@string/worker_ov_tab_status_plus"
                     android:gravity="center"/>
             </LinearLayout>
         </RelativeLayout>

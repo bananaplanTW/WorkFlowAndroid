@@ -157,9 +157,9 @@ public class UIController implements OnClickDrawerItemListener {
 
     @Override
     public void onClickDrawerItem(int id) {
-        closeDrawer();
         mDrawerItemId = id;
         replaceContent();
+        closeDrawer();
     }
 
     private void replaceContent() {

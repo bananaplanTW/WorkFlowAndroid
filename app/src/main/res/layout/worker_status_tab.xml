@@ -15,6 +15,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14dp"
-        android:textColor="@drawable/selector_tab_textview"
-        android:text="text"/>
+        android:textColor="@drawable/selector_tab_textview"/>
 </LinearLayout>

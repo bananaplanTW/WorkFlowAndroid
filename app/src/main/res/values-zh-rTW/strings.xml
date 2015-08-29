@@ -87,7 +87,7 @@
     <string name="worker_ov_taskitem_listview_tool_used">"使用機器"</string>
     <string name="worker_ov_taskitem_listview_error_count">"錯誤"</string>
     <string name="worker_ov_taskitem_listview_warning">"警訊"</string>
-    <string name="worker_ov_edittext_record_hint">"寫下紀錄..."</string>
+    <string name="worker_ov_edittext_record_hint">"寫下紀錄&#8230;"</string>
     <string name="worker_ov_btn_upload">"上傳"</string>
     <string name="worker_ov_btn_capture">"照相"</string>
     <string name="worker_ov_btn_finish_record">"紀錄完成"</string>

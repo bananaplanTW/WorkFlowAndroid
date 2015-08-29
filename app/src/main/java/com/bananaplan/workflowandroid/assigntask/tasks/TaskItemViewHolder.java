@@ -2,12 +2,9 @@ package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-
-import org.w3c.dom.Text;
 
 
 /**

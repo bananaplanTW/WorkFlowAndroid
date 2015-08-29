@@ -6,13 +6,8 @@ import android.support.v4.app.Fragment;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
-import com.bananaplan.workflowandroid.caseoverview.CaseTaskItemFargment;
-import com.bananaplan.workflowandroid.caseoverview.CaseWarningFragment;
 import com.bananaplan.workflowandroid.main.UIController;
-import com.bananaplan.workflowandroid.workeroverview.WorkerAttendanceStatusFragment;
 import com.bananaplan.workflowandroid.workeroverview.WorkerOverviewFragment;
-import com.bananaplan.workflowandroid.workeroverview.WorkerStatusFragment;
-import com.bananaplan.workflowandroid.workeroverview.WorkerTaskItemFragment;
 
 import java.util.ArrayList;
 

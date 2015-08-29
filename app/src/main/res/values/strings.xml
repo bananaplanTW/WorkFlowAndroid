@@ -88,7 +88,7 @@
     <string name="worker_ov_taskitem_listview_tool_used">"Tool"</string>
     <string name="worker_ov_taskitem_listview_error_count">"Error"</string>
     <string name="worker_ov_taskitem_listview_warning">"Warning"</string>
-    <string name="worker_ov_edittext_record_hint">"Record..."</string>
+    <string name="worker_ov_edittext_record_hint">"Record&#8230;"</string>
     <string name="worker_ov_btn_upload">"Upload"</string>
     <string name="worker_ov_btn_capture">"Cature"</string>
     <string name="worker_ov_btn_finish_record">"Finish Record"</string>
@@ -102,6 +102,8 @@
     <string name="worker_ov_tab_status_capture">"has captured"</string>
     <string name="worker_ov_tab_status_work">"go to work"</string>
     <string name="worker_ov_tab_status_off_work">"off work"</string>
+    <string name="worker_ov_tab_status_plus">"+"</string>
+    <string name="worker_ov_tab_status_minus">"-"</string>
 
     <!-- DrawerMenu fragment -->
     <string name="drawer_main">Main Information</string>
