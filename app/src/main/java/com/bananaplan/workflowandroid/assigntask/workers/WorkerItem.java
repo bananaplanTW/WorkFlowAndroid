@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
+import com.bananaplan.workflowandroid.workeroverview.data.BaseData;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class WorkerItem {
     public ArrayList<TaskItem> taskItems;
     public String address;
     public String phone;
+    public int score;
+    public ArrayList<BaseData> records = new ArrayList<>();
 
     private Drawable avatar;
 

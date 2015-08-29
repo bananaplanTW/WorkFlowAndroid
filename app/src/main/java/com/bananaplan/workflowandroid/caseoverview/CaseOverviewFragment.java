@@ -210,9 +210,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mPbCaseSelected.setProgress(taskCase.getFinishPercent());
         mTvTaskItemCount.setText(String.valueOf(taskCase.taskItems.size()));
         mTvCaseProgress.setText(taskCase.getFinishItemsCount() + "/" + taskCase.taskItems.size());
-        mTvCaseFeedDate.setText(Utils.timestamp2Date(taskCase.feedDate, true));
-        mTvCaseFigureDate.setText(Utils.timestamp2Date(taskCase.figureDate, true));
-        mTvCaseDeliveryDate.setText(Utils.timestamp2Date(taskCase.deliveryDate, true));
+        mTvCaseFeedDate.setText(Utils.timestamp2Date(taskCase.feedDate, Utils.DATE_FORMAT_YMD));
+        mTvCaseFigureDate.setText(Utils.timestamp2Date(taskCase.figureDate, Utils.DATE_FORMAT_YMD));
+        mTvCaseDeliveryDate.setText(Utils.timestamp2Date(taskCase.deliveryDate, Utils.DATE_FORMAT_YMD));
         mTvCaseSheetCount.setText(String.valueOf(taskCase.sheetCount));
         mTvCaseModelCount.setText(String.valueOf(taskCase.modelCount));
         mTvCaseOthers.setText(taskCase.others);
@@ -283,7 +283,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         public TaskCaseListViewAdapter(Context context, ArrayList<TaskCase> cases) {
             super(context, 0, cases);
             mOrigCases = cases;
-            mFilteredCases = new ArrayList<TaskCase>(cases);
+            mFilteredCases = new ArrayList<>(cases);
             mFilter = new CustomFilter();
         }
 
@@ -364,7 +364,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             protected FilterResults performFiltering(CharSequence constraint) {
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
-                ArrayList<TaskCase> filterResult = new ArrayList<TaskCase>();
+                ArrayList<TaskCase> filterResult = new ArrayList<>();
                 for (TaskCase taskCase : mOrigCases) {
                     if ((TextUtils.isEmpty(constraint) || taskCase.name.toLowerCase().contains(constraint))
                             && (mVendorsSpinner.getSelectedItemId() == -1 || taskCase.vendorId == mVendorsSpinner.getSelectedItemId())) {

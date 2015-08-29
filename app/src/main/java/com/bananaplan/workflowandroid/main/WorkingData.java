@@ -11,6 +11,12 @@ import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.Tool;
 import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
+import com.bananaplan.workflowandroid.workeroverview.data.BaseData;
+import com.bananaplan.workflowandroid.workeroverview.data.DataFactory;
+import com.bananaplan.workflowandroid.workeroverview.data.FileData;
+import com.bananaplan.workflowandroid.workeroverview.data.HistoryData;
+import com.bananaplan.workflowandroid.workeroverview.data.PhotoData;
+import com.bananaplan.workflowandroid.workeroverview.data.RecordData;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,6 +127,35 @@ public final class WorkingData {
                 workItem.factoryId = factory.id;
                 factory.workerItems.add(workItem);
                 mWorkersMap.put(workItem.id, workItem);
+            }
+        }
+
+        for (Factory factory : mFactoriesMap.values()) {
+            for (WorkerItem worker : factory.workerItems) {
+                FileData file = (FileData) DataFactory.genData(worker.id, BaseData.TYPE.FILE);
+                file.uploader = getRandomWorkerId();
+                file.time = getRandomDate();
+                file.fileName = "test.pdf";
+                worker.records.add(file);
+                HistoryData history1 = (HistoryData) DataFactory.genData(worker.id, BaseData.TYPE.HISTORY);
+                history1.time = getRandomDate();
+                history1.status = HistoryData.STATUS.WORK;
+                worker.records.add(history1);
+                HistoryData history2 = (HistoryData) DataFactory.genData(worker.id, BaseData.TYPE.HISTORY);
+                history2.time = getRandomDate();
+                history2.status = HistoryData.STATUS.OFF_WORK;
+                worker.records.add(history2);
+                PhotoData photo = (PhotoData) DataFactory.genData(worker.id, BaseData.TYPE.PHOTO);
+                photo.time = getRandomDate();
+                photo.uploader = getRandomWorkerId();
+                photo.fileName = "test.png";
+                photo.photo = mContext.getDrawable(R.drawable.drawer_equipment);
+                worker.records.add(photo);
+                RecordData record = (RecordData) DataFactory.genData(worker.id, BaseData.TYPE.RECORD);
+                record.time = getRandomDate();
+                record.reporter = getRandomWorkerId();
+                record.description = "test description";
+                worker.records.add(record);
             }
         }
 

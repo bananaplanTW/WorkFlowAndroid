@@ -72,6 +72,11 @@
     <string name="worker_ov_worker_tab_title_worker_status">"員工狀況"</string>
     <string name="worker_ov_worker_tab_title_worker_attendance_status">"出勤狀況"</string>
     <string name="worker_ov_edit_task_item">"修改項目"</string>
+    <string name="worker_ov_tab_status_download">"下載"</string>
+    <string name="worker_ov_tab_status_upload">"上傳了"</string>
+    <string name="worker_ov_tab_status_capture">"照相"</string>
+    <string name="worker_ov_tab_status_work">"上班"</string>
+    <string name="worker_ov_tab_status_off_work">"下班"</string>
 
     <string name="worker_ov_taskitem_listview_start_date">"開始日期"</string>
     <string name="worker_ov_taskitem_listview_status">"工作狀態"</string>
@@ -88,8 +93,8 @@
     <string name="worker_ov_btn_finish_record">"紀錄完成"</string>
     <string name="worker_ov_tab_all">"全部"</string>
     <string name="worker_ov_tab_record">"紀錄"</string>
-    <string name="worker_ov_tab_photo">"檔案"</string>
-    <string name="worker_ov_tab_file">"照片"</string>
+    <string name="worker_ov_tab_photo">"照片"</string>
+    <string name="worker_ov_tab_file">"檔案"</string>
     <string name="worker_ov_tab_history">"日誌"</string>
 
     <!-- DrawerMenu fragment -->

@@ -41,6 +41,10 @@ import java.util.Locale;
  */
 public class Utils {
 
+    public static final String DATE_FORMAT_YMD = "yyyy/MM/dd";
+    public static final String DATE_FORMAT_MD = "yyyy/MM/dd";
+    public static final String DATE_FORMAT_YMD_HM_AMPM = "yyyy/MM/dd hh:mm aa";
+
     public static String getTaskItemStatusString(final Context context, final TaskItem item) {
         String r = "";
         Resources resources = context.getResources();
@@ -59,7 +63,7 @@ public class Utils {
                 break;
             case FINISH:
                 if (item.finishDate != null) {
-                    r = timestamp2Date(item.finishDate, false) + " ";
+                    r = timestamp2Date(item.finishDate, Utils.DATE_FORMAT_MD) + " ";
                 }
                 r += resources.getString(R.string.task_progress_finish);
                 break;
@@ -206,16 +210,12 @@ public class Utils {
         return view;
     }
 
-    public static String timestamp2Date(Date date, boolean withYear) {
+    public static String timestamp2Date(Date date, String format) {
         if (date == null) return "";
         String r;
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(date.getTime());
-        if (!withYear) {
-            r = DateFormat.format("MM/dd", cal).toString();
-        } else {
-            r = DateFormat.format("yyyy/MM/dd", cal).toString();
-        }
+        r = DateFormat.format(format, cal).toString();
         return r;
     }
 

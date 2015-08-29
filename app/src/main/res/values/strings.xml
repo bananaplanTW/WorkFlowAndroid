@@ -94,9 +94,14 @@
     <string name="worker_ov_btn_finish_record">"Finish Record"</string>
     <string name="worker_ov_tab_all">"All"</string>
     <string name="worker_ov_tab_record">"Record"</string>
-    <string name="worker_ov_tab_photo">"File"</string>
-    <string name="worker_ov_tab_file">"Photo"</string>
+    <string name="worker_ov_tab_photo">"Photo"</string>
+    <string name="worker_ov_tab_file">"File"</string>
     <string name="worker_ov_tab_history">"History"</string>
+    <string name="worker_ov_tab_status_download">"Download"</string>
+    <string name="worker_ov_tab_status_upload">"has uploaded"</string>
+    <string name="worker_ov_tab_status_capture">"has captured"</string>
+    <string name="worker_ov_tab_status_work">"go to work"</string>
+    <string name="worker_ov_tab_status_off_work">"off work"</string>
 
     <!-- DrawerMenu fragment -->
     <string name="drawer_main">Main Information</string>

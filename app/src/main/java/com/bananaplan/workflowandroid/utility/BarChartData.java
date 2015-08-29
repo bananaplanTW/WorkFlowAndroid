@@ -49,7 +49,7 @@ public class BarChartData {
         String[] axis_x_string = context.getResources().getStringArray(R.array.week);
         for (int i = 0; i < mDate.length; i++) {
             long timestamp = date.getTime() + i * 86400 * 1000;
-            mDate[i] = Utils.timestamp2Date(new Date(timestamp), true) + " (" + axis_x_string[i] + ")";
+            mDate[i] = Utils.timestamp2Date(new Date(timestamp), Utils.DATE_FORMAT_YMD) + " (" + axis_x_string[i] + ")";
         }
     }
 

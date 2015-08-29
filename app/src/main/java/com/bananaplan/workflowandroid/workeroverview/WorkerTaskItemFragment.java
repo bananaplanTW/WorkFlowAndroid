@@ -113,7 +113,7 @@ public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.On
                 holder = (TaskItemListViewAdapterViewHolder) convertView.getTag();
             }
             TaskItem taskItem = getItem(position);
-            holder.tvStartDate.setText(Utils.timestamp2Date(taskItem.startDate, false));
+            holder.tvStartDate.setText(Utils.timestamp2Date(taskItem.startDate, Utils.DATE_FORMAT_MD));
             holder.tvStatus.setText(Utils.getTaskItemStatusString(getActivity(), taskItem));
             holder.tvCaseName.setText(WorkingData.getInstance(getActivity()).getTaskCaseById(taskItem.taskCaseId).name);
             holder.tvItemName.setText(taskItem.title);
