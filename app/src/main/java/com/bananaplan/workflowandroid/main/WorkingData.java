@@ -11,12 +11,13 @@ import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.Tool;
 import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
-import com.bananaplan.workflowandroid.workeroverview.data.BaseData;
-import com.bananaplan.workflowandroid.workeroverview.data.DataFactory;
-import com.bananaplan.workflowandroid.workeroverview.data.FileData;
-import com.bananaplan.workflowandroid.workeroverview.data.HistoryData;
-import com.bananaplan.workflowandroid.workeroverview.data.PhotoData;
-import com.bananaplan.workflowandroid.workeroverview.data.RecordData;
+import com.bananaplan.workflowandroid.workeroverview.data.attendance.LeaveData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.BaseData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.DataFactory;
+import com.bananaplan.workflowandroid.workeroverview.data.status.FileData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.HistoryData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.PhotoData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.RecordData;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,6 +154,22 @@ public final class WorkingData {
                 record.reporter = getRandomWorkerId();
                 record.description = "test description";
                 worker.records.add(record);
+
+                LeaveData leave1 = new LeaveData();
+                leave1.date = getRandomDate();
+                leave1.reason = "test reason";
+                leave1.type = LeaveData.TYPE.PRIVATE;
+                worker.leaveDatas.add(leave1);
+                LeaveData leave2 = new LeaveData();
+                leave2.date = getRandomDate();
+                leave2.reason = "test reason";
+                leave2.type = LeaveData.TYPE.SICK;
+                worker.leaveDatas.add(leave2);
+                LeaveData leave3 = new LeaveData();
+                leave3.date = getRandomDate();
+                leave3.reason = "test reason";
+                leave3.type = LeaveData.TYPE.WORK;
+                worker.leaveDatas.add(leave3);
             }
         }
 

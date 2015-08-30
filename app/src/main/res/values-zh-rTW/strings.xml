@@ -96,6 +96,13 @@
     <string name="worker_ov_tab_photo">"照片"</string>
     <string name="worker_ov_tab_file">"檔案"</string>
     <string name="worker_ov_tab_history">"日誌"</string>
+    <string name="worker_ov_tab_attendance_add_leave_date">"新增請假"</string>
+    <string name="worker_ov_tab_attendance_leave_date">"請假日期"</string>
+    <string name="worker_ov_tab_attendance_leave_type">"請假假別"</string>
+    <string name="worker_ov_tab_attendance_leave_reason">"事由"</string>
+    <string name="worker_ov_tab_attendance_leave_reason_private">"事假"</string>
+    <string name="worker_ov_tab_attendance_leave_reason_work">"公假"</string>
+    <string name="worker_ov_tab_attendance_leave_reason_sick">"病假"</string>
 
     <!-- DrawerMenu fragment -->
     <string name="drawer_main">資訊主頁</string>

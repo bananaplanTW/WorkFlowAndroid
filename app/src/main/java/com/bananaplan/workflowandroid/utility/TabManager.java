@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.TabHost;
 
+import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 
@@ -85,6 +86,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
 
         if (mLastTab != newTab) {
             FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
             if (mLastTab != null) {
                 if (mLastTab.fragment != null) {
                     ft.detach(mLastTab.fragment);

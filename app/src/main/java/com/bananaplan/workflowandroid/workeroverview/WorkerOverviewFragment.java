@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
@@ -88,8 +89,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         mTvWorkerFactoryName = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_factory_name);
         mTvWorkerAddress = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_address);
         mTvWorkerPhone = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_phone);
-        mTvEditWorker = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_edit_worker);
-        mTvEditWorker.setOnClickListener(this);
+        getActivity().findViewById(R.id.worker_ov_right_pane_edit_worker).setOnClickListener(this);
         mTabHost = (TabHost) getActivity().findViewById(R.id.worker_ov_right_pane_tab_host);
         mTabHost.setup();
         mTabMgr = new TabManager((MainActivity) getActivity(), this, mTabHost, android.R.id.tabcontent);
@@ -312,9 +312,6 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
             case R.id.worker_ov_right_pane_edit_worker:
                 editWorker();
                 break;
-            case R.id.worker_ov_edit_task_item:
-                editTaskItem();
-                break;
             default:
                 break;
         }
@@ -325,6 +322,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     }
 
     private void editWorker() {
+        Toast.makeText(getActivity(), "Edit worker", Toast.LENGTH_SHORT).show();
         // TODO
     }
 

@@ -104,6 +104,13 @@
     <string name="worker_ov_tab_status_off_work">"off work"</string>
     <string name="worker_ov_tab_status_plus">"+"</string>
     <string name="worker_ov_tab_status_minus">"-"</string>
+    <string name="worker_ov_tab_attendance_add_leave_date">"Add leave date"</string>
+    <string name="worker_ov_tab_attendance_leave_date">"Leave date"</string>
+    <string name="worker_ov_tab_attendance_leave_type">"Leave type"</string>
+    <string name="worker_ov_tab_attendance_leave_reason">"Leave reason"</string>
+    <string name="worker_ov_tab_attendance_leave_reason_private">"Private"</string>
+    <string name="worker_ov_tab_attendance_leave_reason_work">"Work"</string>
+    <string name="worker_ov_tab_attendance_leave_reason_sick">"Sick"</string>
 
     <!-- DrawerMenu fragment -->
     <string name="drawer_main">Main Information</string>

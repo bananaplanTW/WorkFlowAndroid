@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
  * Created by Ben on 2015/8/14.
  */
 public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.OnClickListener, AdapterView.OnItemClickListener, OvTabFragmentBase.WorkerOvCallBack {
-    private TextView mDateChoosed;
     private LinearLayout mBarChartContainer;
     private TextView mTvWorkingHours;
     private TextView mTvOvertimeHours;
@@ -46,7 +46,6 @@ public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.On
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mDateChoosed = (TextView) getActivity().findViewById(R.id.ov_statistics_week_chooser_date);
         mBarChartContainer = (LinearLayout) getActivity().findViewById(R.id.ov_statistics_chart_container);
         ((LinearLayout.LayoutParams)mBarChartContainer.getLayoutParams()).topMargin = getResources().getDimensionPixelOffset(R.dimen.worker_ov_statistics_margin_top);
         mTvWorkingHours = (TextView) getActivity().findViewById(R.id.ov_statistics_working_hour_tv);
@@ -68,7 +67,7 @@ public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.On
         for (View divider : holder.dividerViews) {
             divider.setVisibility(View.INVISIBLE);
         }
-        for (View divider : holder.horozontalDividerViews) {
+        for (View divider : holder.horizontalDividerViews) {
             divider.setVisibility(View.VISIBLE);
         }
         ViewTreeObserver observer = view.getViewTreeObserver();
@@ -158,7 +157,7 @@ public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.On
         TextView tvErrorCount;
         TextView tvWarning;
         ArrayList<View> dividerViews = new ArrayList<>();
-        ArrayList<View> horozontalDividerViews = new ArrayList<>();
+        ArrayList<View> horizontalDividerViews = new ArrayList<>();
 
         public TaskItemListViewAdapterViewHolder(View view) {
             if (!(view instanceof LinearLayout)) return;
@@ -175,7 +174,7 @@ public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.On
             for (int i = 0; i < root.getChildCount(); i++) {
                 View child = root.getChildAt(i);
                 if (child.getId() == R.id.horozontal_divider) {
-                    horozontalDividerViews.add(child);
+                    horizontalDividerViews.add(child);
                 }
                 if (!(child instanceof LinearLayout)) continue;
                 LinearLayout secondRoot = (LinearLayout) child;
@@ -190,7 +189,14 @@ public class WorkerTaskItemFragment extends OvTabFragmentBase implements View.On
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.ov_statistics_week_chooser:
+                Toast.makeText(getActivity(), "Choose date", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.worker_ov_edit_task_item:
+                Toast.makeText(getActivity(), "Edit item", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override

@@ -20,11 +20,11 @@ import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.WorkingData;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
-import com.bananaplan.workflowandroid.workeroverview.data.BaseData;
-import com.bananaplan.workflowandroid.workeroverview.data.FileData;
-import com.bananaplan.workflowandroid.workeroverview.data.HistoryData;
-import com.bananaplan.workflowandroid.workeroverview.data.PhotoData;
-import com.bananaplan.workflowandroid.workeroverview.data.RecordData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.BaseData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.FileData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.HistoryData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.PhotoData;
+import com.bananaplan.workflowandroid.workeroverview.data.status.RecordData;
 
 import java.util.ArrayList;
 

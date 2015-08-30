@@ -7,7 +7,6 @@
     <include layout="@layout/ov_listview_horizontal_divider"/>
 
     <LinearLayout
-        android:id="@+id/worker_ov_task_item_listview_vg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

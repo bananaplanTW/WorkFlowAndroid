@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/ov_listview_horizontal_divider"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:minHeight="31dp">
+        <LinearLayout
+            android:layout_width="137dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/worker_attendance_listview_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/worker_ov_tab_attendance_leave_date"
+                android:textColor="@color/black1"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <include layout="@layout/ov_listview_vertical_divider"/>
+        <LinearLayout
+            android:layout_width="116dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/worker_attendance_listview_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/worker_ov_tab_attendance_leave_type"
+                android:textColor="@color/black1"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <include layout="@layout/ov_listview_vertical_divider"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/worker_attendance_listview_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/worker_ov_tab_attendance_leave_reason"
+                android:textColor="@color/black1"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <include layout="@layout/ov_listview_horizontal_divider"/>
+
+</LinearLayout>
