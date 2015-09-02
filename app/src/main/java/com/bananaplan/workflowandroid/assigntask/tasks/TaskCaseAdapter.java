@@ -53,6 +53,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private class TaskCaseSpinnerAdapter extends IconSpinnerAdapter<String> {
         public TaskCaseSpinnerAdapter(Context context, int resource, ArrayList<String> datas) {
             super(context, resource, datas);
+            int i = 0;
         }
 
         @Override
