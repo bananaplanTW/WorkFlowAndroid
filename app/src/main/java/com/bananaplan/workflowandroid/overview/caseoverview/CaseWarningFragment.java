@@ -42,7 +42,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         super.onViewCreated(view, savedInstanceState);
         mWarningListView = (ListView) getActivity().findViewById(R.id.case_listview_warning);
         mWarningListView.addHeaderView(getHeaderView(), null, false);
-//        onCaseSelected(getSelectedTaskCase());
+        onItemSelected(getSelectedTaskCase());
     }
 
     private void updateWarningListView(TaskCase taskCase) {
