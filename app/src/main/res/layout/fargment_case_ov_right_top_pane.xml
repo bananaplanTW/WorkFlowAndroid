@@ -34,7 +34,7 @@
             android:textColor="@color/black1"
             android:textSize="14dp"
             android:layout_centerVertical="true"/>
-        <com.bananaplan.workflowandroid.utility.CustomProgressBar
+        <com.bananaplan.workflowandroid.utility.view.CustomProgressBar
             android:id="@+id/case_ov_right_pane_case_progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="330dp"

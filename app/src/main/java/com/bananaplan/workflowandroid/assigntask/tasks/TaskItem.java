@@ -19,7 +19,7 @@ public class TaskItem {
     public long id;
     public long taskCaseId;
     public long workerId;
-    public long toolId;
+    public long equipmentId;
     public Date startDate;
     public Date finishDate;
     public int errorCount;

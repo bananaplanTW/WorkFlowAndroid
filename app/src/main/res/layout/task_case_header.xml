@@ -15,7 +15,7 @@
         android:layout_height="@dimen/assign_task_divider_height"
         android:background="@color/main_window_divider_color" />
 
-    <com.bananaplan.workflowandroid.utility.ExpandableLayout
+    <com.bananaplan.workflowandroid.utility.view.ExpandableLayout
         android:id="@+id/task_case_information_expandablelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

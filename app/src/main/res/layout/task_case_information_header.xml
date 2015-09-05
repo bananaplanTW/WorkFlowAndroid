@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/black_arrow_down"/>
 
-    <com.bananaplan.workflowandroid.utility.CustomProgressBar
+    <com.bananaplan.workflowandroid.utility.view.CustomProgressBar
         android:id="@+id/task_case_information_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"

@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
+import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -183,7 +183,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Task working time
         holder.workingTime.setText(taskItem.getWorkingTime());
 
-        // Tool
+        // Equipment
         holder.tool.setText(taskItem.getToolName());
 
         // Worker

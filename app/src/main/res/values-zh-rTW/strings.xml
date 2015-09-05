@@ -43,7 +43,7 @@
     <string name="case_overview_listview_taskitem_header_handle_worker">"處理人"</string>
     <string name="case_overview_listview_taskitem_header_time">"花費時間"</string>
     <string name="case_overview_listview_taskitem_header_description">"描述"</string>
-    <string name="overview_finish_hours">"完成時數 <b>%d</b> hours"</string>
+    <string name="overview_finish_hours">"完成時數 <b>%d</b> 小時"</string>
     <string name="overview_working_hours">"工作時數 <b>%d</b> 小時"</string>
     <string name="overview_overtime_hours">"加班時數 <b>%d</b> 小時"</string>
     <string name="overview_idle_hours">"閒置時數 <b>%d</b> 小時"</string>
@@ -78,16 +78,16 @@
     <string name="worker_ov_tab_status_work">"上班"</string>
     <string name="worker_ov_tab_status_off_work">"下班"</string>
 
-    <string name="worker_ov_taskitem_listview_start_date">"開始日期"</string>
-    <string name="worker_ov_taskitem_listview_status">"工作狀態"</string>
-    <string name="worker_ov_taskitem_listview_case_name">"案件名稱"</string>
-    <string name="worker_ov_taskitem_listview_item_name">"項目名稱"</string>
-    <string name="worker_ov_taskitem_listview_expected_time">"預期時間"</string>
-    <string name="worker_ov_taskitem_listview_working_time">"工作時間"</string>
-    <string name="worker_ov_taskitem_listview_tool_used">"使用機器"</string>
-    <string name="worker_ov_taskitem_listview_error_count">"錯誤"</string>
-    <string name="worker_ov_taskitem_listview_warning">"警訊"</string>
-    <string name="worker_ov_edittext_record_hint">"寫下紀錄&#8230;"</string>
+    <string name="ov_taskItem_listView_start_date">"開始日期"</string>
+    <string name="worker_ov_taskItem_listView_status">"工作狀態"</string>
+    <string name="worker_ov_taskItem_listView_case_name">"案件名稱"</string>
+    <string name="worker_ov_taskItem_listView_item_name">"項目名稱"</string>
+    <string name="worker_ov_taskItem_listView_expected_time">"預期時間"</string>
+    <string name="worker_ov_taskItem_listView_working_time">"工作時間"</string>
+    <string name="worker_ov_taskItem_listView_tool_used">"使用機器"</string>
+    <string name="worker_ov_taskItem_listView_error_count">"錯誤"</string>
+    <string name="worker_ov_taskItem_listView_warning">"警訊"</string>
+    <string name="worker_ov_editText_record_hint">"寫下紀錄&#8230;"</string>
     <string name="worker_ov_btn_upload">"上傳"</string>
     <string name="worker_ov_btn_capture">"照相"</string>
     <string name="worker_ov_btn_finish_record">"紀錄完成"</string>
@@ -116,5 +116,13 @@
     <string name="drawer_equipment">設備資訊</string>
     <string name="drawer_equipment_overview">設備概況</string>
     <string name="drawer_add_equipment">新增新設備</string>
+
+    <!-- Equipment Overview fragment -->
+    <string name="equipment_purchase_date">"購買日期："</string>
+    <string name="equipment_fix_date">"最近維修日期："</string>
+    <string name="equipment_edit">"修改設備資訊"</string>
+    <string name="worker_ov_worker_tab_title_fix_record">"維修紀錄"</string>
+    <string name="overview_used_hours">"完成時數 <b>%d</b> 小時"</string>
+    <string name="add_maintenance_record">"新增維修"</string>
 
 </resources>

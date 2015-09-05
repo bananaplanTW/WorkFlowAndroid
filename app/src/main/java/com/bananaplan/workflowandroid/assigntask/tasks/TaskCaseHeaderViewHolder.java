@@ -6,7 +6,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.utility.CustomProgressBar;
+import com.bananaplan.workflowandroid.utility.view.CustomProgressBar;
 
 /**
  * @author Danny Lin

@@ -21,11 +21,11 @@ import com.bananaplan.workflowandroid.addequipment.AddEquipmentFragment;
 import com.bananaplan.workflowandroid.addworker.AddWorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.AssignTaskFragment;
 import com.bananaplan.workflowandroid.drawermenu.DrawerFragment;
-import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
+import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.drawermenu.OnClickDrawerItemListener;
-import com.bananaplan.workflowandroid.equipmentoverview.EquipmentOverviewFragment;
+import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.info.InfoFragment;
-import com.bananaplan.workflowandroid.workeroverview.WorkerOverviewFragment;
+import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 
 
 /**

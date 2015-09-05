@@ -26,12 +26,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/gray5" />
+        android:background="@color/gray3" />
 
     <ListView
         android:id="@+id/ov_leftpane_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/gray5"
+        android:divider="@color/gray3"
         android:dividerHeight="2dp" />
 </LinearLayout>

@@ -31,7 +31,7 @@
             android:gravity="top|left"
             android:textSize="16dp"
             android:textColor="@color/gray1"
-            android:hint="@string/worker_ov_edittext_record_hint"
+            android:hint="@string/worker_ov_editText_record_hint"
             android:background="@drawable/border_textview_bg_gray"/>
         <RelativeLayout
             android:layout_width="match_parent"

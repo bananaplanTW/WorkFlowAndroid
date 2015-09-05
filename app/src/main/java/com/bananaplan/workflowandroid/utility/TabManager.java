@@ -112,13 +112,8 @@ public class TabManager implements TabHost.OnTabChangeListener {
         }
     }
 
-    public void selectWorker(WorkerItem worker) {
+    public void selectItem(Object item) {
         if (mLastTab == null) return;
-        mLastTab.fragment.selectWorker(worker);
-    }
-
-    public void selectTaskCase(TaskCase taskCase) {
-        if (mLastTab == null) return;
-        mLastTab.fragment.selectTaskCase(taskCase);
+        mLastTab.fragment.selectItem(item);
     }
 }

@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.tasks.Warning;
-import com.bananaplan.workflowandroid.caseoverview.CaseTaskItemFargment;
-import com.bananaplan.workflowandroid.workeroverview.WorkerTaskItemFragment;
+import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
+import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
+import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
+import com.bananaplan.workflowandroid.utility.data.BarChartData;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -148,7 +150,7 @@ public class Utils {
                 if (selection == null) return;
                 int idx = selection.getPointIndex() - 1;
                 View popupView = activity.getLayoutInflater().inflate(R.layout.bar_chart_popup, null);
-                if (data.from.equals(CaseTaskItemFargment.class.getName())) {
+                if (data.from.equals(CaseOverviewFragment.class.getSimpleName()) || data.from.equals(EquipmentOverviewFragment.class.getSimpleName())) {
                     ((TextView) popupView.findViewById(R.id.date)).setText(data.getDates()[idx]);
                     if (data.getData()[0][idx] != 0) {
                         ((TextView) popupView.findViewById(R.id.working_time)).setText(activity.getResources().getString(R.string.statistics_popup_time_finish) + " " + data.getData()[0][idx] + " : 00");
@@ -157,7 +159,7 @@ public class Utils {
                     }
                     popupView.findViewById(R.id.vg_overtime).setVisibility(View.GONE);
                     popupView.findViewById(R.id.vg_idle).setVisibility(View.GONE);
-                } else if (data.from.equals(WorkerTaskItemFragment.class.getName())) {
+                } else if (data.from.equals(WorkerOverviewFragment.class.getSimpleName())) {
                     ((TextView) popupView.findViewById(R.id.date)).setText(data.getDates()[idx]);
                     if (data.getData()[0][idx] != 0) {
                         ((TextView) popupView.findViewById(R.id.working_time)).setText(activity.getResources().getString(R.string.statistics_popup_time_work) + " " + data.getData()[0][idx] + " : 00");
@@ -174,8 +176,6 @@ public class Utils {
                     } else {
                         popupView.findViewById(R.id.vg_idle).setVisibility(View.GONE);
                     }
-                } else {
-                    throw new IllegalArgumentException("genBarChart from = " + data.from);
                 }
                 final PopupWindow popup = new PopupWindow(popupView,
                         LinearLayout.LayoutParams.WRAP_CONTENT,

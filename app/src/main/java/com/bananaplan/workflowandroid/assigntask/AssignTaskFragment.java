@@ -26,7 +26,7 @@ import com.bananaplan.workflowandroid.assigntask.workers.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
 import com.bananaplan.workflowandroid.main.WorkingData;
-import com.bananaplan.workflowandroid.utility.IconSpinnerAdapter;
+import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

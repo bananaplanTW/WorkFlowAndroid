@@ -7,17 +7,18 @@ import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskItem;
 import com.bananaplan.workflowandroid.assigntask.tasks.Warning;
 import com.bananaplan.workflowandroid.assigntask.tasks.Warning.WarningStatus;
+import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
 import com.bananaplan.workflowandroid.assigntask.workers.Factory;
-import com.bananaplan.workflowandroid.assigntask.workers.Tool;
 import com.bananaplan.workflowandroid.assigntask.workers.Vendor;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
-import com.bananaplan.workflowandroid.workeroverview.data.attendance.LeaveData;
-import com.bananaplan.workflowandroid.workeroverview.data.status.BaseData;
-import com.bananaplan.workflowandroid.workeroverview.data.status.DataFactory;
-import com.bananaplan.workflowandroid.workeroverview.data.status.FileData;
-import com.bananaplan.workflowandroid.workeroverview.data.status.HistoryData;
-import com.bananaplan.workflowandroid.workeroverview.data.status.PhotoData;
-import com.bananaplan.workflowandroid.workeroverview.data.status.RecordData;
+import com.bananaplan.workflowandroid.overview.equipmentoverview.data.MaintenanceRecord;
+import com.bananaplan.workflowandroid.overview.workeroverview.data.attendance.LeaveData;
+import com.bananaplan.workflowandroid.overview.workeroverview.data.status.BaseData;
+import com.bananaplan.workflowandroid.overview.workeroverview.data.status.DataFactory;
+import com.bananaplan.workflowandroid.overview.workeroverview.data.status.FileData;
+import com.bananaplan.workflowandroid.overview.workeroverview.data.status.HistoryData;
+import com.bananaplan.workflowandroid.overview.workeroverview.data.status.PhotoData;
+import com.bananaplan.workflowandroid.overview.workeroverview.data.status.RecordData;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +39,7 @@ public final class WorkingData {
     private HashMap<Long, WorkerItem> mWorkersMap = new HashMap<>();
     private HashMap<Long, TaskItem> mTaskItemsMap = new HashMap<>();
     private HashMap<Long, TaskCase> mTaskCaseMap = new HashMap<>();
-    private HashMap<Long, Tool> mToolsMap = new HashMap<>();
+    private HashMap<Long, Equipment> mEquipmentsMap = new HashMap<>();
     private HashMap<Long, Factory> mFactoriesMap = new HashMap<>();
 
 
@@ -72,9 +73,22 @@ public final class WorkingData {
 
     public ArrayList<TaskItem> getTaskItemsByWorker(WorkerItem worker) {
         ArrayList<TaskItem> tmp = new ArrayList<>();
+        if (worker == null) return tmp;
         ArrayList<TaskItem> orig = new ArrayList<>(mTaskItemsMap.values());
         for (TaskItem item : orig) {
             if (item.workerId == worker.id) {
+                tmp.add(item);
+            }
+        }
+        return tmp;
+    }
+
+    public ArrayList<TaskItem> getTaskItemsByEquipment(Equipment equipment) {
+        ArrayList<TaskItem> tmp = new ArrayList<>();
+        if (equipment == null) return tmp;
+        ArrayList<TaskItem> orig = new ArrayList<>(mTaskItemsMap.values());
+        for (TaskItem item : orig) {
+            if (item.equipmentId == equipment.id) {
                 tmp.add(item);
             }
         }
@@ -97,8 +111,12 @@ public final class WorkingData {
         return mTaskItemsMap.get(taskId);
     }
 
-    public Tool getToolById(long toolId) {
-        return mToolsMap.get(toolId);
+    public Equipment getEquipmentById(long equipmentId) {
+        return mEquipmentsMap.get(equipmentId);
+    }
+
+    public ArrayList<Equipment> getTools() {
+        return new ArrayList<>(mEquipmentsMap.values());
     }
 
     public Factory getFactoryById(long factoryId) {
@@ -116,6 +134,7 @@ public final class WorkingData {
         final int vendorCount = 3;
         final int taskCaseCount = 3;
         final int taskItemCount = 10;
+        final int toolCount = 10;
 
         for (int i = 1; i <= factoryCount; i++) {
             Factory factory = new Factory(i, "Factory" + i);
@@ -126,6 +145,14 @@ public final class WorkingData {
                 factory.workerItems.add(workItem);
                 mWorkersMap.put(workItem.id, workItem);
             }
+        }
+
+        for (int i = 0; i < toolCount; i++) {
+            Equipment equipment = new Equipment(i, "Equipment" + i, getRandomFactoryId());
+            equipment.purchaseDate = getRandomDate();
+            equipment.records.add(new MaintenanceRecord("reason1", getRandomDate()));
+            equipment.records.add(new MaintenanceRecord("reason2", getRandomDate()));
+            mEquipmentsMap.put(equipment.id, equipment);
         }
 
         for (Factory factory : mFactoriesMap.values()) {
@@ -186,8 +213,6 @@ public final class WorkingData {
                 taskCase.figureDate = getRandomDate();
                 vendor.taskCases.add(taskCase);
                 for (int k = 1; k <= taskItemCount; k++) {
-                    Tool tool = new Tool(k, "Tool" + k);
-                    mToolsMap.put(tool.id, tool);
                     TaskItem taskItem = new TaskItem(100 * i + 10 * j + k, "Item" + k);
                     taskItem.status = getRandomStatus();
                     if (taskItem.status != TaskItem.Status.NOT_START) {
@@ -215,7 +240,7 @@ public final class WorkingData {
                     taskItem.warningList.add(w4);
                     taskCase.taskItems.add(taskItem);
                     mTaskItemsMap.put(taskItem.id, taskItem);
-                    taskItem.toolId = tool.id;
+                    taskItem.equipmentId = getRandomToolId();
                     taskItem.workerId = getRandomWorkerId();
                 }
             }
@@ -228,9 +253,23 @@ public final class WorkingData {
         return statuses[idx];
     }
 
+    private long getRandomFactoryId() {
+        int num = (int) (Math.random() * mFactoriesMap.keySet().size());
+        List<Long> list = new ArrayList<>(mFactoriesMap.keySet());
+        if (list.size() == 0) return 0;
+        return list.get(num);
+    }
+
     private long getRandomWorkerId() {
         int num = (int) (Math.random() * mWorkersMap.keySet().size());
         List<Long> list = new ArrayList<>(mWorkersMap.keySet());
+        if (list.size() == 0) return 0;
+        return list.get(num);
+    }
+
+    private long getRandomToolId() {
+        int num = (int) (Math.random() * mEquipmentsMap.keySet().size());
+        List<Long> list = new ArrayList<>(mEquipmentsMap.keySet());
         if (list.size() == 0) return 0;
         return list.get(num);
     }

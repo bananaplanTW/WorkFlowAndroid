@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCase;
+import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerItem;
-import com.bananaplan.workflowandroid.caseoverview.CaseOverviewFragment;
+import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.main.UIController;
-import com.bananaplan.workflowandroid.workeroverview.WorkerOverviewFragment;
+import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
+import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 
 import java.util.ArrayList;
 
@@ -17,50 +19,29 @@ import java.util.ArrayList;
 public abstract class OvTabFragmentBase extends Fragment {
     public abstract Object getCallBack();
 
-    public interface WorkerOvCallBack {
-        void onWorkerSelected(WorkerItem worker);
-    }
-    public interface CaseOvCallBack {
-        void onCaseSelected(TaskCase taskCase);
+    public interface OvCallBack {
+        void onItemSelected(Object item);
     }
 
-    private ArrayList<WorkerOvCallBack> mWorkerOvCallBacks;
-    private ArrayList<CaseOvCallBack> mCaseOvCallBacks;
+    private ArrayList<OvCallBack> mOvCallBacks;
 
     public OvTabFragmentBase() {
-        mWorkerOvCallBacks = new ArrayList<>();
-        mCaseOvCallBacks = new ArrayList<>();
+        mOvCallBacks = new ArrayList<>();
     }
 
-    protected void registerWorkerOvCallBack(WorkerOvCallBack callback) {
-        if (mWorkerOvCallBacks == null || callback == null) return;
-        mWorkerOvCallBacks.add(callback);
+    protected void registerOvCallBack(OvCallBack callback) {
+        if (mOvCallBacks == null || callback == null) return;
+        mOvCallBacks.add(callback);
     }
 
-    protected void unregisterWorkerOvCallBack(WorkerOvCallBack callback) {
-        if (mWorkerOvCallBacks == null || callback == null) return;
-        mWorkerOvCallBacks.remove(callback);
+    protected void unregisterOvCallBack(OvCallBack callback) {
+        if (mOvCallBacks == null || callback == null) return;
+        mOvCallBacks.remove(callback);
     }
 
-    protected void registerCaseOvCallBack(CaseOvCallBack callback) {
-        if (mCaseOvCallBacks == null || callback == null) return;
-        mCaseOvCallBacks.add(callback);
-    }
-
-    protected void unregisterCaseOvCallBack(CaseOvCallBack callback) {
-        if (mCaseOvCallBacks == null || callback == null) return;
-        mCaseOvCallBacks.remove(callback);
-    }
-
-    public void selectWorker(WorkerItem worker) {
-        for (WorkerOvCallBack callback : mWorkerOvCallBacks) {
-            callback.onWorkerSelected(worker);
-        }
-    }
-
-    public void selectTaskCase(TaskCase taskCase) {
-        for (CaseOvCallBack callback : mCaseOvCallBacks) {
-            callback.onCaseSelected(taskCase);
+    public void selectItem(Object item) {
+        for (OvCallBack callback : mOvCallBacks) {
+            callback.onItemSelected(item);
         }
     }
 
@@ -78,23 +59,26 @@ public abstract class OvTabFragmentBase extends Fragment {
         return ((CaseOverviewFragment) frag).getSelectedTaskCase();
     }
 
+    public Equipment getSelectedEquipment() {
+        Fragment frag = getFragmentManager().findFragmentByTag(UIController.FragmentTag.EQUIPMENT_OVERVIEW_FRAGMENT);
+        if (frag == null) return null;
+        if (!(frag instanceof EquipmentOverviewFragment)) return null;
+        return ((EquipmentOverviewFragment) frag).getSelectedTool();
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (getCallBack() instanceof CaseOvCallBack) {
-            registerCaseOvCallBack((CaseOvCallBack) getCallBack());
-        } else if (getCallBack() instanceof WorkerOvCallBack) {
-            registerWorkerOvCallBack((WorkerOvCallBack) getCallBack());
+        if (getCallBack() instanceof OvCallBack) {
+            registerOvCallBack((OvCallBack) getCallBack());
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        if (getCallBack() instanceof CaseOvCallBack) {
-            unregisterCaseOvCallBack((CaseOvCallBack) getCallBack());
-        } else if (getCallBack() instanceof WorkerOvCallBack) {
-            unregisterWorkerOvCallBack((WorkerOvCallBack) getCallBack());
+        if (getCallBack() instanceof OvCallBack) {
+            unregisterOvCallBack((OvCallBack) getCallBack());
         }
     }
 }

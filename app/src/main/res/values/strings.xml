@@ -79,18 +79,18 @@
     <string name="worker_ov_worker_tab_title_worker_status">"Worker's status"</string>
     <string name="worker_ov_worker_tab_title_worker_attendance_status">"Attendance status"</string>
     <string name="worker_ov_edit_task_item">"Edit Item"</string>
-    <string name="worker_ov_taskitem_listview_start_date">"Start Date"</string>
-    <string name="worker_ov_taskitem_listview_status">"Status"</string>
-    <string name="worker_ov_taskitem_listview_case_name">"Case Name"</string>
-    <string name="worker_ov_taskitem_listview_item_name">"Item Name"</string>
-    <string name="worker_ov_taskitem_listview_expected_time">"Expected Time"</string>
-    <string name="worker_ov_taskitem_listview_working_time">"Work Time"</string>
-    <string name="worker_ov_taskitem_listview_tool_used">"Tool"</string>
-    <string name="worker_ov_taskitem_listview_error_count">"Error"</string>
-    <string name="worker_ov_taskitem_listview_warning">"Warning"</string>
-    <string name="worker_ov_edittext_record_hint">"Record&#8230;"</string>
+    <string name="ov_taskItem_listView_start_date">"Start Date"</string>
+    <string name="worker_ov_taskItem_listView_status">"Status"</string>
+    <string name="worker_ov_taskItem_listView_case_name">"Case Name"</string>
+    <string name="worker_ov_taskItem_listView_item_name">"Item Name"</string>
+    <string name="worker_ov_taskItem_listView_expected_time">"Expected Time"</string>
+    <string name="worker_ov_taskItem_listView_working_time">"Work Time"</string>
+    <string name="worker_ov_taskItem_listView_tool_used">"Tool"</string>
+    <string name="worker_ov_taskItem_listView_error_count">"Error"</string>
+    <string name="worker_ov_taskItem_listView_warning">"Warning"</string>
+    <string name="worker_ov_editText_record_hint">"Record&#8230;"</string>
     <string name="worker_ov_btn_upload">"Upload"</string>
-    <string name="worker_ov_btn_capture">"Cature"</string>
+    <string name="worker_ov_btn_capture">"Capture"</string>
     <string name="worker_ov_btn_finish_record">"Finish Record"</string>
     <string name="worker_ov_tab_all">"All"</string>
     <string name="worker_ov_tab_record">"Record"</string>
@@ -124,5 +124,13 @@
     <string name="drawer_equipment">Equipment</string>
     <string name="drawer_equipment_overview">Equipment Overview</string>
     <string name="drawer_add_equipment">Add equipment</string>
+
+    <!-- Equipment Overview fragment -->
+    <string name="equipment_purchase_date">"Purchase date:"</string>
+    <string name="equipment_fix_date">"Recently fix date:"</string>
+    <string name="equipment_edit">"Edit equipment info"</string>
+    <string name="worker_ov_worker_tab_title_fix_record">"Fix records"</string>
+    <string name="overview_used_hours">"Total hours used: <b>%d</b> hours"</string>
+    <string name="add_maintenance_record">"Add maintenance record"</string>
 
 </resources>

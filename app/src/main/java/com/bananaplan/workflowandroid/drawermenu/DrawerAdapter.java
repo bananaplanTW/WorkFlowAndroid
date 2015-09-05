@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.utility.ExpandableLayout;
-import com.bananaplan.workflowandroid.utility.ExpandableLayout.OnExpandCollapseListener;
+import com.bananaplan.workflowandroid.utility.view.ExpandableLayout;
+import com.bananaplan.workflowandroid.utility.view.ExpandableLayout.OnExpandCollapseListener;
 
 import java.util.ArrayList;
 
