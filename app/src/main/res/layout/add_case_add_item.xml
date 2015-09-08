@@ -9,9 +9,12 @@
     android:elevation="@dimen/add_case_task_item_elevation"
     android:gravity="center">
 
-    <ImageView
+    <TextView
+        android:id="@+id/add_case_add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/add_task"/>
+        android:text="@string/add_case_add_text"
+        android:textSize="@dimen/add_case_add_text_size"
+        android:textStyle="bold" />
 
 </LinearLayout>
