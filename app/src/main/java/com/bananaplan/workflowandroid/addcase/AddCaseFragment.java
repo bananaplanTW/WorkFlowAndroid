@@ -38,6 +38,7 @@ public class AddCaseFragment extends Fragment {
     private AddTaskAdapter mAddTaskAdapter;
 
     private int mAddTaskGridViewSpanCount = 0;
+    int i = 0;
 
 
     private class ModuleSpinnerAdapter extends IconSpinnerAdapter<String> {
