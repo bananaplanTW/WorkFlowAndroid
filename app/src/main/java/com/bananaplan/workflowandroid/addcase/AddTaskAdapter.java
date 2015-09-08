@@ -50,10 +50,38 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private int mSpanCount = 0;
 
 
-    private final class InfoHeaderViewHolder extends RecyclerView.ViewHolder {
+    private final class InfoHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public TextView saveButton;
+        public EditText length;
+
 
         public InfoHeaderViewHolder(View v) {
             super(v);
+            findViews(v);
+            setupViews(v);
+            setupOnClickListener();
+        }
+
+        private void findViews(View v) {
+            saveButton = (TextView) v.findViewById(R.id.save_case_button);
+            length = (EditText) v.findViewById(R.id.length_edit_text);
+        }
+
+        private void setupViews(View v) {
+            ((TextView) v.findViewById(R.id.measurement_text)).setPadding(length.getPaddingLeft(), 0, 0, 0);
+        }
+
+        private void setupOnClickListener() {
+            saveButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.save_case_button:
+                    break;
+            }
         }
     }
 

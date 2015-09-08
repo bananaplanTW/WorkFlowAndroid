@@ -1,14 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/add_case_task_item_height"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/add_case_info_header_padding"
         android:background="@drawable/common_block_background">
 
+        <TextView
+            android:id="@+id/save_template_button"
+            style="@style/ButtonStyle.Green"
+            android:layout_marginRight="@dimen/add_case_save_template_button_margin_right"
+            android:layout_alignTop="@+id/save_case_button"
+            android:layout_toLeftOf="@+id/save_case_button"
+            android:text="@string/add_case_save_template_button_text" />
+
+        <TextView
+            android:id="@+id/save_case_button"
+            style="@style/ButtonStyle.Blue"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/add_case_save_case_button_text" />
+
+        <LinearLayout
+            android:id="@+id/add_case_info_header_edit_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/save_template_button"
+            android:layout_marginTop="@dimen/add_case_info_header_edit_container_margin_top"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bananaplan.workflowandroid.utility.view.TitleEditText
+                    android:id="@+id/case_name_edit_text"
+                    android:layout_width="@dimen/title_edit_text_content_default_width"
+                    android:layout_height="wrap_content"
+                    app:tet_title="@string/add_case_info_header_case_name_text"
+                    app:tet_contentHint="@string/add_case_info_header_case_name_hint"
+                    app:tet_contentSingleLine="true"/>
+
+                <com.bananaplan.workflowandroid.utility.view.TitleEditText
+                    android:id="@+id/vendor_edit_text"
+                    android:layout_width="@dimen/title_edit_text_content_default_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/title_edit_text_margin_top"
+                    app:tet_title="@string/add_case_info_header_vendor_text"
+                    app:tet_contentHint="@string/add_case_info_header_vendor_hint"
+                    app:tet_contentInputType="none"
+                    app:tet_contentSingleLine="true"/>
+
+                <com.bananaplan.workflowandroid.utility.view.TitleEditText
+                    android:id="@+id/pic_edit_text"
+                    android:layout_width="@dimen/title_edit_text_content_default_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/title_edit_text_margin_top"
+                    app:tet_title="@string/add_case_info_header_pic_text"
+                    app:tet_contentHint="@string/add_case_info_header_pic_hint"
+                    app:tet_contentInputType="none"
+                    app:tet_contentSingleLine="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bananaplan.workflowandroid.utility.view.TitleEditText
+                    android:id="@+id/material_purchased_date_edit_text"
+                    android:layout_width="@dimen/title_edit_text_content_default_width"
+                    android:layout_height="wrap_content"
+                    app:tet_title="@string/add_case_info_header_material_purchased_date_text"
+                    app:tet_contentHint="@string/add_case_info_header_date_hint"
+                    app:tet_contentInputType="none"
+                    app:tet_contentSingleLine="true"/>
+
+                <com.bananaplan.workflowandroid.utility.view.TitleEditText
+                    android:id="@+id/layout_delivered_date_edit_text"
+                    android:layout_width="@dimen/title_edit_text_content_default_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/title_edit_text_margin_top"
+                    app:tet_title="@string/add_case_info_header_layout_delivered_date_text"
+                    app:tet_contentHint="@string/add_case_info_header_date_hint"
+                    app:tet_contentInputType="none"
+                    app:tet_contentSingleLine="true"/>
+
+                <com.bananaplan.workflowandroid.utility.view.TitleEditText
+                    android:id="@+id/delivered_date_edit_text"
+                    android:layout_width="@dimen/title_edit_text_content_default_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/title_edit_text_margin_top"
+                    app:tet_title="@string/add_case_info_header_delivered_date_text"
+                    app:tet_contentHint="@string/add_case_info_header_date_hint"
+                    app:tet_contentInputType="none"
+                    app:tet_contentSingleLine="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bananaplan.workflowandroid.utility.view.TitleEditText
+                    android:id="@+id/plate_count_edit_text"
+                    android:layout_width="@dimen/title_edit_text_content_default_width"
+                    android:layout_height="wrap_content"
+                    app:tet_title="@string/add_case_info_header_plate_count_text"
+                    app:tet_contentHint="@string/add_case_info_header_count_hint"
+                    app:tet_contentInputType="number"
+                    app:tet_contentSingleLine="true"/>
+
+                <com.bananaplan.workflowandroid.utility.view.TitleEditText
+                    android:id="@+id/support_block_count_edit_text"
+                    android:layout_width="@dimen/title_edit_text_content_default_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/title_edit_text_margin_top"
+                    app:tet_title="@string/add_case_info_header_support_block_count_text"
+                    app:tet_contentHint="@string/add_case_info_header_count_hint"
+                    app:tet_contentInputType="number"
+                    app:tet_contentSingleLine="true"/>
+
+                <TextView
+                    android:id="@+id/measurement_text"
+                    style="@style/TitleEditText.Title"
+                    android:layout_marginTop="@dimen/title_edit_text_margin_top"
+                    android:text="@string/add_case_info_header_measurement_text"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/length_edit_text"
+                        android:layout_width="@dimen/add_case_info_header_measurement_edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_case_info_header_measurement_length_hint"
+                        android:inputType="number"
+                        android:gravity="center"/>
+
+                    <TextView
+                        style="@style/TitleEditText.Content"
+                        android:text="@string/add_case_info_header_measurement_x_text"/>
+
+                    <EditText
+                        android:id="@+id/width_edit_text"
+                        android:layout_width="@dimen/add_case_info_header_measurement_edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_case_info_header_measurement_width_hint"
+                        android:inputType="number"
+                        android:gravity="center"/>
+
+                    <TextView
+                        style="@style/TitleEditText.Content"
+                        android:text="@string/add_case_info_header_measurement_x_text"/>
+
+                    <EditText
+                        android:id="@+id/height_edit_text"
+                        android:layout_width="@dimen/add_case_info_header_measurement_edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_case_info_header_measurement_height_hint"
+                        android:inputType="number"
+                        android:gravity="center"/>
+
+                    <TextView
+                        style="@style/TitleEditText.Content"
+                        android:text="@string/add_case_info_header_measurement_mm_text"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.bananaplan.workflowandroid.utility.view.TitleEditText
+            android:id="@+id/description_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_case_info_header_edit_container"
+            android:layout_marginTop="@dimen/title_edit_text_margin_top"
+            app:tet_title="@string/add_case_info_header_description_text"
+            app:tet_contentHint="@string/add_case_info_header_description_hint"
+            app:tet_contentSingleLine="false"
+            app:tet_contentMinLines="@integer/add_case_info_header_description_min_lines"
+            app:tet_contentBackground="@drawable/title_edit_text_description_background"/>
 
     </RelativeLayout>
 
