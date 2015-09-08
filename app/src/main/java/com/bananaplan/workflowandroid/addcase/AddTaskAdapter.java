@@ -174,6 +174,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 mTasksData.add(mTasksData.size()-1, new TaskItem());
             }
             notifyItemRangeInserted(mTasksData.size()-1-mSpanCount, mSpanCount);
+            ((RecyclerView) v.getParent()).smoothScrollToPosition(mTasksData.size()-mSpanCount);
         }
     }
 
