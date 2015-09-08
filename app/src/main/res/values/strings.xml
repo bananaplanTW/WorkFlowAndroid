@@ -135,11 +135,36 @@
     <string name="add_case_add_text">+</string>
     <string name="add_case_expected_spending_time_text">Expected Spending Time</string>
     <string name="add_case_expected_device">Expected Device</string>
+
+    <string name="add_case_info_header_case_name_text">Case Name</string>
+    <string name="add_case_info_header_case_name_hint">Input Case Name</string>
+    <string name="add_case_info_header_vendor_text">Vendor</string>
+    <string name="add_case_info_header_vendor_hint">Choose Vendor</string>
+    <string name="add_case_info_header_pic_text">PIC</string>
+    <string name="add_case_info_header_pic_hint">Choose PIC</string>
+    <string name="add_case_info_header_material_purchased_date_text">Material Purchased Date</string>
+    <string name="add_case_info_header_layout_delivered_date_text">Layout Delivered Date</string>
+    <string name="add_case_info_header_delivered_date_text">Delivered Date</string>
+    <string name="add_case_info_header_plate_count_text">Plate Count</string>
+    <string name="add_case_info_header_support_block_count_text">Support Block Count</string>
+    <string name="add_case_info_header_count_hint">Choose Count</string>
+    <string name="add_case_info_header_date_hint">mm/dd/yyyy</string>
+    <string name="add_case_info_header_description_text">Description</string>
+    <string name="add_case_info_header_description_hint">Input description</string>
+    <string name="add_case_info_header_measurement_text">Measurement</string>
+    <string name="add_case_info_header_measurement_x_text">x</string>
+    <string name="add_case_info_header_measurement_mm_text">mm</string>
+    <string name="add_case_info_header_measurement_width_hint">Width</string>
+    <string name="add_case_info_header_measurement_height_hint">Height</string>
+    <string name="add_case_info_header_measurement_length_hint">Length</string>
+
     <string name="add_case_task_title_hint">Task title</string>
     <string name="add_case_task_expected_working_time_hint">Expected Working Time</string>
     <string name="add_case_task_expected_working_time">%1$s hours %2$s mins</string>
     <string name="add_case_task_working_device_hint">Choose Device</string>
     <string name="add_case_task_worker_hint">Worker</string>
     <string name="add_case_task_detail">Detail</string>
+    <string name="add_case_save_case_button_text">Save Case</string>
+    <string name="add_case_save_template_button_text">Save Template</string>
 
 </resources>

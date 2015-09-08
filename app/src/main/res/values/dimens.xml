@@ -1,5 +1,16 @@
 <resources>
 
+    <!-- Views -->
+    <dimen name="button_padding_top_bottom">5dp</dimen>
+    <dimen name="button_padding_left_right">15dp</dimen>
+    <dimen name="button_text_size">16dp</dimen>
+    <dimen name="button_corner_radius">5dp</dimen>
+    <dimen name="title_edit_text_margin_top">20dp</dimen>
+    <dimen name="title_edit_text_title_text_size">16dp</dimen>
+    <dimen name="title_edit_text_content_default_width">200dp</dimen>
+    <dimen name="title_edit_text_content_padding">5dp</dimen>
+    <dimen name="title_edit_text_content_text_size">18dp</dimen>
+
     <!-- Assign task: Tasks part -->
     <dimen name="assign_task_divider_width_height">5dp</dimen>
     <dimen name="task_case_spinner_padding">15dp</dimen>
@@ -97,8 +108,15 @@
     <dimen name="drawer_subitem_text_size">15dp</dimen>
 
     <!-- Add case -->
+    <dimen name="add_case_save_template_button_margin_right">15dp</dimen>
     <dimen name="add_case_add_task_grid_view_padding">15dp</dimen>
     <dimen name="add_case_add_text_size">50dp</dimen>
+    <dimen name="add_case_info_header_padding">15dp</dimen>
+    <dimen name="add_case_info_header_edit_container_margin_top">20dp</dimen>
+    <dimen name="add_case_info_header_description_background_margin_top">5dp</dimen>
+    <dimen name="add_case_info_header_description_background_padding">10dp</dimen>
+    <dimen name="add_case_info_header_description_background_radius">5dp</dimen>
+    <dimen name="add_case_info_header_measurement_edit_text_width">45dp</dimen>
     <dimen name="add_case_task_item_height">260dp</dimen>
     <dimen name="add_case_task_item_elevation">3dp</dimen>
     <dimen name="add_case_task_item_margin_left_right">6dp</dimen>
