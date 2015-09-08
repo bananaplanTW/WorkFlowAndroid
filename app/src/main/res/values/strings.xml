@@ -132,6 +132,7 @@
     <string name="add_maintenance_record">"Add maintenance record"</string>
 
     <!-- Add case -->
+    <string name="add_case_add_text">+</string>
     <string name="add_case_expected_spending_time_text">Expected Spending Time</string>
     <string name="add_case_expected_device">Expected Device</string>
     <string name="add_case_task_title_hint">Task title</string>

@@ -98,6 +98,7 @@
 
     <!-- Add case -->
     <dimen name="add_case_add_task_grid_view_padding">15dp</dimen>
+    <dimen name="add_case_add_text_size">50dp</dimen>
     <dimen name="add_case_task_item_height">260dp</dimen>
     <dimen name="add_case_task_item_elevation">3dp</dimen>
     <dimen name="add_case_task_item_margin_left_right">6dp</dimen>
