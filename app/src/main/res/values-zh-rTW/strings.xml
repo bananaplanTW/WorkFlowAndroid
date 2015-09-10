@@ -128,11 +128,35 @@
     <!-- Add case -->
     <string name="add_case_expected_spending_time_text">預計花費時間</string>
     <string name="add_case_expected_device">預計使用機器</string>
+
+    <string name="add_case_info_header_case_name_text">案件名稱</string>
+    <string name="add_case_info_header_case_name_hint">輸入案件名稱</string>
+    <string name="add_case_info_header_vendor_text">委託廠商</string>
+    <string name="add_case_info_header_vendor_hint">選擇委託廠商</string>
+    <string name="add_case_info_header_pic_text">負責人</string>
+    <string name="add_case_info_header_pic_hint">選擇負責人</string>
+    <string name="add_case_info_header_material_purchased_date_text">進料日期</string>
+    <string name="add_case_info_header_layout_delivered_date_text">圖到日期</string>
+    <string name="add_case_info_header_delivered_date_text">交期</string>
+    <string name="add_case_info_header_plate_count_text">板材</string>
+    <string name="add_case_info_header_support_block_count_text">模腳</string>
+    <string name="add_case_info_header_count_hint">選擇數量</string>
+    <string name="add_case_info_header_description_text">其他內容</string>
+    <string name="add_case_info_header_description_hint">輸入配件或是其他描述</string>
+    <string name="add_case_info_header_measurement_text">尺寸</string>
+    <string name="add_case_info_header_measurement_mm_text">公釐</string>
+    <string name="add_case_info_header_measurement_width_hint">寬</string>
+    <string name="add_case_info_header_measurement_height_hint">高</string>
+    <string name="add_case_info_header_measurement_length_hint">長</string>
+
     <string name="add_case_task_title_hint">工作項目名稱</string>
     <string name="add_case_task_expected_working_time_hint">預計工作時間</string>
     <string name="add_case_task_expected_working_time">%1$s 小時 %2$s 分鐘</string>
     <string name="add_case_task_working_device_hint">選擇使用幾台</string>
     <string name="add_case_task_worker_hint">工作項目負責人</string>
     <string name="add_case_task_detail">詳細內容</string>
+    <string name="add_case_save_case_button_text">儲存案件</string>
+    <string name="add_case_save_template_button_text">存為模組</string>
+
 
 </resources>

@@ -13,5 +13,6 @@
     <integer name="add_case_left_part_weight">1</integer>
     <integer name="add_case_right_part_weight">3</integer>
     <integer name="add_case_grid_view_span_count">4</integer>
+    <integer name="add_case_info_header_description_min_lines">3</integer>
 
 </resources>

@@ -115,4 +115,39 @@
         <item name="android:textSize">@dimen/add_case_left_part_title_text_size</item>
     </style>
 
+    <style name="ButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/button_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/button_padding_left_right</item>
+        <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
+        <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
+        <item name="android:textColor">@color/button_white_text_color</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ButtonStyle.Blue">
+        <item name="android:background">@drawable/blue_button_background</item>
+    </style>
+
+    <style name="ButtonStyle.Green">
+        <item name="android:background">@drawable/green_button_background</item>
+    </style>
+
+    <style name="TitleEditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/title_edit_text_text_color</item>
+        <item name="android:textSize">@dimen/title_edit_text_title_text_size</item>
+    </style>
+
+    <style name="TitleEditText.Title">
+    </style>
+
+    <style name="TitleEditText.Content">
+        <item name="android:padding">@dimen/title_edit_text_content_padding</item>
+        <item name="android:textSize">@dimen/title_edit_text_content_text_size</item>
+    </style>
+
 </resources>
