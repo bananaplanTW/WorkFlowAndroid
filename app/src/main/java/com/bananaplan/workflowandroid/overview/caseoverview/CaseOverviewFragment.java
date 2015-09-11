@@ -46,8 +46,6 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         private static final String WARNING      = "tab_tag_warning";
     }
 
-    private MainActivity mActivity;
-
     // views
     private Spinner mVendorsSpinner;
     private EditText mEtCaseSearch;
@@ -75,12 +73,6 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private VendorSpinnerAdapter mVendorSpinnerAdapter;
     private TaskCaseListViewAdapter mTaskCaseListViewAdapter;
     private TaskCase mSelectedTaskCase;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = (MainActivity) activity;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -162,13 +154,13 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private ArrayList<Vendor> getSpinnerVendorData() {
         ArrayList<Vendor> tmp = new ArrayList<>();
         tmp.add(new Vendor(-1L, getResources().getString(R.string.case_spinner_all_vendors))); // all vendors
-        tmp.addAll(WorkingData.getInstance(mActivity).getVendors());
+        tmp.addAll(WorkingData.getInstance(getActivity()).getVendors());
         return tmp;
     }
 
     private ArrayList<TaskCase> getTaskCases() {
         ArrayList<TaskCase> cases = new ArrayList<>();
-        for (Vendor vendor : WorkingData.getInstance(mActivity).getVendors()) {
+        for (Vendor vendor : WorkingData.getInstance(getActivity()).getVendors()) {
             for (TaskCase taskCase : vendor.taskCases) {
                 if (mSelectedTaskCase == null) {
                     mSelectedTaskCase = taskCase;
@@ -204,9 +196,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private void onTaskCaseSelected(TaskCase taskCase) {
         if (taskCase == null) return;
         mTvCaseNameSelected.setText(taskCase.name);
-        mTvCaseVendorSelected.setText(WorkingData.getInstance(mActivity).getVendorById(taskCase.vendorId).name);
+        mTvCaseVendorSelected.setText(WorkingData.getInstance(getActivity()).getVendorById(taskCase.vendorId).name);
         if (mSelectedTaskCase.workerId > 0) {
-            mTvCasePersonInChargeSelected.setText(WorkingData.getInstance(mActivity).getWorkerItemById(taskCase.workerId).name);
+            mTvCasePersonInChargeSelected.setText(WorkingData.getInstance(getActivity()).getWorkerItemById(taskCase.workerId).name);
         }
         mTvCaseHoursPassedBy.setText(taskCase.getHoursPassedBy());
         mTvCaseHoursUnfinished.setText(taskCase.getHoursUnFinished());
@@ -234,6 +226,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == mTaskCaseListView.getId()) {
+            if (mSelectedTaskCase == mTaskCaseListViewAdapter.getItem(position)) return;
             mSelectedTaskCase = mTaskCaseListViewAdapter.getItem(position);
             onTaskCaseSelected(mSelectedTaskCase);
             mTaskCaseListViewAdapter.setPositionSelected(position);
@@ -318,7 +311,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             }
             TaskCase taskCase = getItem(position);
             holder.mTvCaseName.setText(taskCase.name);
-            holder.mTvVendor.setText(WorkingData.getInstance(mActivity).getVendorById(taskCase.vendorId).name);
+            holder.mTvVendor.setText(WorkingData.getInstance(getActivity()).getVendorById(taskCase.vendorId).name);
             if (taskCase.getFinishPercent() == 100) {
                 holder.mTvStatus.setText(getResources().getString(R.string.case_finished));
                 holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.bg_solid_textview_bg_gray, null));

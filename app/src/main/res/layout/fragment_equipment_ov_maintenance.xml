@@ -23,9 +23,8 @@
         android:id="@+id/listview_maintenance_records"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:divider="@color/gray3"
-        android:dividerHeight="1dp"
+        android:dividerHeight="@dimen/equipment_ov_listview_divider_height"
         android:layout_marginTop="17dp"/>
 
 </LinearLayout>

@@ -7,10 +7,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragmentBase.OvCallBack {
     private ListView mWarningListView;
     private WarningListViewAdapter mWarningAdapter;
+    private static int sListViewHeaderHeight = 0;
 
     @Nullable
     @Override
@@ -163,6 +166,23 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         for (View divider : holder.horizontalDividerViews) {
             divider.setVisibility(View.VISIBLE);
         }
+        ViewTreeObserver observer = view.getViewTreeObserver();
+        if (sListViewHeaderHeight <= 0 && observer.isAlive()) {
+            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    sListViewHeaderHeight = view.getHeight();
+                    if (mWarningAdapter != null && mWarningAdapter.getCount() > 0) {
+                        ViewGroup.LayoutParams params = mWarningListView.getLayoutParams();
+                        params.height = (int) (mWarningAdapter.getCount()
+                                * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
+                                + sListViewHeaderHeight;
+                        mWarningListView.requestLayout();
+                    }
+                }
+            });
+        }
         return view;
     }
 
@@ -170,6 +190,13 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
     public void onItemSelected(Object item) {
         TaskCase taskCase = (TaskCase) item;
         updateWarningListView(taskCase);
+        if (mWarningAdapter != null && mWarningAdapter.getCount() > 0) {
+            ViewGroup.LayoutParams params = mWarningListView.getLayoutParams();
+            params.height = (int) (mWarningAdapter.getCount()
+                    * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
+                    + sListViewHeaderHeight;
+            mWarningListView.requestLayout();
+        }
     }
 
     @Override

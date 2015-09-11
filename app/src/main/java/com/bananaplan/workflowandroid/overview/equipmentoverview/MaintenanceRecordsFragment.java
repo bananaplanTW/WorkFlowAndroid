@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
-import com.bananaplan.workflowandroid.overview.equipmentoverview.data.MaintenanceRecord;
+import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
 
@@ -90,6 +90,12 @@ public class MaintenanceRecordsFragment extends OvTabFragmentBase implements OvT
         mAdapter.clear();
         mAdapter.addAll(equipment.records);
         mAdapter.notifyDataSetChanged();
+        if (mAdapter != null && mAdapter.getCount() > 0) {
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = (int) (mAdapter.getCount() * getResources().getDimension(R.dimen.equipment_ov_listview_item_min_height)
+                    + getResources().getDimension(R.dimen.equipment_ov_listview_divider_height));
+            mListView.requestLayout();
+        }
     }
 
     @Override

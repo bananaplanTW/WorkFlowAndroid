@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.overview.workeroverview.data.status;
+package com.bananaplan.workflowandroid.data.worker.status;
 
 import android.net.Uri;
 

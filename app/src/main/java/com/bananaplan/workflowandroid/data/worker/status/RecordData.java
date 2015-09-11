@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.overview.workeroverview.data.status;
+package com.bananaplan.workflowandroid.data.worker.status;
 
 /**
  * Created by Ben on 2015/8/29.

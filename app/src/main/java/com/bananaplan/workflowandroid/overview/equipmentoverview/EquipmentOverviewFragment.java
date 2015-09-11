@@ -322,8 +322,9 @@ public class EquipmentOverviewFragment extends Fragment implements
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()) {
             case R.id.ov_leftpane_listview:
-                mEquipmentAdapter.setSelectedPosition(position);
+                if (mSelectedEquipment == mEquipmentAdapter.getItem(position)) return;
                 mSelectedEquipment = mEquipmentAdapter.getItem(position);
+                mEquipmentAdapter.setSelectedPosition(position);
                 onToolSelected(mSelectedEquipment);
                 mEquipmentAdapter.notifyDataSetChanged();
                 break;

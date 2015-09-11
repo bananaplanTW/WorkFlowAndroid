@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
-import com.bananaplan.workflowandroid.overview.workeroverview.data.attendance.LeaveData;
+import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
 
 import java.util.ArrayList;
 

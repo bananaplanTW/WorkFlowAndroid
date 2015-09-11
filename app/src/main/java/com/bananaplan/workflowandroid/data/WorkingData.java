@@ -4,14 +4,14 @@ import android.content.Context;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
-import com.bananaplan.workflowandroid.overview.equipmentoverview.data.MaintenanceRecord;
-import com.bananaplan.workflowandroid.overview.workeroverview.data.attendance.LeaveData;
-import com.bananaplan.workflowandroid.overview.workeroverview.data.status.BaseData;
-import com.bananaplan.workflowandroid.overview.workeroverview.data.status.DataFactory;
-import com.bananaplan.workflowandroid.overview.workeroverview.data.status.FileData;
-import com.bananaplan.workflowandroid.overview.workeroverview.data.status.HistoryData;
-import com.bananaplan.workflowandroid.overview.workeroverview.data.status.PhotoData;
-import com.bananaplan.workflowandroid.overview.workeroverview.data.status.RecordData;
+import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
+import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
+import com.bananaplan.workflowandroid.data.worker.status.BaseData;
+import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
+import com.bananaplan.workflowandroid.data.worker.status.FileData;
+import com.bananaplan.workflowandroid.data.worker.status.HistoryData;
+import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
+import com.bananaplan.workflowandroid.data.worker.status.RecordData;
 import com.bananaplan.workflowandroid.data.Warning.WarningStatus;
 
 import java.util.ArrayList;

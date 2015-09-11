@@ -13,96 +13,104 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/left_pane" />
 
-    <RelativeLayout
-        android:id="@+id/right_pane"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@id/vertical_divider"
-        android:paddingTop="24dp">
+        android:layout_toRightOf="@id/vertical_divider">
 
-        <TextView
-            android:id="@+id/equipment_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColor="@android:color/black"
-            android:layout_marginLeft="24dp"/>
-
-        <TextView
-            android:id="@+id/equipment_factory_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColor="@color/gray1"
-            android:layout_alignLeft="@id/equipment_name"
-            android:layout_below="@id/equipment_name"
-            android:layout_marginTop="7dp"/>
-
-        <TextView
-            android:id="@+id/equipment_purchase_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@color/gray1"
-            android:layout_alignTop="@id/equipment_name"
-            android:layout_marginLeft="280dp"/>
-
-        <TextView
-            android:id="@+id/equipment_fix_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@color/gray1"
-            android:layout_alignLeft="@id/equipment_purchase_date"
-            android:layout_alignTop="@id/equipment_factory_name"/>
-
-        <TextView
-            android:id="@+id/equipment_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@android:color/white"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"
-            android:layout_alignTop="@id/equipment_name"
-            android:text="@string/equipment_edit"
-            android:gravity="center"
-            android:background="@drawable/border_textview_edit_case_bg"/>
-
-        <View
-            android:id="@+id/right_pane_horizontal_divider"
+        <RelativeLayout
+            android:id="@+id/right_pane"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@drawable/divider_h"
-            android:layout_below="@id/equipment_factory_name"
-            android:layout_marginTop="24dp"/>
+            android:layout_height="match_parent"
+            android:paddingTop="24dp">
 
-        <TabHost
-            android:id="@+id/tab_host"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/right_pane_horizontal_divider">
-            <LinearLayout
+            <TextView
+                android:id="@+id/equipment_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:textColor="@android:color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/equipment_factory_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/equipment_name"
+                android:layout_below="@id/equipment_name"
+                android:layout_marginTop="7dp"
+                android:textColor="@color/gray1"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/equipment_purchase_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/equipment_name"
+                android:layout_marginLeft="280dp"
+                android:textColor="@color/gray1"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/equipment_fix_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/equipment_purchase_date"
+                android:layout_alignTop="@id/equipment_factory_name"
+                android:textColor="@color/gray1"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/equipment_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/equipment_name"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/border_textview_edit_case_bg"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/equipment_edit"
+                android:textColor="@android:color/white"
+                android:textSize="16dp" />
+
+            <View
+                android:id="@+id/right_pane_horizontal_divider"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_below="@id/equipment_factory_name"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/divider_h" />
+
+            <TabHost
+                android:id="@+id/tab_host"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TabWidget
-                    android:id="@android:id/tabs"
-                    android:divider="@null"
+                android:layout_below="@id/right_pane_horizontal_divider">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"/>
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-        </TabHost>
+                    android:orientation="vertical">
 
-    </RelativeLayout>
+                    <TabWidget
+                        android:id="@android:id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@null"
+                        android:orientation="horizontal" />
+
+                    <FrameLayout
+                        android:id="@android:id/tabcontent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </TabHost>
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

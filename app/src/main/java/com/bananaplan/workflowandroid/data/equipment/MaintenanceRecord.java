@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.overview.equipmentoverview.data;
+package com.bananaplan.workflowandroid.data.equipment;
 
 import java.util.Date;
 

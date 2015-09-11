@@ -331,8 +331,9 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()) {
             case R.id.ov_leftpane_listview:
-                mWorkerLisViewAdapter.setSelectedPosition(position);
+                if (mSelectedWorker == mWorkerLisViewAdapter.getItem(position)) return;
                 mSelectedWorker = mWorkerLisViewAdapter.getItem(position);
+                mWorkerLisViewAdapter.setSelectedPosition(position);
                 onWorkerSelected(mSelectedWorker, false);
                 mWorkerLisViewAdapter.notifyDataSetChanged();
                 break;

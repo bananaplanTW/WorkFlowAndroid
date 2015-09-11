@@ -53,7 +53,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
 
     private TaskItemListViewAdapter mTaskItemListViewAdapter;
     private WorkerItemListViewAdapter mWorkerItemListViewAdapter;
-    private int mTaskItemListViewHeaderHeight;
+    private static int sTaskItemListViewHeaderHeight = 0;
 
     @Nullable
     @Override
@@ -127,23 +127,22 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             holder.workerInfo.setVisibility(View.GONE);
         }
         ViewTreeObserver observer = view.getViewTreeObserver();
-        if (observer.isAlive()) {
+        if (sTaskItemListViewHeaderHeight <= 0 && observer.isAlive()) {
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    mTaskItemListViewHeaderHeight = view.getHeight();
+                    sTaskItemListViewHeaderHeight = view.getHeight();
                     if (mTaskItemListViewAdapter != null && mTaskItemListViewAdapter.getCount() > 0) {
                         ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
                         params.height = (int) (mTaskItemListViewAdapter.getCount()
                                 * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
-                                + mTaskItemListViewHeaderHeight;
-                        mTaskItemListViewAdapter.notifyDataSetChanged();
+                                + sTaskItemListViewHeaderHeight;
+                        mTaskItemListView.requestLayout();
                     }
                 }
             });
         }
-        mTaskItemListViewHeaderHeight = view.getHeight();
         return view;
     }
 
@@ -332,14 +331,12 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             onCaseSelected((TaskCase) item);
         }
-        if (mTaskItemListViewAdapter != null) {
-            if (mTaskItemListViewAdapter.getCount() > 0) {
-                ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
-                params.height = (int) (mTaskItemListViewAdapter.getCount()
-                        * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
-                        + mTaskItemListViewHeaderHeight;
-            }
-            mTaskItemListViewAdapter.notifyDataSetChanged();
+        if (mTaskItemListViewAdapter != null && mTaskItemListViewAdapter.getCount() > 0) {
+            ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
+            params.height = (int) (mTaskItemListViewAdapter.getCount()
+                    * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
+                    + sTaskItemListViewHeaderHeight;
+            mTaskItemListView.requestLayout();
         }
     }
 
@@ -348,7 +345,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         updateStatisticsView(1, R.string.overview_finish_hours);
 
         // update task item listview
-        ArrayList<TaskItem> items = (ArrayList<TaskItem>) taskCase.taskItems;
+        ArrayList<TaskItem> items = new ArrayList<>(taskCase.taskItems);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);

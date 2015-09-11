@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.overview.workeroverview.data.attendance;
+package com.bananaplan.workflowandroid.data.worker.attendance;
 
 import java.util.Date;
 

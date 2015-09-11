@@ -1,6 +1,6 @@
-package com.bananaplan.workflowandroid.overview.workeroverview.data.status;
+package com.bananaplan.workflowandroid.data.worker.status;
 
-import com.bananaplan.workflowandroid.overview.workeroverview.data.status.BaseData.TYPE;
+import com.bananaplan.workflowandroid.data.worker.status.BaseData.TYPE;
 
 /**
  * Created by Ben on 2015/8/29.
