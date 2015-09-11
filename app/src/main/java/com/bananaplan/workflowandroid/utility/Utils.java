@@ -314,7 +314,7 @@ public class Utils {
     }
 
     /**
-     * Convert time in milliseconds to hours-and-minutes format.
+     * Convert time from milliseconds to hh:mm format.
      *
      * @param milliseconds
      * @return Equal time in xx hours xx minutes
@@ -325,5 +325,22 @@ public class Utils {
         long hoursInMinutes = TimeUnit.HOURS.toMinutes(hours);
 
         return new int[] {(int) hours, (int) (minutes-hoursInMinutes)};
+    }
+
+    /**
+     * Convert time from milliseconds to mm/dd/yyyy format.
+     *
+     * @param context
+     * @param milliseconds
+     * @return Equal time in mm/dd/yyyy
+     */
+    public static String millisecondsToDate(Context context, long milliseconds) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(milliseconds);
+
+        return String.format(context.getString(R.string.date_format_string),
+                             pad(c.get(Calendar.MONTH)+1),
+                             pad(c.get(Calendar.DAY_OF_MONTH)),
+                             pad(c.get(Calendar.YEAR)));
     }
 }

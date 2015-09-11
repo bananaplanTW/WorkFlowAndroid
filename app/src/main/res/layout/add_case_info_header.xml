@@ -55,7 +55,7 @@
                     android:layout_marginTop="@dimen/title_edit_text_margin_top"
                     app:tet_title="@string/add_case_info_header_vendor_text"
                     app:tet_contentHint="@string/add_case_info_header_vendor_hint"
-                    app:tet_contentInputType="none"
+                    app:tet_contentInputType="vendorPicker"
                     app:tet_contentSingleLine="true"/>
 
                 <com.bananaplan.workflowandroid.utility.view.TitleEditText
@@ -65,7 +65,7 @@
                     android:layout_marginTop="@dimen/title_edit_text_margin_top"
                     app:tet_title="@string/add_case_info_header_pic_text"
                     app:tet_contentHint="@string/add_case_info_header_pic_hint"
-                    app:tet_contentInputType="none"
+                    app:tet_contentInputType="picPicker"
                     app:tet_contentSingleLine="true"/>
 
             </LinearLayout>
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     app:tet_title="@string/add_case_info_header_material_purchased_date_text"
                     app:tet_contentHint="@string/add_case_info_header_date_hint"
-                    app:tet_contentInputType="none"
+                    app:tet_contentInputType="date"
                     app:tet_contentSingleLine="true"/>
 
                 <com.bananaplan.workflowandroid.utility.view.TitleEditText
@@ -92,7 +92,7 @@
                     android:layout_marginTop="@dimen/title_edit_text_margin_top"
                     app:tet_title="@string/add_case_info_header_layout_delivered_date_text"
                     app:tet_contentHint="@string/add_case_info_header_date_hint"
-                    app:tet_contentInputType="none"
+                    app:tet_contentInputType="date"
                     app:tet_contentSingleLine="true"/>
 
                 <com.bananaplan.workflowandroid.utility.view.TitleEditText
@@ -102,7 +102,7 @@
                     android:layout_marginTop="@dimen/title_edit_text_margin_top"
                     app:tet_title="@string/add_case_info_header_delivered_date_text"
                     app:tet_contentHint="@string/add_case_info_header_date_hint"
-                    app:tet_contentInputType="none"
+                    app:tet_contentInputType="date"
                     app:tet_contentSingleLine="true"/>
 
             </LinearLayout>

@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.addcase;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,17 +13,23 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.data.TaskItem;
 import com.bananaplan.workflowandroid.utility.Utils;
+import com.bananaplan.workflowandroid.utility.view.DatePickerDialogFragment;
 import com.bananaplan.workflowandroid.utility.view.TimePickerDialogFragment;
+import com.bananaplan.workflowandroid.utility.view.TitleEditText;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -37,6 +44,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private static final class DialogTag {
         public static final String TIME_PICKER = "dialog_time_picker";
+        public static final String DATE_PICKER = "dialog_date_picker";
     }
 
     private static final class ItemViewType {
@@ -46,35 +54,62 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private Context mContext;
+    private TaskCase mTaskCase;
     private ArrayList<TaskItem> mTasksData = new ArrayList<TaskItem>();
 
     private int mSpanCount = 0;
 
 
-    private final class InfoHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private final class InfoHeaderViewHolder extends RecyclerView.ViewHolder implements
+            View.OnClickListener, TitleEditText.OnClickContentListener {
 
+        public TextView saveTemplateButton;
         public TextView saveCaseButton;
+        public TitleEditText caseName;
+        public TitleEditText vendor;
+        public TitleEditText pic;
+        public TitleEditText materialPurchasedDate;
+        public TitleEditText layoutDeliveredDate;
+        public TitleEditText deliveredDate;
+        public TitleEditText plateCount;
+        public TitleEditText supportBlockCount;
         public EditText length;
+        public EditText width;
+        public EditText height;
 
 
         public InfoHeaderViewHolder(View v) {
             super(v);
             findViews(v);
             setupViews(v);
-            setupOnClickListener();
         }
 
         private void findViews(View v) {
+            saveTemplateButton = (TextView) v.findViewById(R.id.save_template_button);
             saveCaseButton = (TextView) v.findViewById(R.id.save_case_button);
+            caseName = (TitleEditText) v.findViewById(R.id.case_name_edit_text);
+            vendor = (TitleEditText) v.findViewById(R.id.vendor_edit_text);
+            pic = (TitleEditText) v.findViewById(R.id.pic_edit_text);
+            materialPurchasedDate = (TitleEditText) v.findViewById(R.id.material_purchased_date_edit_text);
+            layoutDeliveredDate = (TitleEditText) v.findViewById(R.id.layout_delivered_date_edit_text);
+            deliveredDate = (TitleEditText) v.findViewById(R.id.delivered_date_edit_text);
+            plateCount = (TitleEditText) v.findViewById(R.id.plate_count_edit_text);
+            supportBlockCount = (TitleEditText) v.findViewById(R.id.support_block_count_edit_text);
             length = (EditText) v.findViewById(R.id.length_edit_text);
+            width = (EditText) v.findViewById(R.id.width_edit_text);
+            height = (EditText) v.findViewById(R.id.height_edit_text);
         }
 
         private void setupViews(View v) {
             ((TextView) v.findViewById(R.id.measurement_text)).setPadding(length.getPaddingLeft(), 0, 0, 0);
-        }
 
-        private void setupOnClickListener() {
+            saveTemplateButton.setOnClickListener(this);
             saveCaseButton.setOnClickListener(this);
+            vendor.setOnClickContentListener(this);
+            pic.setOnClickContentListener(this);
+            materialPurchasedDate.setOnClickContentListener(this);
+            layoutDeliveredDate.setOnClickContentListener(this);
+            deliveredDate.setOnClickContentListener(this);
         }
 
         @Override
@@ -83,6 +118,68 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 case R.id.save_case_button:
                     break;
             }
+        }
+
+        @Override
+        public void onClickContent(TitleEditText tet) {
+            switch (tet.getId()) {
+                case R.id.vendor_edit_text:
+                    break;
+
+                case R.id.pic_edit_text:
+                    break;
+
+                case R.id.material_purchased_date_edit_text:
+                    setDate(tet, mTaskCase.materialPurchasedDate);
+                    break;
+
+                case R.id.layout_delivered_date_edit_text:
+                    setDate(tet, mTaskCase.layoutDeliveredDate);
+                    break;
+
+                case R.id.delivered_date_edit_text:
+                    setDate(tet, mTaskCase.deliveredDate);
+                    break;
+            }
+        }
+
+        private void setDate(TitleEditText tet, Date taskCaseDate) {
+            if (taskCaseDate == null) {
+                taskCaseDate = new Date();
+            }
+            showDatePicker(tet, taskCaseDate);
+        }
+
+        private void showDatePicker(final TitleEditText tet, final Date taskCaseDate) {
+            FragmentManager fm = ((Activity) mContext).getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            Fragment prevDatePickerDialog = fm.findFragmentByTag(DialogTag.DATE_PICKER);
+            if (prevDatePickerDialog != null) {
+                ft.remove(prevDatePickerDialog);
+            }
+
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(taskCaseDate.getTime());
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialogFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    // The month value is 0-based.
+                    tet.setContent(String.format(mContext.getString(R.string.date_format_string),
+                                   Utils.pad(monthOfYear+1), Utils.pad(dayOfMonth), Utils.pad(year)));
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.clear();
+                    cal.set(year, monthOfYear, dayOfMonth);
+
+                    taskCaseDate.setTime(cal.getTime().getTime());
+                }
+
+            }, year, month, day).show(ft, DialogTag.DATE_PICKER);
         }
     }
 
@@ -167,7 +264,6 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             FragmentManager fm = ((Activity) mContext).getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             Fragment prevTimePickerDialog = fm.findFragmentByTag(DialogTag.TIME_PICKER);
-
             if (prevTimePickerDialog != null) {
                 ft.remove(prevTimePickerDialog);
             }
@@ -178,8 +274,8 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     mTasksData.get(TaskViewHolder.this.getAdapterPosition()).expectedWorkingTime =
                             Utils.timeToMilliseconds(hourOfDay, minute);
-                    setExpectedWorkingTime(TaskViewHolder.this.expectedWorkingTime,
-                                           mTasksData.get(TaskViewHolder.this.getAdapterPosition()).expectedWorkingTime);
+                    TaskViewHolder.this.expectedWorkingTime.setText(
+                            getExpectedWorkingTime(mTasksData.get(TaskViewHolder.this.getAdapterPosition()).expectedWorkingTime));
                 }
 
             }, 0, 0, true).show(ft, DialogTag.TIME_PICKER);
@@ -210,6 +306,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public AddTaskAdapter(Context context, int spanCount) {
         mContext = context;
         mSpanCount = spanCount;
+        mTaskCase = new TaskCase();
         initTasksData();
     }
 
@@ -254,29 +351,36 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (isAddItem(position)) {
             return;
         } else if (isInfoHeader(position)) {
-            onBindInfoHeaderViewHolder((InfoHeaderViewHolder) holder, position);
+            onBindInfoHeaderViewHolder((InfoHeaderViewHolder) holder);
         } else {
             onBindTaskViewHolder((TaskViewHolder) holder, position);
         }
     }
 
-    private void onBindInfoHeaderViewHolder(InfoHeaderViewHolder holder, int position) {
+    private void onBindInfoHeaderViewHolder(InfoHeaderViewHolder holder) {
+        holder.materialPurchasedDate.setContent(getDate(mTaskCase.materialPurchasedDate));
+        holder.layoutDeliveredDate.setContent(getDate(mTaskCase.layoutDeliveredDate));
+        holder.deliveredDate.setContent(getDate(mTaskCase.deliveredDate));
     }
 
     private void onBindTaskViewHolder(TaskViewHolder holder, int position) {
         holder.index.setText(String.valueOf(position));
         holder.title.setText(mTasksData.get(position).title);
-        setExpectedWorkingTime(holder.expectedWorkingTime, mTasksData.get(position).expectedWorkingTime);
+        holder.expectedWorkingTime.setText(getExpectedWorkingTime(mTasksData.get(position).expectedWorkingTime));
     }
 
-    private void setExpectedWorkingTime(EditText timeEditText, long milliseconds) {
-        if (milliseconds == -1L) {
-            timeEditText.setText("");
-        } else {
+    private String getDate(Date date) {
+        return date == null ? "" : Utils.millisecondsToDate(mContext, date.getTime());
+    }
+
+    private String getExpectedWorkingTime(long milliseconds) {
+        String s = "";
+        if (milliseconds != -1L) {
             int[] times = Utils.millisecondsToTime(milliseconds);
-            String expectedWorkingTime = mContext.getString(R.string.add_case_task_expected_working_time);
-            timeEditText.setText(String.format(expectedWorkingTime, Utils.pad(times[0]), Utils.pad(times[1])));
+            s = String.format(mContext.getString(R.string.add_case_task_expected_working_time),
+                              Utils.pad(times[0]), Utils.pad(times[1]));
         }
+        return s;
     }
 
     private boolean isInfoHeader(int position) {

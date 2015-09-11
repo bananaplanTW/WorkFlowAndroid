@@ -21,11 +21,15 @@
 
     <declare-styleable name="TitleEditText">
         <attr name="tet_title" format="string" />
+        <attr name="tet_content" format="string" />
         <attr name="tet_contentHint" format="string" />
         <attr name="tet_contentInputType" format="enum">
             <enum name="none" value="0" />
             <enum name="text" value="1" />
             <enum name="number" value="2" />
+            <enum name="date" value="3" />
+            <enum name="vendorPicker" value="4" />
+            <enum name="picPicker" value="5" />
         </attr>
         <attr name="tet_contentMinLines" format="integer" />
         <attr name="tet_contentSingleLine" format="boolean" />
