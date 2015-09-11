@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -13,16 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.TaskItem;
 import com.bananaplan.workflowandroid.utility.Utils;
+import com.bananaplan.workflowandroid.utility.view.TimePickerDialogFragment;
 
 import java.util.ArrayList;
 
-import mirko.android.datetimepicker.time.RadialPickerLayout;
-import mirko.android.datetimepicker.time.TimePickerDialog;
 
 /**
  * Adapter for add-tasks grid view in AddCaseFragment
@@ -171,10 +172,10 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ft.remove(prevTimePickerDialog);
             }
 
-            TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+            TimePickerDialogFragment.newInstance(new TimePickerDialog.OnTimeSetListener() {
 
                 @Override
-                public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     mTasksData.get(TaskViewHolder.this.getAdapterPosition()).expectedWorkingTime =
                             Utils.timeToMilliseconds(hourOfDay, minute);
                     setExpectedWorkingTime(TaskViewHolder.this.expectedWorkingTime,
