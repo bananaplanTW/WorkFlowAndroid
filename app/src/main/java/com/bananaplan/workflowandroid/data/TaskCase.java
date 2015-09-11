@@ -22,14 +22,19 @@ public class TaskCase {
     public String name;
     public long vendorId;
     public long workerId;
-    public Date deliveryDate;
-    public Date feedDate;
-    public Date figureDate;
+    public Date deliveredDate;
+    public Date materialPurchasedDate;
+    public Date layoutDeliveredDate;
     public int sheetCount;
     public int modelCount;
     public String others;
     public Size size;
     public List<TaskItem> taskItems;
+
+
+    public TaskCase() {
+        taskItems = new ArrayList<TaskItem>();
+    }
 
     public TaskCase(int id, String name) {
         this(id, name, new ArrayList<TaskItem>());

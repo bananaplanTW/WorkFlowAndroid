@@ -202,9 +202,9 @@ public final class WorkingData {
                 mTaskCaseMap.put(taskCase.id, taskCase);
                 taskCase.vendorId = vendor.id;
                 taskCase.workerId = getRandomWorkerId();
-                taskCase.feedDate = getRandomDate();
-                taskCase.deliveryDate = getRandomDate();
-                taskCase.figureDate = getRandomDate();
+                taskCase.materialPurchasedDate = getRandomDate();
+                taskCase.deliveredDate = getRandomDate();
+                taskCase.layoutDeliveredDate = getRandomDate();
                 vendor.taskCases.add(taskCase);
                 for (int k = 1; k <= taskItemCount; k++) {
                     TaskItem taskItem = new TaskItem(100 * i + 10 * j + k, "Item" + k);

@@ -214,9 +214,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mPbCaseSelected.setProgress(taskCase.getFinishPercent());
         mTvTaskItemCount.setText(String.valueOf(taskCase.taskItems.size()));
         mTvCaseProgress.setText(taskCase.getFinishItemsCount() + "/" + taskCase.taskItems.size());
-        mTvCaseFeedDate.setText(Utils.timestamp2Date(taskCase.feedDate, Utils.DATE_FORMAT_YMD));
-        mTvCaseFigureDate.setText(Utils.timestamp2Date(taskCase.figureDate, Utils.DATE_FORMAT_YMD));
-        mTvCaseDeliveryDate.setText(Utils.timestamp2Date(taskCase.deliveryDate, Utils.DATE_FORMAT_YMD));
+        mTvCaseFeedDate.setText(Utils.timestamp2Date(taskCase.materialPurchasedDate, Utils.DATE_FORMAT_YMD));
+        mTvCaseFigureDate.setText(Utils.timestamp2Date(taskCase.layoutDeliveredDate, Utils.DATE_FORMAT_YMD));
+        mTvCaseDeliveryDate.setText(Utils.timestamp2Date(taskCase.deliveredDate, Utils.DATE_FORMAT_YMD));
         mTvCaseSheetCount.setText(String.valueOf(taskCase.sheetCount));
         mTvCaseModelCount.setText(String.valueOf(taskCase.modelCount));
         mTvCaseOthers.setText(taskCase.others);
