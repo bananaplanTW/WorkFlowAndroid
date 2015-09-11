@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ import com.bananaplan.workflowandroid.R;
 
 
 /**
- * Customized view combines a title and a edit content
+ * Customized view which combines a title and a edit content
  *
  * Title       (TextView)
  * __________  (EditText)
@@ -21,21 +22,35 @@ import com.bananaplan.workflowandroid.R;
  * @author Danny Lin
  * @since 2015/9/9.
  */
-public class TitleEditText extends LinearLayout {
+public class TitleEditText extends LinearLayout implements View.OnClickListener, View.OnFocusChangeListener {
 
-    public static final int INPUT_TYPE_NONE = 0;
-    public static final int INPUT_TYPE_TEXT = 1;
-    public static final int INPUT_TYPE_NUMBER = 2;
+    private static final String TAG = "TitleEditText";
+
+    public static final class TetInputType {
+        public static final int NONE = 0;
+        public static final int TEXT = 1;
+        public static final int NUMBER = 2;
+        public static final int DATE_PICKER = 3;
+        public static final int VENDOR_PICKER = 4;
+        public static final int PIC_PICKER = 5;
+    }
+
+    public interface OnClickContentListener {
+        void onClickContent(TitleEditText tet);
+    }
 
     private TextView mTitleTextView;
     private EditText mContentEditText;
 
     private String mTitle;
+    private String mContent;
     private String mContentHint;
     private int mContentMinLines;
     private int mContentInputType;
     private boolean mContentIsSingleLine;
     private int mContentBackgroundId;
+
+    private OnClickContentListener mOnClickContentListener;
 
 
     public TitleEditText(Context context) {
@@ -58,9 +73,10 @@ public class TitleEditText extends LinearLayout {
 
         try {
             mTitle = a.getString(R.styleable.TitleEditText_tet_title);
+            mContent = a.getString(R.styleable.TitleEditText_tet_content);
             mContentHint = a.getString(R.styleable.TitleEditText_tet_contentHint);
             mContentMinLines = a.getInteger(R.styleable.TitleEditText_tet_contentMinLines, 1);
-            mContentInputType = a.getInt(R.styleable.TitleEditText_tet_contentInputType, 1);
+            mContentInputType = a.getInt(R.styleable.TitleEditText_tet_contentInputType, TetInputType.TEXT);
             mContentIsSingleLine = a.getBoolean(R.styleable.TitleEditText_tet_contentSingleLine, true);
             mContentBackgroundId = a.getResourceId(R.styleable.TitleEditText_tet_contentBackground, -1);
         } finally {
@@ -76,27 +92,14 @@ public class TitleEditText extends LinearLayout {
 
     private void setupValues() {
         mTitleTextView.setPadding(mContentEditText.getPaddingLeft(), 0, 0, 0);
-        mTitleTextView.setText(mTitle);
 
-        mContentEditText.setHint(mContentHint);
-        mContentEditText.setSingleLine(mContentIsSingleLine);
-        mContentEditText.setMinLines(mContentMinLines);
-
-        switch (mContentInputType) {
-            case INPUT_TYPE_NONE:
-                mContentEditText.setRawInputType(InputType.TYPE_NULL);
-                break;
-            case INPUT_TYPE_TEXT:
-                mContentEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
-                break;
-            case INPUT_TYPE_NUMBER:
-                mContentEditText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-                break;
-        }
-
-        if (mContentBackgroundId != -1) {
-            mContentEditText.setBackgroundResource(mContentBackgroundId);
-        }
+        setTitle(mTitle);
+        setContent(mContent);
+        setContentHint(mContentHint);
+        setContentSingleLine(mContentIsSingleLine);
+        setContentMinLines(mContentMinLines);
+        setContentInputType(mContentInputType);
+        setContentBackgroundId(mContentBackgroundId);
     }
 
     public String getTitle() {
@@ -104,8 +107,17 @@ public class TitleEditText extends LinearLayout {
     }
 
     public void setTitle(String title) {
+        mTitleTextView.setText(title);
         mTitle = title;
-        invalidate();
+    }
+
+    public String getContent() {
+        return mContent;
+    }
+
+    public void setContent(String content) {
+        mContentEditText.setText(content);
+        mContent = content;
     }
 
     public String getContentHint() {
@@ -113,8 +125,8 @@ public class TitleEditText extends LinearLayout {
     }
 
     public void setContentHint(String hint) {
+        mContentEditText.setHint(hint);
         mContentHint = hint;
-        invalidate();
     }
 
     public boolean isContentSingleLine() {
@@ -122,8 +134,8 @@ public class TitleEditText extends LinearLayout {
     }
 
     public void setContentSingleLine(boolean isSingleLine) {
+        mContentEditText.setSingleLine(isSingleLine);
         mContentIsSingleLine = isSingleLine;
-        invalidate();
     }
 
     public int getContentInputType() {
@@ -131,9 +143,20 @@ public class TitleEditText extends LinearLayout {
     }
 
     public void setContentInputType(int inputType) {
-        if (inputType != INPUT_TYPE_NONE && inputType != INPUT_TYPE_TEXT && inputType != INPUT_TYPE_NUMBER) return;
+        switch (inputType) {
+            case TetInputType.TEXT:
+                mContentEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+                break;
+            case TetInputType.NUMBER:
+                mContentEditText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
+                break;
+            default:
+                mContentEditText.setRawInputType(InputType.TYPE_NULL);
+                mContentEditText.setOnClickListener(this);
+                mContentEditText.setOnFocusChangeListener(this);
+                break;
+        }
         mContentInputType = inputType;
-        invalidate();
     }
 
     public int getContentMinLines() {
@@ -141,6 +164,7 @@ public class TitleEditText extends LinearLayout {
     }
 
     public void setContentMinLines(int minLines) {
+        mContentEditText.setMinLines(minLines);
         mContentMinLines = minLines;
     }
 
@@ -149,6 +173,36 @@ public class TitleEditText extends LinearLayout {
     }
 
     public void setContentBackgroundId(int resoruceId) {
+        if (mContentBackgroundId == -1) return;
+        mContentEditText.setBackgroundResource(mContentBackgroundId);
         mContentBackgroundId = resoruceId;
+    }
+
+    public OnClickContentListener getOnClickContentListener() {
+        return mOnClickContentListener;
+    }
+
+    public void setOnClickContentListener(OnClickContentListener listener) {
+        mOnClickContentListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tet_content:
+                onClickContentEvent();
+                break;
+        }
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus) return;
+        onClickContentEvent();
+    }
+
+    private void onClickContentEvent() {
+        if (mOnClickContentListener == null) return;
+        mOnClickContentListener.onClickContent(this);
     }
 }

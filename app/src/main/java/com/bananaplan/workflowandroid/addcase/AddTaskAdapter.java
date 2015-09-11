@@ -21,6 +21,8 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.TaskItem;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.TimePickerDialogFragment;
+import com.bananaplan.workflowandroid.utility.view.TitleEditText;
+import com.bananaplan.workflowandroid.utility.view.TitleEditText.TetInputType;
 
 import java.util.ArrayList;
 
@@ -51,36 +53,74 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private int mSpanCount = 0;
 
 
-    private final class InfoHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private final class InfoHeaderViewHolder extends RecyclerView.ViewHolder implements
+            View.OnClickListener, TitleEditText.OnClickContentListener {
 
+        public TextView saveTemplateButton;
         public TextView saveCaseButton;
+        public TitleEditText caseName;
+        public TitleEditText vendor;
+        public TitleEditText pic;
+        public TitleEditText materialPurchasedDate;
+        public TitleEditText layoutDeliveredDate;
+        public TitleEditText deliveredDate;
+        public TitleEditText plateCount;
+        public TitleEditText supportBlockCount;
         public EditText length;
+        public EditText width;
+        public EditText height;
 
 
         public InfoHeaderViewHolder(View v) {
             super(v);
             findViews(v);
             setupViews(v);
-            setupOnClickListener();
         }
 
         private void findViews(View v) {
+            saveTemplateButton = (TextView) v.findViewById(R.id.save_template_button);
             saveCaseButton = (TextView) v.findViewById(R.id.save_case_button);
+            caseName = (TitleEditText) v.findViewById(R.id.case_name_edit_text);
+            vendor = (TitleEditText) v.findViewById(R.id.vendor_edit_text);
+            pic = (TitleEditText) v.findViewById(R.id.pic_edit_text);
+            materialPurchasedDate = (TitleEditText) v.findViewById(R.id.material_purchased_date_edit_text);
+            layoutDeliveredDate = (TitleEditText) v.findViewById(R.id.layout_delivered_date_edit_text);
+            deliveredDate = (TitleEditText) v.findViewById(R.id.delivered_date_edit_text);
+            plateCount = (TitleEditText) v.findViewById(R.id.plate_count_edit_text);
+            supportBlockCount = (TitleEditText) v.findViewById(R.id.support_block_count_edit_text);
             length = (EditText) v.findViewById(R.id.length_edit_text);
+            width = (EditText) v.findViewById(R.id.width_edit_text);
+            height = (EditText) v.findViewById(R.id.height_edit_text);
         }
 
         private void setupViews(View v) {
             ((TextView) v.findViewById(R.id.measurement_text)).setPadding(length.getPaddingLeft(), 0, 0, 0);
-        }
 
-        private void setupOnClickListener() {
+            saveTemplateButton.setOnClickListener(this);
             saveCaseButton.setOnClickListener(this);
+            vendor.setOnClickContentListener(this);
+            pic.setOnClickContentListener(this);
+            materialPurchasedDate.setOnClickContentListener(this);
+            layoutDeliveredDate.setOnClickContentListener(this);
+            deliveredDate.setOnClickContentListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.save_case_button:
+                    break;
+            }
+        }
+
+        @Override
+        public void onClickContent(TitleEditText tet) {
+            switch (tet.getContentInputType()) {
+                case TetInputType.VENDOR_PICKER:
+                    break;
+                case TetInputType.PIC_PICKER:
+                    break;
+                case TetInputType.DATE_PICKER:
                     break;
             }
         }
