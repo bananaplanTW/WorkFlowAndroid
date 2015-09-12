@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TabHost;
 
@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Created by Ben on 2015/8/14.
  */
 public class TabManager implements TabHost.OnTabChangeListener {
-    private final ActionBarActivity mActivity;
+    private final AppCompatActivity mActivity;
     private final TabHost mTabHost;
     private final int mContainerId;
     private final HashMap<String, TabInfo> mTabs = new HashMap<>();
@@ -52,7 +52,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
         }
     }
 
-    public TabManager(ActionBarActivity activity, Fragment parent, TabHost tabHost, int containerId) {
+    public TabManager(AppCompatActivity activity, Fragment parent, TabHost tabHost, int containerId) {
         mActivity = activity;
         mTabHost = tabHost;
         mContainerId = containerId;

@@ -1,14 +1,14 @@
 package com.bananaplan.workflowandroid.main;
 
 import android.content.res.Configuration;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.bananaplan.workflowandroid.R;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     private UIController mUIController;
 

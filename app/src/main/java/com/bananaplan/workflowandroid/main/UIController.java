@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +34,6 @@ import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFrag
  * @author Danny Lin
  * @since 2015.05.28
  *
- * TODO: Animation of closing the drawer is laggy
  */
 public class UIController implements OnClickDrawerItemListener {
 
@@ -50,7 +49,7 @@ public class UIController implements OnClickDrawerItemListener {
         public static final String ADD_EQUIPMENT_FRAGMENT = "add_equipment_fragment";
     }
 
-    private ActionBarActivity mMainActivity;
+    private AppCompatActivity mMainActivity;
     private ActionBar mActionBar;
     private Toolbar mToolbar;
 
@@ -63,7 +62,7 @@ public class UIController implements OnClickDrawerItemListener {
 
     private int mDrawerItemId = -1;
 
-    public UIController(ActionBarActivity activity) {
+    public UIController(AppCompatActivity activity) {
         mMainActivity = activity;
     }
 
@@ -120,7 +119,7 @@ public class UIController implements OnClickDrawerItemListener {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                //replaceContent();
+                replaceContent();
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -158,7 +157,6 @@ public class UIController implements OnClickDrawerItemListener {
     @Override
     public void onClickDrawerItem(int id) {
         mDrawerItemId = id;
-        replaceContent();
         closeDrawer();
     }
 
