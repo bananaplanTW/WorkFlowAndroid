@@ -15,6 +15,7 @@ import com.bananaplan.workflowandroid.data.worker.status.RecordData;
 import com.bananaplan.workflowandroid.data.Warning.WarningStatus;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -278,8 +279,8 @@ public final class WorkingData {
     }
 
     private Date getRandomDate() {
-        int year = randBetween(2015, 2015);
-        int month = randBetween(0, 11);
+        int year = randBetween(2014, 2015);
+        int month = randBetween(0, Calendar.getInstance().get(Calendar.MONTH) - 1);
         GregorianCalendar gc = new GregorianCalendar(year, month, 1);
         int day = randBetween(1, gc.getActualMaximum(gc.DAY_OF_MONTH));
         gc.set(year, month, day);

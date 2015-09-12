@@ -22,6 +22,7 @@ import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.WorkerItem;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
+import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -46,18 +47,6 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         mWarningListView = (ListView) getActivity().findViewById(R.id.case_listview_warning);
         mWarningListView.addHeaderView(getHeaderView(), null, false);
         onItemSelected(getSelectedTaskCase());
-    }
-
-    private void updateWarningListView(TaskCase taskCase) {
-        ArrayList<Warning> warnings = getWarnings(taskCase);
-        if (mWarningAdapter == null) {
-            mWarningAdapter = new WarningListViewAdapter(warnings);
-            mWarningListView.setAdapter(mWarningAdapter);
-        } else {
-            mWarningAdapter.clear();
-            mWarningAdapter.addAll(warnings);
-        }
-        mWarningAdapter.notifyDataSetChanged();
     }
 
     private ArrayList<Warning> getWarnings(TaskCase taskCase) {
@@ -175,10 +164,12 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
                     sListViewHeaderHeight = view.getHeight();
                     if (mWarningAdapter != null && mWarningAdapter.getCount() > 0) {
                         ViewGroup.LayoutParams params = mWarningListView.getLayoutParams();
-                        params.height = (int) (mWarningAdapter.getCount()
-                                * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
-                                + sListViewHeaderHeight;
+                        params.height = (int) (mWarningAdapter.getCount() * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
+                                + sListViewHeaderHeight
+                                + mWarningListView.getDividerHeight() * (mWarningAdapter.getCount() - 1)
+                                + mWarningListView.getPaddingTop();
                         mWarningListView.requestLayout();
+                        ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
                     }
                 }
             });
@@ -188,14 +179,24 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
 
     @Override
     public void onItemSelected(Object item) {
+        if (item == null) return;
         TaskCase taskCase = (TaskCase) item;
-        updateWarningListView(taskCase);
+        ArrayList<Warning> warnings = getWarnings(taskCase);
+        if (mWarningAdapter == null) {
+            mWarningAdapter = new WarningListViewAdapter(warnings);
+            mWarningListView.setAdapter(mWarningAdapter);
+        } else {
+            mWarningAdapter.clear();
+            mWarningAdapter.addAll(warnings);
+        }
+        mWarningAdapter.notifyDataSetChanged();
         if (mWarningAdapter != null && mWarningAdapter.getCount() > 0) {
             ViewGroup.LayoutParams params = mWarningListView.getLayoutParams();
             params.height = (int) (mWarningAdapter.getCount()
                     * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
-                    + sListViewHeaderHeight;
+                    + sListViewHeaderHeight + mWarningListView.getDividerHeight() * (mWarningAdapter.getCount() - 1);
             mWarningListView.requestLayout();
+            ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
         }
     }
 

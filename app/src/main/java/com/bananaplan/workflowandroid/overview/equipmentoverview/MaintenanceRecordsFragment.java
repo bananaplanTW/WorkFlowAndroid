@@ -15,6 +15,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
+import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -38,8 +39,6 @@ public class MaintenanceRecordsFragment extends OvTabFragmentBase implements OvT
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.add_maintenance_record).setOnClickListener(this);
         mListView = (ListView) getActivity().findViewById(R.id.listview_maintenance_records);
-        mAdapter = new RecordAdapter(new ArrayList<MaintenanceRecord>());
-        mListView.setAdapter(mAdapter);
         onItemSelected(getSelectedEquipment());
     }
 
@@ -87,14 +86,21 @@ public class MaintenanceRecordsFragment extends OvTabFragmentBase implements OvT
     public void onItemSelected(Object item) {
         if (item == null) return;
         Equipment equipment = (Equipment) item;
-        mAdapter.clear();
-        mAdapter.addAll(equipment.records);
+        ArrayList<MaintenanceRecord> records = new ArrayList<>(equipment.records);
+        if (mAdapter == null) {
+            mAdapter = new RecordAdapter(records);
+            mListView.setAdapter(mAdapter);
+        } else {
+            mAdapter.clear();
+            mAdapter.addAll(records);
+        }
         mAdapter.notifyDataSetChanged();
         if (mAdapter != null && mAdapter.getCount() > 0) {
             ViewGroup.LayoutParams params = mListView.getLayoutParams();
             params.height = (int) (mAdapter.getCount() * getResources().getDimension(R.dimen.equipment_ov_listview_item_min_height)
-                    + getResources().getDimension(R.dimen.equipment_ov_listview_divider_height));
+                    + mListView.getDividerHeight() * (mAdapter.getCount()));
             mListView.requestLayout();
+            ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
         }
     }
 

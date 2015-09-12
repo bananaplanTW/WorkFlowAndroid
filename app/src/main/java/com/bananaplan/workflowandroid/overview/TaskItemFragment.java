@@ -26,6 +26,7 @@ import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
+import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.data.BarChartData;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
@@ -127,7 +128,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             holder.workerInfo.setVisibility(View.GONE);
         }
         ViewTreeObserver observer = view.getViewTreeObserver();
-        if (sTaskItemListViewHeaderHeight <= 0 && observer.isAlive()) {
+        if (sTaskItemListViewHeaderHeight == 0 && observer.isAlive()) {
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -139,6 +140,8 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                                 * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
                                 + sTaskItemListViewHeaderHeight;
                         mTaskItemListView.requestLayout();
+                        ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
+                        android.util.Log.d("ben", "setScrollEnable 1");
                     }
                 }
             });
@@ -338,6 +341,8 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                     + sTaskItemListViewHeaderHeight;
             mTaskItemListView.requestLayout();
         }
+//        ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
+//        android.util.Log.d("ben", "setScrollEnable 2");
     }
 
     private void onCaseSelected(TaskCase taskCase) {

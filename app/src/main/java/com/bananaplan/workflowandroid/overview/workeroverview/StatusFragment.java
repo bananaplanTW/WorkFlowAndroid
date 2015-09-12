@@ -41,6 +41,8 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -345,6 +347,12 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         if (worker == null) return;
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerItemById(worker.id).score));
         ArrayList<BaseData> records = new ArrayList<>(worker.records);
+        Collections.sort(records, new Comparator<BaseData>() {
+            @Override
+            public int compare(BaseData lhs, BaseData rhs) {
+                return rhs.time.compareTo(lhs.time);
+            }
+        });
         if (mAdapter == null) {
             mAdapter = new DataAdapter(records);
             mListView.setAdapter(mAdapter);

@@ -83,6 +83,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
         TabInfo newTab = mTabs.get(tabId);
 
         if (mLastTab != newTab) {
+            ((OverviewScrollView) mActivity.findViewById(R.id.scroll)).setScrollEnable(false);
             FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
             if (mLastTab != null) {

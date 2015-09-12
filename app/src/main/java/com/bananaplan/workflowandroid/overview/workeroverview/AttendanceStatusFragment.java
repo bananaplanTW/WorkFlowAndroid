@@ -14,11 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.WorkerItem;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
+import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Ben on 2015/8/14.
@@ -27,16 +31,15 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
         OvTabFragmentBase.OvCallBack, View.OnClickListener {
     private ListView mListView;
     private DateAdapter mAdapter;
-    private int mListViewHeaderHeight;
+    private static int sListViewHeaderHeight = 0;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.worker_ov_attendance_btn_add_leave).setOnClickListener(this);
         mListView = (ListView) getActivity().findViewById(R.id.worker_ov_attendance_listview);
-        mAdapter = new DateAdapter(getSelectedWorker().leaveDatas);
-        mListView.setAdapter(mAdapter);
         mListView.addHeaderView(getTaskItemListViewHeader(), null, false);
+        onItemSelected(getSelectedWorker());
     }
 
     @Nullable
@@ -113,21 +116,22 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
             divider.setVisibility(View.VISIBLE);
         }
         ViewTreeObserver observer = view.getViewTreeObserver();
-        if (observer.isAlive()) {
+        if (sListViewHeaderHeight == 0 && observer.isAlive()) {
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    mListViewHeaderHeight = view.getHeight();
+                    sListViewHeaderHeight = view.getHeight();
                     if (mAdapter != null && mAdapter.getCount() > 0) {
                         ViewGroup.LayoutParams params = mListView.getLayoutParams();
-                        params.height = (int) (mAdapter.getCount() * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height)) + mListViewHeaderHeight;
-                        mAdapter.notifyDataSetChanged();
+                        params.height = (int) (mAdapter.getCount() * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height)) + sListViewHeaderHeight;
+                        mListView.requestLayout();
+                        ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
                     }
                 }
             });
         }
-        mListViewHeaderHeight = view.getHeight();
+        sListViewHeaderHeight = view.getHeight();
         return view;
     }
 
@@ -162,6 +166,30 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
 
     @Override
     public void onItemSelected(Object item) {
-
+        WorkerItem worker = (WorkerItem) item;
+        if (worker == null) return;
+        ArrayList<LeaveData> leaveDatas = new ArrayList<>(worker.leaveDatas);
+        Collections.sort(leaveDatas, new Comparator<LeaveData>() {
+            @Override
+            public int compare(LeaveData lhs, LeaveData rhs) {
+                return rhs.date.compareTo(lhs.date);
+            }
+        });
+        if (mAdapter == null) {
+            mAdapter = new DateAdapter(leaveDatas);
+            mListView.setAdapter(mAdapter);
+        } else {
+            mAdapter.clear();
+            mAdapter.addAll(leaveDatas);
+        }
+        mAdapter.notifyDataSetChanged();
+        if (mAdapter != null && mAdapter.getCount() > 0) {
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = (int) (mAdapter.getCount()
+                    * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
+                    + sListViewHeaderHeight;
+            mListView.requestLayout();
+        }
+        ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
     }
 }

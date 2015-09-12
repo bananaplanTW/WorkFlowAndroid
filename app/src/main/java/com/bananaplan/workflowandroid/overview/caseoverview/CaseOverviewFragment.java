@@ -1,6 +1,5 @@
 package com.bananaplan.workflowandroid.overview.caseoverview;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
+import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.TabManager;
 import com.bananaplan.workflowandroid.utility.Utils;
@@ -52,7 +52,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     private ListView mTaskCaseListView;
     private TextView mTvCaseNameSelected;
     private TextView mTvCaseVendorSelected;
-    private TextView mTvCasePersonInChargeSelected;
+    private TextView mTvCaseWorkerInChargeSelected;
     private ProgressBar mPbCaseSelected;
     private TextView mTvCaseHoursPassedBy;
     private TextView mTvCaseHoursUnfinished;
@@ -80,8 +80,8 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mVendorsSpinner = (Spinner) getActivity().findViewById(R.id.ov_leftpane_spinner);
         mEtCaseSearch = (EditText) getActivity().findViewById(R.id.ov_leftpane_search_edittext);
         mTaskCaseListView = (ListView) getActivity().findViewById(R.id.ov_leftpane_listview);
@@ -94,7 +94,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         // right pane
         mTvCaseNameSelected = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_case_name);
         mTvCaseVendorSelected = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_vendor_name);
-        mTvCasePersonInChargeSelected = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_worker_name);
+        mTvCaseWorkerInChargeSelected = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_worker_name);
         mPbCaseSelected = (ProgressBar) getActivity().findViewById(R.id.case_ov_right_pane_case_progress_bar);
         mTvCaseHoursPassedBy = (TextView) getActivity().findViewById(R.id.case_tv_hours_passed_by);
         mTvCaseHoursUnfinished = (TextView) getActivity().findViewById(R.id.case_tv_hours_unfinished);
@@ -198,7 +198,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseNameSelected.setText(taskCase.name);
         mTvCaseVendorSelected.setText(WorkingData.getInstance(getActivity()).getVendorById(taskCase.vendorId).name);
         if (mSelectedTaskCase.workerId > 0) {
-            mTvCasePersonInChargeSelected.setText(WorkingData.getInstance(getActivity()).getWorkerItemById(taskCase.workerId).name);
+            mTvCaseWorkerInChargeSelected.setText(WorkingData.getInstance(getActivity()).getWorkerItemById(taskCase.workerId).name);
         }
         mTvCaseHoursPassedBy.setText(taskCase.getHoursPassedBy());
         mTvCaseHoursUnfinished.setText(taskCase.getHoursUnFinished());
@@ -226,6 +226,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == mTaskCaseListView.getId()) {
+            ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(false);
             if (mSelectedTaskCase == mTaskCaseListViewAdapter.getItem(position)) return;
             mSelectedTaskCase = mTaskCaseListViewAdapter.getItem(position);
             onTaskCaseSelected(mSelectedTaskCase);

@@ -14,7 +14,8 @@
         android:layout_toRightOf="@id/worker_ov_left_pane"
         android:background="@drawable/divider_v" />
 
-    <ScrollView
+    <com.bananaplan.workflowandroid.utility.OverviewScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/worker_ov_vertical_divider"
@@ -140,6 +141,6 @@
             </TabHost>
 
         </LinearLayout>
-    </ScrollView>
+    </com.bananaplan.workflowandroid.utility.OverviewScrollView>
 
 </RelativeLayout>
