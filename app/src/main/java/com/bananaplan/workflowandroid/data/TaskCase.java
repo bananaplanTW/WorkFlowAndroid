@@ -19,6 +19,7 @@ public class TaskCase {
     }
 
     public long id;
+    int i = 0;
     public String name;
     public long vendorId;
     public long workerId;
