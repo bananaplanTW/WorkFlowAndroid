@@ -187,11 +187,11 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             View.OnFocusChangeListener, View.OnClickListener {
 
         public TextView index;
-
         public EditText title;
         public EditText expectedWorkingTime;
         public EditText equipment;
         public EditText worker;
+        public TextView detailButton;
 
         private TextWatcher mTextWatcher = new TextWatcher() {
 
@@ -223,6 +223,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             expectedWorkingTime = (EditText) v.findViewById(R.id.add_case_task_expected_working_time_edit_text);
             equipment = (EditText) v.findViewById(R.id.add_case_task_equipment_edit_text);
             worker = (EditText) v.findViewById(R.id.add_case_task_worker_edit_text);
+            detailButton = (TextView) v.findViewById(R.id.add_case_task_detail_button);
         }
 
         private void setupListeners() {
@@ -233,6 +234,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             equipment.setOnClickListener(this);
             worker.setOnFocusChangeListener(this);
             worker.setOnClickListener(this);
+            detailButton.setOnClickListener(this);
         }
 
         @Override
@@ -256,6 +258,9 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
                 case R.id.add_case_task_worker_edit_text:
                     Toast.makeText(mContext, "Worker " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.add_case_task_detail_button:
+                    Toast.makeText(mContext, "Detail " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
                     break;
             }
         }
