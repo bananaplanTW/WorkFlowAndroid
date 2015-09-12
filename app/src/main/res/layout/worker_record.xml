@@ -67,10 +67,11 @@
         android:id="@+id/photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="169dp"
-        android:maxHeight="109dp"
+        android:maxWidth="@dimen/photo_thumbnail_max_width"
+        android:maxHeight="@dimen/photo_thumbnail_max_height"
         android:layout_marginLeft="71dp"
         android:layout_marginTop="48dp"
+        android:adjustViewBounds="true"
         android:visibility="gone"/>
 
     <TextView

@@ -130,6 +130,10 @@
     <dimen name="add_case_expected_spending_time_text_size">28dp</dimen>
     <dimen name="add_case_expected_devices_container_margin_top">40dp</dimen>
 
+    <!-- Worker ov -->
+    <dimen name="photo_thumbnail_max_width">170dp</dimen>
+    <dimen name="photo_thumbnail_max_height">110dp</dimen>
+
     <!-- Equipment ov -->
     <dimen name="equipment_ov_listview_item_min_height">80dp</dimen>
     <dimen name="equipment_ov_listview_divider_height">1dp</dimen>

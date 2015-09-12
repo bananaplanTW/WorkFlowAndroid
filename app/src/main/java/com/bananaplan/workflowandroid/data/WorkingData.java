@@ -121,6 +121,15 @@ public final class WorkingData {
         mTaskItemsMap.get(taskItemId).workerId = workerId;
     }
 
+    public void addRecordToWorker(WorkerItem worker, BaseData data) {
+        if (worker == null || data == null) return;
+        worker.records.add(data);
+    }
+
+    public long getLoginWorkerId() { // TODO
+        return getRandomWorkerId();
+    }
+
     // +++ only for test case
     private void generateFakeData() {
         final int factoryCount = 3;

@@ -1,6 +1,14 @@
 package com.bananaplan.workflowandroid.overview.workeroverview;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,6 +26,7 @@ import android.widget.Toast;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkerItem;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
@@ -26,7 +35,13 @@ import com.bananaplan.workflowandroid.data.worker.status.HistoryData;
 import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
 import com.bananaplan.workflowandroid.data.worker.status.RecordData;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Ben on 2015/8/14.
@@ -43,11 +58,16 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         private final static String HISTORY = "worker_status_tab_tag_history";
     }
 
+    private static final int REQUEST_IMAGE_CAPTURE = 10001;
+    private static final int REQUEST_PICK_FILE = 10002;
+
     private EditText mRecordEditText;
     private TabHost mTabHost;
     private TextView mScore;
     private ListView mListView;
     private DataAdapter mAdapter;
+
+    private String mCurrentPhotoPath = null;
 
     static {
         mTabInfos.add(new TabInfo(BaseData.TYPE.ALL.ordinal(), TAB_TAG.ALL, R.id.tab_all, R.id.worker_status_list));
@@ -141,10 +161,13 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.upload:
+                pickupFile();
                 break;
             case R.id.record:
+                recordText();
                 break;
             case R.id.capture:
+                capturePhoto();
                 break;
             case R.id.score_plus:
                 scoreWorker(true);
@@ -161,6 +184,135 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 break;
             default:
                 break;
+        }
+    }
+
+    private void recordText() {
+        if (TextUtils.isEmpty(mRecordEditText.getText())) return;
+        RecordData record = (RecordData) DataFactory.genData(getSelectedWorker().id, BaseData.TYPE.RECORD);
+        record.time = Calendar.getInstance().getTime();
+        record.reporter = WorkingData.getInstance(getActivity()).getLoginWorkerId();
+        record.description = mRecordEditText.getText().toString();
+        WorkingData.getInstance(getActivity()).addRecordToWorker(getSelectedWorker(), record);
+        onItemSelected(getSelectedWorker()); // force notify adapter data changed
+        mRecordEditText.setText("");
+    }
+
+    private void pickupFile() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"),
+                    REQUEST_PICK_FILE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+            ex.printStackTrace();
+        }
+    }
+
+    private void capturePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) == null) {
+            Toast.makeText(getActivity(), "No Activity to handle ACTION_IMAGE_CAPTURE intent", Toast.LENGTH_SHORT).show();
+        }
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            Toast.makeText(getActivity(), "Create image file failed", Toast.LENGTH_SHORT).show();
+            ex.printStackTrace();
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = new File(storageDir + "/" + timeStamp + ".png");
+        if (!image.createNewFile()) throw new IOException();
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) return;
+        switch (requestCode) {
+            case REQUEST_IMAGE_CAPTURE:
+                onPhotoCaptured();
+                break;
+            case REQUEST_PICK_FILE:
+                onFilePicked(data);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void onFilePicked(Intent intent) {
+        Uri uri = intent.getData();
+        String path = null;
+        try {
+            path = Utils.getPath(getActivity(), uri);
+        } catch (URISyntaxException e) {
+            Toast.makeText(getActivity(), "File attach failed", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        if (TextUtils.isEmpty(path)) return;
+        FileData file = (FileData) DataFactory.genData(getSelectedWorker().id, BaseData.TYPE.FILE);
+        file.uploader = WorkingData.getInstance(getActivity()).getLoginWorkerId();
+        file.time = Calendar.getInstance().getTime();
+        file.fileName = path.substring(path.lastIndexOf('/') + 1);
+        file.filePath = uri;
+        WorkingData.getInstance(getActivity()).addRecordToWorker(getSelectedWorker(), file);
+        onItemSelected(getSelectedWorker()); // force notify adapter data changed
+    }
+
+    private void onPhotoCaptured() {
+        // compress photo
+        File photoFile = new File(mCurrentPhotoPath.replace("file:", ""));
+        int targetW = (int) getResources().getDimension(R.dimen.photo_thumbnail_max_width);
+        int targetH = (int) getResources().getDimension(R.dimen.photo_thumbnail_max_height);
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor < 1 ? 1 : scaleFactor;
+        bmOptions.inPurgeable = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
+
+        PhotoData photo = (PhotoData) DataFactory.genData(getSelectedWorker().id, BaseData.TYPE.PHOTO);
+        photo.time = Calendar.getInstance().getTime();
+        photo.uploader = WorkingData.getInstance(getActivity()).getLoginWorkerId();
+        photo.fileName = mCurrentPhotoPath.substring(mCurrentPhotoPath.lastIndexOf('/') + 1);
+        photo.photo = new BitmapDrawable(getResources(), bitmap);
+        photo.filePath = Uri.parse(mCurrentPhotoPath);
+        WorkingData.getInstance(getActivity()).addRecordToWorker(getSelectedWorker(), photo);
+        scanPhotoToGallery();
+        onItemSelected(getSelectedWorker()); // force notify adapter data changed
+    }
+
+    private void scanPhotoToGallery() {
+        if (!TextUtils.isEmpty(mCurrentPhotoPath)) { // trigger media scanner
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            File f = new File(mCurrentPhotoPath);
+            Uri contentUri = Uri.fromFile(f);
+            mediaScanIntent.setData(contentUri);
+            getActivity().sendBroadcast(mediaScanIntent);
+            mCurrentPhotoPath = null;
         }
     }
 
@@ -192,17 +344,18 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         WorkerItem worker = (WorkerItem) item;
         if (worker == null) return;
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerItemById(worker.id).score));
+        ArrayList<BaseData> records = new ArrayList<>(worker.records);
         if (mAdapter == null) {
-            mAdapter = new DataAdapter(worker.records);
+            mAdapter = new DataAdapter(records);
             mListView.setAdapter(mAdapter);
             if (mListView.getVisibility() != View.VISIBLE) {
                 mListView.setVisibility(View.VISIBLE);
             }
         } else {
             mAdapter.clear();
-            mAdapter.addAll(worker.records);
-            mAdapter.notifyDataSetChanged();
+            mAdapter.addAll(records);
         }
+        mAdapter.notifyDataSetChanged();
         onTabSelected(R.id.tab_all);
     }
 
@@ -301,9 +454,24 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                     break;
                 case PHOTO:
                     if (data instanceof PhotoData) {
-                        worker = WorkingData.getInstance(getActivity()).getWorkerItemById(((PhotoData) data).uploader);
-                        holder.status.setText(worker.name + ((PhotoData) data).fileName);
-                        holder.photo.setImageDrawable(((PhotoData) data).photo);
+                        final PhotoData photoData = (PhotoData) data;
+                        worker = WorkingData.getInstance(getActivity()).getWorkerItemById(photoData.uploader);
+                        holder.status.setText((worker != null ? worker.name + " " : "") +
+                                getResources().getString(R.string.worker_ov_tab_status_capture) +
+                                (TextUtils.isEmpty(photoData.fileName) ? "" : " " + photoData.fileName));
+                        holder.photo.setImageDrawable(photoData.photo);
+                        if (Uri.EMPTY != photoData.filePath) {
+                            holder.photo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(android.content.Intent.ACTION_VIEW);
+                                    File file = new File(photoData.filePath.getPath());
+                                    intent.setDataAndType(Uri.fromFile(file), "image/*");
+                                    startActivity(intent);
+                                }
+                            });
+                        }
                         holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_photo, null));
                         statusVisibility = View.VISIBLE;
                         photoVisibility = View.VISIBLE;

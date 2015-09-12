@@ -10,7 +10,7 @@ public class PhotoData extends BaseData {
     public long uploader;
     public Drawable photo;
     public String fileName;
-    public Uri filePath;
+    public Uri filePath = Uri.EMPTY;
 
     public PhotoData(BaseData.TYPE type) {
         super(type);

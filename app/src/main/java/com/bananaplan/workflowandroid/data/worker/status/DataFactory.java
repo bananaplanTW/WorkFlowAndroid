@@ -24,6 +24,7 @@ public class DataFactory {
             default:
                 throw new IllegalArgumentException("DataFactory.genData type = " + type);
         }
+        data.worker = worker;
         return data;
     }
 }
