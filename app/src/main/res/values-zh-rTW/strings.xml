@@ -133,8 +133,8 @@
     <string name="add_case_info_header_case_name_hint">輸入案件名稱</string>
     <string name="add_case_info_header_vendor_text">委託廠商</string>
     <string name="add_case_info_header_vendor_hint">選擇委託廠商</string>
-    <string name="add_case_info_header_pic_text">負責人</string>
-    <string name="add_case_info_header_pic_hint">選擇負責人</string>
+    <string name="add_case_info_header_manager_pic_text">處理人</string>
+    <string name="add_case_info_header_manager_pic_hint">選擇處理人</string>
     <string name="add_case_info_header_material_purchased_date_text">進料日期</string>
     <string name="add_case_info_header_layout_delivered_date_text">圖到日期</string>
     <string name="add_case_info_header_delivered_date_text">交期</string>
@@ -158,5 +158,15 @@
     <string name="add_case_save_case_button_text">儲存案件</string>
     <string name="add_case_save_template_button_text">存為模組</string>
 
+    <!-- Managemant -->
+    <string name="management_actionbar_title_text">%1$s管理</string>
+    <string name="management_equipment_text">機台</string>
+    <string name="management_factory_text">廠區</string>
+    <string name="management_manager_pic_text">處理人</string>
+    <string name="management_worker_pic_text">負責人</string>
+    <string name="management_warning_text">警訊</string>
+    <string name="management_vendor_text">廠商</string>
+    <string name="management_add_edit_text_hint">新增%1$s</string>
+    <string name="management_add_button_text">新增</string>
 
 </resources>

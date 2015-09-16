@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".management.ManagementDialog"
+            android:theme="@style/AppDialogTheme.NoActionBar" >
+        </activity>
+
     </application>
 
 </manifest>

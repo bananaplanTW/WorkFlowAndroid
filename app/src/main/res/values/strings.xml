@@ -141,8 +141,8 @@
     <string name="add_case_info_header_case_name_hint">Input Case Name</string>
     <string name="add_case_info_header_vendor_text">Vendor</string>
     <string name="add_case_info_header_vendor_hint">Choose Vendor</string>
-    <string name="add_case_info_header_pic_text">PIC</string>
-    <string name="add_case_info_header_pic_hint">Choose PIC</string>
+    <string name="add_case_info_header_manager_pic_text">Manager PIC</string>
+    <string name="add_case_info_header_manager_pic_hint">Choose Manager PIC</string>
     <string name="add_case_info_header_material_purchased_date_text">Material Purchased Date</string>
     <string name="add_case_info_header_layout_delivered_date_text">Layout Delivered Date</string>
     <string name="add_case_info_header_delivered_date_text">Delivered Date</string>
@@ -167,5 +167,16 @@
     <string name="add_case_task_detail">Detail</string>
     <string name="add_case_save_case_button_text">Save Case</string>
     <string name="add_case_save_template_button_text">Save Template</string>
+
+    <!-- Managemant -->
+    <string name="management_actionbar_title_text">%1$s Management</string>
+    <string name="management_equipment_text">Equipment Management</string>
+    <string name="management_factory_text">Factory Management</string>
+    <string name="management_manager_pic_text">Manager PIC Management</string>
+    <string name="management_worker_pic_text">Worker PIC Management</string>
+    <string name="management_warning_text">Warning Management</string>
+    <string name="management_vendor_text">Vendor Management</string>
+    <string name="management_add_edit_text_hint">Add %1$s</string>
+    <string name="management_add_button_text">Add</string>
 
 </resources>

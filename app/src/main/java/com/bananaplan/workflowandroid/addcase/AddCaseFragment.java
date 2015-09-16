@@ -35,7 +35,7 @@ public class AddCaseFragment extends Fragment {
 
     private RecyclerView mAddTaskGridView;
     private GridLayoutManager mGridLayoutManager;
-    private AddTaskAdapter mAddTaskAdapter;
+    private AddCaseAdapter mAddCaseAdapter;
 
     private int mAddTaskGridViewSpanCount = 0;
 
@@ -119,10 +119,10 @@ public class AddCaseFragment extends Fragment {
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
 
-        mAddTaskAdapter = new AddTaskAdapter(mMainActivity, mAddTaskGridViewSpanCount);
+        mAddCaseAdapter = new AddCaseAdapter(mMainActivity, mAddTaskGridViewSpanCount);
 
         mAddTaskGridView.setLayoutManager(mGridLayoutManager);
         mAddTaskGridView.addItemDecoration(new AddTaskItemDecoration(mMainActivity, mAddTaskGridViewSpanCount));
-        mAddTaskGridView.setAdapter(mAddTaskAdapter);
+        mAddTaskGridView.setAdapter(mAddCaseAdapter);
     }
 }

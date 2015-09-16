@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.drawermenu;
+package com.bananaplan.workflowandroid.utility.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

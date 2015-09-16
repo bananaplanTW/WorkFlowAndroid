@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.data.TaskItem;
+import com.bananaplan.workflowandroid.management.ManagementDialog;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.DatePickerDialogFragment;
 import com.bananaplan.workflowandroid.utility.view.TimePickerDialogFragment;
@@ -38,7 +40,7 @@ import java.util.Date;
  * @author Danny Lin
  * @since 2015/9/1.
  */
-public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "AddTaskAdapter";
 
@@ -67,7 +69,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView saveCaseButton;
         public TitleEditText caseName;
         public TitleEditText vendor;
-        public TitleEditText pic;
+        public TitleEditText managerPIC;
         public TitleEditText materialPurchasedDate;
         public TitleEditText layoutDeliveredDate;
         public TitleEditText deliveredDate;
@@ -89,7 +91,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             saveCaseButton = (TextView) v.findViewById(R.id.save_case_button);
             caseName = (TitleEditText) v.findViewById(R.id.case_name_edit_text);
             vendor = (TitleEditText) v.findViewById(R.id.vendor_edit_text);
-            pic = (TitleEditText) v.findViewById(R.id.pic_edit_text);
+            managerPIC = (TitleEditText) v.findViewById(R.id.manager_pic_edit_text);
             materialPurchasedDate = (TitleEditText) v.findViewById(R.id.material_purchased_date_edit_text);
             layoutDeliveredDate = (TitleEditText) v.findViewById(R.id.layout_delivered_date_edit_text);
             deliveredDate = (TitleEditText) v.findViewById(R.id.delivered_date_edit_text);
@@ -106,7 +108,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             saveTemplateButton.setOnClickListener(this);
             saveCaseButton.setOnClickListener(this);
             vendor.setOnClickContentListener(this);
-            pic.setOnClickContentListener(this);
+            managerPIC.setOnClickContentListener(this);
             materialPurchasedDate.setOnClickContentListener(this);
             layoutDeliveredDate.setOnClickContentListener(this);
             deliveredDate.setOnClickContentListener(this);
@@ -124,21 +126,30 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onClickContent(TitleEditText tet) {
             switch (tet.getId()) {
                 case R.id.vendor_edit_text:
+                    mContext.startActivity(
+                            ManagementDialog.showManagementDialog(mContext, ManagementDialog.ManagementType.VENDOR));
+                    Utils.hideSoftKeyboard((Activity) mContext);
                     break;
 
-                case R.id.pic_edit_text:
+                case R.id.manager_pic_edit_text:
+                    mContext.startActivity(
+                            ManagementDialog.showManagementDialog(mContext, ManagementDialog.ManagementType.MANAGER_PIC));
+                    Utils.hideSoftKeyboard((Activity) mContext);
                     break;
 
                 case R.id.material_purchased_date_edit_text:
                     setDate(tet, mTaskCase.materialPurchasedDate);
+                    Utils.hideSoftKeyboard((Activity) mContext);
                     break;
 
                 case R.id.layout_delivered_date_edit_text:
                     setDate(tet, mTaskCase.layoutDeliveredDate);
+                    Utils.hideSoftKeyboard((Activity) mContext);
                     break;
 
                 case R.id.delivered_date_edit_text:
                     setDate(tet, mTaskCase.deliveredDate);
+                    Utils.hideSoftKeyboard((Activity) mContext);
                     break;
             }
         }
@@ -190,7 +201,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public EditText title;
         public EditText expectedWorkingTime;
         public EditText equipment;
-        public EditText worker;
+        public EditText workerPIC;
         public TextView detailButton;
 
         private TextWatcher mTextWatcher = new TextWatcher() {
@@ -222,7 +233,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             title = (EditText) v.findViewById(R.id.add_case_task_title_edit_text);
             expectedWorkingTime = (EditText) v.findViewById(R.id.add_case_task_expected_working_time_edit_text);
             equipment = (EditText) v.findViewById(R.id.add_case_task_equipment_edit_text);
-            worker = (EditText) v.findViewById(R.id.add_case_task_worker_edit_text);
+            workerPIC = (EditText) v.findViewById(R.id.add_case_task_worker_pic_edit_text);
             detailButton = (TextView) v.findViewById(R.id.add_case_task_detail_button);
         }
 
@@ -232,8 +243,8 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             expectedWorkingTime.setOnClickListener(this);
             equipment.setOnFocusChangeListener(this);
             equipment.setOnClickListener(this);
-            worker.setOnFocusChangeListener(this);
-            worker.setOnClickListener(this);
+            workerPIC.setOnFocusChangeListener(this);
+            workerPIC.setOnClickListener(this);
             detailButton.setOnClickListener(this);
         }
 
@@ -254,10 +265,12 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     showTimePicker();
                     break;
                 case R.id.add_case_task_equipment_edit_text:
-                    Toast.makeText(mContext, "Device " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                    mContext.startActivity(
+                            ManagementDialog.showManagementDialog(mContext, ManagementDialog.ManagementType.EQUIPMENT));
                     break;
-                case R.id.add_case_task_worker_edit_text:
-                    Toast.makeText(mContext, "Worker " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                case R.id.add_case_task_worker_pic_edit_text:
+                    mContext.startActivity(
+                            ManagementDialog.showManagementDialog(mContext, ManagementDialog.ManagementType.WORKER_PIC));
                     break;
                 case R.id.add_case_task_detail_button:
                     Toast.makeText(mContext, "Detail " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
@@ -308,7 +321,7 @@ public class AddTaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public AddTaskAdapter(Context context, int spanCount) {
+    public AddCaseAdapter(Context context, int spanCount) {
         mContext = context;
         mSpanCount = spanCount;
         mTaskCase = new TaskCase();

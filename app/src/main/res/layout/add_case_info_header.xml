@@ -59,12 +59,12 @@
                     app:tet_contentSingleLine="true"/>
 
                 <com.bananaplan.workflowandroid.utility.view.TitleEditText
-                    android:id="@+id/pic_edit_text"
+                    android:id="@+id/manager_pic_edit_text"
                     android:layout_width="@dimen/title_edit_text_content_default_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/title_edit_text_margin_top"
-                    app:tet_title="@string/add_case_info_header_pic_text"
-                    app:tet_contentHint="@string/add_case_info_header_pic_hint"
+                    app:tet_title="@string/add_case_info_header_manager_pic_text"
+                    app:tet_contentHint="@string/add_case_info_header_manager_pic_hint"
                     app:tet_contentInputType="picPicker"
                     app:tet_contentSingleLine="true"/>
 
