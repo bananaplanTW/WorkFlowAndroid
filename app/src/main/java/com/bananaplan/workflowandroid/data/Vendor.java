@@ -5,10 +5,8 @@ import java.util.ArrayList;
 /**
  * Created by Ben on 2015/7/22.
  */
-public class Vendor {
+public class Vendor extends IdData {
 
-    public long id;
-    public String name;
     public ArrayList<TaskCase> taskCases;
 
 

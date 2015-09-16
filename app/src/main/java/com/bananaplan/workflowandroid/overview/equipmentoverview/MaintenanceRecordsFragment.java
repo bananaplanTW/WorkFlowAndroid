@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
+import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.OverviewScrollView;

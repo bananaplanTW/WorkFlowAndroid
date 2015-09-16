@@ -177,7 +177,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         TaskItem taskItem = getItem(position);
 
         // Title
-        holder.title.setText(taskItem.title);
+        holder.title.setText(taskItem.name);
 
         // Warning
         Utils.setTaskItemWarningTextView((Activity) mContext, taskItem, holder.warning, false);

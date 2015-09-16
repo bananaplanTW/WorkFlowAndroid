@@ -11,15 +11,13 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015.06.13
  */
-public class TaskCase {
+public class TaskCase extends IdData {
     public class Size {
         public int length;
         public int width;
         public int height;
     }
 
-    public long id;
-    public String name;
     public long vendorId;
     public long workerId;
     public Date deliveredDate;

@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.View;
@@ -248,7 +247,7 @@ public class Utils {
                         tmp = warning;
                     }
                 }
-                displayTxt = tmp.title;
+                displayTxt = tmp.name;
             }
         }
         if (unSolvedCount > 0) {
@@ -292,7 +291,7 @@ public class Utils {
     }
 
     public static void setTaskItemWarningTextView(final Activity activity, final Warning warning, final TextView v) {
-        v.setText(warning.title);
+        v.setText(warning.name);
         if (warning.status == Warning.WarningStatus.UNSOLVED) {
             v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_red, null));
             v.setTextColor(Color.WHITE);

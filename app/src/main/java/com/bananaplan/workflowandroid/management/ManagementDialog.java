@@ -3,7 +3,6 @@ package com.bananaplan.workflowandroid.management;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.IdData;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.DividerItemDecoration;
 
@@ -33,25 +34,23 @@ import java.util.List;
 
 public class ManagementDialog extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String EXTRA_ACTION_BAR_TITLE_TYPE = "extra_action_bar_title_type";
-    private static final String EXTRA_ACTION_BAR_BACKGROUND_COLOR = "extra_action_bar_background_color";
+    private static final String EXTRA_MANAGEMENT_TYPE = "extra_management_type";
 
     public static final class ManagementType {
         public static final int EQUIPMENT = 0;
         public static final int FACTORY = 1;
         public static final int MANAGER_PIC = 2;
         public static final int WORKER_PIC = 3;
-        public static final int WARNING = 4;
-        public static final int VENDOR = 5;
+        public static final int VENDOR = 4;
     }
 
     public class ManagementItem {
 
         public boolean isShowDeleteButton = false;
-        public Object data;
+        public IdData idData;
 
-        public ManagementItem(Object data) {
-            this.data = data;
+        public ManagementItem(IdData data) {
+            this.idData = data;
         }
     }
 
@@ -63,7 +62,7 @@ public class ManagementDialog extends AppCompatActivity implements View.OnClickL
     private RecyclerView mManagementList;
     private LinearLayoutManager mLinearLayoutManager;
     private ManagementListAdapter mManagementListAdapter;
-    private List<ManagementItem> mDataSet = new ArrayList<ManagementItem>();
+    private List<ManagementItem> mManagementDataSet = new ArrayList<ManagementItem>();
 
     private EditText mAddEditText;
     private Button mAddButton;
@@ -73,8 +72,8 @@ public class ManagementDialog extends AppCompatActivity implements View.OnClickL
     private Animation mDeleteButtonFadeInAnim;
     private Animation mDeleteButtonFadeOutAnim;
 
-    private String mActionBarTitleType;
-    private int mActionBarBackgroundColor;
+    private String mActionBarTitleType = "";
+    private int mManagementType;
 
     private boolean mIsInEditState = false;
 
@@ -115,7 +114,7 @@ public class ManagementDialog extends AppCompatActivity implements View.OnClickL
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            itemViewHolder.name.setText((String) mDataSet.get(position).data);
+            itemViewHolder.name.setText(mDataSet.get(position).idData.name);
             itemViewHolder.deleteButton.setVisibility(mDataSet.get(position).isShowDeleteButton ? View.VISIBLE : View.GONE);
         }
 
@@ -125,38 +124,9 @@ public class ManagementDialog extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public static Intent showManagementDialog(Context context, int type) {
-        String titleType = "";
-
-        switch (type) {
-            case ManagementType.EQUIPMENT:
-                titleType = context.getString(R.string.management_equipment_text);
-                break;
-            case ManagementType.FACTORY:
-                titleType = context.getString(R.string.management_factory_text);
-                break;
-            case ManagementType.MANAGER_PIC:
-                titleType = context.getString(R.string.management_manager_pic_text);
-                break;
-            case ManagementType.WORKER_PIC:
-                titleType = context.getString(R.string.management_worker_pic_text);
-                break;
-            case ManagementType.WARNING:
-                titleType = context.getString(R.string.management_warning_text);
-                break;
-            case ManagementType.VENDOR:
-                titleType = context.getString(R.string.management_vendor_text);
-                break;
-        }
-
-        return showManagementDialog(context, titleType,
-                context.getResources().getColor(R.color.management_dialog_actionbar_background_color));
-    }
-
-    public static Intent showManagementDialog(Context context, String actionBarTitle, int actionBarColorId) {
+    public static Intent showManagementDialog(Context context, int managementType) {
         Intent intent = new Intent(context, ManagementDialog.class);
-        intent.putExtra(EXTRA_ACTION_BAR_TITLE_TYPE, actionBarTitle);
-        intent.putExtra(EXTRA_ACTION_BAR_BACKGROUND_COLOR, actionBarColorId);
+        intent.putExtra(EXTRA_MANAGEMENT_TYPE, managementType);
         return intent;
     }
 
@@ -168,14 +138,15 @@ public class ManagementDialog extends AppCompatActivity implements View.OnClickL
     }
 
     private void initialize(Intent intent) {
+        mManagementType = intent.getIntExtra(EXTRA_MANAGEMENT_TYPE, ManagementType.WORKER_PIC);
         findViews();
         setupWindowSize();
-        setupValues(intent);
-        setupAnimations();
+        setupDatasAccordingToManagementType();
         setupActionBar();
-        setupManagementListData();
-        setupManagementList();
+        setupAnimations();
         setupAddItemContainer();
+        setupManagementListDataSet();
+        setupManagementList();
     }
 
     private void findViews() {
@@ -202,9 +173,50 @@ public class ManagementDialog extends AppCompatActivity implements View.OnClickL
         getWindow().setAttributes(params);
     }
 
-    private void setupValues(Intent intent) {
-        mActionBarTitleType = intent.getStringExtra(EXTRA_ACTION_BAR_TITLE_TYPE);
-        mActionBarBackgroundColor = intent.getIntExtra(EXTRA_ACTION_BAR_BACKGROUND_COLOR, 0);
+    private void setupDatasAccordingToManagementType() {
+        switch (mManagementType) {
+            case ManagementType.EQUIPMENT:
+                mActionBarTitleType = getString(R.string.management_equipment_text);
+                mManagementDataSet = convertToManagementDataSet(WorkingData.getInstance(this).getEquipments());
+                break;
+            case ManagementType.FACTORY:
+                mActionBarTitleType = getString(R.string.management_factory_text);
+                mManagementDataSet = convertToManagementDataSet(WorkingData.getInstance(this).getFactories());
+                break;
+            case ManagementType.MANAGER_PIC:
+                mActionBarTitleType = getString(R.string.management_manager_pic_text);
+                mManagementDataSet = convertToManagementDataSet(WorkingData.getInstance(this).getManagers());
+                break;
+            case ManagementType.WORKER_PIC:
+                mActionBarTitleType = getString(R.string.management_worker_pic_text);
+                mManagementDataSet = convertToManagementDataSet(WorkingData.getInstance(this).getWorkers());
+                break;
+            case ManagementType.VENDOR:
+                mActionBarTitleType = getString(R.string.management_vendor_text);
+                mManagementDataSet = convertToManagementDataSet(WorkingData.getInstance(this).getVendors());
+                break;
+        }
+    }
+
+    private List<ManagementItem> convertToManagementDataSet(ArrayList<? extends IdData> dataSet) {
+        List<ManagementItem> managementDataSet = new ArrayList<ManagementItem>();
+        for (IdData id : dataSet) {
+            managementDataSet.add(new ManagementItem(id));
+        }
+
+        return managementDataSet;
+    }
+
+    private void setupActionBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        mActionBar = getSupportActionBar();
+
+        if (mActionBar != null) {
+            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBarTitleTextView.setText(
+                    String.format(getString(R.string.management_actionbar_title_text), mActionBarTitleType));
+        }
     }
 
     private void setupAnimations() {
@@ -281,40 +293,24 @@ public class ManagementDialog extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    private void setupActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mActionBar = getSupportActionBar();
-
-        if (mActionBar != null) {
-            mActionBar.setDisplayShowTitleEnabled(false);
-            mActionBarTitleTextView.setText(
-                    String.format(getString(R.string.management_actionbar_title_text), mActionBarTitleType));
-            mActionBar.setBackgroundDrawable(
-                    new ColorDrawable(getResources().getColor(R.color.management_dialog_actionbar_background_color)));
-        }
+    private void setupAddItemContainer() {
+        mAddEditText.setHint(String.format(getString(R.string.management_add_edit_text_hint), mActionBarTitleType));
+        mAddButton.setOnClickListener(this);
     }
 
-    private void setupManagementListData() {
-        for (int i = 0 ; i < 50 ; i++) {
-            mDataSet.add(new ManagementItem(String.valueOf(i)));
-        }
+    private void setupManagementListDataSet() {
+
     }
 
     private void setupManagementList() {
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mManagementListAdapter = new ManagementListAdapter(this, mDataSet);
+        mManagementListAdapter = new ManagementListAdapter(this, mManagementDataSet);
 
         mManagementList.setLayoutManager(mLinearLayoutManager);
         mManagementList.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.drawer_divider),
-                                                                    false, true));
+                false, true));
         mManagementList.setAdapter(mManagementListAdapter);
-    }
-
-    private void setupAddItemContainer() {
-        mAddEditText.setHint(String.format(getString(R.string.management_add_edit_text_hint), mActionBarTitleType));
-        mAddButton.setOnClickListener(this);
     }
 
     @Override
@@ -363,7 +359,7 @@ public class ManagementDialog extends AppCompatActivity implements View.OnClickL
     public void showDeleteButton() {
         // Apply animation on visible items in RecylerView
         for (int i = 0 ; i < mLinearLayoutManager.getItemCount() ; i++) {
-            mDataSet.get(i).isShowDeleteButton = mIsInEditState;
+            mManagementDataSet.get(i).isShowDeleteButton = mIsInEditState;
             View listItem = mManagementList.getChildAt(i);
             if (listItem != null) {
                 ImageView deleteButton = (ImageView) listItem.findViewById(R.id.management_item_delete_button);

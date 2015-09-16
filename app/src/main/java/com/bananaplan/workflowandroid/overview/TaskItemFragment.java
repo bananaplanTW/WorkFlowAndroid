@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
+import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.data.TaskItem;
 import com.bananaplan.workflowandroid.data.WorkerItem;
@@ -210,7 +210,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder.caseName.setTextColor(txtColor);
             }
             if (holder.itemName != null) {
-                holder.itemName.setText(taskItem.title);
+                holder.itemName.setText(taskItem.name);
                 holder.itemName.setTextColor(txtColor);
             }
             if (holder.expectedTime != null) {

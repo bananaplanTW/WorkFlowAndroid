@@ -1,5 +1,8 @@
 <resources>
 
+    <string name="edit">編輯</string>
+    <string name="cancel">取消</string>
+
     <!-- Assign task -->
     <string name="task_case_progress_text">案件進度</string>
     <string name="task_case_participated_employee_text">參與員工</string>

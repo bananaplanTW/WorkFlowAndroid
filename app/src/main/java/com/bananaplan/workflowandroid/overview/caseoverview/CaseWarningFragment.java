@@ -88,7 +88,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
             TaskItem item = WorkingData.getInstance(getActivity()).getTaskItemById(warning.taskItemId);
             WorkerItem worker = WorkingData.getInstance(getActivity()).getWorkerItemById(item.workerId);
             Utils.setTaskItemWarningTextView(getActivity(), warning, holder.warning);
-            holder.title.setText(item.title);
+            holder.title.setText(item.name);
             holder.responsibleWorkerName.setText(worker.name);
             holder.responsibleWorkerAvatar.setImageDrawable(worker.getAvator());
             if (warning.handle > 0) {

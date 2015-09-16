@@ -132,7 +132,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         viewHolder.title.setText(workerItem.title);
 
         if (workerItem.hasCurrentTaskItem()) {
-            viewHolder.currentTaskTitle.setText(workerItem.currentTaskItem.title);
+            viewHolder.currentTaskTitle.setText(workerItem.currentTaskItem.name);
             viewHolder.currentTaskId.setText("DX94478");
             viewHolder.currentTaskWorkingTime.setText(workerItem.currentTaskItem.getWorkingTime());
         } else {

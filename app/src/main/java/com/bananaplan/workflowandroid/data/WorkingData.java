@@ -3,7 +3,6 @@ package com.bananaplan.workflowandroid.data;
 import android.content.Context;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
 import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
@@ -26,12 +25,16 @@ import java.util.List;
  */
 public final class WorkingData {
 
+    private static final String TAG = "WorkingData";
+
     private volatile static WorkingData sWorkingData = null;
+    private static long sRandomId = 0;
 
     private Context mContext;
 
-    private HashMap<Long, Vendor> mVendorsMap = new HashMap<>();
+    private HashMap<Long, Manager> mManagersMap = new HashMap<>();
     private HashMap<Long, WorkerItem> mWorkersMap = new HashMap<>();
+    private HashMap<Long, Vendor> mVendorsMap = new HashMap<>();
     private HashMap<Long, TaskItem> mTaskItemsMap = new HashMap<>();
     private HashMap<Long, TaskCase> mTaskCaseMap = new HashMap<>();
     private HashMap<Long, Equipment> mEquipmentsMap = new HashMap<>();
@@ -54,17 +57,26 @@ public final class WorkingData {
         generateFakeData(); // +++ only for test case
     }
 
+
+    public ArrayList<Manager> getManagers() {
+        return new ArrayList<>(mManagersMap.values());
+    }
+    public ArrayList<WorkerItem> getWorkers() {
+        return new ArrayList<>(mWorkersMap.values());
+    }
     public ArrayList<Factory> getFactories() {
         return new ArrayList<>(mFactoriesMap.values());
     }
-
     public ArrayList<Vendor> getVendors() {
         return new ArrayList<>(mVendorsMap.values());
     }
-
     public ArrayList<TaskCase> getTaskCases() {
         return new ArrayList<>(mTaskCaseMap.values());
     }
+    public ArrayList<Equipment> getEquipments() {
+        return new ArrayList<>(mEquipmentsMap.values());
+    }
+
 
     public ArrayList<TaskItem> getTaskItemsByWorker(WorkerItem worker) {
         ArrayList<TaskItem> tmp = new ArrayList<>();
@@ -77,7 +89,6 @@ public final class WorkingData {
         }
         return tmp;
     }
-
     public ArrayList<TaskItem> getTaskItemsByEquipment(Equipment equipment) {
         ArrayList<TaskItem> tmp = new ArrayList<>();
         if (equipment == null) return tmp;
@@ -90,33 +101,29 @@ public final class WorkingData {
         return tmp;
     }
 
+
+    public Manager getManagerById(long managerId) {
+        return mManagersMap.get(managerId);
+    }
     public TaskCase getTaskCaseById(long taskCaseId) {
         return mTaskCaseMap.get(taskCaseId);
     }
-
     public Vendor getVendorById(long vendorId) {
         return mVendorsMap.get(vendorId);
     }
-
     public WorkerItem getWorkerItemById(long workerId) {
         return mWorkersMap.get(workerId);
     }
-
     public TaskItem getTaskItemById(long taskId) {
         return mTaskItemsMap.get(taskId);
     }
-
     public Equipment getEquipmentById(long equipmentId) {
         return mEquipmentsMap.get(equipmentId);
     }
-
-    public ArrayList<Equipment> getTools() {
-        return new ArrayList<>(mEquipmentsMap.values());
-    }
-
     public Factory getFactoryById(long factoryId) {
         return mFactoriesMap.get(factoryId);
     }
+
 
     public void updateWorkerItemInTaskItem(long taskItemId, long workerId) {
         mTaskItemsMap.get(taskItemId).workerId = workerId;
@@ -133,12 +140,18 @@ public final class WorkingData {
 
     // +++ only for test case
     private void generateFakeData() {
+        final int managerCount = 5;
         final int factoryCount = 3;
         final int workerCount = 20;
         final int vendorCount = 3;
         final int taskCaseCount = 3;
         final int taskItemCount = 10;
-        final int toolCount = 10;
+        final int equipmentCount = 10;
+
+        for (int i = 0 ; i < managerCount ; i++) {
+            long managerId = getRandomId();
+            mManagersMap.put(managerId, new Manager(managerId, "Manager " + i));
+        }
 
         for (int i = 1; i <= factoryCount; i++) {
             Factory factory = new Factory(i, "Factory" + i);
@@ -151,7 +164,7 @@ public final class WorkingData {
             }
         }
 
-        for (int i = 0; i < toolCount; i++) {
+        for (int i = 0; i < equipmentCount; i++) {
             Equipment equipment = new Equipment(i, "Equipment" + i, getRandomFactoryId());
             equipment.purchaseDate = getRandomDate();
             equipment.records.add(new MaintenanceRecord("reason1", getRandomDate()));
@@ -244,7 +257,7 @@ public final class WorkingData {
                     taskItem.warningList.add(w4);
                     taskCase.taskItems.add(taskItem);
                     mTaskItemsMap.put(taskItem.id, taskItem);
-                    taskItem.equipmentId = getRandomToolId();
+                    taskItem.equipmentId = getRandomEquipmentId();
                     taskItem.workerId = getRandomWorkerId();
                 }
             }
@@ -271,7 +284,7 @@ public final class WorkingData {
         return list.get(num);
     }
 
-    private long getRandomToolId() {
+    private long getRandomEquipmentId() {
         int num = (int) (Math.random() * mEquipmentsMap.keySet().size());
         List<Long> list = new ArrayList<>(mEquipmentsMap.keySet());
         if (list.size() == 0) return 0;
@@ -289,6 +302,11 @@ public final class WorkingData {
 
     private int randBetween(int start, int end) {
         return start + (int) Math.round(Math.random() * (end - start));
+    }
+
+    private long getRandomId() {
+        sRandomId++;
+        return sRandomId;
     }
     // --- only for test case
 }

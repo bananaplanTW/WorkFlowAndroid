@@ -3,6 +3,8 @@
     <string name="app_name">WorkFlowAndroid</string>
     <string name="action_settings">Settings</string>
     <string name="date_format_string">%1$s/%2$s/%3$s</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Assign task -->
     <string name="task_case_progress_text">Case Progress</string>

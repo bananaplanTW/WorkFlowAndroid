@@ -10,15 +10,12 @@ import java.util.Date;
  * @author Danny Lin
  * @since 2015.06.13
  */
-public class TaskItem {
+public class TaskItem extends IdData {
 
     public enum Status {
         IN_SCHEDULE, NOT_START, WORKING, PAUSE, FINISH
     }
 
-    public String title;
-
-    public long id;
     public long taskCaseId;
     public long workerId;
     public long equipmentId;
@@ -37,13 +34,13 @@ public class TaskItem {
 
     }
 
-    public TaskItem(int id, String title) {
+    public TaskItem(int id, String name) {
         this.id = id;
-        this.title = title;
+        this.name = name;
     }
 
-    public TaskItem(String title, long expectedWorkingTime, long equipmentId, long workerId) {
-        this.title = title;
+    public TaskItem(String name, long expectedWorkingTime, long equipmentId, long workerId) {
+        this.name = name;
         this.expectedWorkingTime = expectedWorkingTime;
         this.equipmentId = equipmentId;
         this.workerId = workerId;

@@ -23,7 +23,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.Equipment;
+import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.main.MainActivity;
@@ -248,7 +248,7 @@ public class EquipmentOverviewFragment extends Fragment implements
                     .getString(R.string.worker_ov_all_factories))); // all factories
             factories.addAll(WorkingData.getInstance(getActivity()).getFactories());
             equipments = new ArrayList<>();
-            equipments.addAll(WorkingData.getInstance(getActivity()).getTools());
+            equipments.addAll(WorkingData.getInstance(getActivity()).getEquipments());
         }
 
         @Override

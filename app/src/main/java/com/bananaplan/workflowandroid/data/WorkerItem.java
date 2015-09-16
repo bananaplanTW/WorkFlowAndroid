@@ -14,14 +14,12 @@ import java.util.ArrayList;
  * @author Danny Lin
  * @since 2015/6/27.
  */
-public class WorkerItem {
+public class WorkerItem extends IdData {
 
     public static Drawable sDefaultAvatarDrawable;
 
-    public long id;
-    public long factoryId;
-    public String name;
     public String title;
+    public long factoryId;
     public TaskItem currentTaskItem;
     public ArrayList<TaskItem> taskItems;
     public String address;

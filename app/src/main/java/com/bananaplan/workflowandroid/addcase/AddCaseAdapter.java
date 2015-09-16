@@ -13,7 +13,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -218,7 +217,7 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             @Override
             public void afterTextChanged(Editable s) {
-                mTasksData.get(TaskViewHolder.this.getAdapterPosition()).title = s.toString();
+                mTasksData.get(TaskViewHolder.this.getAdapterPosition()).name = s.toString();
             }
         };
 
@@ -383,7 +382,7 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void onBindTaskViewHolder(TaskViewHolder holder, int position) {
         holder.index.setText(String.valueOf(position));
-        holder.title.setText(mTasksData.get(position).title);
+        holder.title.setText(mTasksData.get(position).name);
         holder.expectedWorkingTime.setText(getExpectedWorkingTime(mTasksData.get(position).expectedWorkingTime));
     }
 

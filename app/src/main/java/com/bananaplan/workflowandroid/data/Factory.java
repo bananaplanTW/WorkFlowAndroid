@@ -7,10 +7,8 @@ import java.util.ArrayList;
  * @author Danny Lin
  * @since 2015/6/27.
  */
-public class Factory {
+public class Factory extends IdData {
 
-    public long id;
-    public String name;
     public ArrayList<WorkerItem> workerItems;
 
 
