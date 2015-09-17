@@ -280,8 +280,8 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             errorCount = (TextView) view.findViewById(R.id.error_count);
             warning = (TextView) view.findViewById(R.id.warning);
             workerNameString = (TextView) view.findViewById(R.id.worker_name_string);
-            workerName = (TextView) view.findViewById(R.id.worker_card_name);
-            workerAvatar = (ImageView) view.findViewById(R.id.worker_card_avatar);
+            workerName = (TextView) view.findViewById(R.id.worker_name);
+            workerAvatar = (ImageView) view.findViewById(R.id.worker_avatar);
             workerInfo = (LinearLayout) view.findViewById(R.id.worker_info);
             for (int i = 0; i < root.getChildCount(); i++) {
                 View child = root.getChildAt(i);

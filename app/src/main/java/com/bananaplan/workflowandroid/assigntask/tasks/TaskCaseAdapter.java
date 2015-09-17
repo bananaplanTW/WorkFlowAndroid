@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
@@ -17,8 +15,8 @@ import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.data.TaskItem;
 import com.bananaplan.workflowandroid.utility.Utils;
-import com.bananaplan.workflowandroid.utility.view.CustomProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -81,54 +79,6 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    private class TaskCaseHeaderViewHolder extends RecyclerView.ViewHolder {
-
-        public View header;
-        public Spinner taskCaseSpinner;
-        public CustomProgressBar progressBar;
-        public TextView vendor;
-        public TextView personInCharge;
-        public TextView uncompletedTaskTime;
-        public TextView undergoingTaskTime;
-        public TextView editCaseButton;
-
-        public boolean isTaskCaseSpinnerInitialized = false;
-
-        public TaskCaseHeaderViewHolder(View v) {
-            super(v);
-            header = v;
-            taskCaseSpinner = (Spinner) v.findViewById(R.id.task_case_spinner);
-            progressBar = (CustomProgressBar) v.findViewById(R.id.task_case_information_progressbar);
-            vendor = (TextView) v.findViewById(R.id.task_case_principal_vendor);
-            personInCharge = (TextView) v.findViewById(R.id.task_case_person_in_charge);
-            uncompletedTaskTime = (TextView) v.findViewById(R.id.task_case_hours_unfinished);
-            undergoingTaskTime = (TextView) v.findViewById(R.id.task_case_hours_pass_by);
-            editCaseButton = (TextView) v.findViewById(R.id.task_case_edit_button);
-        }
-    }
-
-    private class TaskCardViewHolder extends RecyclerView.ViewHolder {
-
-        public View view;
-        public TextView title;
-        public TextView workingTime;
-        public TextView equipment;
-        public TextView worker;
-        public TextView status;
-        public TextView warning;
-
-        public TaskCardViewHolder(View v) {
-            super(v);
-            view = v;
-            title = (TextView) v.findViewById(R.id.task_card_title);
-            warning = (TextView) v.findViewById(R.id.task_card_warning);
-            workingTime = (TextView) v.findViewById(R.id.task_card_current_task_working_time);
-            equipment = (TextView) v.findViewById(R.id.task_card_equipment);
-            worker = (TextView) v.findViewById(R.id.task_card_worker);
-            status = (TextView) v.findViewById(R.id.task_card_status);
-        }
-    }
-
     public TaskCaseAdapter(Context context) {
         mContext = context;
     }
@@ -144,7 +94,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
      * @param taskCaseTitles
      * @param firstDisplayedTaskCase
      */
-    public void initTaskCaseDatas(List<String> taskCaseTitles, TaskCase firstDisplayedTaskCase) {
+    public void initTaskCaseDatas(ArrayList<String> taskCaseTitles, TaskCase firstDisplayedTaskCase) {
         mTaskCaseTitles = taskCaseTitles;
         mTaskCase = firstDisplayedTaskCase;
     }
@@ -163,8 +113,8 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             View v = LayoutInflater.from(mContext).inflate(R.layout.task_case_header, parent, false);
             return new TaskCaseHeaderViewHolder(v);
         } else {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.task_card, parent, false);
-            return new TaskCardViewHolder(v);
+            View v = LayoutInflater.from(mContext).inflate(R.layout.task_item, parent, false);
+            return new TaskItemViewHolder(v);
         }
     }
 
@@ -173,7 +123,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (isHeaderPosition(position)) {
             onBindHeaderViewHolder(vh);
         } else {
-            onBindTaskCardViewHolder(vh, position);
+            onBindItemViewHolder(vh, position);
         }
     }
 
@@ -223,8 +173,8 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         });
     }
 
-    private void onBindTaskCardViewHolder(ViewHolder vh, int position) {
-        TaskCardViewHolder holder = (TaskCardViewHolder) vh;
+    private void onBindItemViewHolder(ViewHolder vh, int position) {
+        TaskItemViewHolder holder = (TaskItemViewHolder) vh;
         TaskItem taskItem = getItem(position);
 
         // Title
@@ -237,7 +187,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.workingTime.setText(taskItem.getWorkingTime());
 
         // Equipment
-        holder.equipment.setText(taskItem.getToolName());
+        holder.tool.setText(taskItem.getToolName());
 
         // Worker
         holder.worker.setText(taskItem.getWorkerName());
@@ -266,6 +216,6 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mTaskCase.taskItems == null ? 0 : mTaskCase.taskItems.size()+1;
+        return mTaskCase.taskItems == null ? 0 : mTaskCase.taskItems.size() + 1;
     }
 }

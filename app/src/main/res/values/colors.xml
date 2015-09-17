@@ -36,23 +36,23 @@
     <color name="task_case_text_color">#FF4A4A4A</color>
     <color name="task_case_information_divider_color">#FFDADADA</color>
     <color name="task_case_edit_button_text_color">#FF428BCA</color>
-    <color name="task_card_background_color">@android:color/white</color>
-    <color name="task_card_background_stroke_color">#FF979797</color>
-    <color name="task_card_divider_color">#FFE1E1E1</color>
-    <color name="task_card_warning_unsolved_color">#FFCE3C3E</color>
-    <color name="task_card_warning_solved_color">#FF9B9B9B</color>
-    <color name="task_card_warning_text_color">@android:color/white</color>
+    <color name="task_item_background_color">@android:color/white</color>
+    <color name="task_item_background_stroke_color">#FF979797</color>
+    <color name="task_item_divider_color">#FFE1E1E1</color>
+    <color name="task_item_warning_unsolved_color">#FFCE3C3E</color>
+    <color name="task_item_warning_solved_color">#FF9B9B9B</color>
+    <color name="task_item_warning_text_color">@android:color/white</color>
 
     <!-- Assign task: Workers part -->
     <color name="worker_pager_indicator_stroke_color">#FF858585</color>
     <color name="worker_pager_indicator_selected_color">#FF222222</color>
     <color name="worker_pager_indicator_normal_color">#FFCFCFCF</color>
-    <color name="worker_card_background_color">#FFCFCFCF</color>
-    <color name="worker_card_stroke_color">#FF979797</color>
-    <color name="worker_card_entered_stroke_color">@android:color/holo_red_dark</color>
-    <color name="worker_card_text_black">#FF4A4A4A</color>
-    <color name="worker_card_text_gray">#FF9B9B9B</color>
-    <color name="worker_card_divider_color">#FFE1E1E1</color>
+    <color name="worker_item_background_color">#FFCFCFCF</color>
+    <color name="worker_item_stroke_color">#FF979797</color>
+    <color name="worker_item_entered_stroke_color">@android:color/holo_red_dark</color>
+    <color name="worker_item_text_black">#FF4A4A4A</color>
+    <color name="worker_item_text_gray">#FF9B9B9B</color>
+    <color name="worker_item_divider_color">#FFE1E1E1</color>
     <color name="working_status_ok">#FF55931F</color>
 
     <!-- CaseOverviewFragment -->

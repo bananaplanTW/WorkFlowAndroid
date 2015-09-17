@@ -23,17 +23,17 @@
     <dimen name="task_case_information_participated_employee_label_margin_top">10dp</dimen>
     <dimen name="task_case_edit_button_padding">15dp</dimen>
     <dimen name="task_case_edit_button_text_size">20dp</dimen>
-    <dimen name="task_card_part1_height">70dp</dimen>
-    <dimen name="task_card_part2_height">140dp</dimen>
-    <dimen name="task_card_normal_margin">5dp</dimen>
-    <dimen name="task_card_boundary_margin">23dp</dimen>
-    <dimen name="task_card_padding">10dp</dimen>
-    <dimen name="task_card_corner_radius">5dp</dimen>
-    <dimen name="task_card_warning_corner_radius">8dp</dimen>
-    <dimen name="task_card_warning_padding_top_bottom">2dp</dimen>
-    <dimen name="task_card_warning_padding_left_right">10dp</dimen>
-    <dimen name="task_card_title_text_size">18dp</dimen>
-    <dimen name="task_card_content_text_size">13dp</dimen>
+    <dimen name="task_item_part1_height">70dp</dimen>
+    <dimen name="task_item_part2_height">140dp</dimen>
+    <dimen name="task_item_normal_margin">5dp</dimen>
+    <dimen name="task_item_boundary_margin">23dp</dimen>
+    <dimen name="task_item_padding">10dp</dimen>
+    <dimen name="task_item_corner_radius">5dp</dimen>
+    <dimen name="task_item_warning_corner_radius">8dp</dimen>
+    <dimen name="task_item_warning_padding_top_bottom">2dp</dimen>
+    <dimen name="task_item_warning_padding_left_right">10dp</dimen>
+    <dimen name="task_item_title_text_size">18dp</dimen>
+    <dimen name="task_item_content_text_size">13dp</dimen>
 
     <!-- Assign task: Workers part -->
     <dimen name="worker_container_padding_left_right">15dp</dimen>
@@ -48,21 +48,21 @@
     <dimen name="worker_grid_view_vertical_spacing">30dp</dimen>
     <dimen name="worker_grid_view_horizontal_spacing">30dp</dimen>
     <dimen name="worker_grid_view_item_width">160dp</dimen>
-    <dimen name="worker_card_padding">6dp</dimen>
-    <dimen name="worker_card_height">180dp</dimen>
-    <dimen name="worker_card_corner_radius">5dp</dimen>
-    <dimen name="worker_card_stroke_width">1dp</dimen>
-    <dimen name="worker_card_margin_left_right">10dp</dimen>
-    <dimen name="worker_card_margin_top_down">5dp</dimen>
-    <dimen name="worker_card_title_margin_right">13dp</dimen>
-    <dimen name="worker_card_name_text_size">16dp</dimen>
-    <dimen name="worker_card_title_text_size">14dp</dimen>
-    <dimen name="worker_card_overtime_text_margin_left">7dp</dimen>
-    <dimen name="worker_card_overtime_text_size">14dp</dimen>
-    <dimen name="worker_card_task_content_container_margin_top">5dp</dimen>
-    <dimen name="worker_card_content_text_size">14dp</dimen>
-    <dimen name="worker_card_current_task_working_time_text_size">20dp</dimen>
-    <dimen name="worker_card_current_task_container_padding">5dp</dimen>
+    <dimen name="worker_item_padding">6dp</dimen>
+    <dimen name="worker_item_height">180dp</dimen>
+    <dimen name="worker_item_corner_radius">5dp</dimen>
+    <dimen name="worker_item_stroke_width">1dp</dimen>
+    <dimen name="worker_item_margin_left_right">10dp</dimen>
+    <dimen name="worker_item_margin_top_down">5dp</dimen>
+    <dimen name="worker_item_title_margin_right">13dp</dimen>
+    <dimen name="worker_item_name_text_size">16dp</dimen>
+    <dimen name="worker_item_title_text_size">14dp</dimen>
+    <dimen name="worker_item_overtime_text_margin_left">7dp</dimen>
+    <dimen name="worker_item_overtime_text_size">14dp</dimen>
+    <dimen name="worker_item_task_content_container_margin_top">5dp</dimen>
+    <dimen name="worker_item_content_text_size">14dp</dimen>
+    <dimen name="worker_item_current_task_working_time_text_size">20dp</dimen>
+    <dimen name="worker_item_current_task_container_padding">5dp</dimen>
 
     <!-- CaseOverView fragment -->
     <dimen name="case_overview_divider_height">8dp</dimen>

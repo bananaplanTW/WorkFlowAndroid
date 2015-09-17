@@ -47,9 +47,9 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             final int action = event.getAction();
             GradientDrawable workerItemBackground = (GradientDrawable) v.getBackground();
 
-            int strokeWidth = mContext.getResources().getDimensionPixelSize(R.dimen.worker_card_stroke_width);
-            int originalStrokeColor = mContext.getResources().getColor(R.color.worker_card_stroke_color);
-            int enteredStrokeColor = mContext.getResources().getColor(R.color.worker_card_entered_stroke_color);
+            int strokeWidth = mContext.getResources().getDimensionPixelSize(R.dimen.worker_item_stroke_width);
+            int originalStrokeColor = mContext.getResources().getColor(R.color.worker_item_stroke_color);
+            int enteredStrokeColor = mContext.getResources().getColor(R.color.worker_item_entered_stroke_color);
 
             switch (action) {
 
@@ -103,13 +103,14 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     };
 
-    private class WorkerCardViewHolder extends RecyclerView.ViewHolder {
+    private class WorkerViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView avatar;
         public TextView name;
         public TextView title;
         public Switch overtime;
 
+        public ViewGroup currentWarnings;
         public TextView currentTaskTitle;
         public TextView currentTaskId;
         public TextView currentTaskWorkingTime;
@@ -117,21 +118,22 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public TextView nextTaskTitle;
 
 
-        public WorkerCardViewHolder(View view) {
+        public WorkerViewHolder(View view) {
             super(view);
             findViews(view);
             setupListeners();
         }
 
         private void findViews(View view) {
-            avatar = (ImageView) view.findViewById(R.id.worker_card_avatar);
-            name = (TextView) view.findViewById(R.id.worker_card_name);
-            title = (TextView) view.findViewById(R.id.worker_card_title);
-            overtime = (Switch) view.findViewById(R.id.worker_card_overtime_switch);
-            currentTaskTitle = (TextView) view.findViewById(R.id.worker_card_current_task_title);
-            currentTaskId = (TextView) view.findViewById(R.id.worker_card_current_task_id);
-            currentTaskWorkingTime = (TextView) view.findViewById(R.id.worker_card_current_task_working_time);
-            nextTaskTitle = (TextView) view.findViewById(R.id.worker_card_next_task);
+            avatar = (ImageView) view.findViewById(R.id.worker_avatar);
+            name = (TextView) view.findViewById(R.id.worker_name);
+            title = (TextView) view.findViewById(R.id.worker_title);
+            overtime = (Switch) view.findViewById(R.id.worker_overtime_switch);
+            currentWarnings = (ViewGroup) view.findViewById(R.id.current_warning_container);
+            currentTaskTitle = (TextView) view.findViewById(R.id.current_task_title);
+            currentTaskId = (TextView) view.findViewById(R.id.current_task_id);
+            currentTaskWorkingTime = (TextView) view.findViewById(R.id.current_task_working_time);
+            nextTaskTitle = (TextView) view.findViewById(R.id.worker_item_next_task);
         }
 
         private void setupListeners() {
@@ -152,17 +154,17 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.worker_card, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.worker_item, parent, false);
 
         // Set drag listener
         v.setOnDragListener(mOnDragListener);
 
-        return new WorkerCardViewHolder(v);
+        return new WorkerViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        WorkerCardViewHolder viewHolder = (WorkerCardViewHolder) holder;
+        WorkerViewHolder viewHolder = (WorkerViewHolder) holder;
         WorkerItem workerItem =  mWorkerDataSet.get(position);
 
         viewHolder.avatar.setImageDrawable(workerItem.getAvator());
