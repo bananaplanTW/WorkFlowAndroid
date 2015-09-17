@@ -14,6 +14,7 @@
     <string name="task_progress_finish">完成</string>
     <string name="worker_action_start">全體動作</string>
     <string name="worker_item_next_task_text">下個項目</string>
+    <string name="worker_item_overtime_text">加班</string>
 
     <!-- CaseOverView fragment-->
     <string name="case_spinner_all_vendors">"全部廠商"</string>

@@ -27,6 +27,7 @@ public class WorkerItem extends IdData {
     public int score;
     public ArrayList<BaseData> records = new ArrayList<>();
     public ArrayList<LeaveData> leaveDatas = new ArrayList<>();
+    public boolean isOverTime = false;
 
     private Drawable avatar;
 

@@ -10,7 +10,7 @@
         android:id="@+id/worker_title_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="3">
 
         <ImageView
             android:id="@+id/worker_avatar"
@@ -26,7 +26,7 @@
             android:layout_toRightOf="@+id/worker_avatar"
             android:layout_alignTop="@+id/worker_avatar"
             android:textColor="@color/worker_item_text_black"
-            android:textSize="@dimen/worker_name_text_size"/>
+            android:textSize="@dimen/worker_item_name_text_size"/>
 
         <TextView
             android:id="@+id/worker_title"
@@ -36,7 +36,27 @@
             android:layout_below="@+id/worker_name"
             android:layout_alignBottom="@+id/worker_avatar"
             android:textColor="@color/worker_item_text_gray"
-            android:textSize="@dimen/worker_title_text_size"/>
+            android:textSize="@dimen/worker_item_title_text_size"/>
+
+        <TextView
+            android:id="@+id/worker_overtime_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/worker_item_overtime_text_margin_left"
+            android:layout_alignLeft="@+id/worker_overtime_switch"
+            android:layout_alignTop="@+id/worker_name"
+            android:gravity="center"
+            android:text="@string/worker_item_overtime_text"
+            android:textSize="@dimen/worker_item_overtime_text_size"/>
+
+        <Switch
+            android:id="@+id/worker_overtime_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/worker_overtime_text"
+            android:textColor="@color/worker_item_text_gray"
+            android:showText="false"/>
 
     </RelativeLayout>
 
@@ -45,7 +65,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:layout_marginTop="@dimen/worker_task_content_container_margin_top"
         android:orientation="vertical"
         android:background="@drawable/worker_task_content_background">
 
@@ -53,7 +72,7 @@
             android:id="@+id/current_task_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/current_task_container_padding">
+            android:padding="@dimen/worker_item_current_task_container_padding">
 
             <TextView
                 android:id="@+id/current_task_title"
@@ -97,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/current_task_working_time_text_size"
+                android:textSize="@dimen/worker_item_current_task_working_time_text_size"
                 android:fontFamily="sans-serif-condensed" />
 
         </RelativeLayout>

@@ -17,6 +17,7 @@
     <string name="task_progress_finish">Finish</string>
     <string name="worker_action_start">Start for all</string>
     <string name="worker_item_next_task_text">Next task</string>
+    <string name="worker_item_overtime_text">Overtime</string>
 
     <!-- CaseOverView fragment-->
     <string name="case_spinner_all_vendors">"All vendors"</string>

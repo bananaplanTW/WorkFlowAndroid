@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -54,7 +55,7 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
         }
     }
 
-    public IconSpinnerAdapter(Context context, int resource, ArrayList<T> objects) {
+    public IconSpinnerAdapter(Context context, int resource, List<T> objects) {
         super(context, resource, objects);
         mLayoutInflater = LayoutInflater.from(context);
     }

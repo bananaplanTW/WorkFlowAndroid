@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnDragListener;
+import android.widget.CompoundButton;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkerItem;
@@ -33,7 +37,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final Context mContext;
 
     private RecyclerView mGridView;
-    private List<WorkerItem> mWorkerDatas;
+    private List<WorkerItem> mWorkerDataSet;
 
     private OnDragListener mOnDragListener = new OnDragListener() {
 
@@ -73,7 +77,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     // Put the data into view
                     String taskId = item.getText().toString();
                     if (GridView.INVALID_POSITION != mGridView.getChildAdapterPosition(v)) {
-                        mWorkerDatas.get(mGridView.getChildAdapterPosition(v)).
+                        mWorkerDataSet.get(mGridView.getChildAdapterPosition(v)).
                                 currentTaskItem = WorkingData.getInstance(mContext).getTaskItemById(Long.valueOf(taskId));
                     }
 
@@ -99,11 +103,53 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     };
 
+    private class WorkerViewHolder extends RecyclerView.ViewHolder {
 
-    public WorkerGridViewAdapter(Context context, RecyclerView gridView, List<WorkerItem> workerDatas) {
+        public ImageView avatar;
+        public TextView name;
+        public TextView title;
+        public Switch overtime;
+
+        public ViewGroup currentWarnings;
+        public TextView currentTaskTitle;
+        public TextView currentTaskId;
+        public TextView currentTaskWorkingTime;
+
+        public TextView nextTaskTitle;
+
+
+        public WorkerViewHolder(View view) {
+            super(view);
+            findViews(view);
+            setupListeners();
+        }
+
+        private void findViews(View view) {
+            avatar = (ImageView) view.findViewById(R.id.worker_avatar);
+            name = (TextView) view.findViewById(R.id.worker_name);
+            title = (TextView) view.findViewById(R.id.worker_title);
+            overtime = (Switch) view.findViewById(R.id.worker_overtime_switch);
+            currentWarnings = (ViewGroup) view.findViewById(R.id.current_warning_container);
+            currentTaskTitle = (TextView) view.findViewById(R.id.current_task_title);
+            currentTaskId = (TextView) view.findViewById(R.id.current_task_id);
+            currentTaskWorkingTime = (TextView) view.findViewById(R.id.current_task_working_time);
+            nextTaskTitle = (TextView) view.findViewById(R.id.worker_item_next_task);
+        }
+
+        private void setupListeners() {
+            overtime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mWorkerDataSet.get(getAdapterPosition()).isOverTime = isChecked;
+                }
+            });
+        }
+    }
+
+    public WorkerGridViewAdapter(Context context, RecyclerView gridView, List<WorkerItem> workerDataSet) {
         mContext = context;
         mGridView = gridView;
-        mWorkerDatas = workerDatas;
+        mWorkerDataSet = workerDataSet;
     }
 
     @Override
@@ -118,18 +164,13 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        setWorkerViewHolder((WorkerViewHolder) holder, mWorkerDatas.get(position));
-    }
+        WorkerViewHolder viewHolder = (WorkerViewHolder) holder;
+        WorkerItem workerItem =  mWorkerDataSet.get(position);
 
-    @Override
-    public int getItemCount() {
-        return mWorkerDatas.size();
-    }
-
-    private void setWorkerViewHolder(WorkerViewHolder viewHolder, WorkerItem workerItem) {
         viewHolder.avatar.setImageDrawable(workerItem.getAvator());
         viewHolder.name.setText(workerItem.name);
         viewHolder.title.setText(workerItem.title);
+        viewHolder.overtime.setChecked(workerItem.isOverTime);
 
         if (workerItem.hasCurrentTaskItem()) {
             viewHolder.currentTaskTitle.setText(workerItem.currentTaskItem.name);
@@ -139,5 +180,10 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             viewHolder.currentTaskTitle.setText("");
             viewHolder.currentTaskWorkingTime.setText("");
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mWorkerDataSet.size();
     }
 }

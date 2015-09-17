@@ -17,6 +17,7 @@ import com.bananaplan.workflowandroid.data.TaskItem;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -31,7 +32,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final String TAG = "TaskListAdapter";
 
     public interface OnSelectTaskCaseListener {
-        public void onSelectTaskCase(int position);  //TODO: Should pass task case id
+        void onSelectTaskCase(int position);  //TODO: Should pass task case id
     }
 
     private static class ItemViewType {
@@ -41,7 +42,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
 
-    private ArrayList<String> mTaskCaseTitles = null;
+    private List<String> mTaskCaseTitles = null;
     private TaskCase mTaskCase = null;
 
     private TaskCaseSpinnerAdapter mTaskCaseSpinnerAdapter;
@@ -53,7 +54,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 
     private class TaskCaseSpinnerAdapter extends IconSpinnerAdapter<String> {
-        public TaskCaseSpinnerAdapter(Context context, int resource, ArrayList<String> datas) {
+        public TaskCaseSpinnerAdapter(Context context, int resource, List<String> datas) {
             super(context, resource, datas);
         }
 

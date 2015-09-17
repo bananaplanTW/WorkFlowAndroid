@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.assigntask.workers;
 
-
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,6 +14,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkerItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,20 +27,20 @@ public class WorkerFragment extends Fragment {
 
     public static final int MAX_WORKER_COUNT_IN_PAGE = 9;
 
-    private Activity mActivity;
+    private Context mContext;
     private View mFragmentView;
 
     private RecyclerView mWorkerGridView;
     private GridLayoutManager mGridLayoutManager;
     private WorkerGridViewAdapter mWorkerGridViewAdapter;
 
-    private ArrayList<WorkerItem> mWorkerDatas = new ArrayList<WorkerItem>();
+    private List<WorkerItem> mWorkerDataSet = new ArrayList<WorkerItem>();
 
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -66,14 +66,14 @@ public class WorkerFragment extends Fragment {
     }
 
     private void initWorkerGridView() {
-        mGridLayoutManager = new GridLayoutManager(
-                mActivity, mActivity.getResources().getInteger(R.integer.worker_gridview_column_count));
+        mGridLayoutManager = new GridLayoutManager(mContext,
+                mContext.getResources().getInteger(R.integer.worker_gridview_column_count));
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mActivity, mWorkerGridView, mWorkerDatas);
+        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mContext, mWorkerGridView, mWorkerDataSet);
 
         mWorkerGridView.setLayoutManager(mGridLayoutManager);
-        mWorkerGridView.addItemDecoration(new WorkerItemDecoration(mActivity));
+        mWorkerGridView.addItemDecoration(new WorkerItemDecoration(mContext));
         mWorkerGridView.setAdapter(mWorkerGridViewAdapter);
     }
 
@@ -86,7 +86,7 @@ public class WorkerFragment extends Fragment {
 //    }
 
     // TODO: Might need to be modified. Use addWorker(), etc.
-    public ArrayList<WorkerItem> getWorkerDatas() {
-        return mWorkerDatas;
+    public List<WorkerItem> getWorkerDatas() {
+        return mWorkerDataSet;
     }
 }
