@@ -7,7 +7,7 @@ import com.bananaplan.workflowandroid.data.worker.status.BaseData.TYPE;
  */
 public class DataFactory {
     public static BaseData genData(long worker, TYPE type) {
-        BaseData data = null;
+        BaseData data;
         switch (type) {
             case RECORD:
                 data = new RecordData(type);

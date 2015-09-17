@@ -54,7 +54,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
 
     private TaskItemListViewAdapter mTaskItemListViewAdapter;
     private WorkerItemListViewAdapter mWorkerItemListViewAdapter;
-    private static int sTaskItemListViewHeaderHeight = 0;
+    private int mTaskItemListViewHeaderHeight = 0;
 
     @Nullable
     @Override
@@ -128,20 +128,19 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             holder.workerInfo.setVisibility(View.GONE);
         }
         ViewTreeObserver observer = view.getViewTreeObserver();
-        if (sTaskItemListViewHeaderHeight == 0 && observer.isAlive()) {
+        if (mTaskItemListViewHeaderHeight == 0 && observer.isAlive()) {
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    sTaskItemListViewHeaderHeight = view.getHeight();
+                    mTaskItemListViewHeaderHeight = view.getHeight();
                     if (mTaskItemListViewAdapter != null && mTaskItemListViewAdapter.getCount() > 0) {
                         ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
                         params.height = (int) (mTaskItemListViewAdapter.getCount()
                                 * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
-                                + sTaskItemListViewHeaderHeight;
+                                + mTaskItemListViewHeaderHeight;
                         mTaskItemListView.requestLayout();
                         ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
-                        android.util.Log.d("ben", "setScrollEnable 1");
                     }
                 }
             });
@@ -338,11 +337,9 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
             params.height = (int) (mTaskItemListViewAdapter.getCount()
                     * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
-                    + sTaskItemListViewHeaderHeight;
+                    + mTaskItemListViewHeaderHeight;
             mTaskItemListView.requestLayout();
         }
-//        ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
-//        android.util.Log.d("ben", "setScrollEnable 2");
     }
 
     private void onCaseSelected(TaskCase taskCase) {

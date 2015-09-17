@@ -54,7 +54,7 @@
     <string name="overview_working_hours">"Total hours Worked: <b>%d</b> hours"</string>
     <string name="overview_overtime_hours">"Total hours overtime: <b>%d</b> hours"</string>
     <string name="overview_idle_hours">"Total hours idle: <b>%d</b> hours"</string>
-    <string name="overview_display_warning_txt">"%d"</string>
+    <string name="overview_display_warning_txt">"+%d"</string>
     <string-array name="week">
         <item>"Mon"</item>
         <item>"Tue"</item>

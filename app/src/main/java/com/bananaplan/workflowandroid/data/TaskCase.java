@@ -50,17 +50,17 @@ public class TaskCase extends IdData {
         return getFinishItemsCount() * 100 / taskItems.size();
     }
 
-    // TODO: Calaulate by taskitems
+    // TODO: Calculate by taskitems
     public String getHoursPassedBy() {
         return "32 : 12"; // TODO
     }
 
-    // TODO: Calaulate by taskitems
+    // TODO: Calculate by taskitems
     public String getHoursUnFinished() {
         return "12 : 12"; // TODO
     }
 
-    // TODO: Calaulate by taskitems
+    // TODO: Calculate by taskitems
     public String getHoursForecast() {
         return "01 : 12"; // TODO
     }

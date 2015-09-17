@@ -51,7 +51,6 @@
     <string name="overview_working_hours">"工作時數 <b>%d</b> 小時"</string>
     <string name="overview_overtime_hours">"加班時數 <b>%d</b> 小時"</string>
     <string name="overview_idle_hours">"閒置時數 <b>%d</b> 小時"</string>
-    <string name="overview_display_warning_txt">"%d項"</string>
     <string-array name="week">
         <item>"一"</item>
         <item>"二"</item>

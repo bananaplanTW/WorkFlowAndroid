@@ -251,7 +251,7 @@ public class Utils {
             }
         }
         if (unSolvedCount > 0) {
-            txtColor = Color.WHITE;
+            txtColor = activity.getResources().getColor(R.color.red);
             background = activity.getResources().getDrawable(R.drawable.border_textview_bg_red, null);
         } else {
             txtColor = activity.getResources().getColor(R.color.gray1);
@@ -294,7 +294,7 @@ public class Utils {
         v.setText(warning.name);
         if (warning.status == Warning.WarningStatus.UNSOLVED) {
             v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_red, null));
-            v.setTextColor(Color.WHITE);
+            v.setTextColor(activity.getResources().getColor(R.color.red));
         } else {
             v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_gray, null));
             v.setTextColor(activity.getResources().getColor(R.color.gray1));
