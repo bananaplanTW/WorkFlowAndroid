@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/task_warning"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/task_card_warning_padding_top_bottom"
+    android:paddingBottom="@dimen/task_card_warning_padding_top_bottom"
+    android:paddingLeft="@dimen/task_card_warning_padding_left_right"
+    android:paddingRight="@dimen/task_card_warning_padding_left_right"
+    android:gravity="center"
+    android:textColor="@color/task_card_warning_text_color"
+    android:textSize="@dimen/task_card_content_text_size"
+    android:background="@drawable/task_card_warning_background" />

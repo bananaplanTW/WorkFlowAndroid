@@ -9,8 +9,8 @@ import android.view.View;
 
 
 /**
- * OnTouchListener for TaskList.
- * Control the drag and drop of each task item.
+ * OnTouchListener for task grid view.
+ * Control the drag and drop of each task card.
  *
  * @author Danny Lin
  * @since 2015/7/10.

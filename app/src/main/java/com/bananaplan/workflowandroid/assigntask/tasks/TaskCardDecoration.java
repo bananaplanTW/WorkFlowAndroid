@@ -12,12 +12,12 @@ import com.bananaplan.workflowandroid.R;
  * @author Danny Lin
  * @since 2015/7/28.
  */
-public class TaskCaseItemDecoration extends RecyclerView.ItemDecoration {
+public class TaskCardDecoration extends RecyclerView.ItemDecoration {
 
     private Context mContext;
 
 
-    public TaskCaseItemDecoration(Context context) {
+    public TaskCardDecoration(Context context) {
         mContext = context;
     }
 
@@ -27,8 +27,8 @@ public class TaskCaseItemDecoration extends RecyclerView.ItemDecoration {
         int position = parent.getChildAdapterPosition(view);
         int itemCount = parent.getAdapter().getItemCount();
 
-        int normalMargin = mContext.getResources().getDimensionPixelSize(R.dimen.task_item_normal_margin);
-        int boundaryMargin = mContext.getResources().getDimensionPixelSize(R.dimen.task_item_boundary_margin);
+        int normalMargin = mContext.getResources().getDimensionPixelSize(R.dimen.task_card_normal_margin);
+        int boundaryMargin = mContext.getResources().getDimensionPixelSize(R.dimen.task_card_boundary_margin);
 
         // Header
         if (position == 0) return;

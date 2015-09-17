@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/worker_card_height"
+    android:padding="@dimen/worker_card_padding"
+    android:orientation="vertical"
+    android:background="@drawable/worker_card_background">
+
+    <RelativeLayout
+        android:id="@+id/worker_card_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <ImageView
+            android:id="@+id/worker_card_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/worker_card_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/worker_card_avatar"
+            android:layout_alignTop="@+id/worker_card_avatar"
+            android:textColor="@color/worker_card_text_black"
+            android:textSize="@dimen/worker_card_name_text_size"/>
+
+        <TextView
+            android:id="@+id/worker_card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/worker_card_avatar"
+            android:layout_below="@+id/worker_card_name"
+            android:layout_alignBottom="@+id/worker_card_avatar"
+            android:textColor="@color/worker_card_text_gray"
+            android:textSize="@dimen/worker_card_title_text_size"/>
+
+        <TextView
+            android:id="@+id/worker_card_overtime_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/worker_card_overtime_text_margin_left"
+            android:layout_alignLeft="@+id/worker_card_overtime_switch"
+            android:layout_alignTop="@+id/worker_card_name"
+            android:gravity="center"
+            android:text="@string/worker_card_overtime_text"
+            android:textSize="@dimen/worker_card_overtime_text_size"/>
+
+        <Switch
+            android:id="@+id/worker_card_overtime_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/worker_card_overtime_text"
+            android:textColor="@color/worker_card_text_gray"
+            android:showText="false"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/worker_card_task_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:background="@drawable/worker_card_task_content_background">
+
+        <RelativeLayout
+            android:id="@+id/worker_card_current_task_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/worker_card_current_task_container_padding">
+
+            <TextView
+                android:id="@+id/worker_card_current_task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/worker_card_text_black"
+                android:textSize="@dimen/worker_card_content_text_size" />
+
+            <TextView
+                android:id="@+id/worker_card_current_task_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/worker_card_current_task_title"
+                android:textColor="@color/worker_card_text_gray"
+                android:textSize="@dimen/worker_card_content_text_size"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/worker_card_divider_color"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/worker_card_current_task_working_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/worker_card_current_task_working_time_text_size"
+                android:fontFamily="sans-serif-condensed" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/worker_card_text_black"
+            android:textSize="@dimen/worker_card_content_text_size"
+            android:text="@string/worker_card_next_task_text"/>
+
+        <TextView
+            android:id="@+id/worker_card_next_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/worker_card_text_black"
+            android:textSize="@dimen/worker_card_content_text_size"
+            android:text="Iron template"/>
+
+    </LinearLayout>
+
+</LinearLayout>

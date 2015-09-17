@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
@@ -116,7 +115,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         ArrayList<View> horizontalDividerViews = new ArrayList<>();
 
         public ViewHolder(View v) {
-            warning = (TextView) v.findViewById(R.id.taskitem_listview_warning);
+            warning = (TextView) v.findViewById(R.id.task_card_warning);
             title = (TextView) v.findViewById(R.id.title);
             responsibleWorkerAvatar = (ImageView) v.findViewById(R.id.resposible_worker_avator);
             responsibleWorkerName = (TextView) v.findViewById(R.id.resposible_worker_name);

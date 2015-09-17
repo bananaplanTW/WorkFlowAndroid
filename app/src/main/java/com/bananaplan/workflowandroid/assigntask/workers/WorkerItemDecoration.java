@@ -27,8 +27,8 @@ public class WorkerItemDecoration extends RecyclerView.ItemDecoration {
         int position = parent.getChildAdapterPosition(view);
         int itemCount = parent.getAdapter().getItemCount();
 
-        int leftRightMargin = mContext.getResources().getDimensionPixelSize(R.dimen.worker_item_margin_left_right);
-        int topDownMargin = mContext.getResources().getDimensionPixelSize(R.dimen.worker_item_margin_top_down);
+        int leftRightMargin = mContext.getResources().getDimensionPixelSize(R.dimen.worker_card_margin_left_right);
+        int topDownMargin = mContext.getResources().getDimensionPixelSize(R.dimen.worker_card_margin_top_down);
 
         // Top and bottom
         if (position == 0 || position == 1 || position == 2) {

@@ -18,7 +18,7 @@ import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.TaskCase;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseItemDecoration;
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCardDecoration;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseOnTouchListener;
 import com.bananaplan.workflowandroid.utility.GridSpanSizeLookup;
@@ -50,7 +50,7 @@ public class AssignTaskFragment extends Fragment implements
 
     private Spinner mFactorySpinner;
     private IconSpinnerAdapter mFactorySpinnerAdapter;
-    private ArrayList<String> mFactorySpinnerDatas = new ArrayList<String>();
+    private List<String> mFactorySpinnerDatas = new ArrayList<String>();
 
     private List<WorkerFragment> mWorkerPageList;
     private ViewPager mWorkerPager;
@@ -71,7 +71,7 @@ public class AssignTaskFragment extends Fragment implements
 
 
     private class FactorySpinnerAdapter extends IconSpinnerAdapter<String> {
-        public FactorySpinnerAdapter(Context context, int resource, ArrayList<String> datas) {
+        public FactorySpinnerAdapter(Context context, int resource, List<String> datas) {
             super(context, resource, datas);
         }
 
@@ -190,7 +190,7 @@ public class AssignTaskFragment extends Fragment implements
         mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
 
         mTaskCaseView.setLayoutManager(mGridLayoutManager);
-        mTaskCaseView.addItemDecoration(new TaskCaseItemDecoration(mActivity));
+        mTaskCaseView.addItemDecoration(new TaskCardDecoration(mActivity));
         mTaskCaseView.setOnTouchListener(mTaskCaseOnTouchListener);
         mTaskCaseView.setAdapter(mTaskCaseAdapter);
     }
