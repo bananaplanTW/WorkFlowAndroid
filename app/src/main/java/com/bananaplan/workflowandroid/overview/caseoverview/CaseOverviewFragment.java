@@ -202,7 +202,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         }
         mTvCaseHoursPassedBy.setText(taskCase.getHoursPassedBy());
         mTvCaseHoursUnfinished.setText(taskCase.getHoursUnFinished());
-        mTvCaseHoursExpected.setText(taskCase.getHoursForecast());
+        mTvCaseHoursExpected.setText(taskCase.getHoursExpected());
         mPbCaseSelected.setProgress(taskCase.getFinishPercent());
         mTvTaskItemCount.setText(String.valueOf(taskCase.taskItems.size()));
         mTvCaseProgress.setText(taskCase.getFinishItemsCount() + "/" + taskCase.taskItems.size());

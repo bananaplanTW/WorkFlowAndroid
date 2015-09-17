@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.data.TaskItem;
@@ -161,8 +162,8 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private void bindTaskCaseInformation(TaskCaseHeaderViewHolder holder) {
         holder.progressBar.setProgress(mTaskCase.getFinishPercent());
-        holder.vendor.setText("Honda");
-        holder.personInCharge.setText("Danny");
+        holder.vendor.setText(mTaskCase.name);
+        holder.personInCharge.setText(WorkingData.getInstance(mContext).getWorkerItemById(mTaskCase.workerId).name);
         holder.uncompletedTaskTime.setText(mTaskCase.getHoursUnFinished());
         holder.undergoingTaskTime.setText(mTaskCase.getHoursPassedBy());
         holder.editCaseButton.setOnClickListener(new View.OnClickListener() {
@@ -187,10 +188,10 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.workingTime.setText(taskItem.getWorkingTime());
 
         // Equipment
-        holder.tool.setText(taskItem.getToolName());
+        holder.tool.setText(WorkingData.getInstance(mContext).getEquipmentById(taskItem.equipmentId).name);
 
         // Worker
-        holder.worker.setText(taskItem.getWorkerName());
+        holder.worker.setText(WorkingData.getInstance(mContext).getWorkerItemById(taskItem.workerId).name);
 
         // Status
         holder.status.setText(Utils.getTaskItemStatusString(mContext, taskItem));

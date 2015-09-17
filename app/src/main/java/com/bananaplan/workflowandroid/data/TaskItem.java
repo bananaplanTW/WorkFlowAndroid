@@ -1,6 +1,8 @@
 package com.bananaplan.workflowandroid.data;
 
 
+import com.bananaplan.workflowandroid.data.worker.status.BaseData;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,7 +30,7 @@ public class TaskItem extends IdData {
     public int errorCount;
 
     public Status status = Status.NOT_START;
-
+    public ArrayList<BaseData> records = new ArrayList<>();
 
     public TaskItem() {
 
@@ -64,15 +66,5 @@ public class TaskItem extends IdData {
     // TODO: Get this information from server
     public String getExpectedFinishedTime() {
         return "11:00";
-    }
-
-    // TODO: Map to tool id
-    public String getToolName() { // use for test
-        return "CNC";
-    }
-
-    // TODO: Map to worker id
-    public String getWorkerName() { // use for test
-        return "Danny Lin";
     }
 }

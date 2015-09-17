@@ -61,7 +61,7 @@ public class TaskCase extends IdData {
     }
 
     // TODO: Calculate by taskitems
-    public String getHoursForecast() {
+    public String getHoursExpected() {
         return "01 : 12"; // TODO
     }
 

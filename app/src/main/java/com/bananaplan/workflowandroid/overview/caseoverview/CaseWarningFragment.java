@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragmentBase.OvCallBack {
     private ListView mWarningListView;
     private WarningListViewAdapter mWarningAdapter;
-    private static int sListViewHeaderHeight = 0;
+    private int mListViewHeaderHeight = 0;
 
     @Nullable
     @Override
@@ -155,16 +155,16 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
             divider.setVisibility(View.VISIBLE);
         }
         ViewTreeObserver observer = view.getViewTreeObserver();
-        if (sListViewHeaderHeight <= 0 && observer.isAlive()) {
+        if (mListViewHeaderHeight <= 0 && observer.isAlive()) {
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    sListViewHeaderHeight = view.getHeight();
+                    mListViewHeaderHeight = view.getHeight();
                     if (mWarningAdapter != null && mWarningAdapter.getCount() > 0) {
                         ViewGroup.LayoutParams params = mWarningListView.getLayoutParams();
                         params.height = (int) (mWarningAdapter.getCount() * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
-                                + sListViewHeaderHeight
+                                + mListViewHeaderHeight
                                 + mWarningListView.getDividerHeight() * (mWarningAdapter.getCount() - 1)
                                 + mWarningListView.getPaddingTop();
                         mWarningListView.requestLayout();
@@ -193,7 +193,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
             ViewGroup.LayoutParams params = mWarningListView.getLayoutParams();
             params.height = (int) (mWarningAdapter.getCount()
                     * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
-                    + sListViewHeaderHeight + mWarningListView.getDividerHeight() * (mWarningAdapter.getCount() - 1);
+                    + mListViewHeaderHeight + mWarningListView.getDividerHeight() * (mWarningAdapter.getCount() - 1);
             mWarningListView.requestLayout();
             ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
         }
