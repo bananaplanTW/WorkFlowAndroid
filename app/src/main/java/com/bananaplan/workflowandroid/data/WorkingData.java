@@ -221,7 +221,7 @@ public final class WorkingData {
             Vendor vendor = new Vendor(i, "Vendor" + i);
             mVendorsMap.put(vendor.id, vendor);
             for (int j = 1; j <= taskCaseCount; j++) {
-                TaskCase taskCase = new TaskCase(j, "Case" + j);
+                TaskCase taskCase = new TaskCase(i * 10 + j, "Case" + (i * 10 + j));
                 mTaskCaseMap.put(taskCase.id, taskCase);
                 taskCase.vendorId = vendor.id;
                 taskCase.workerId = getRandomWorkerId();
