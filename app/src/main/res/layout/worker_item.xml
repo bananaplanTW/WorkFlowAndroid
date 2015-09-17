@@ -29,7 +29,7 @@
             android:textSize="@dimen/worker_item_name_text_size"/>
 
         <TextView
-            android:id="@+id/worker_title"
+            android:id="@+id/worker_job_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/worker_avatar"
@@ -75,7 +75,7 @@
             android:padding="@dimen/worker_item_current_task_container_padding">
 
             <TextView
-                android:id="@+id/current_task_title"
+                android:id="@+id/current_task_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -84,10 +84,10 @@
                 android:textSize="@dimen/worker_item_content_text_size" />
 
             <TextView
-                android:id="@+id/current_task_id"
+                android:id="@+id/current_task_case_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/current_task_title"
+                android:layout_below="@+id/current_task_name"
                 android:textColor="@color/worker_item_text_gray"
                 android:textSize="@dimen/worker_item_content_text_size"/>
 
@@ -95,7 +95,7 @@
                 android:id="@+id/current_warning_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/current_task_title"
+                android:layout_toRightOf="@+id/current_task_name"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:orientation="horizontal"/>
@@ -107,19 +107,13 @@
             android:layout_height="1dp"
             android:background="@color/worker_item_divider_color"/>
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/current_task_working_time"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/current_task_working_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="@dimen/worker_item_current_task_working_time_text_size"
-                android:fontFamily="sans-serif-condensed" />
-
-        </RelativeLayout>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/worker_item_current_task_working_time_text_size"
+            android:fontFamily="sans-serif-condensed" />
 
     </LinearLayout>
 
@@ -141,9 +135,8 @@
             android:id="@+id/worker_item_next_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/worker_item_text_black"
-            android:textSize="@dimen/worker_item_content_text_size"
-            android:text="Iron template"/>
+            android:textColor="@color/worker_item_text_gray"
+            android:textSize="@dimen/worker_item_content_text_size"/>
 
     </LinearLayout>
 

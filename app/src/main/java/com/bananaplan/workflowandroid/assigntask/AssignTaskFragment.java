@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.assigntask.workers.WorkerGridViewAdapter;
 import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseItemDecoration;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
@@ -25,7 +26,7 @@ import com.bananaplan.workflowandroid.utility.GridSpanSizeLookup;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ import java.util.List;
  * @since 2015.05.30
  */
 public class AssignTaskFragment extends Fragment implements
-        ViewPager.OnPageChangeListener, TaskCaseAdapter.OnSelectTaskCaseListener {
+        ViewPager.OnPageChangeListener, TaskCaseAdapter.OnSelectTaskCaseListener,
+        WorkerGridViewAdapter.OnRefreshTaskCaseListener {
 
     private static final String TAG = "AssignTaskFragment";
     private static final String KEY_FACTORY_SPINNER_POSITION = "key_factory_spinner_position";
@@ -208,7 +210,7 @@ public class AssignTaskFragment extends Fragment implements
                     return;
                 }
                 clearWorkers();
-                createWorkerPages(mWorkingData.getFactories().get(position).workerItems);
+                createWorkerPages(mWorkingData.getFactories().get(position).workers);
                 initWorkerPagerIndicator();
                 mWorkerPagerAdapter.setWorkerPages(mWorkerPageList);
                 mWorkerPager.setAdapter(mWorkerPagerAdapter);
@@ -226,14 +228,14 @@ public class AssignTaskFragment extends Fragment implements
     private void initWorkerPager(Bundle savedInstanceState) {
         mWorkerPagerAdapter = new WorkerPagerAdapter(mFragmentManager);
         createWorkerPages(mWorkingData.getFactories().get(savedInstanceState == null ?
-                0 : savedInstanceState.getInt(KEY_FACTORY_SPINNER_POSITION, 0)).workerItems);
+                0 : savedInstanceState.getInt(KEY_FACTORY_SPINNER_POSITION, 0)).workers);
         initWorkerPagerIndicator();
         mWorkerPagerAdapter.setWorkerPages(mWorkerPageList);
         mWorkerPager.setAdapter(mWorkerPagerAdapter);
         mWorkerPager.setOnPageChangeListener(this);
     }
 
-    private void createWorkerPages(List<WorkerItem> workerDatas) {
+    private void createWorkerPages(List<Worker> workerDatas) {
         int workerCount = workerDatas.size();
         if (workerCount <= 0) return;
 
@@ -252,7 +254,9 @@ public class AssignTaskFragment extends Fragment implements
     }
 
     private void addWorkerPage() {
-        mWorkerPageList.add(new WorkerFragment());
+        WorkerFragment workerFragment = new WorkerFragment();
+        workerFragment.setOnRefreshTaskCaseListener(this);
+        mWorkerPageList.add(workerFragment);
 
         View indicator = LayoutInflater.from(mActivity).inflate(
                 R.layout.worker_pager_indicator, mWorkerPagerIndicatorContainer, false);
@@ -290,6 +294,11 @@ public class AssignTaskFragment extends Fragment implements
     @Override
     public void onSelectTaskCase(int position) {
         mTaskCaseAdapter.swapTaskCase(mWorkingData.getTaskCases().get(position));
+        mTaskCaseAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefreshTaskCase() {
         mTaskCaseAdapter.notifyDataSetChanged();
     }
 }

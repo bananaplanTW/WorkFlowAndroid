@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Danny Lin
  * @since 2015.06.13
  */
-public class TaskItem extends IdData {
+public class Task extends IdData {
 
     public enum Status {
         IN_SCHEDULE, NOT_START, WORKING, PAUSE, FINISH
@@ -32,16 +32,16 @@ public class TaskItem extends IdData {
     public Status status = Status.NOT_START;
     public ArrayList<BaseData> records = new ArrayList<>();
 
-    public TaskItem() {
+    public Task() {
 
     }
 
-    public TaskItem(int id, String name) {
+    public Task(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public TaskItem(String name, long expectedWorkingTime, long equipmentId, long workerId) {
+    public Task(String name, long expectedWorkingTime, long equipmentId, long workerId) {
         this.name = name;
         this.expectedWorkingTime = expectedWorkingTime;
         this.equipmentId = equipmentId;

@@ -204,8 +204,8 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseHoursUnfinished.setText(taskCase.getHoursUnFinished());
         mTvCaseHoursExpected.setText(taskCase.getHoursExpected());
         mPbCaseSelected.setProgress(taskCase.getFinishPercent());
-        mTvTaskItemCount.setText(String.valueOf(taskCase.taskItems.size()));
-        mTvCaseProgress.setText(taskCase.getFinishItemsCount() + "/" + taskCase.taskItems.size());
+        mTvTaskItemCount.setText(String.valueOf(taskCase.tasks.size()));
+        mTvCaseProgress.setText(taskCase.getFinishItemsCount() + "/" + taskCase.tasks.size());
         mTvCaseFeedDate.setText(Utils.timestamp2Date(taskCase.materialPurchasedDate, Utils.DATE_FORMAT_YMD));
         mTvCaseFigureDate.setText(Utils.timestamp2Date(taskCase.layoutDeliveredDate, Utils.DATE_FORMAT_YMD));
         mTvCaseDeliveryDate.setText(Utils.timestamp2Date(taskCase.deliveredDate, Utils.DATE_FORMAT_YMD));
@@ -318,7 +318,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
                 holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.bg_solid_textview_bg_gray, null));
                 holder.mTvCaseName.setTextColor(getResources().getColor(R.color.gray1));
             } else {
-                holder.mTvStatus.setText(taskCase.getFinishItemsCount() + "/" + taskCase.taskItems.size());
+                holder.mTvStatus.setText(taskCase.getFinishItemsCount() + "/" + taskCase.tasks.size());
                 holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.bg_solid_textview_bg_red, null));
                 holder.mTvCaseName.setTextColor(getResources().getColor(R.color.black1));
             }

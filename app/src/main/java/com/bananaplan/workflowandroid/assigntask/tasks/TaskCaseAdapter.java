@@ -11,10 +11,12 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.Equipment;
+import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.data.TaskCase;
-import com.bananaplan.workflowandroid.data.TaskItem;
+import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ import java.util.List;
  */
 public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private static final String TAG = "TaskListAdapter";
+    private static final String TAG = "TaskCaseAdapter";
 
     public interface OnSelectTaskCaseListener {
         void onSelectTaskCase(int position);  //TODO: Should pass task case id
@@ -176,29 +178,31 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private void onBindItemViewHolder(ViewHolder vh, int position) {
         TaskItemViewHolder holder = (TaskItemViewHolder) vh;
-        TaskItem taskItem = getItem(position);
+        Task task = getItem(position);
 
         // Title
-        holder.title.setText(taskItem.name);
+        holder.title.setText(task.name);
 
         // Warning
-        Utils.setTaskItemWarningTextView((Activity) mContext, taskItem, holder.warning, false);
+        Utils.setTaskItemWarningTextView((Activity) mContext, task, holder.warning, false);
 
         // Task working time
-        holder.workingTime.setText(taskItem.getWorkingTime());
+        holder.workingTime.setText(task.getWorkingTime());
 
         // Equipment
-        holder.tool.setText(WorkingData.getInstance(mContext).getEquipmentById(taskItem.equipmentId).name);
+        Equipment equipment = WorkingData.getInstance(mContext).getEquipmentById(task.equipmentId);
+        holder.tool.setText(equipment == null ? "無使用工具" : equipment.name);
 
         // Worker
-        holder.worker.setText(WorkingData.getInstance(mContext).getWorkerItemById(taskItem.workerId).name);
+        Worker worker = WorkingData.getInstance(mContext).getWorkerItemById(task.workerId);
+        holder.worker.setText(worker == null ? "無員工" : worker.name);
 
         // Status
-        holder.status.setText(Utils.getTaskItemStatusString(mContext, taskItem));
+        holder.status.setText(Utils.getTaskItemStatusString(mContext, task));
     }
 
-    public TaskItem getItem(int position) {
-        return mTaskCase.taskItems.get(--position);
+    public Task getItem(int position) {
+        return mTaskCase.tasks.get(--position);
     }
 
     @Override
@@ -217,6 +221,6 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mTaskCase.taskItems == null ? 0 : mTaskCase.taskItems.size() + 1;
+        return mTaskCase.tasks == null ? 0 : mTaskCase.tasks.size() + 1;
     }
 }

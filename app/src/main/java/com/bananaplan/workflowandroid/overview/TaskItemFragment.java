@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.TaskCase;
-import com.bananaplan.workflowandroid.data.TaskItem;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.Task;
+import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
@@ -148,8 +148,8 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         return view;
     }
 
-    private class TaskItemListViewAdapter extends ArrayAdapter<TaskItem> {
-        public TaskItemListViewAdapter(ArrayList<TaskItem> items) {
+    private class TaskItemListViewAdapter extends ArrayAdapter<Task> {
+        public TaskItemListViewAdapter(ArrayList<Task> items) {
             super(getActivity(), 0, items);
         }
 
@@ -176,24 +176,24 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             } else {
                 holder = (TaskItemListViewAdapterViewHolder) convertView.getTag();
             }
-            final TaskItem taskItem = getItem(position);
-            final WorkerItem worker = WorkingData.getInstance(getActivity()).getWorkerItemById(taskItem.workerId);
+            final Task task = getItem(position);
+            final Worker worker = WorkingData.getInstance(getActivity()).getWorkerItemById(task.workerId);
 
             int txtColor;
-            if (taskItem.status == TaskItem.Status.FINISH) {
+            if (task.status == Task.Status.FINISH) {
                 txtColor = getResources().getColor(R.color.gray1);
             } else {
                 txtColor = getResources().getColor(R.color.black1);
             }
 
             if (holder.startDate != null) {
-                holder.startDate.setText(Utils.timestamp2Date(taskItem.startDate, Utils.DATE_FORMAT_MD));
+                holder.startDate.setText(Utils.timestamp2Date(task.startDate, Utils.DATE_FORMAT_MD));
                 holder.startDate.setTextColor(txtColor);
             }
             if (holder.status != null) {
-                holder.status.setText(Utils.getTaskItemStatusString(getActivity(), taskItem));
+                holder.status.setText(Utils.getTaskItemStatusString(getActivity(), task));
                 holder.status.setTextColor(txtColor);
-                if (TaskItem.Status.WORKING == taskItem.status) {
+                if (Task.Status.WORKING == task.status) {
                     holder.status.setBackground(getResources().getDrawable(R.drawable.border_textview_bg_green, null));
                     holder.status.setTextColor(getResources().getColor(R.color.green));
                 } else {
@@ -205,27 +205,27 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder.id.setTextColor(txtColor);
             }
             if (holder.caseName != null) {
-                holder.caseName.setText(WorkingData.getInstance(getActivity()).getTaskCaseById(taskItem.taskCaseId).name);
+                holder.caseName.setText(WorkingData.getInstance(getActivity()).getTaskCaseById(task.taskCaseId).name);
                 holder.caseName.setTextColor(txtColor);
             }
             if (holder.itemName != null) {
-                holder.itemName.setText(taskItem.name);
+                holder.itemName.setText(task.name);
                 holder.itemName.setTextColor(txtColor);
             }
             if (holder.expectedTime != null) {
-                holder.expectedTime.setText(taskItem.getExpectedFinishedTime());
+                holder.expectedTime.setText(task.getExpectedFinishedTime());
                 holder.expectedTime.setTextColor(txtColor);
             }
             if (holder.workTime != null) {
-                holder.workTime.setText(taskItem.getWorkingTime());
+                holder.workTime.setText(task.getWorkingTime());
                 holder.workTime.setTextColor(txtColor);
             }
             if (holder.equipment != null) {
-                holder.equipment.setText(WorkingData.getInstance(getActivity()).getEquipmentById(taskItem.equipmentId).name);
+                holder.equipment.setText(WorkingData.getInstance(getActivity()).getEquipmentById(task.equipmentId).name);
                 holder.equipment.setTextColor(txtColor);
             }
             if (holder.errorCount != null) {
-                holder.errorCount.setText(String.valueOf(taskItem.errorCount));
+                holder.errorCount.setText(String.valueOf(task.errorCount));
                 holder.errorCount.setTextColor(txtColor);
             }
             if (holder.workerName != null) {
@@ -243,7 +243,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 });
             }
             if (holder.warning != null) {
-                Utils.setTaskItemWarningTextView(getActivity(), taskItem, holder.warning, true);
+                Utils.setTaskItemWarningTextView(getActivity(), task, holder.warning, true);
             }
             return convertView;
         }
@@ -329,7 +329,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         if (mFrom.equals(EquipmentOverviewFragment.class.getSimpleName())) {
             onEquipmentSelected((Equipment) item);
         } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())) {
-            onWorkerSelected((WorkerItem) item);
+            onWorkerSelected((Worker) item);
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             onCaseSelected((TaskCase) item);
         }
@@ -347,7 +347,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         updateStatisticsView(1, R.string.overview_finish_hours);
 
         // update task item listview
-        ArrayList<TaskItem> items = new ArrayList<>(taskCase.taskItems);
+        ArrayList<Task> items = new ArrayList<>(taskCase.tasks);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);
@@ -356,7 +356,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             mTaskItemListViewAdapter.addAll(items);
         }
 
-        ArrayList<WorkerItem> workers = getWorkerItems();
+        ArrayList<Worker> workers = getWorkerItems();
         if (mWorkerItemListViewAdapter == null) {
             mWorkerItemListViewAdapter = new WorkerItemListViewAdapter(getActivity(), workers);
             mWorkerListView.setAdapter(mWorkerItemListViewAdapter);
@@ -367,12 +367,12 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         mWorkerItemListViewAdapter.notifyDataSetChanged();
     }
 
-    private void onWorkerSelected(WorkerItem worker) {
+    private void onWorkerSelected(Worker worker) {
         // update statistics
         updateStatisticsView(3, R.string.overview_working_hours);
 
         // update task item listview
-        ArrayList<TaskItem> items = WorkingData.getInstance(getActivity()).getTaskItemsByWorker(worker);
+        ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTaskItemsByWorker(worker);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);
@@ -387,7 +387,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         updateStatisticsView(1, R.string.overview_used_hours);
 
         // update task item listview
-        ArrayList<TaskItem> items = WorkingData.getInstance(getActivity()).getTaskItemsByEquipment(equipment);
+        ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTaskItemsByEquipment(equipment);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);
@@ -397,10 +397,10 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         }
     }
 
-    private ArrayList<WorkerItem> getWorkerItems() {
-        ArrayList<WorkerItem> workers = new ArrayList<>();
+    private ArrayList<Worker> getWorkerItems() {
+        ArrayList<Worker> workers = new ArrayList<>();
         if (getSelectedTaskCase() != null) {
-            for (TaskItem item : getSelectedTaskCase().taskItems) {
+            for (Task item : getSelectedTaskCase().tasks) {
                 workers.add(WorkingData.getInstance(getActivity()).getWorkerItemById(item.workerId));
             }
         }
@@ -420,10 +420,10 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         mTvIdleHours.setText(getResources().getString(R.string.overview_idle_hours, data.getIdleHours()));
     }
 
-    private class WorkerItemListViewAdapter extends ArrayAdapter<WorkerItem> {
+    private class WorkerItemListViewAdapter extends ArrayAdapter<Worker> {
         private LayoutInflater mInflater;
 
-        public WorkerItemListViewAdapter(Context context, ArrayList<WorkerItem> items) {
+        public WorkerItemListViewAdapter(Context context, ArrayList<Worker> items) {
             super(context, 0, items);
             mInflater = getActivity().getLayoutInflater();
         }
@@ -438,7 +438,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            WorkerItem worker = getItem(position);
+            Worker worker = getItem(position);
             holder.avator.setImageDrawable(worker.getAvator());
             return convertView;
         }

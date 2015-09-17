@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.TaskCase;
-import com.bananaplan.workflowandroid.data.TaskItem;
+import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Warning;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.OverviewScrollView;
@@ -51,7 +51,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
     private ArrayList<Warning> getWarnings(TaskCase taskCase) {
         if (taskCase != null) {
             ArrayList<Warning> warnings = new ArrayList<>();
-            for (TaskItem item : taskCase.taskItems) {
+            for (Task item : taskCase.tasks) {
                 for (Warning warning : item.warningList) {
                     warnings.add(warning);
                 }
@@ -84,8 +84,8 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
                 convertView.setBackgroundColor(Color.WHITE);
             }
             Warning warning = getItem(position);
-            TaskItem item = WorkingData.getInstance(getActivity()).getTaskItemById(warning.taskItemId);
-            WorkerItem worker = WorkingData.getInstance(getActivity()).getWorkerItemById(item.workerId);
+            Task item = WorkingData.getInstance(getActivity()).getTaskItemById(warning.taskItemId);
+            Worker worker = WorkingData.getInstance(getActivity()).getWorkerItemById(item.workerId);
             Utils.setTaskItemWarningTextView(getActivity(), warning, holder.warning);
             holder.title.setText(item.name);
             holder.responsibleWorkerName.setText(worker.name);

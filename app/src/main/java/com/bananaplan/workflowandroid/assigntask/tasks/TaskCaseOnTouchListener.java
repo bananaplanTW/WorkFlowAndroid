@@ -91,10 +91,11 @@ public class TaskCaseOnTouchListener implements View.OnTouchListener {
     private void startDragTaskItem() {
         int itemPosition = mRecyclerView.getChildAdapterPosition(mDownView);
 
-        // Pass task content(type: string)
-        String passData = String.valueOf(((TaskCaseAdapter) mRecyclerView.getAdapter()).getItem(itemPosition).id);
-        ClipData.Item item = new ClipData.Item(passData);
-        ClipData dragData = new ClipData(passData,
+        // We use myLocalState(3rd variable in startDrag()) to pass task id,
+        // but we still need dragData passing to 1st variable in startDrag() to let drag-and-drop function work.
+        String dragTaskId = String.valueOf(((TaskCaseAdapter) mRecyclerView.getAdapter()).getItem(itemPosition).id);
+        ClipData.Item item = new ClipData.Item(dragTaskId);
+        ClipData dragData = new ClipData(dragTaskId,
                 new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
                 item);
 
@@ -102,10 +103,10 @@ public class TaskCaseOnTouchListener implements View.OnTouchListener {
         View.DragShadowBuilder shadow = new View.DragShadowBuilder(mDownView);
 
         // Starts the drag
-        mDownView.startDrag(dragData,  // the data to be dragged
-                shadow,    // the drag shadow image
-                null,      // no need to use local data
-                0          // flags (not currently used, set to 0)
+        mDownView.startDrag(dragData,    // the data to be dragged
+                            shadow,      // the drag shadow image
+                            dragTaskId,  // no need to use local data
+                            0            // flags (not currently used, set to 0)
         );
 
         mIsDragging = true;

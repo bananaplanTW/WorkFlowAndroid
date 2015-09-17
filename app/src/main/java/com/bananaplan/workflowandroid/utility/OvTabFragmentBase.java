@@ -9,7 +9,7 @@ import com.bananaplan.workflowandroid.main.UIController;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.data.TaskCase;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.Worker;
 
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ public abstract class OvTabFragmentBase extends Fragment {
         }
     }
 
-    public WorkerItem getSelectedWorker() {
+    public Worker getSelectedWorker() {
         Fragment frag = getFragmentManager().findFragmentByTag(UIController.FragmentTag.WORKER_OVERVIEW_FRAGMENT);
         if (frag == null) return null;
         if (!(frag instanceof WorkerOverviewFragment)) return null;

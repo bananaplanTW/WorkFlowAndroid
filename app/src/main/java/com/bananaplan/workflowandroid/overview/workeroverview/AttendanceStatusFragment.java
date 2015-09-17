@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.Utils;
@@ -166,7 +166,7 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
 
     @Override
     public void onItemSelected(Object item) {
-        WorkerItem worker = (WorkerItem) item;
+        Worker worker = (Worker) item;
         if (worker == null) return;
         ArrayList<LeaveData> leaveDatas = new ArrayList<>(worker.leaveDatas);
         Collections.sort(leaveDatas, new Comparator<LeaveData>() {

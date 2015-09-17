@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.TaskCase;
-import com.bananaplan.workflowandroid.data.TaskItem;
+import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.management.ManagementDialog;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.DatePickerDialogFragment;
@@ -56,7 +56,7 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private Context mContext;
     private TaskCase mTaskCase;
-    private ArrayList<TaskItem> mTasksData = new ArrayList<TaskItem>();
+    private ArrayList<Task> mTasksData = new ArrayList<Task>();
 
     private int mSpanCount = 0;
 
@@ -313,7 +313,7 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View v) {
             for (int i = 0 ; i < mSpanCount ; i++) {
-                mTasksData.add(mTasksData.size()-1, new TaskItem());
+                mTasksData.add(mTasksData.size()-1, new Task());
             }
             notifyItemRangeInserted(mTasksData.size()-1-mSpanCount, mSpanCount);
             ((RecyclerView) v.getParent()).smoothScrollToPosition(mTasksData.size()-mSpanCount);
@@ -329,15 +329,15 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void initTasksData() {
         // Header item
-        mTasksData.add(new TaskItem());
+        mTasksData.add(new Task());
 
         // Task item
         for (int i = 0 ; i < mSpanCount ; i++) {
-            mTasksData.add(new TaskItem());
+            mTasksData.add(new Task());
         }
 
         // Add item
-        mTasksData.add(new TaskItem());
+        mTasksData.add(new Task());
     }
 
     @Override

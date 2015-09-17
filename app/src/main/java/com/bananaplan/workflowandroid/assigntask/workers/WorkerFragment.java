@@ -11,7 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.assigntask.workers.WorkerGridViewAdapter.OnRefreshTaskCaseListener;
+import com.bananaplan.workflowandroid.data.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +29,14 @@ public class WorkerFragment extends Fragment {
     public static final int MAX_WORKER_COUNT_IN_PAGE = 9;
 
     private Context mContext;
+    private OnRefreshTaskCaseListener mOnRefreshTaskCaseListener;
     private View mFragmentView;
 
     private RecyclerView mWorkerGridView;
     private GridLayoutManager mGridLayoutManager;
     private WorkerGridViewAdapter mWorkerGridViewAdapter;
 
-    private List<WorkerItem> mWorkerDataSet = new ArrayList<WorkerItem>();
+    private List<Worker> mWorkerDataSet = new ArrayList<Worker>();
 
 
     @Override
@@ -70,7 +72,8 @@ public class WorkerFragment extends Fragment {
                 mContext.getResources().getInteger(R.integer.worker_gridview_column_count));
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mContext, mWorkerGridView, mWorkerDataSet);
+        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mContext, mOnRefreshTaskCaseListener,
+                                                           mWorkerGridView, mWorkerDataSet);
 
         mWorkerGridView.setLayoutManager(mGridLayoutManager);
         mWorkerGridView.addItemDecoration(new WorkerItemDecoration(mContext));
@@ -85,8 +88,12 @@ public class WorkerFragment extends Fragment {
 //        mWorkerDatas.clear();
 //    }
 
+    public void setOnRefreshTaskCaseListener(OnRefreshTaskCaseListener listener) {
+        mOnRefreshTaskCaseListener = listener;
+    }
+
     // TODO: Might need to be modified. Use addWorker(), etc.
-    public List<WorkerItem> getWorkerDatas() {
+    public List<Worker> getWorkerDatas() {
         return mWorkerDataSet;
     }
 }

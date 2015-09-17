@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
@@ -319,7 +319,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     }
 
     private void scoreWorker(boolean plus) {
-        final WorkerItem worker = getSelectedWorker();
+        final Worker worker = getSelectedWorker();
         if (plus) {
             WorkingData.getInstance(getActivity()).getWorkerItemById(getSelectedWorker().id).score++;
         } else {
@@ -343,7 +343,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
 
     @Override
     public void onItemSelected(Object item) {
-        WorkerItem worker = (WorkerItem) item;
+        Worker worker = (Worker) item;
         if (worker == null) return;
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerItemById(worker.id).score));
         ArrayList<BaseData> records = new ArrayList<>(worker.records);
@@ -425,7 +425,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 holder = (ViewHolder) convertView.getTag();
             }
             BaseData data = getItem(position);
-            WorkerItem worker;
+            Worker worker;
             int nameVisibility = View.GONE;
             int descriptionVisibility = View.GONE;
             int statusVisibility = View.GONE;

@@ -33,9 +33,9 @@ public final class WorkingData {
     private Context mContext;
 
     private HashMap<Long, Manager> mManagersMap = new HashMap<>();
-    private HashMap<Long, WorkerItem> mWorkersMap = new HashMap<>();
+    private HashMap<Long, Worker> mWorkersMap = new HashMap<>();
     private HashMap<Long, Vendor> mVendorsMap = new HashMap<>();
-    private HashMap<Long, TaskItem> mTaskItemsMap = new HashMap<>();
+    private HashMap<Long, Task> mTaskItemsMap = new HashMap<>();
     private HashMap<Long, TaskCase> mTaskCaseMap = new HashMap<>();
     private HashMap<Long, Equipment> mEquipmentsMap = new HashMap<>();
     private HashMap<Long, Factory> mFactoriesMap = new HashMap<>();
@@ -61,7 +61,7 @@ public final class WorkingData {
     public ArrayList<Manager> getManagers() {
         return new ArrayList<>(mManagersMap.values());
     }
-    public ArrayList<WorkerItem> getWorkers() {
+    public ArrayList<Worker> getWorkers() {
         return new ArrayList<>(mWorkersMap.values());
     }
     public ArrayList<Factory> getFactories() {
@@ -78,22 +78,22 @@ public final class WorkingData {
     }
 
 
-    public ArrayList<TaskItem> getTaskItemsByWorker(WorkerItem worker) {
-        ArrayList<TaskItem> tmp = new ArrayList<>();
+    public ArrayList<Task> getTaskItemsByWorker(Worker worker) {
+        ArrayList<Task> tmp = new ArrayList<>();
         if (worker == null) return tmp;
-        ArrayList<TaskItem> orig = new ArrayList<>(mTaskItemsMap.values());
-        for (TaskItem item : orig) {
+        ArrayList<Task> orig = new ArrayList<>(mTaskItemsMap.values());
+        for (Task item : orig) {
             if (item.workerId == worker.id) {
                 tmp.add(item);
             }
         }
         return tmp;
     }
-    public ArrayList<TaskItem> getTaskItemsByEquipment(Equipment equipment) {
-        ArrayList<TaskItem> tmp = new ArrayList<>();
+    public ArrayList<Task> getTaskItemsByEquipment(Equipment equipment) {
+        ArrayList<Task> tmp = new ArrayList<>();
         if (equipment == null) return tmp;
-        ArrayList<TaskItem> orig = new ArrayList<>(mTaskItemsMap.values());
-        for (TaskItem item : orig) {
+        ArrayList<Task> orig = new ArrayList<>(mTaskItemsMap.values());
+        for (Task item : orig) {
             if (item.equipmentId == equipment.id) {
                 tmp.add(item);
             }
@@ -111,10 +111,10 @@ public final class WorkingData {
     public Vendor getVendorById(long vendorId) {
         return mVendorsMap.get(vendorId);
     }
-    public WorkerItem getWorkerItemById(long workerId) {
+    public Worker getWorkerItemById(long workerId) {
         return mWorkersMap.get(workerId);
     }
-    public TaskItem getTaskItemById(long taskId) {
+    public Task getTaskItemById(long taskId) {
         return mTaskItemsMap.get(taskId);
     }
     public Equipment getEquipmentById(long equipmentId) {
@@ -129,7 +129,7 @@ public final class WorkingData {
         mTaskItemsMap.get(taskItemId).workerId = workerId;
     }
 
-    public void addRecordToWorker(WorkerItem worker, BaseData data) {
+    public void addRecordToWorker(Worker worker, BaseData data) {
         if (worker == null || data == null) return;
         worker.records.add(data);
     }
@@ -154,18 +154,18 @@ public final class WorkingData {
         }
 
         for (int i = 1; i <= factoryCount; i++) {
-            Factory factory = new Factory(i, "Factory" + i);
+            Factory factory = new Factory(i * 3, "Factory" + i);
             mFactoriesMap.put(factory.id, factory);
             for (int j = 1; j <= workerCount; j++) {
-                WorkerItem workItem = new WorkerItem(mContext, j, "Worker" + j, "Title" + j);
+                Worker workItem = new Worker(mContext, i * 100 + j, "Worker" + j, "Title" + j);
                 workItem.factoryId = factory.id;
-                factory.workerItems.add(workItem);
+                factory.workers.add(workItem);
                 mWorkersMap.put(workItem.id, workItem);
             }
         }
 
         for (int i = 0; i < equipmentCount; i++) {
-            Equipment equipment = new Equipment(i, "Equipment" + i, getRandomFactoryId());
+            Equipment equipment = new Equipment(i*15, "Equipment" + i, getRandomFactoryId());
             equipment.purchaseDate = getRandomDate();
             equipment.records.add(new MaintenanceRecord("reason1", getRandomDate()));
             equipment.records.add(new MaintenanceRecord("reason2", getRandomDate()));
@@ -173,7 +173,7 @@ public final class WorkingData {
         }
 
         for (Factory factory : mFactoriesMap.values()) {
-            for (WorkerItem worker : factory.workerItems) {
+            for (Worker worker : factory.workers) {
                 FileData file = (FileData) DataFactory.genData(worker.id, BaseData.TYPE.FILE);
                 file.uploader = getRandomWorkerId();
                 file.time = getRandomDate();
@@ -218,10 +218,10 @@ public final class WorkingData {
         }
 
         for (int i = 1; i <= vendorCount; i++) {
-            Vendor vendor = new Vendor(i, "Vendor" + i);
+            Vendor vendor = new Vendor(i*23, "Vendor" + i);
             mVendorsMap.put(vendor.id, vendor);
             for (int j = 1; j <= taskCaseCount; j++) {
-                TaskCase taskCase = new TaskCase(i * 10 + j, "Case" + (i * 10 + j));
+                TaskCase taskCase = new TaskCase(i * 31 + j, "Case" + (i * 10 + j));
                 mTaskCaseMap.put(taskCase.id, taskCase);
                 taskCase.vendorId = vendor.id;
                 taskCase.workerId = getRandomWorkerId();
@@ -230,42 +230,43 @@ public final class WorkingData {
                 taskCase.layoutDeliveredDate = getRandomDate();
                 vendor.taskCases.add(taskCase);
                 for (int k = 1; k <= taskItemCount; k++) {
-                    TaskItem taskItem = new TaskItem(100 * i + 10 * j + k, "Item" + k);
-                    taskItem.status = getRandomStatus();
-                    if (taskItem.status != TaskItem.Status.NOT_START) {
-                        taskItem.startDate = getRandomDate();
-                        if (taskItem.status == TaskItem.Status.FINISH) {
-                            taskItem.finishDate = getRandomDate();
-                        }
-                    }
-                    taskItem.taskCaseId = taskCase.id;
+                    Task task = new Task(9 * i + 4 * j + k, "Item" + k);
+//                    task.status = getRandomStatus();
+//                    if (task.status != Task.Status.NOT_START) {
+//                        task.startDate = getRandomDate();
+//                        if (task.status == Task.Status.FINISH) {
+//                            task.finishDate = getRandomDate();
+//                        }
+//                    }
+                    task.taskCaseId = taskCase.id;
                     Warning w1 = new Warning("No power", WarningStatus.SOLVED);
                     Warning w2 = new Warning("No power", WarningStatus.SOLVED);
                     Warning w3 = new Warning("No resource", WarningStatus.UNSOLVED);
                     Warning w4 = new Warning("No resource", WarningStatus.UNSOLVED);
-                    w1.taskItemId = taskItem.id;
-                    w2.taskItemId = taskItem.id;
-                    w3.taskItemId = taskItem.id;
-                    w4.taskItemId = taskItem.id;
+                    w1.taskItemId = task.id;
+                    w2.taskItemId = task.id;
+                    w3.taskItemId = task.id;
+                    w4.taskItemId = task.id;
                     w1.handle = getRandomWorkerId();
                     w2.handle = getRandomWorkerId();
                     w3.handle = getRandomWorkerId();
                     w4.handle = getRandomWorkerId();
-                    taskItem.warningList.add(w1);
-                    taskItem.warningList.add(w2);
-                    taskItem.warningList.add(w3);
-                    taskItem.warningList.add(w4);
-                    taskCase.taskItems.add(taskItem);
-                    mTaskItemsMap.put(taskItem.id, taskItem);
-                    taskItem.equipmentId = getRandomEquipmentId();
-                    taskItem.workerId = getRandomWorkerId();
+                    task.warningList.add(w1);
+                    task.warningList.add(w2);
+                    task.warningList.add(w3);
+                    task.warningList.add(w4);
+                    taskCase.tasks.add(task);
+                    mTaskItemsMap.put(task.id, task);
+                    task.equipmentId = getRandomEquipmentId();
+                    task.workerId = getRandomWorkerId();
+                    getWorkerItemById(task.workerId).currentTask = task;
                 }
             }
         }
     }
 
-    private TaskItem.Status getRandomStatus() {
-        TaskItem.Status[] statuses = TaskItem.Status.values();
+    private Task.Status getRandomStatus() {
+        Task.Status[] statuses = Task.Status.values();
         int idx = (int) (Math.random() * statuses.length);
         return statuses[idx];
     }

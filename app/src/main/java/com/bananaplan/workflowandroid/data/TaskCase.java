@@ -12,6 +12,7 @@ import java.util.List;
  * @since 2015.06.13
  */
 public class TaskCase extends IdData {
+
     public class Size {
         public int length;
         public int width;
@@ -27,27 +28,27 @@ public class TaskCase extends IdData {
     public int modelCount;
     public String others;
     public Size size;
-    public List<TaskItem> taskItems;
+    public List<Task> tasks;
 
 
     public TaskCase() {
-        taskItems = new ArrayList<TaskItem>();
+        tasks = new ArrayList<Task>();
     }
 
     public TaskCase(int id, String name) {
-        this(id, name, new ArrayList<TaskItem>());
+        this(id, name, new ArrayList<Task>());
     }
 
-    public TaskCase(int id, String name, List<TaskItem> taskItems) {
+    public TaskCase(int id, String name, List<Task> tasks) {
         this.id = id;
         this.name = name;
         this.vendorId = -1;
-        this.taskItems = taskItems;
+        this.tasks = tasks;
     }
 
     public int getFinishPercent() {
-        if (taskItems.size() == 0) return 100;
-        return getFinishItemsCount() * 100 / taskItems.size();
+        if (tasks.size() == 0) return 100;
+        return getFinishItemsCount() * 100 / tasks.size();
     }
 
     // TODO: Calculate by taskitems
@@ -67,8 +68,8 @@ public class TaskCase extends IdData {
 
     public int getFinishItemsCount() {
         int count = 0;
-        for (TaskItem item : taskItems) {
-            if (item.status == TaskItem.Status.FINISH) {
+        for (Task item : tasks) {
+            if (item.status == Task.Status.FINISH) {
                 count++;
             }
         }

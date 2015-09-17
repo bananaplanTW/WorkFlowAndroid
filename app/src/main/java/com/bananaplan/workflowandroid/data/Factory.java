@@ -9,16 +9,16 @@ import java.util.ArrayList;
  */
 public class Factory extends IdData {
 
-    public ArrayList<WorkerItem> workerItems;
+    public ArrayList<Worker> workers;
 
 
     public Factory(long id, String name) {
-        this(id, name, new ArrayList<WorkerItem>());
+        this(id, name, new ArrayList<Worker>());
     }
 
-    public Factory(long id, String name, ArrayList<WorkerItem> workerItems) {
+    public Factory(long id, String name, ArrayList<Worker> workers) {
         this.id = id;
         this.name = name;
-        this.workerItems = workerItems;
+        this.workers = workers;
     }
 }

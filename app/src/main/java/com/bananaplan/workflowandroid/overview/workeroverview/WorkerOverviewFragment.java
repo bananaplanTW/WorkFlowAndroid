@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Factory;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
@@ -60,7 +60,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
 
     private FactorySpinnerAdapter mFactorySpinnerAdapter;
     private WorkerLisViewAdapter mWorkerLisViewAdapter;
-    private WorkerItem mSelectedWorker;
+    private Worker mSelectedWorker;
 
     private TabManager mTabMgr;
 
@@ -197,21 +197,21 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         }
     }
 
-    private ArrayList<WorkerItem> getWorkerLisviewAdapterData() {
-        ArrayList<WorkerItem> tmp = new ArrayList<>();
+    private ArrayList<Worker> getWorkerLisviewAdapterData() {
+        ArrayList<Worker> tmp = new ArrayList<>();
         for (Factory factory : WorkingData.getInstance(getActivity()).getFactories()) {
-            tmp.addAll(factory.workerItems);
+            tmp.addAll(factory.workers);
         }
         return tmp;
     }
 
-    private class WorkerLisViewAdapter extends ArrayAdapter<WorkerItem> implements Filterable {
+    private class WorkerLisViewAdapter extends ArrayAdapter<Worker> implements Filterable {
         private int mSelectedPosition = 0;
         private CustomFilter mFilter;
-        private ArrayList<WorkerItem> mOrigData;
-        private ArrayList<WorkerItem> mFilteredData;
+        private ArrayList<Worker> mOrigData;
+        private ArrayList<Worker> mFilteredData;
 
-        public WorkerLisViewAdapter(ArrayList<WorkerItem> workers) {
+        public WorkerLisViewAdapter(ArrayList<Worker> workers) {
             super(getActivity(), -1, workers);
             mOrigData = workers;
             mFilteredData = new ArrayList<>(mOrigData);
@@ -224,7 +224,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         }
 
         @Override
-        public WorkerItem getItem(int position) {
+        public Worker getItem(int position) {
             return mFilteredData.get(position);
         }
 
@@ -285,8 +285,8 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
             protected FilterResults performFiltering(CharSequence constraint) {
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
-                ArrayList<WorkerItem> filterResult = new ArrayList<>();
-                for (WorkerItem worker : mOrigData) {
+                ArrayList<Worker> filterResult = new ArrayList<>();
+                for (Worker worker : mOrigData) {
                     if ((TextUtils.isEmpty(constraint) || worker.name.toLowerCase().contains(constraint))
                             && ((mFactoriesSpinner.getSelectedItemId() == -1)
                             || (worker.factoryId == mFactoriesSpinner.getSelectedItemId()))) {
@@ -301,7 +301,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 mFilteredData.clear();
-                mFilteredData.addAll((ArrayList<WorkerItem>) results.values);
+                mFilteredData.addAll((ArrayList<Worker>) results.values);
                 notifyDataSetChanged();
             }
         }
@@ -361,7 +361,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
      * parameter calledFromActivityCreated: since WorkerFragmentBase is created later,
      * update worker's content only when WorkerFragmentBase fragment is ready
      */
-    private void onWorkerSelected(WorkerItem worker, boolean calledFromActivityCreated) {
+    private void onWorkerSelected(Worker worker, boolean calledFromActivityCreated) {
         if (worker == null) return;
         // update worker's personal info.
         mIvWorkerAvatar.setImageDrawable(worker.getAvator());
@@ -402,7 +402,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         // do nothing
     }
 
-    public WorkerItem getSelectedWorker() {
+    public Worker getSelectedWorker() {
         return mSelectedWorker;
     }
 }

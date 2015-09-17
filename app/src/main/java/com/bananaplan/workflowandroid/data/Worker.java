@@ -8,20 +8,23 @@ import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * @author Danny Lin
  * @since 2015/6/27.
  */
-public class WorkerItem extends IdData {
+public class Worker extends IdData {
 
     public static Drawable sDefaultAvatarDrawable;
 
-    public String title;
+    public String title;  // TODO: Change title to jobTitle
     public long factoryId;
-    public TaskItem currentTaskItem;
-    public ArrayList<TaskItem> taskItems;
+
+    public Task currentTask;
+    public List<Task> nextTasks;
+
     public String address;
     public String phone;
     public int score;
@@ -31,15 +34,15 @@ public class WorkerItem extends IdData {
 
     private Drawable avatar;
 
-    public WorkerItem(final Context context, long id, String name, String title) {
-        this(context, id, name, title, new ArrayList<TaskItem>());
+    public Worker(final Context context, long id, String name, String title) {
+        this(context, id, name, title, new ArrayList<Task>());
     }
 
-    public WorkerItem(final Context context, long id, String name, String title, ArrayList<TaskItem> taskItems) {
+    public Worker(final Context context, long id, String name, String title, List<Task> nextTasks) {
         this.id = id;
         this.name = name;
         this.title = title;
-        this.taskItems = taskItems;
+        this.nextTasks = nextTasks;
         if (sDefaultAvatarDrawable == null) {
             sDefaultAvatarDrawable = context.getDrawable(R.drawable.ic_person_black);
         }
@@ -52,7 +55,11 @@ public class WorkerItem extends IdData {
         return sDefaultAvatarDrawable;
     }
 
-    public boolean hasCurrentTaskItem() {
-        return currentTaskItem != null;
+    public boolean hasCurrentTask() {
+        return currentTask != null;
+    }
+
+    public boolean hasNextTasks() {
+        return nextTasks != null && nextTasks.size() != 0;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class Equipment extends IdData {
 
-    public WorkerItem worker;
+    public long workerId;
     public long factoryId;
     public Date purchaseDate;
     public ArrayList<MaintenanceRecord> records = new ArrayList<>();

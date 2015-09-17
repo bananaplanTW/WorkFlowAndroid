@@ -26,7 +26,7 @@ import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.utility.data.BarChartData;
-import com.bananaplan.workflowandroid.data.TaskItem;
+import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Warning;
 
 import org.achartengine.ChartFactory;
@@ -54,7 +54,7 @@ public class Utils {
     public static final String DATE_FORMAT_MD = "MM/dd";
     public static final String DATE_FORMAT_YMD_HM_AMPM = "yyyy/MM/dd hh:mm aa";
 
-    public static String getTaskItemStatusString(final Context context, final TaskItem item) {
+    public static String getTaskItemStatusString(final Context context, final Task item) {
         String r = "";
         Resources resources = context.getResources();
         switch (item.status) {
@@ -226,7 +226,7 @@ public class Utils {
         return r;
     }
 
-    public static void setTaskItemWarningTextView(final Activity activity, final TaskItem item,
+    public static void setTaskItemWarningTextView(final Activity activity, final Task item,
                                                   final TextView v, boolean hasClickListener) {
         String displayTxt = "";
         int txtColor;

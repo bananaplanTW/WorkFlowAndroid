@@ -1,6 +1,5 @@
 package com.bananaplan.workflowandroid.assigntask.workers;
 
-import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -18,7 +17,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.WorkerItem;
+import com.bananaplan.workflowandroid.data.Task;
+import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 
 import java.util.List;
@@ -32,12 +32,17 @@ import java.util.List;
  */
 public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = "WorkerGridAdapter";
+    private static final String TAG = "WorkerGridViewAdapter";
+
+    public interface OnRefreshTaskCaseListener {
+        void onRefreshTaskCase();
+    }
 
     private final Context mContext;
+    private OnRefreshTaskCaseListener mOnRefreshTaskCaseListener;
 
     private RecyclerView mGridView;
-    private List<WorkerItem> mWorkerDataSet;
+    private List<Worker> mWorkerDataSet;
 
     private OnDragListener mOnDragListener = new OnDragListener() {
 
@@ -48,37 +53,44 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             GradientDrawable workerItemBackground = (GradientDrawable) v.getBackground();
 
             int strokeWidth = mContext.getResources().getDimensionPixelSize(R.dimen.worker_item_stroke_width);
+            int highlightStrokeWidth = strokeWidth *
+                    mContext.getResources().getInteger(R.integer.assign_task_drag_and_drop_highlight_stroke_width);
             int originalStrokeColor = mContext.getResources().getColor(R.color.worker_item_stroke_color);
+            int dragAvailableStrokeColor = mContext.getResources().getColor(R.color.worker_item_drag_available_color);
             int enteredStrokeColor = mContext.getResources().getColor(R.color.worker_item_entered_stroke_color);
+
+            String taskId = (String) event.getLocalState();
+            Task dropTask = WorkingData.getInstance(mContext).getTaskItemById(Long.valueOf(taskId));
 
             switch (action) {
 
                 case DragEvent.ACTION_DRAG_STARTED:
-                    // Determines if this View can accept the dragged data
+                    if (!isWorkerHasTargetTask(mWorkerDataSet.get(mGridView.getChildAdapterPosition(v)), dropTask)) {
+                        workerItemBackground.setStroke(highlightStrokeWidth, dragAvailableStrokeColor);
+                        v.invalidate();
+                    }
                     return event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN);
 
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    workerItemBackground.setStroke(strokeWidth * 2, enteredStrokeColor);
-                    v.invalidate();
+                    if (!isWorkerHasTargetTask(mWorkerDataSet.get(mGridView.getChildAdapterPosition(v)), dropTask)) {
+                        workerItemBackground.setStroke(highlightStrokeWidth, enteredStrokeColor);
+                        v.invalidate();
+                    }
                     return true;
 
                 case DragEvent.ACTION_DRAG_LOCATION:
                     return true;
 
                 case DragEvent.ACTION_DRAG_EXITED:
-                    workerItemBackground.setStroke(strokeWidth, originalStrokeColor);
-                    v.invalidate();
+                    if (!isWorkerHasTargetTask(mWorkerDataSet.get(mGridView.getChildAdapterPosition(v)), dropTask)) {
+                        workerItemBackground.setStroke(highlightStrokeWidth, dragAvailableStrokeColor);
+                        v.invalidate();
+                    }
                     return true;
 
                 case DragEvent.ACTION_DROP:
-                    ClipData.Item item = event.getClipData().getItemAt(0);
-
-                    // Get the task data from the item
-                    // Put the data into view
-                    String taskId = item.getText().toString();
                     if (GridView.INVALID_POSITION != mGridView.getChildAdapterPosition(v)) {
-                        mWorkerDataSet.get(mGridView.getChildAdapterPosition(v)).
-                                currentTaskItem = WorkingData.getInstance(mContext).getTaskItemById(Long.valueOf(taskId));
+                        assignTaskToWorker(dropTask, mWorkerDataSet.get(mGridView.getChildAdapterPosition(v)));
                     }
 
                     workerItemBackground.setStroke(strokeWidth, originalStrokeColor);
@@ -89,7 +101,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     workerItemBackground.setStroke(strokeWidth, originalStrokeColor);
                     v.invalidate();
                     if (event.getResult()) {
-                        notifyDataSetChanged();
+                        assignTaskFinished();
                     }
 
                     return true;
@@ -107,15 +119,15 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public ImageView avatar;
         public TextView name;
-        public TextView title;
+        public TextView jobTitle;
         public Switch overtime;
 
         public ViewGroup currentWarnings;
-        public TextView currentTaskTitle;
-        public TextView currentTaskId;
+        public TextView currentTaskName;
+        public TextView currentTaskCaseName;
         public TextView currentTaskWorkingTime;
 
-        public TextView nextTaskTitle;
+        public TextView nextTaskName;
 
 
         public WorkerViewHolder(View view) {
@@ -127,13 +139,13 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private void findViews(View view) {
             avatar = (ImageView) view.findViewById(R.id.worker_avatar);
             name = (TextView) view.findViewById(R.id.worker_name);
-            title = (TextView) view.findViewById(R.id.worker_title);
+            jobTitle = (TextView) view.findViewById(R.id.worker_job_title);
             overtime = (Switch) view.findViewById(R.id.worker_overtime_switch);
             currentWarnings = (ViewGroup) view.findViewById(R.id.current_warning_container);
-            currentTaskTitle = (TextView) view.findViewById(R.id.current_task_title);
-            currentTaskId = (TextView) view.findViewById(R.id.current_task_id);
+            currentTaskName = (TextView) view.findViewById(R.id.current_task_name);
+            currentTaskCaseName = (TextView) view.findViewById(R.id.current_task_case_name);
             currentTaskWorkingTime = (TextView) view.findViewById(R.id.current_task_working_time);
-            nextTaskTitle = (TextView) view.findViewById(R.id.worker_item_next_task);
+            nextTaskName = (TextView) view.findViewById(R.id.worker_item_next_task);
         }
 
         private void setupListeners() {
@@ -146,10 +158,73 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public WorkerGridViewAdapter(Context context, RecyclerView gridView, List<WorkerItem> workerDataSet) {
+    public WorkerGridViewAdapter(Context context, OnRefreshTaskCaseListener listener,
+                                 RecyclerView gridView, List<Worker> workerDataSet) {
         mContext = context;
+        mOnRefreshTaskCaseListener = listener;
         mGridView = gridView;
         mWorkerDataSet = workerDataSet;
+    }
+
+    private void assignTaskToWorker(Task task, Worker worker) {
+        if (isWorkerHasTargetTask(worker, task)) {
+            return;
+        }
+        removeTaskFromCurrentWorker(task);
+
+        task.workerId = worker.id;
+
+        if (worker.hasCurrentTask()) {
+            worker.nextTasks.add(task);
+            task.status = Task.Status.IN_SCHEDULE;
+        } else {
+            worker.currentTask = task;
+            task.status = Task.Status.WORKING;
+        }
+    }
+
+    private void removeTaskFromCurrentWorker(Task dropTask) {
+        Worker currentWorker = WorkingData.getInstance(mContext).getWorkerItemById(dropTask.workerId);
+        if (currentWorker == null) {
+            return;
+        }
+
+        // Current task
+        if (currentWorker.hasCurrentTask() && currentWorker.currentTask.id == dropTask.id) {
+            currentWorker.currentTask = null;
+        }
+
+        // Next tasks
+        currentWorker.nextTasks.remove(dropTask);
+    }
+
+    private boolean isWorkerHasTargetTask(Worker worker, Task task) {
+        if (worker.currentTask == null || task == null || worker.nextTasks.size() == 0) {
+            return false;
+        }
+
+        boolean isWorkerHasTask = false;
+
+        // Current task
+        if (worker.currentTask.id == task.id) {
+            isWorkerHasTask = true;
+        }
+
+        // Next tasks
+        for (Task nextTask : worker.nextTasks) {
+            if (nextTask.id == task.id) {
+                isWorkerHasTask = true;
+            }
+        }
+
+        return isWorkerHasTask;
+    }
+
+    private void assignTaskFinished() {
+        if (mOnRefreshTaskCaseListener != null) {
+            mOnRefreshTaskCaseListener.onRefreshTaskCase();
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -164,21 +239,32 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        WorkerViewHolder viewHolder = (WorkerViewHolder) holder;
-        WorkerItem workerItem =  mWorkerDataSet.get(position);
+        WorkerViewHolder workerViewHolder = (WorkerViewHolder) holder;
+        Worker worker =  mWorkerDataSet.get(position);
 
-        viewHolder.avatar.setImageDrawable(workerItem.getAvator());
-        viewHolder.name.setText(workerItem.name);
-        viewHolder.title.setText(workerItem.title);
-        viewHolder.overtime.setChecked(workerItem.isOverTime);
+        workerViewHolder.avatar.setImageDrawable(worker.getAvator());
+        workerViewHolder.name.setText(worker.name);
+        workerViewHolder.jobTitle.setText(worker.title);
+        workerViewHolder.overtime.setChecked(worker.isOverTime);
 
-        if (workerItem.hasCurrentTaskItem()) {
-            viewHolder.currentTaskTitle.setText(workerItem.currentTaskItem.name);
-            viewHolder.currentTaskId.setText("DX94478");
-            viewHolder.currentTaskWorkingTime.setText(workerItem.currentTaskItem.getWorkingTime());
+        // Current task name and current task case name
+        if (worker.hasCurrentTask()) {
+            workerViewHolder.currentTaskName.setText(worker.currentTask.name);
+            workerViewHolder.currentTaskCaseName.setText(
+                    WorkingData.getInstance(mContext).getTaskCaseById(worker.currentTask.taskCaseId).name);
+            workerViewHolder.currentTaskWorkingTime.setText(worker.currentTask.getWorkingTime());
         } else {
-            viewHolder.currentTaskTitle.setText("");
-            viewHolder.currentTaskWorkingTime.setText("");
+            workerViewHolder.currentTaskName.setText("");
+            workerViewHolder.currentTaskCaseName.setText("");
+            workerViewHolder.currentTaskWorkingTime.setText("");
+        }
+
+        // Next tasks
+        if (worker.hasNextTasks()) {
+            Log.d(TAG, worker.name + " has " + worker.nextTasks.size() + " next tasks");
+            workerViewHolder.nextTaskName.setText(worker.nextTasks.get(0).name);
+        } else {
+            workerViewHolder.nextTaskName.setText("無排程");
         }
     }
 
