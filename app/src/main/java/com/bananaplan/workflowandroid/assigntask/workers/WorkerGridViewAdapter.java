@@ -52,12 +52,12 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             final int action = event.getAction();
             GradientDrawable workerItemBackground = (GradientDrawable) v.getBackground();
 
-            int strokeWidth = mContext.getResources().getDimensionPixelSize(R.dimen.worker_item_stroke_width);
+            int strokeWidth = mContext.getResources().getDimensionPixelSize(R.dimen.worker_card_stroke_width);
             int highlightStrokeWidth = strokeWidth *
                     mContext.getResources().getInteger(R.integer.assign_task_drag_and_drop_highlight_stroke_width);
-            int originalStrokeColor = mContext.getResources().getColor(R.color.worker_item_stroke_color);
-            int dragAvailableStrokeColor = mContext.getResources().getColor(R.color.worker_item_drag_available_color);
-            int enteredStrokeColor = mContext.getResources().getColor(R.color.worker_item_entered_stroke_color);
+            int originalStrokeColor = mContext.getResources().getColor(R.color.worker_card_stroke_color);
+            int dragAvailableStrokeColor = mContext.getResources().getColor(R.color.worker_card_drag_available_color);
+            int enteredStrokeColor = mContext.getResources().getColor(R.color.worker_card_entered_stroke_color);
 
             String taskId = (String) event.getLocalState();
             Task dropTask = WorkingData.getInstance(mContext).getTaskItemById(Long.valueOf(taskId));
@@ -115,14 +115,13 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     };
 
-    private class WorkerViewHolder extends RecyclerView.ViewHolder {
+    private class WorkerCardViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView avatar;
         public TextView name;
         public TextView jobTitle;
         public Switch overtime;
 
-        public ViewGroup currentWarnings;
         public TextView currentTaskName;
         public TextView currentTaskCaseName;
         public TextView currentTaskWorkingTime;
@@ -130,22 +129,21 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public TextView nextTaskName;
 
 
-        public WorkerViewHolder(View view) {
+        public WorkerCardViewHolder(View view) {
             super(view);
             findViews(view);
             setupListeners();
         }
 
         private void findViews(View view) {
-            avatar = (ImageView) view.findViewById(R.id.worker_avatar);
-            name = (TextView) view.findViewById(R.id.worker_name);
-            jobTitle = (TextView) view.findViewById(R.id.worker_job_title);
-            overtime = (Switch) view.findViewById(R.id.worker_overtime_switch);
-            currentWarnings = (ViewGroup) view.findViewById(R.id.current_warning_container);
-            currentTaskName = (TextView) view.findViewById(R.id.current_task_name);
-            currentTaskCaseName = (TextView) view.findViewById(R.id.current_task_case_name);
-            currentTaskWorkingTime = (TextView) view.findViewById(R.id.current_task_working_time);
-            nextTaskName = (TextView) view.findViewById(R.id.worker_item_next_task);
+            avatar = (ImageView) view.findViewById(R.id.worker_card_avatar);
+            name = (TextView) view.findViewById(R.id.worker_card_name);
+            jobTitle = (TextView) view.findViewById(R.id.worker_card_job_title);
+            overtime = (Switch) view.findViewById(R.id.worker_card_overtime_switch);
+            currentTaskName = (TextView) view.findViewById(R.id.worker_card_current_task_name);
+            currentTaskCaseName = (TextView) view.findViewById(R.id.worker_card_current_task_case_name);
+            currentTaskWorkingTime = (TextView) view.findViewById(R.id.worker_card_current_task_working_time);
+            nextTaskName = (TextView) view.findViewById(R.id.worker_card_next_task);
         }
 
         private void setupListeners() {
@@ -229,42 +227,42 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.worker_item, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.worker_card, parent, false);
 
         // Set drag listener
         v.setOnDragListener(mOnDragListener);
 
-        return new WorkerViewHolder(v);
+        return new WorkerCardViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        WorkerViewHolder workerViewHolder = (WorkerViewHolder) holder;
+        WorkerCardViewHolder workerCardViewHolder = (WorkerCardViewHolder) holder;
         Worker worker =  mWorkerDataSet.get(position);
 
-        workerViewHolder.avatar.setImageDrawable(worker.getAvator());
-        workerViewHolder.name.setText(worker.name);
-        workerViewHolder.jobTitle.setText(worker.title);
-        workerViewHolder.overtime.setChecked(worker.isOverTime);
+        workerCardViewHolder.avatar.setImageDrawable(worker.getAvator());
+        workerCardViewHolder.name.setText(worker.name);
+        workerCardViewHolder.jobTitle.setText(worker.jobTitle);
+        workerCardViewHolder.overtime.setChecked(worker.isOverTime);
 
         // Current task name and current task case name
         if (worker.hasCurrentTask()) {
-            workerViewHolder.currentTaskName.setText(worker.currentTask.name);
-            workerViewHolder.currentTaskCaseName.setText(
+            workerCardViewHolder.currentTaskName.setText(worker.currentTask.name);
+            workerCardViewHolder.currentTaskCaseName.setText(
                     WorkingData.getInstance(mContext).getTaskCaseById(worker.currentTask.taskCaseId).name);
-            workerViewHolder.currentTaskWorkingTime.setText(worker.currentTask.getWorkingTime());
+            workerCardViewHolder.currentTaskWorkingTime.setText(worker.currentTask.getWorkingTime());
         } else {
-            workerViewHolder.currentTaskName.setText("");
-            workerViewHolder.currentTaskCaseName.setText("");
-            workerViewHolder.currentTaskWorkingTime.setText("");
+            workerCardViewHolder.currentTaskName.setText("");
+            workerCardViewHolder.currentTaskCaseName.setText("");
+            workerCardViewHolder.currentTaskWorkingTime.setText("");
         }
 
         // Next tasks
         if (worker.hasNextTasks()) {
             Log.d(TAG, worker.name + " has " + worker.nextTasks.size() + " next tasks");
-            workerViewHolder.nextTaskName.setText(worker.nextTasks.get(0).name);
+            workerCardViewHolder.nextTaskName.setText(worker.nextTasks.get(0).name);
         } else {
-            workerViewHolder.nextTaskName.setText("無排程");
+            workerCardViewHolder.nextTaskName.setText("無排程");
         }
     }
 

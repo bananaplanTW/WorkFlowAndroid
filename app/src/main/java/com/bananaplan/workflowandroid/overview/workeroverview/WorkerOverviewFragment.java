@@ -245,7 +245,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
             }
             holder.avatar.setImageDrawable(getItem(position).getAvator());
             holder.name.setText(getItem(position).name);
-            holder.title.setText(getItem(position).title);
+            holder.title.setText(getItem(position).jobTitle);
 
             // update background of selected item
             if (position == mSelectedPosition) {
@@ -366,7 +366,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         // update worker's personal info.
         mIvWorkerAvatar.setImageDrawable(worker.getAvator());
         mTvWorkerName.setText(worker.name);
-        mTvWorkerTitle.setText(worker.title);
+        mTvWorkerTitle.setText(worker.jobTitle);
         mTvWorkerFactoryName.setText(WorkingData.getInstance(getActivity()).getFactoryById(worker.factoryId).name);
         mTvWorkerAddress.setText(getResources().getString(R.string.worker_ov_worker_address)
                 + (TextUtils.isEmpty(worker.address) ? "" : worker.address));

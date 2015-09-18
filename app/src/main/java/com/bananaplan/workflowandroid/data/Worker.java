@@ -19,7 +19,7 @@ public class Worker extends IdData {
 
     public static Drawable sDefaultAvatarDrawable;
 
-    public String title;  // TODO: Change title to jobTitle
+    public String jobTitle;
     public long factoryId;
 
     public Task currentTask;
@@ -38,10 +38,10 @@ public class Worker extends IdData {
         this(context, id, name, title, new ArrayList<Task>());
     }
 
-    public Worker(final Context context, long id, String name, String title, List<Task> nextTasks) {
+    public Worker(final Context context, long id, String name, String jobTitle, List<Task> nextTasks) {
         this.id = id;
         this.name = name;
-        this.title = title;
+        this.jobTitle = jobTitle;
         this.nextTasks = nextTasks;
         if (sDefaultAvatarDrawable == null) {
             sDefaultAvatarDrawable = context.getDrawable(R.drawable.ic_person_black);

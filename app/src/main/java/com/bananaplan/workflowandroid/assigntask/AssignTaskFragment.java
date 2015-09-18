@@ -19,7 +19,7 @@ import android.widget.Spinner;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerGridViewAdapter;
 import com.bananaplan.workflowandroid.data.TaskCase;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseItemDecoration;
+import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseCardDecoration;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseOnTouchListener;
 import com.bananaplan.workflowandroid.utility.GridSpanSizeLookup;
@@ -192,7 +192,7 @@ public class AssignTaskFragment extends Fragment implements
         mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
 
         mTaskCaseView.setLayoutManager(mGridLayoutManager);
-        mTaskCaseView.addItemDecoration(new TaskCaseItemDecoration(mActivity));
+        mTaskCaseView.addItemDecoration(new TaskCaseCardDecoration(mActivity));
         mTaskCaseView.setOnTouchListener(mTaskCaseOnTouchListener);
         mTaskCaseView.setAdapter(mTaskCaseAdapter);
     }

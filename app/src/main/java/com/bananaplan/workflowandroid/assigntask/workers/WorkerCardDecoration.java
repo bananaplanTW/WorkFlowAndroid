@@ -12,12 +12,12 @@ import com.bananaplan.workflowandroid.R;
  * @author Danny Lin
  * @since 2015/8/1.
  */
-public class WorkerItemDecoration extends RecyclerView.ItemDecoration {
+public class WorkerCardDecoration extends RecyclerView.ItemDecoration {
 
     private Context mContext;
 
 
-    public WorkerItemDecoration(Context context) {
+    public WorkerCardDecoration(Context context) {
         mContext = context;
     }
 
@@ -27,8 +27,8 @@ public class WorkerItemDecoration extends RecyclerView.ItemDecoration {
         int position = parent.getChildAdapterPosition(view);
         int itemCount = parent.getAdapter().getItemCount();
 
-        int leftRightMargin = mContext.getResources().getDimensionPixelSize(R.dimen.worker_item_margin_left_right);
-        int topDownMargin = mContext.getResources().getDimensionPixelSize(R.dimen.worker_item_margin_top_down);
+        int leftRightMargin = mContext.getResources().getDimensionPixelSize(R.dimen.worker_card_margin_left_right);
+        int topDownMargin = mContext.getResources().getDimensionPixelSize(R.dimen.worker_card_margin_top_down);
 
         // Top and bottom
         if (position == 0 || position == 1 || position == 2) {

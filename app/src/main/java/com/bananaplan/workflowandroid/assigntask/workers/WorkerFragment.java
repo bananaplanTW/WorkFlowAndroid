@@ -76,7 +76,7 @@ public class WorkerFragment extends Fragment {
                                                            mWorkerGridView, mWorkerDataSet);
 
         mWorkerGridView.setLayoutManager(mGridLayoutManager);
-        mWorkerGridView.addItemDecoration(new WorkerItemDecoration(mContext));
+        mWorkerGridView.addItemDecoration(new WorkerCardDecoration(mContext));
         mWorkerGridView.setAdapter(mWorkerGridViewAdapter);
     }
 
