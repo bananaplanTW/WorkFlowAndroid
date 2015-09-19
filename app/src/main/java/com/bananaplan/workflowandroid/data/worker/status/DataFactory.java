@@ -6,7 +6,7 @@ import com.bananaplan.workflowandroid.data.worker.status.BaseData.TYPE;
  * Created by Ben on 2015/8/29.
  */
 public class DataFactory {
-    public static BaseData genData(long worker, TYPE type) {
+    public static BaseData genData(String workerId, TYPE type) {
         BaseData data;
         switch (type) {
             case RECORD:
@@ -24,7 +24,7 @@ public class DataFactory {
             default:
                 throw new IllegalArgumentException("DataFactory.genData type = " + type);
         }
-        data.worker = worker;
+        data.workerId = workerId;
         return data;
     }
 }

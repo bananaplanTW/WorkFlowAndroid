@@ -11,8 +11,8 @@ public class Warning extends IdData {
     }
 
     public WarningStatus status = WarningStatus.UNSOLVED;
-    public long taskItemId;
-    public long handle;
+    public String taskId;
+    public String workerId;
     public String description;
 
     public Warning(String name, WarningStatus status) {

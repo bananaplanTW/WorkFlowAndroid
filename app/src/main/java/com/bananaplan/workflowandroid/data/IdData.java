@@ -8,6 +8,6 @@ package com.bananaplan.workflowandroid.data;
  */
 public class IdData {
 
-    public long id;
+    public String id;
     public String name;
 }

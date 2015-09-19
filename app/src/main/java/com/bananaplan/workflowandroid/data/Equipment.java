@@ -10,16 +10,17 @@ import java.util.Date;
  */
 public class Equipment extends IdData {
 
-    public long workerId;
-    public long factoryId;
+    public String workerId;
+    public String factoryId;
+
     public Date purchaseDate;
     public ArrayList<MaintenanceRecord> records = new ArrayList<>();
 
-    public Equipment(long id, String name) {
-        this(id, name, -1);
+    public Equipment(String id, String name) {
+        this(id, name, null);
     }
 
-    public Equipment(long id, String name, long factoryId) {
+    public Equipment(String id, String name, String factoryId) {
         this.id = id;
         this.name = name;
         this.factoryId = factoryId;

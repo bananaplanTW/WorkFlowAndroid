@@ -195,11 +195,6 @@ public class EquipmentOverviewFragment extends Fragment implements
         }
 
         @Override
-        public long getItemId(int position) {
-            return mFilteredData.get(position).id;
-        }
-
-        @Override
         public Filter getFilter() {
             return mFilter;
         }
@@ -210,14 +205,17 @@ public class EquipmentOverviewFragment extends Fragment implements
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
                 ArrayList<Equipment> filterResult = new ArrayList<>();
+
+                Factory selectedFactory = (Factory) mSpinner.getSelectedItem();
                 for (Equipment equipment : mOrigData) {
                     if ((TextUtils.isEmpty(constraint)
                             || equipment.name.toLowerCase().contains(constraint))
-                            && ((mSpinner.getSelectedItemId() == -1)
-                            || (equipment.factoryId == mSpinner.getSelectedItemId()))) {
+                            && TextUtils.isEmpty(selectedFactory.id)
+                            || (Utils.isSameId(equipment.factoryId, selectedFactory.id))) {
                         filterResult.add(equipment);
                     }
                 }
+
                 result.values = filterResult;
                 result.count = filterResult.size();
                 return result;
@@ -244,7 +242,7 @@ public class EquipmentOverviewFragment extends Fragment implements
 
         private void loadData() {
             factories = new ArrayList<>();
-            factories.add(new Factory(-1, getResources()
+            factories.add(new Factory("", getResources()
                     .getString(R.string.worker_ov_all_factories))); // all factories
             factories.addAll(WorkingData.getInstance(getActivity()).getFactories());
             equipments = new ArrayList<>();

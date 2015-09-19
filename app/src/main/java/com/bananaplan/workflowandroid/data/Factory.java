@@ -12,11 +12,11 @@ public class Factory extends IdData {
     public ArrayList<Worker> workers;
 
 
-    public Factory(long id, String name) {
+    public Factory(String id, String name) {
         this(id, name, new ArrayList<Worker>());
     }
 
-    public Factory(long id, String name, ArrayList<Worker> workers) {
+    public Factory(String id, String name, ArrayList<Worker> workers) {
         this.id = id;
         this.name = name;
         this.workers = workers;

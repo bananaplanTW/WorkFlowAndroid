@@ -17,7 +17,7 @@ public class Manager extends IdData {
         this.name = name;
     }
 
-    public Manager(long id, String name) {
+    public Manager(String id, String name) {
         this.id = id;
         this.name = name;
     }

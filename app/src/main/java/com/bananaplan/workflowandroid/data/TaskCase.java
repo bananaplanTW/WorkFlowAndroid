@@ -19,8 +19,9 @@ public class TaskCase extends IdData {
         public int height;
     }
 
-    public long vendorId;
-    public long workerId;
+    public String vendorId;
+    public String workerId;
+
     public Date deliveredDate;
     public Date materialPurchasedDate;
     public Date layoutDeliveredDate;
@@ -35,14 +36,14 @@ public class TaskCase extends IdData {
         tasks = new ArrayList<Task>();
     }
 
-    public TaskCase(int id, String name) {
+    public TaskCase(String id, String name) {
         this(id, name, new ArrayList<Task>());
     }
 
-    public TaskCase(int id, String name, List<Task> tasks) {
+    public TaskCase(String id, String name, List<Task> tasks) {
         this.id = id;
         this.name = name;
-        this.vendorId = -1;
+        this.vendorId = null;
         this.tasks = tasks;
     }
 

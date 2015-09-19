@@ -14,7 +14,8 @@ public class BaseData {
     }
 
     public long id;
-    public long worker;
+    public String workerId;
+
     public Drawable avatar;
     public Date time;
     public TYPE type;

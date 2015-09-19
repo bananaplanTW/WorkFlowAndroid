@@ -423,4 +423,8 @@ public class Utils {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    public static boolean isSameId(String id1, String id2) {
+        return id1.equals(id2);
+    }
 }

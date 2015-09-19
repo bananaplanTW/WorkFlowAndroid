@@ -18,9 +18,9 @@ public class Task extends IdData {
         IN_SCHEDULE, NOT_START, WORKING, PAUSE, FINISH
     }
 
-    public long taskCaseId;
-    public long workerId;
-    public long equipmentId;
+    public String taskCaseId;
+    public String workerId;
+    public String equipmentId;
 
     public Date startDate;
     public Date finishDate;
@@ -36,12 +36,12 @@ public class Task extends IdData {
 
     }
 
-    public Task(int id, String name) {
+    public Task(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Task(String name, long expectedWorkingTime, long equipmentId, long workerId) {
+    public Task(String name, long expectedWorkingTime, String equipmentId, String workerId) {
         this.name = name;
         this.expectedWorkingTime = expectedWorkingTime;
         this.equipmentId = equipmentId;

@@ -10,11 +10,11 @@ public class Vendor extends IdData {
     public ArrayList<TaskCase> taskCases;
 
 
-    public Vendor(long id, String name) {
+    public Vendor(String id, String name) {
         this(id, name, new ArrayList<TaskCase>());
     }
 
-    public Vendor(long id, String name, ArrayList<TaskCase> taskCases) {
+    public Vendor(String id, String name, ArrayList<TaskCase> taskCases) {
         this.id = id;
         this.name = name;
         this.taskCases = taskCases;

@@ -28,11 +28,6 @@ public class FactorySpinnerAdapter extends IconSpinnerAdapter<Factory> {
     }
 
     @Override
-    public long getItemId(int position) {
-        return getItem(position).id;
-    }
-
-    @Override
     public String getDropdownSpinnerViewDisplayString(int position) {
         return getItem(position).name;
     }

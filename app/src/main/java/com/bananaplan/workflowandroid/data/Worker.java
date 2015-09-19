@@ -19,9 +19,9 @@ public class Worker extends IdData {
 
     public static Drawable sDefaultAvatarDrawable;
 
-    public String jobTitle;
-    public long factoryId;
+    public String factoryId;
 
+    public String jobTitle;
     public Task currentTask;
     public List<Task> nextTasks;
 
@@ -34,11 +34,11 @@ public class Worker extends IdData {
 
     private Drawable avatar;
 
-    public Worker(final Context context, long id, String name, String title) {
+    public Worker(final Context context, String id, String name, String title) {
         this(context, id, name, title, new ArrayList<Task>());
     }
 
-    public Worker(final Context context, long id, String name, String jobTitle, List<Task> nextTasks) {
+    public Worker(final Context context, String id, String name, String jobTitle, List<Task> nextTasks) {
         this.id = id;
         this.name = name;
         this.jobTitle = jobTitle;

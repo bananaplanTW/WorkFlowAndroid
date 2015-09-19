@@ -372,7 +372,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         updateStatisticsView(3, R.string.overview_working_hours);
 
         // update task item listview
-        ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTaskItemsByWorker(worker);
+        ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTasksByWorker(worker);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);
@@ -387,7 +387,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         updateStatisticsView(1, R.string.overview_used_hours);
 
         // update task item listview
-        ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTaskItemsByEquipment(equipment);
+        ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTasksByEquipment(equipment);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);

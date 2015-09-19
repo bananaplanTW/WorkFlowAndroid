@@ -20,6 +20,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             int enteredStrokeColor = mContext.getResources().getColor(R.color.worker_card_entered_stroke_color);
 
             String taskId = (String) event.getLocalState();
-            Task dropTask = WorkingData.getInstance(mContext).getTaskItemById(Long.valueOf(taskId));
+            Task dropTask = WorkingData.getInstance(mContext).getTaskById(taskId);
 
             switch (action) {
 
@@ -90,7 +91,11 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 case DragEvent.ACTION_DROP:
                     if (GridView.INVALID_POSITION != mGridView.getChildAdapterPosition(v)) {
-                        assignTaskToWorker(dropTask, mWorkerDataSet.get(mGridView.getChildAdapterPosition(v)));
+                        Worker dropWorker = mWorkerDataSet.get(mGridView.getChildAdapterPosition(v));
+                        if (isWorkerHasTargetTask(dropWorker, dropTask)) break;
+
+                        removeTaskFromCurrentWorker(dropTask);
+                        assignTaskToWorker(dropTask, dropWorker);
                     }
 
                     workerItemBackground.setStroke(strokeWidth, originalStrokeColor);
@@ -165,11 +170,6 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void assignTaskToWorker(Task task, Worker worker) {
-        if (isWorkerHasTargetTask(worker, task)) {
-            return;
-        }
-        removeTaskFromCurrentWorker(task);
-
         task.workerId = worker.id;
 
         if (worker.hasCurrentTask()) {
@@ -183,34 +183,35 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void removeTaskFromCurrentWorker(Task dropTask) {
         Worker currentWorker = WorkingData.getInstance(mContext).getWorkerItemById(dropTask.workerId);
-        if (currentWorker == null) {
+        if (currentWorker == null || !isWorkerHasTargetTask(currentWorker, dropTask)) {
             return;
         }
 
         // Current task
-        if (currentWorker.hasCurrentTask() && currentWorker.currentTask.id == dropTask.id) {
+        if (currentWorker.hasCurrentTask() && Utils.isSameId(currentWorker.currentTask.id, dropTask.id)) {
             currentWorker.currentTask = null;
-        }
 
-        // Next tasks
-        currentWorker.nextTasks.remove(dropTask);
+        } else {
+            // Next tasks
+            currentWorker.nextTasks.remove(dropTask);
+        }
     }
 
     private boolean isWorkerHasTargetTask(Worker worker, Task task) {
-        if (worker.currentTask == null || task == null || worker.nextTasks.size() == 0) {
+        if ((worker.currentTask == null && worker.nextTasks.size() == 0) || task == null) {
             return false;
         }
 
         boolean isWorkerHasTask = false;
 
         // Current task
-        if (worker.currentTask.id == task.id) {
+        if (Utils.isSameId(worker.currentTask.id, task.id)) {
             isWorkerHasTask = true;
         }
 
         // Next tasks
         for (Task nextTask : worker.nextTasks) {
-            if (nextTask.id == task.id) {
+            if (Utils.isSameId(nextTask.id, task.id)) {
                 isWorkerHasTask = true;
             }
         }

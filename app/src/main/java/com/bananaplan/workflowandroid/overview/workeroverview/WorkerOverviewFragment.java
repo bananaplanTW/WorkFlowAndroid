@@ -28,6 +28,7 @@ import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
+import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.TabManager;
@@ -155,7 +156,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
 
     private ArrayList<Factory> getFactoriesSpinnerData() {
         ArrayList<Factory> tmp = new ArrayList<>();
-        tmp.add(new Factory(-1, getResources().getString(R.string.worker_ov_all_factories))); // all factories
+        tmp.add(new Factory("", getResources().getString(R.string.worker_ov_all_factories))); // all factories
         tmp.addAll(WorkingData.getInstance(getActivity()).getFactories());
         return tmp;
     }
@@ -169,11 +170,6 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         @Override
         public Factory getItem(int position) {
             return (Factory) super.getItem(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return getItem(position).id;
         }
 
         @Override
@@ -229,11 +225,6 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         }
 
         @Override
-        public long getItemId(int position) {
-            return mFilteredData.get(position).id;
-        }
-
-        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
@@ -286,13 +277,16 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
                 ArrayList<Worker> filterResult = new ArrayList<>();
+
+                Factory selectedFactory = (Factory) mFactoriesSpinner.getSelectedItem();
                 for (Worker worker : mOrigData) {
                     if ((TextUtils.isEmpty(constraint) || worker.name.toLowerCase().contains(constraint))
-                            && ((mFactoriesSpinner.getSelectedItemId() == -1)
-                            || (worker.factoryId == mFactoriesSpinner.getSelectedItemId()))) {
+                            && TextUtils.isEmpty(selectedFactory.id)
+                            || (Utils.isSameId(worker.factoryId, selectedFactory.id))) {
                         filterResult.add(worker);
                     }
                 }
+
                 result.values = filterResult;
                 result.count = filterResult.size();
                 return result;

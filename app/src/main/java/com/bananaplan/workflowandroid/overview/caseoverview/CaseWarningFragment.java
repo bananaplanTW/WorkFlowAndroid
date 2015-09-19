@@ -84,14 +84,14 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
                 convertView.setBackgroundColor(Color.WHITE);
             }
             Warning warning = getItem(position);
-            Task item = WorkingData.getInstance(getActivity()).getTaskItemById(warning.taskItemId);
+            Task item = WorkingData.getInstance(getActivity()).getTaskById(warning.taskId);
             Worker worker = WorkingData.getInstance(getActivity()).getWorkerItemById(item.workerId);
             Utils.setTaskItemWarningTextView(getActivity(), warning, holder.warning);
             holder.title.setText(item.name);
             holder.responsibleWorkerName.setText(worker.name);
             holder.responsibleWorkerAvatar.setImageDrawable(worker.getAvator());
-            if (warning.handle > 0) {
-                holder.handleWorkerName.setText(WorkingData.getInstance(getActivity()).getWorkerItemById(warning.handle).name);
+            if (!TextUtils.isEmpty(warning.workerId)) {
+                holder.handleWorkerName.setText(WorkingData.getInstance(getActivity()).getWorkerItemById(warning.workerId).name);
             } else {
                 holder.handleWorkerName.setText("");
             }

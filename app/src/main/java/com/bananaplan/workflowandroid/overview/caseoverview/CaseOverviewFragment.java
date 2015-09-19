@@ -153,7 +153,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
     private ArrayList<Vendor> getSpinnerVendorData() {
         ArrayList<Vendor> tmp = new ArrayList<>();
-        tmp.add(new Vendor(-1L, getResources().getString(R.string.case_spinner_all_vendors))); // all vendors
+        tmp.add(new Vendor("", getResources().getString(R.string.case_spinner_all_vendors))); // all vendors
         tmp.addAll(WorkingData.getInstance(getActivity()).getVendors());
         return tmp;
     }
@@ -197,7 +197,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         if (taskCase == null) return;
         mTvCaseNameSelected.setText(taskCase.name);
         mTvCaseVendorSelected.setText(WorkingData.getInstance(getActivity()).getVendorById(taskCase.vendorId).name);
-        if (mSelectedTaskCase.workerId > 0) {
+        if (!TextUtils.isEmpty(mSelectedTaskCase.workerId)) {
             mTvCaseWorkerInChargeSelected.setText(WorkingData.getInstance(getActivity()).getWorkerItemById(taskCase.workerId).name);
         }
         mTvCaseHoursPassedBy.setText(taskCase.getHoursPassedBy());
@@ -242,11 +242,6 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         }
 
         @Override
-        public long getItemId(int position) {
-            return getItem(position).id;
-        }
-
-        @Override
         public Vendor getItem(int position) {
             return (Vendor) super.getItem(position);
         }
@@ -268,7 +263,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
         @Override
         public boolean isDropdownSelectedIconVisible(int position) {
-            return mVendorsSpinner.getSelectedItemId() == getItem(position).id;
+            return mVendorsSpinner.getSelectedItemPosition() == position;
         }
     }
 
@@ -288,11 +283,6 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         @Override
         public TaskCase getItem(int position) {
             return mFilteredCases.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return mFilteredCases.get(position).id;
         }
 
         @Override
@@ -363,12 +353,15 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
                 ArrayList<TaskCase> filterResult = new ArrayList<>();
+
+                Vendor selectedVendor = (Vendor) mVendorsSpinner.getSelectedItem();
                 for (TaskCase taskCase : mOrigCases) {
                     if ((TextUtils.isEmpty(constraint) || taskCase.name.toLowerCase().contains(constraint))
-                            && (mVendorsSpinner.getSelectedItemId() == -1 || taskCase.vendorId == mVendorsSpinner.getSelectedItemId())) {
+                            && TextUtils.isEmpty(selectedVendor.id) || Utils.isSameId(taskCase.vendorId, selectedVendor.id)) {
                         filterResult.add(taskCase);
                     }
                 }
+
                 result.values = filterResult;
                 result.count = filterResult.size();
                 return result;
