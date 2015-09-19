@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.assigntask.workers;
 
 import android.content.ClipDescription;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.List;
@@ -122,6 +124,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private class WorkerCardViewHolder extends RecyclerView.ViewHolder {
 
+        public View mainView;
         public ImageView avatar;
         public TextView name;
         public TextView jobTitle;
@@ -141,6 +144,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         private void findViews(View view) {
+            mainView = view;
             avatar = (ImageView) view.findViewById(R.id.worker_card_avatar);
             name = (TextView) view.findViewById(R.id.worker_card_name);
             jobTitle = (TextView) view.findViewById(R.id.worker_card_job_title);
@@ -152,6 +156,15 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         private void setupListeners() {
+            mainView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DetailedWorkerActivity.class);
+                    intent.putExtra(DetailedWorkerActivity.EXTRA_WORKER_ID, mWorkerDataSet.get(getAdapterPosition()).id);
+                    mContext.startActivity(intent);
+                }
+            });
+
             overtime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

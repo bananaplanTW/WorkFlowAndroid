@@ -181,5 +181,6 @@
     <string name="management_vendor_text">Vendor Management</string>
     <string name="management_add_edit_text_hint">Add %1$s</string>
     <string name="management_add_button_text">Add</string>
+    <string name="title_activity_detail_worker">DetailWorkerActivity</string>
 
 </resources>

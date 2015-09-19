@@ -71,7 +71,6 @@ public class WorkerFragment extends Fragment {
         mGridLayoutManager = new GridLayoutManager(mContext,
                 mContext.getResources().getInteger(R.integer.worker_gridview_column_count));
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         mWorkerGridViewAdapter = new WorkerGridViewAdapter(mContext, mOnRefreshTaskCaseListener,
                                                            mWorkerGridView, mWorkerDataSet);
 

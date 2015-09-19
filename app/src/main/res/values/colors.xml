@@ -51,6 +51,7 @@
     <color name="worker_card_text_black">#FF4A4A4A</color>
     <color name="worker_card_text_gray">#FF9B9B9B</color>
     <color name="worker_card_divider_color">#FFE1E1E1</color>
+    <color name="worker_card_background_color">#FFFFFFFF</color>
     <color name="working_status_ok">#FF55931F</color>
 
     <!-- CaseOverviewFragment -->
@@ -100,5 +101,10 @@
     <color name="management_dialog_add_item_container_background_color">@android:color/white</color>
     <color name="management_dialog_divider_color">#FFE1E1E1</color>
     <color name="management_item_name_text_color">@android:color/black</color>
+
+    <!-- Detailed worker -->
+    <color name="detailed_worker_actionbar_baseline_color">#FF9B9B9B</color>
+    <color name="detailed_worker_acitonbar_name_text_color">#FF4A4A4A</color>
+    <color name="detailed_worker_acitonbar_jobtitle_text_color">#FF9B9B9B</color>
 
 </resources>

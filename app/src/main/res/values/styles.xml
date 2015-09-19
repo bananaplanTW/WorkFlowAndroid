@@ -37,8 +37,23 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PopupActivityTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Action bar color -->
+        <item name="colorPrimary">@android:color/white</item>
+        <!-- Status bar color -->
+        <item name="colorPrimaryDark">@color/action_bar_primary_color</item>
+
+        <item name="android:windowBackground">@color/main_window_background_color</item>
+        <item name="android:dropDownListViewStyle">@style/CommonSpinnerStyle</item>
+    </style>
+
+    <style name="PopupActivityTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" >
+        <item name="colorControlNormal">@color/action_bar_primary_color</item>
+    </style>
+
+    <style name="PopupActivityTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
     <style name="TaskCaseTextStyle">
         <item name="android:layout_width">wrap_content</item>
