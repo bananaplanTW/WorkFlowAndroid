@@ -41,12 +41,14 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_task_card_working_time"/>
 
             <TextView
                 android:id="@+id/task_card_current_task_working_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/task_card_icon_text_margin_left"
                 android:textColor="@color/task_case_text_color"
                 android:textSize="@dimen/task_card_content_text_size"/>
 
@@ -58,12 +60,14 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_task_card_equipment"/>
 
             <TextView
                 android:id="@+id/task_card_equipment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/task_card_icon_text_margin_left"
                 android:textColor="@color/task_case_text_color"
                 android:textSize="@dimen/task_card_content_text_size"/>
 
@@ -75,12 +79,14 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_task_card_worker"/>
 
             <TextView
                 android:id="@+id/task_card_worker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/task_card_icon_text_margin_left"
                 android:textColor="@color/task_case_text_color"
                 android:textSize="@dimen/task_card_content_text_size"/>
 
@@ -92,12 +98,14 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_task_card_status"/>
 
             <TextView
                 android:id="@+id/task_card_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/task_card_icon_text_margin_left"
                 android:textColor="@color/task_case_text_color"
                 android:textSize="@dimen/task_card_content_text_size"/>
 

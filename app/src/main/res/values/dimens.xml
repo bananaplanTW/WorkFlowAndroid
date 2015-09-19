@@ -28,11 +28,12 @@
     <dimen name="task_card_normal_margin">5dp</dimen>
     <dimen name="task_card_boundary_margin">23dp</dimen>
     <dimen name="task_card_padding">10dp</dimen>
+    <dimen name="task_card_title_text_size">18dp</dimen>
+    <dimen name="task_card_content_text_size">13dp</dimen>
+    <dimen name="task_card_icon_text_margin_left">10dp</dimen>
     <dimen name="task_item_warning_corner_radius">8dp</dimen>
     <dimen name="task_item_warning_padding_top_bottom">2dp</dimen>
     <dimen name="task_item_warning_padding_left_right">10dp</dimen>
-    <dimen name="task_card_title_text_size">18dp</dimen>
-    <dimen name="task_card_content_text_size">13dp</dimen>
 
     <!-- Assign task: Workers part -->
     <dimen name="worker_container_padding_left_right">15dp</dimen>
