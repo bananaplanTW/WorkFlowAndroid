@@ -183,4 +183,10 @@
     <string name="management_add_button_text">Add</string>
     <string name="title_activity_detail_worker">DetailWorkerActivity</string>
 
+    <!-- Detailed worker -->
+    <string name="detailed_worker_task_schedule">Task Schedule</string>
+    <string name="detailed_worker_task_items">Task Items</string>
+    <string name="detailed_worker_task_log">Task Log</string>
+    <string name="detailed_worker_worker_log">Worker Log</string>
+
 </resources>

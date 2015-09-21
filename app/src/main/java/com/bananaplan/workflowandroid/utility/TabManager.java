@@ -36,7 +36,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
         }
     }
 
-    static class DummyTabFactory implements TabHost.TabContentFactory {
+    public static class DummyTabFactory implements TabHost.TabContentFactory {
         private final Context mContext;
 
         public DummyTabFactory(Context context) {

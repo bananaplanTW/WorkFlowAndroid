@@ -172,4 +172,10 @@
     <string name="management_add_edit_text_hint">新增%1$s</string>
     <string name="management_add_button_text">新增</string>
 
+    <!-- Detailed worker -->
+    <string name="detailed_worker_task_schedule">工作排程</string>
+    <string name="detailed_worker_task_items">工作項目</string>
+    <string name="detailed_worker_task_log">工作記錄</string>
+    <string name="detailed_worker_worker_log">員工紀錄</string>
+
 </resources>

@@ -149,5 +149,6 @@
     <!-- Detailed worker -->
     <dimen name="detailed_worker_avatar_width_height">45dp</dimen>
     <dimen name="detailed_worker_actionbar_title_text_size">16dp</dimen>
+    <dimen name="detailed_worker_divider_width">5dp</dimen>
 
 </resources>

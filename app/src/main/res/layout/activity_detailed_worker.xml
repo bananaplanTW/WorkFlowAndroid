@@ -44,12 +44,42 @@
 
         </RelativeLayout>
 
-
     </android.support.v7.widget.Toolbar>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/detailed_worker_actionbar_baseline_color" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/detailed_worker_divider_width"
+        android:background="@color/main_window_divider_color" />
+
+    <TabHost
+        android:id="@+id/detailed_worker_tab_host"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:orientation="horizontal" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </TabHost>
 
 </LinearLayout>

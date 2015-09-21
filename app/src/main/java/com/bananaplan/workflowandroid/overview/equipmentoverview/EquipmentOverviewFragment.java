@@ -99,7 +99,7 @@ public class EquipmentOverviewFragment extends Fragment implements
     }
 
     private View getTabTitleView(final String tag) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.ov_tab, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.tab, null);
         int titleResId;
         switch (tag) {
             case TAB_TAG.TASK_ITEMS:
@@ -113,7 +113,7 @@ public class EquipmentOverviewFragment extends Fragment implements
                 break;
         }
         String text = titleResId != -1 ? getResources().getString(titleResId) : "";
-        ((TextView) view.findViewById(R.id.ov_tab_title)).setText(text);
+        ((TextView) view.findViewById(R.id.tab_title)).setText(text);
         return view;
     }
 

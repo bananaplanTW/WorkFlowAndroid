@@ -2,24 +2,38 @@ package com.bananaplan.workflowandroid.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.utility.TabManager;
 
-public class DetailedWorkerActivity extends AppCompatActivity {
+public class DetailedWorkerActivity extends AppCompatActivity implements TabHost.OnTabChangeListener {
 
     private static final String TAG = "DetailWorkerActivity";
 
     public static final String EXTRA_WORKER_ID = "extra_worker_id";
 
+    private static final class FragmentTag {
+        public static final String TASK_SCHEDULE = "task_schedule";
+        public static final String TASK_ITEM = "task_item";
+        public static final String TASK_LOG = " task_log";
+        public static final String WORKER_LOG = "worker_log";
+    }
+
     private ActionBar mActionBar;
+    private FragmentManager mFragmentManager;
+    private TabHost mTabHost;
 
     private ImageView mWorkerAvatar;
     private TextView mWorkerName;
@@ -37,12 +51,16 @@ public class DetailedWorkerActivity extends AppCompatActivity {
 
     private void initialize(Intent intent) {
         mWorker = WorkingData.getInstance(this).getWorkerItemById(intent.getStringExtra(EXTRA_WORKER_ID));
+        mFragmentManager = getSupportFragmentManager();
         findViews();
         setupActionBar();
+        setupTabs();
         setupViews();
+        setupDefaultFragment();
     }
 
     private void findViews() {
+        mTabHost = (TabHost) findViewById(R.id.detailed_worker_tab_host);
         mWorkerAvatar = (ImageView) findViewById(R.id.detailed_worker_avatar);
         mWorkerName = (TextView) findViewById(R.id.detailed_worker_name);
         mWorkerJobtitle = (TextView) findViewById(R.id.detailed_worker_jobtitle);
@@ -59,10 +77,69 @@ public class DetailedWorkerActivity extends AppCompatActivity {
         }
     }
 
+    private void setupTabs() {
+        mTabHost.setup();
+        mTabHost.setOnTabChangedListener(this);
+        addTab(FragmentTag.TASK_SCHEDULE);
+        addTab(FragmentTag.TASK_ITEM);
+        addTab(FragmentTag.TASK_LOG);
+        addTab(FragmentTag.WORKER_LOG);
+    }
+
+    private void addTab(String tabTag) {
+        TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tabTag).
+                setIndicator(getTabView(tabTag)).setContent(new TabManager.DummyTabFactory(this));
+        mTabHost.addTab(tabSpec);
+    }
+
+    private View getTabView(String tabTag) {
+        View view = getLayoutInflater().inflate(R.layout.tab, null);
+
+        int titleResId;
+        switch (tabTag) {
+            case FragmentTag.TASK_SCHEDULE:
+                titleResId = R.string.detailed_worker_task_schedule;
+                break;
+            case FragmentTag.TASK_ITEM:
+                titleResId = R.string.detailed_worker_task_items;
+                break;
+            case FragmentTag.TASK_LOG:
+                titleResId = R.string.detailed_worker_task_log;
+                break;
+            case FragmentTag.WORKER_LOG:
+                titleResId = R.string.detailed_worker_worker_log;
+                break;
+            default:
+                titleResId = -1;
+                break;
+        }
+
+        String text = titleResId != -1 ? getResources().getString(titleResId) : "";
+        ((TextView) view.findViewById(R.id.tab_title)).setText(text);
+
+        return view;
+    }
+
     private void setupViews() {
         mWorkerAvatar.setImageDrawable(mWorker.getAvator());
         mWorkerName.setText(mWorker.name);
         mWorkerJobtitle.setText(mWorker.jobTitle);
+    }
+
+
+    private void setupDefaultFragment() {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+
+        // Default displayed fragment when we enter DetailedWorkerActivity is TaskScheduleFragment
+        TaskScheduleFragment taskScheduleFragment =
+                (TaskScheduleFragment) mFragmentManager.findFragmentByTag(FragmentTag.TASK_SCHEDULE);
+        if (taskScheduleFragment == null) {
+            taskScheduleFragment = new TaskScheduleFragment();
+        }
+
+        ft.add(android.R.id.tabcontent, taskScheduleFragment, FragmentTag.TASK_SCHEDULE);
+
+        ft.commit();
     }
 
     @Override
@@ -74,5 +151,18 @@ public class DetailedWorkerActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+        if (FragmentTag.TASK_SCHEDULE.equals(tabId)) {
+
+        } else if (FragmentTag.TASK_ITEM.equals(tabId)) {
+
+        } else if (FragmentTag.TASK_LOG.equals(tabId)) {
+
+        } else if (FragmentTag.WORKER_LOG.equals(tabId)) {
+
+        }
     }
 }
