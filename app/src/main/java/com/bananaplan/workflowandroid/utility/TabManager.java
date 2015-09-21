@@ -27,7 +27,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
         private final String tag;
         private final Class<?> clss;
         private final Bundle args;
-        private OvTabFragmentBase fragment;
+        private Fragment fragment;
 
         TabInfo(String _tag, Class<?> _class, Bundle _args) {
             tag = _tag;
@@ -60,11 +60,11 @@ public class TabManager implements TabHost.OnTabChangeListener {
         mTabHost.setOnTabChangedListener(this);
     }
 
-    public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
+    public void addTab(TabHost.TabSpec tabSpec, Class<?> cls, Bundle args) {
         tabSpec.setContent(new DummyTabFactory(mActivity));
         String tag = tabSpec.getTag();
 
-        TabInfo info = new TabInfo(tag, clss, args);
+        TabInfo info = new TabInfo(tag, cls, args);
 
         Fragment frag = mActivity.getSupportFragmentManager().findFragmentByTag(tag);
         info.fragment = (OvTabFragmentBase) frag;
@@ -83,7 +83,9 @@ public class TabManager implements TabHost.OnTabChangeListener {
         TabInfo newTab = mTabs.get(tabId);
 
         if (mLastTab != newTab) {
-            ((OverviewScrollView) mActivity.findViewById(R.id.scroll)).setScrollEnable(false);
+            if (mActivity.findViewById(R.id.scroll) != null) {
+                ((OverviewScrollView) mActivity.findViewById(R.id.scroll)).setScrollEnable(false);
+            }
             FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
             if (mLastTab != null) {
@@ -93,7 +95,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
             }
 
             if (newTab != null) {
-                newTab.fragment = (OvTabFragmentBase) Fragment.instantiate(mActivity,
+                newTab.fragment = Fragment.instantiate(mActivity,
                         newTab.clss.getName(), newTab.args);
                 ft.add(mContainerId, newTab.fragment, newTab.tag);
                 if (newTab.fragment == null) {
@@ -113,6 +115,8 @@ public class TabManager implements TabHost.OnTabChangeListener {
 
     public void selectItem(Object item) {
         if (mLastTab == null) return;
-        mLastTab.fragment.selectItem(item);
+        if (mLastTab.fragment instanceof OvTabFragmentBase) {
+            ((OvTabFragmentBase) mLastTab.fragment).selectItem(item);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -16,9 +17,13 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.main.MainActivity;
+import com.bananaplan.workflowandroid.overview.TaskItemFragment;
+import com.bananaplan.workflowandroid.overview.workeroverview.AttendanceStatusFragment;
+import com.bananaplan.workflowandroid.overview.workeroverview.StatusFragment;
 import com.bananaplan.workflowandroid.utility.TabManager;
 
-public class DetailedWorkerActivity extends AppCompatActivity implements TabHost.OnTabChangeListener {
+public class DetailedWorkerActivity extends AppCompatActivity {
 
     private static final String TAG = "DetailWorkerActivity";
 
@@ -40,7 +45,7 @@ public class DetailedWorkerActivity extends AppCompatActivity implements TabHost
     private TextView mWorkerJobtitle;
 
     private Worker mWorker;
-
+    private TabManager mTabMgr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,6 @@ public class DetailedWorkerActivity extends AppCompatActivity implements TabHost
         setupActionBar();
         setupTabs();
         setupViews();
-        setupDefaultFragment();
     }
 
     private void findViews() {
@@ -64,6 +68,7 @@ public class DetailedWorkerActivity extends AppCompatActivity implements TabHost
         mWorkerAvatar = (ImageView) findViewById(R.id.detailed_worker_avatar);
         mWorkerName = (TextView) findViewById(R.id.detailed_worker_name);
         mWorkerJobtitle = (TextView) findViewById(R.id.detailed_worker_jobtitle);
+        mTabMgr = new TabManager(this, null, mTabHost, android.R.id.tabcontent);
     }
 
     private void setupActionBar() {
@@ -79,17 +84,18 @@ public class DetailedWorkerActivity extends AppCompatActivity implements TabHost
 
     private void setupTabs() {
         mTabHost.setup();
-        mTabHost.setOnTabChangedListener(this);
-        addTab(FragmentTag.TASK_SCHEDULE);
-        addTab(FragmentTag.TASK_ITEM);
-        addTab(FragmentTag.TASK_LOG);
-        addTab(FragmentTag.WORKER_LOG);
+        addTab(FragmentTag.TASK_SCHEDULE, null, TaskScheduleFragment.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(TaskItemFragment.FROM, getClass().getSimpleName());
+        addTab(FragmentTag.TASK_ITEM, bundle, TaskItemFragment.class);
+        addTab(FragmentTag.TASK_LOG, null, StatusFragment.class);
+        addTab(FragmentTag.WORKER_LOG, null, StatusFragment.class);
     }
 
-    private void addTab(String tabTag) {
-        TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tabTag).
-                setIndicator(getTabView(tabTag)).setContent(new TabManager.DummyTabFactory(this));
-        mTabHost.addTab(tabSpec);
+    private void addTab(String tabTag, Bundle bundle, Class<?> cls) {
+        TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tabTag)
+                .setIndicator(getTabView(tabTag));
+        mTabMgr.addTab(tabSpec, cls, bundle);
     }
 
     private View getTabView(String tabTag) {
@@ -126,22 +132,6 @@ public class DetailedWorkerActivity extends AppCompatActivity implements TabHost
         mWorkerJobtitle.setText(mWorker.jobTitle);
     }
 
-
-    private void setupDefaultFragment() {
-        FragmentTransaction ft = mFragmentManager.beginTransaction();
-
-        // Default displayed fragment when we enter DetailedWorkerActivity is TaskScheduleFragment
-        TaskScheduleFragment taskScheduleFragment =
-                (TaskScheduleFragment) mFragmentManager.findFragmentByTag(FragmentTag.TASK_SCHEDULE);
-        if (taskScheduleFragment == null) {
-            taskScheduleFragment = new TaskScheduleFragment();
-        }
-
-        ft.add(android.R.id.tabcontent, taskScheduleFragment, FragmentTag.TASK_SCHEDULE);
-
-        ft.commit();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -151,18 +141,5 @@ public class DetailedWorkerActivity extends AppCompatActivity implements TabHost
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onTabChanged(String tabId) {
-        if (FragmentTag.TASK_SCHEDULE.equals(tabId)) {
-
-        } else if (FragmentTag.TASK_ITEM.equals(tabId)) {
-
-        } else if (FragmentTag.TASK_LOG.equals(tabId)) {
-
-        } else if (FragmentTag.WORKER_LOG.equals(tabId)) {
-
-        }
     }
 }

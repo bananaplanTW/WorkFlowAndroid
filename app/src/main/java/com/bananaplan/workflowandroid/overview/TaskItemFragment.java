@@ -23,6 +23,7 @@ import com.bananaplan.workflowandroid.data.TaskCase;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -107,12 +108,15 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
     }
 
     private int getItemViewLayoutId() {
+        if (TextUtils.isEmpty(mFrom)) return -1;
         if (mFrom.equals(EquipmentOverviewFragment.class.getSimpleName())) {
             return R.layout.ov_taskitem_list_view_itemview_equipment;
         } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())) {
             return R.layout.ov_taskitem_list_view_itemview_worker;
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             return R.layout.ov_taskitem_list_view_itemview_case;
+        } else if (mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
+            return R.layout.ov_taskitem_list_view_itemview_case;// TODO
         }
         return -1;
     }
