@@ -35,6 +35,7 @@ public class PreloadActivity extends AppCompatActivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class PreloadActivity extends AppCompatActivity {
         setupActionBar();
 
         startLoading = System.currentTimeMillis();
-        loadWorkingData();
+        //loadWorkingData();
         finishLoading = System.currentTimeMillis();
 
         launchMainActivity(finishLoading - startLoading);
