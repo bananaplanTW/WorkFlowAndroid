@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.server.RestfulUtils;
 
 import java.util.concurrent.ExecutionException;
@@ -20,9 +21,6 @@ public class PreloadActivity extends AppCompatActivity {
 
     private static final int PRELOAD_TIME_OUT = 500;
 
-    private static final class WorkingDataUrl {
-        public static final String WORKER = "http://10.1.1.41:3000/api/employees";
-    }
 
     private Handler mHandler;
     private Runnable mLaunchMainActivity = new Runnable() {
@@ -51,7 +49,7 @@ public class PreloadActivity extends AppCompatActivity {
         setupActionBar();
 
         startLoading = System.currentTimeMillis();
-        //loadWorkingData();
+        //WorkingData.getInstance(this).loadWorkingData();
         finishLoading = System.currentTimeMillis();
 
         launchMainActivity(finishLoading - startLoading);
@@ -76,18 +74,6 @@ public class PreloadActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         launchMainActivity(0);
-    }
-
-    private void loadWorkingData() {
-        try {
-            String weatherJSONString =
-                    new RestfulUtils.GetRequest().execute(WorkingDataUrl.WORKER).get();
-            Log.d(TAG, weatherJSONString);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
     }
 
     private void launchMainActivity(long timeOut) {

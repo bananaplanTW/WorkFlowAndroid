@@ -42,6 +42,7 @@ public class Worker extends IdData {
     public String phone;
     public int score;
     public Status status;
+    public PaymentClassification paymentClassification;
 
     public Task currentTask;
     public List<Task> nextTasks;

@@ -35,6 +35,7 @@ public class Task extends IdData {
     public Status status = Task.Status.UNCLAIMED;
     public ArrayList<BaseData> records = new ArrayList<>();
 
+
     public Task() {
 
     }

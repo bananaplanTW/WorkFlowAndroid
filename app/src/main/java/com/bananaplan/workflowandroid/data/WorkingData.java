@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.data;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
@@ -13,6 +14,11 @@ import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
 import com.bananaplan.workflowandroid.data.worker.status.RecordData;
 import com.bananaplan.workflowandroid.data.Warning.Status;
 import com.bananaplan.workflowandroid.utility.Utils;
+import com.bananaplan.workflowandroid.utility.server.RestfulUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +26,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Ben on 2015/7/18.
@@ -27,6 +34,10 @@ import java.util.List;
 public final class WorkingData {
 
     private static final String TAG = "WorkingData";
+
+    private static final class WorkingDataUrl {
+        public static final String WORKER = "http://bp-workflow.cloudapp.net:3000/api/employees";
+    }
 
     private static final class DataType {
         public static final int EQUIPMENT = 0;
@@ -38,6 +49,11 @@ public final class WorkingData {
         public static final int WARNING = 6;
         public static final int WORKER = 7;
     }
+
+    private static final class WorkerKeys {
+
+    }
+
 
     private volatile static WorkingData sWorkingData = null;
     private static int sDataIdCount = -1;
@@ -69,6 +85,39 @@ public final class WorkingData {
         generateFakeData(); // +++ only for test case
     }
 
+
+    public void loadWorkingData() {
+        try {
+            loadWorkerDatas();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadWorkerDatas() throws ExecutionException, InterruptedException, JSONException {
+        String workerJsonString = new RestfulUtils.GetRequest().execute(WorkingDataUrl.WORKER).get();
+        JSONArray workerJsons = new JSONObject(workerJsonString).getJSONArray("result");
+
+        for (int i = 0 ; i < workerJsons.length() ; i++) {
+            JSONObject workerJson = workerJsons.getJSONObject(i);
+            String id = workerJson.getString("_id");
+            String name = workerJson.getJSONObject("profile").getString("name");
+            String factoryId = workerJson.getString("groupId");
+            String address = workerJson.getString("address");
+            String phone = workerJson.getString("phone");
+            // TODO: Status
+            // TODO: Tasks
+            boolean isOverTime = workerJson.getBoolean("overwork");
+            int score = workerJson.getInt("score");
+            // TODO: Current task
+
+            Log.d(TAG, "Worker " + i + " name = " + name);
+        }
+    }
 
     public ArrayList<Manager> getManagers() {
         return new ArrayList<>(mManagersMap.values());
