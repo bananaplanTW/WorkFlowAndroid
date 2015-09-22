@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.assigntask.workers.WorkerGridViewAdapter.OnRefreshTaskCaseListener;
+import com.bananaplan.workflowandroid.assigntask.workers.WorkerGridViewAdapter.OnRefreshCaseListener;
 import com.bananaplan.workflowandroid.data.Worker;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class WorkerFragment extends Fragment {
     public static final int MAX_WORKER_COUNT_IN_PAGE = 9;
 
     private Context mContext;
-    private OnRefreshTaskCaseListener mOnRefreshTaskCaseListener;
+    private OnRefreshCaseListener mOnRefreshCaseListener;
     private View mFragmentView;
 
     private RecyclerView mWorkerGridView;
@@ -71,7 +71,7 @@ public class WorkerFragment extends Fragment {
         mGridLayoutManager = new GridLayoutManager(mContext,
                 mContext.getResources().getInteger(R.integer.worker_gridview_column_count));
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mContext, mOnRefreshTaskCaseListener,
+        mWorkerGridViewAdapter = new WorkerGridViewAdapter(mContext, mOnRefreshCaseListener,
                                                            mWorkerGridView, mWorkerDataSet);
 
         mWorkerGridView.setLayoutManager(mGridLayoutManager);
@@ -87,8 +87,8 @@ public class WorkerFragment extends Fragment {
 //        mWorkerDatas.clear();
 //    }
 
-    public void setOnRefreshTaskCaseListener(OnRefreshTaskCaseListener listener) {
-        mOnRefreshTaskCaseListener = listener;
+    public void setOnRefreshCaseListener(OnRefreshCaseListener listener) {
+        mOnRefreshCaseListener = listener;
     }
 
     // TODO: Might need to be modified. Use addWorker(), etc.

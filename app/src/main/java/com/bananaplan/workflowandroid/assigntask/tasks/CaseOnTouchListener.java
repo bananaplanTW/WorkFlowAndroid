@@ -15,7 +15,7 @@ import android.view.View;
  * @author Danny Lin
  * @since 2015/7/10.
  */
-public class TaskCaseOnTouchListener implements View.OnTouchListener {
+public class CaseOnTouchListener implements View.OnTouchListener {
 
     private static final String TAG = "TaskListOnTouchListener";
 
@@ -30,7 +30,7 @@ public class TaskCaseOnTouchListener implements View.OnTouchListener {
     private float mTouchDownY = 0F;
 
 
-    public TaskCaseOnTouchListener(RecyclerView recyclerView) {
+    public CaseOnTouchListener(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
     }
 
@@ -93,7 +93,7 @@ public class TaskCaseOnTouchListener implements View.OnTouchListener {
 
         // We use myLocalState(3rd variable in startDrag()) to pass task id,
         // but we still need dragData passing to 1st variable in startDrag() to let drag-and-drop function work.
-        String dragTaskId = String.valueOf(((TaskCaseAdapter) mRecyclerView.getAdapter()).getItem(itemPosition).id);
+        String dragTaskId = String.valueOf(((CaseAdapter) mRecyclerView.getAdapter()).getItem(itemPosition).id);
         ClipData.Item item = new ClipData.Item(dragTaskId);
         ClipData dragData = new ClipData(dragTaskId,
                 new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},

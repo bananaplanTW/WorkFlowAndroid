@@ -58,19 +58,19 @@ public class Utils {
         String r = "";
         Resources resources = context.getResources();
         switch (item.status) {
-            case IN_SCHEDULE:
+            case PENDING:
                 r = resources.getString(R.string.task_progress_in_schedule);
                 break;
-            case NOT_START:
+            case UNCLAIMED:
                 r = resources.getString(R.string.task_progress_not_start);
                 break;
             case PAUSE:
                 r = resources.getString(R.string.task_progress_pause);
                 break;
-            case WORKING:
+            case WIP:
                 r = resources.getString(R.string.task_progress_working);
                 break;
-            case FINISH:
+            case DONE:
                 if (item.finishDate != null) {
                     r = timestamp2Date(item.finishDate, Utils.DATE_FORMAT_MD) + " ";
                 }
@@ -243,7 +243,7 @@ public class Utils {
                 if (tmp == null) {
                     tmp = warning;
                 } else {
-                    if (tmp.status == Warning.WarningStatus.SOLVED && warning.status == Warning.WarningStatus.UNSOLVED) {
+                    if (tmp.status == Warning.Status.CLOSE && warning.status == Warning.Status.OPEN) {
                         tmp = warning;
                     }
                 }
@@ -292,7 +292,7 @@ public class Utils {
 
     public static void setTaskItemWarningTextView(final Activity activity, final Warning warning, final TextView v) {
         v.setText(warning.name);
-        if (warning.status == Warning.WarningStatus.UNSOLVED) {
+        if (warning.status == Warning.Status.OPEN) {
             v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_red, null));
             v.setTextColor(activity.getResources().getColor(R.color.red));
         } else {

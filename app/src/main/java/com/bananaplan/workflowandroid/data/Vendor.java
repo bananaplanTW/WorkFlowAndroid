@@ -7,16 +7,19 @@ import java.util.ArrayList;
  */
 public class Vendor extends IdData {
 
-    public ArrayList<TaskCase> taskCases;
+    public String address;
+    public String phone;
+
+    public ArrayList<Case> cases;
 
 
     public Vendor(String id, String name) {
-        this(id, name, new ArrayList<TaskCase>());
+        this(id, name, new ArrayList<Case>());
     }
 
-    public Vendor(String id, String name, ArrayList<TaskCase> taskCases) {
+    public Vendor(String id, String name, ArrayList<Case> cases) {
         this.id = id;
         this.name = name;
-        this.taskCases = taskCases;
+        this.cases = cases;
     }
 }

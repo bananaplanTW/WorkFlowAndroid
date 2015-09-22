@@ -17,7 +17,7 @@ import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
-import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.CustomProgressBar;
@@ -33,12 +33,12 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015.06.13
  */
-public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private static final String TAG = "TaskCaseAdapter";
 
-    public interface OnSelectTaskCaseListener {
-        void onSelectTaskCase(int position);  //TODO: Should pass task case id
+    public interface OnSelectCaseListener {
+        void onSelectCase(int position);
     }
 
     private static class ItemViewType {
@@ -49,11 +49,11 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context mContext;
 
     private List<String> mTaskCaseTitles = null;
-    private TaskCase mTaskCase = null;
+    private Case mCase = null;
 
     private TaskCaseSpinnerAdapter mTaskCaseSpinnerAdapter;
 
-    private OnSelectTaskCaseListener mOnSelectTaskCaseListener;
+    private OnSelectCaseListener mOnSelectCaseListener;
 
     private int mSelectedTaskCasePosition = 0;
     private boolean mIsTaskCaseSpinnerInitialized = false;
@@ -133,12 +133,12 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public TaskCaseAdapter(Context context) {
+    public CaseAdapter(Context context) {
         mContext = context;
     }
 
-    public void setOnSelectTaskCaseListener(OnSelectTaskCaseListener listener) {
-        mOnSelectTaskCaseListener = listener;
+    public void setOnSelectCaseListener(OnSelectCaseListener listener) {
+        mOnSelectCaseListener = listener;
     }
 
     /**
@@ -146,19 +146,19 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
      * to be displayed.
      *
      * @param taskCaseTitles
-     * @param firstDisplayedTaskCase
+     * @param firstDisplayedCase
      */
-    public void initTaskCaseDatas(ArrayList<String> taskCaseTitles, TaskCase firstDisplayedTaskCase) {
+    public void initCaseDatas(ArrayList<String> taskCaseTitles, Case firstDisplayedCase) {
         mTaskCaseTitles = taskCaseTitles;
-        mTaskCase = firstDisplayedTaskCase;
+        mCase = firstDisplayedCase;
     }
 
     public boolean isInitialized() {
-        return mTaskCaseTitles != null && mTaskCase != null;
+        return mTaskCaseTitles != null && mCase != null;
     }
 
-    public void swapTaskCase(TaskCase taskCase) {
-        mTaskCase = taskCase;
+    public void swapCase(Case aCase) {
+        mCase = aCase;
     }
 
     @Override
@@ -203,7 +203,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
                     return;
                 }
                 mSelectedTaskCasePosition = position;
-                mOnSelectTaskCaseListener.onSelectTaskCase(position);
+                mOnSelectCaseListener.onSelectCase(position);
             }
 
             @Override
@@ -214,11 +214,11 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private void bindTaskCaseInformation(TaskCaseHeaderViewHolder holder) {
-        holder.progressBar.setProgress(mTaskCase.getFinishPercent());
-        holder.vendor.setText(WorkingData.getInstance(mContext).getVendorById(mTaskCase.vendorId).name);
-        holder.personInCharge.setText(WorkingData.getInstance(mContext).getWorkerItemById(mTaskCase.workerId).name); // TODO: Manager
-        holder.uncompletedTaskTime.setText(mTaskCase.getHoursUnFinished());
-        holder.undergoingTaskTime.setText(mTaskCase.getHoursPassedBy());
+        holder.progressBar.setProgress(mCase.getFinishPercent());
+        holder.vendor.setText(WorkingData.getInstance(mContext).getVendorById(mCase.vendorId).name);
+        holder.personInCharge.setText(WorkingData.getInstance(mContext).getWorkerById(mCase.workerId).name); // TODO: Manager
+        holder.uncompletedTaskTime.setText(mCase.getHoursUnFinished());
+        holder.undergoingTaskTime.setText(mCase.getHoursPassedBy());
         holder.editCaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +245,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.equipment.setText(equipment == null ? "無使用工具" : equipment.name);
 
         // Worker
-        Worker worker = WorkingData.getInstance(mContext).getWorkerItemById(task.workerId);
+        Worker worker = WorkingData.getInstance(mContext).getWorkerById(task.workerId);
         holder.worker.setText(worker == null ? "無員工" : worker.name);
 
         // Status
@@ -253,7 +253,7 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public Task getItem(int position) {
-        return mTaskCase.tasks.get(--position);
+        return mCase.tasks.get(--position);
     }
 
     @Override
@@ -272,6 +272,6 @@ public class TaskCaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mTaskCase.tasks == null ? 0 : mTaskCase.tasks.size() + 1;
+        return mCase.tasks == null ? 0 : mCase.tasks.size() + 1;
     }
 }

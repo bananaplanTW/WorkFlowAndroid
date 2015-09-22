@@ -18,10 +18,10 @@ import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerGridViewAdapter;
-import com.bananaplan.workflowandroid.data.TaskCase;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseCardDecoration;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseAdapter;
-import com.bananaplan.workflowandroid.assigntask.tasks.TaskCaseOnTouchListener;
+import com.bananaplan.workflowandroid.data.Case;
+import com.bananaplan.workflowandroid.assigntask.tasks.CaseCardDecoration;
+import com.bananaplan.workflowandroid.assigntask.tasks.CaseAdapter;
+import com.bananaplan.workflowandroid.assigntask.tasks.CaseOnTouchListener;
 import com.bananaplan.workflowandroid.utility.GridSpanSizeLookup;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
@@ -40,8 +40,8 @@ import java.util.List;
  * @since 2015.05.30
  */
 public class AssignTaskFragment extends Fragment implements
-        ViewPager.OnPageChangeListener, TaskCaseAdapter.OnSelectTaskCaseListener,
-        WorkerGridViewAdapter.OnRefreshTaskCaseListener {
+        ViewPager.OnPageChangeListener, CaseAdapter.OnSelectCaseListener,
+        WorkerGridViewAdapter.OnRefreshCaseListener {
 
     private static final String TAG = "AssignTaskFragment";
     private static final String KEY_FACTORY_SPINNER_POSITION = "key_factory_spinner_position";
@@ -61,11 +61,11 @@ public class AssignTaskFragment extends Fragment implements
     private int mPreviousPagerIndex = 0;
     private ViewGroup mWorkerPagerIndicatorContainer;
 
-    private RecyclerView mTaskCaseView;
+    private RecyclerView mCaseView;
     private GridLayoutManager mGridLayoutManager;
-    private TaskCaseAdapter mTaskCaseAdapter;
-    private TaskCaseOnTouchListener mTaskCaseOnTouchListener;
-    private ArrayList<String> mTaskCaseSpinnerDatas = new ArrayList<String>();
+    private CaseAdapter mCaseAdapter;
+    private CaseOnTouchListener mCaseOnTouchListener;
+    private ArrayList<String> mCaseSpinnerDatas = new ArrayList<String>();
 
     private WorkingData mWorkingData;
 
@@ -150,12 +150,11 @@ public class AssignTaskFragment extends Fragment implements
         mMaxWorkerCountInPage = WorkerFragment.MAX_WORKER_COUNT_IN_PAGE; // Need to get count according to the device size.
         mWorkingData = WorkingData.getInstance(mActivity);
 
-        // TODO: When DB is created, this part needs to be done after the loader has already loaded data.
         getFactorySpinnerTitles();
-        getTaskCaseSpinnerTitles();
+        getCaseSpinnerTitles();
 
         findViews();
-        initTaskCaseView();
+        initCaseView();
         initFactorySpinner();
         initWorkerPager(savedInstanceState);
     }
@@ -166,9 +165,9 @@ public class AssignTaskFragment extends Fragment implements
         }
     }
 
-    private void getTaskCaseSpinnerTitles() {
-        for (TaskCase taskCase : mWorkingData.getTaskCases()) {
-            mTaskCaseSpinnerDatas.add(taskCase.name);
+    private void getCaseSpinnerTitles() {
+        for (Case aCase : mWorkingData.getCases()) {
+            mCaseSpinnerDatas.add(aCase.name);
         }
     }
 
@@ -176,25 +175,25 @@ public class AssignTaskFragment extends Fragment implements
         mFactorySpinner = (Spinner) mFragmentView.findViewById(R.id.factory_spinner);
         mWorkerPager = (ViewPager) mFragmentView.findViewById(R.id.worker_pager);
         mWorkerPagerIndicatorContainer = (ViewGroup) mFragmentView.findViewById(R.id.worker_pager_indicator_container);
-        mTaskCaseView = (RecyclerView) mFragmentView.findViewById(R.id.task_case_view);
+        mCaseView = (RecyclerView) mFragmentView.findViewById(R.id.task_case_view);
     }
 
-    private void initTaskCaseView() {
-        mTaskCaseAdapter = new TaskCaseAdapter(mActivity);
-        mTaskCaseAdapter.initTaskCaseDatas(mTaskCaseSpinnerDatas, mWorkingData.getTaskCases().get(0));
-        mTaskCaseAdapter.setOnSelectTaskCaseListener(this);
+    private void initCaseView() {
+        mCaseAdapter = new CaseAdapter(mActivity);
+        mCaseAdapter.initCaseDatas(mCaseSpinnerDatas, mWorkingData.getCases().get(0));
+        mCaseAdapter.setOnSelectCaseListener(this);
 
-        mTaskCaseOnTouchListener = new TaskCaseOnTouchListener(mTaskCaseView);
+        mCaseOnTouchListener = new CaseOnTouchListener(mCaseView);
 
         mGridLayoutManager =
                 new GridLayoutManager(mActivity, mActivity.getResources().getInteger(R.integer.task_case_column_count));
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
 
-        mTaskCaseView.setLayoutManager(mGridLayoutManager);
-        mTaskCaseView.addItemDecoration(new TaskCaseCardDecoration(mActivity));
-        mTaskCaseView.setOnTouchListener(mTaskCaseOnTouchListener);
-        mTaskCaseView.setAdapter(mTaskCaseAdapter);
+        mCaseView.setLayoutManager(mGridLayoutManager);
+        mCaseView.addItemDecoration(new CaseCardDecoration(mActivity));
+        mCaseView.setOnTouchListener(mCaseOnTouchListener);
+        mCaseView.setAdapter(mCaseAdapter);
     }
 
     // TODO: Need to handle rotation
@@ -255,7 +254,7 @@ public class AssignTaskFragment extends Fragment implements
 
     private void addWorkerPage() {
         WorkerFragment workerFragment = new WorkerFragment();
-        workerFragment.setOnRefreshTaskCaseListener(this);
+        workerFragment.setOnRefreshCaseListener(this);
         mWorkerPageList.add(workerFragment);
 
         View indicator = LayoutInflater.from(mActivity).inflate(
@@ -292,13 +291,13 @@ public class AssignTaskFragment extends Fragment implements
     }
 
     @Override
-    public void onSelectTaskCase(int position) {
-        mTaskCaseAdapter.swapTaskCase(mWorkingData.getTaskCases().get(position));
-        mTaskCaseAdapter.notifyDataSetChanged();
+    public void onSelectCase(int position) {
+        mCaseAdapter.swapCase(mWorkingData.getCases().get(position));
+        mCaseAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onRefreshTaskCase() {
-        mTaskCaseAdapter.notifyDataSetChanged();
+    public void onRefreshCase() {
+        mCaseAdapter.notifyDataSetChanged();
     }
 }

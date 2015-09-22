@@ -2,9 +2,7 @@ package com.bananaplan.workflowandroid.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,9 +15,7 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
-import com.bananaplan.workflowandroid.overview.workeroverview.AttendanceStatusFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.StatusFragment;
 import com.bananaplan.workflowandroid.utility.TabManager;
 
@@ -55,7 +51,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
     }
 
     private void initialize(Intent intent) {
-        mWorker = WorkingData.getInstance(this).getWorkerItemById(intent.getStringExtra(EXTRA_WORKER_ID));
+        mWorker = WorkingData.getInstance(this).getWorkerById(intent.getStringExtra(EXTRA_WORKER_ID));
         mFragmentManager = getSupportFragmentManager();
         findViews();
         setupActionBar();

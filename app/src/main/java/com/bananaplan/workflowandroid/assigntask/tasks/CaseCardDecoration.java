@@ -12,12 +12,12 @@ import com.bananaplan.workflowandroid.R;
  * @author Danny Lin
  * @since 2015/7/28.
  */
-public class TaskCaseCardDecoration extends RecyclerView.ItemDecoration {
+public class CaseCardDecoration extends RecyclerView.ItemDecoration {
 
     private Context mContext;
 
 
-    public TaskCaseCardDecoration(Context context) {
+    public CaseCardDecoration(Context context) {
         mContext = context;
     }
 

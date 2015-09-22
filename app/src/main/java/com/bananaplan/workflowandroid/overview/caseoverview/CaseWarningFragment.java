@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.Worker;
@@ -48,10 +48,10 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         onItemSelected(getSelectedTaskCase());
     }
 
-    private ArrayList<Warning> getWarnings(TaskCase taskCase) {
-        if (taskCase != null) {
+    private ArrayList<Warning> getWarnings(Case aCase) {
+        if (aCase != null) {
             ArrayList<Warning> warnings = new ArrayList<>();
-            for (Task item : taskCase.tasks) {
+            for (Task item : aCase.tasks) {
                 for (Warning warning : item.warningList) {
                     warnings.add(warning);
                 }
@@ -85,13 +85,13 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
             }
             Warning warning = getItem(position);
             Task item = WorkingData.getInstance(getActivity()).getTaskById(warning.taskId);
-            Worker worker = WorkingData.getInstance(getActivity()).getWorkerItemById(item.workerId);
+            Worker worker = WorkingData.getInstance(getActivity()).getWorkerById(item.workerId);
             Utils.setTaskItemWarningTextView(getActivity(), warning, holder.warning);
             holder.title.setText(item.name);
             holder.responsibleWorkerName.setText(worker.name);
             holder.responsibleWorkerAvatar.setImageDrawable(worker.getAvator());
             if (!TextUtils.isEmpty(warning.workerId)) {
-                holder.handleWorkerName.setText(WorkingData.getInstance(getActivity()).getWorkerItemById(warning.workerId).name);
+                holder.handleWorkerName.setText(WorkingData.getInstance(getActivity()).getWorkerById(warning.workerId).name);
             } else {
                 holder.handleWorkerName.setText("");
             }
@@ -179,8 +179,8 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
     @Override
     public void onItemSelected(Object item) {
         if (item == null) return;
-        TaskCase taskCase = (TaskCase) item;
-        ArrayList<Warning> warnings = getWarnings(taskCase);
+        Case aCase = (Case) item;
+        ArrayList<Warning> warnings = getWarnings(aCase);
         if (mWarningAdapter == null) {
             mWarningAdapter = new WarningListViewAdapter(warnings);
             mWarningListView.setAdapter(mWarningAdapter);

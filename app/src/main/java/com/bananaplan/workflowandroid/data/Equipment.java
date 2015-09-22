@@ -10,10 +10,17 @@ import java.util.Date;
  */
 public class Equipment extends IdData {
 
-    public String workerId;
+    // 運轉中, 停止運轉, 維修中
+    public enum Status {
+        WIP, STOP, MAINTENANCE
+    }
+
     public String factoryId;
 
     public Date purchaseDate;
+    public Date lastMaintenanceDate;
+    public Status status;
+
     public ArrayList<MaintenanceRecord> records = new ArrayList<>();
 
     public Equipment(String id, String name) {

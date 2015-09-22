@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
@@ -49,7 +49,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
     // views
     private Spinner mVendorsSpinner;
     private EditText mEtCaseSearch;
-    private ListView mTaskCaseListView;
+    private ListView mCaseListView;
     private TextView mTvCaseNameSelected;
     private TextView mTvCaseVendorSelected;
     private TextView mTvCaseWorkerInChargeSelected;
@@ -71,8 +71,8 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
     // data
     private VendorSpinnerAdapter mVendorSpinnerAdapter;
-    private TaskCaseListViewAdapter mTaskCaseListViewAdapter;
-    private TaskCase mSelectedTaskCase;
+    private CaseListViewAdapter mCaseListViewAdapter;
+    private Case mSelectedCase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         super.onViewCreated(view, savedInstanceState);
         mVendorsSpinner = (Spinner) getActivity().findViewById(R.id.ov_leftpane_spinner);
         mEtCaseSearch = (EditText) getActivity().findViewById(R.id.ov_leftpane_search_edittext);
-        mTaskCaseListView = (ListView) getActivity().findViewById(R.id.ov_leftpane_listview);
+        mCaseListView = (ListView) getActivity().findViewById(R.id.ov_leftpane_listview);
 
         mEtCaseSearch.addTextChangedListener(this);
         mVendorSpinnerAdapter = new VendorSpinnerAdapter(getActivity(), getSpinnerVendorData());
@@ -113,11 +113,11 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTabMgr = new TabManager((MainActivity) getActivity(), this, mTabHost, android.R.id.tabcontent);
         setupTabs();
 
-        mTaskCaseListViewAdapter = new TaskCaseListViewAdapter(getActivity(), getTaskCases());
-        mTaskCaseListView.setAdapter(mTaskCaseListViewAdapter);
-        mTaskCaseListView.setOnItemClickListener(this);
+        mCaseListViewAdapter = new CaseListViewAdapter(getActivity(), getTaskCases());
+        mCaseListView.setAdapter(mCaseListViewAdapter);
+        mCaseListView.setOnItemClickListener(this);
 
-        onTaskCaseSelected(mSelectedTaskCase);
+        onCaseSelected(mSelectedCase);
     }
 
     private void setupTabs() {
@@ -158,14 +158,14 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         return tmp;
     }
 
-    private ArrayList<TaskCase> getTaskCases() {
-        ArrayList<TaskCase> cases = new ArrayList<>();
+    private ArrayList<Case> getTaskCases() {
+        ArrayList<Case> cases = new ArrayList<>();
         for (Vendor vendor : WorkingData.getInstance(getActivity()).getVendors()) {
-            for (TaskCase taskCase : vendor.taskCases) {
-                if (mSelectedTaskCase == null) {
-                    mSelectedTaskCase = taskCase;
+            for (Case aCase : vendor.cases) {
+                if (mSelectedCase == null) {
+                    mSelectedCase = aCase;
                 }
-                cases.add(taskCase);
+                cases.add(aCase);
             }
         }
         return cases;
@@ -183,38 +183,38 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
     @Override
     public void afterTextChanged(Editable s) {
-        mTaskCaseListViewAdapter.getFilter().filter(s.toString());
+        mCaseListViewAdapter.getFilter().filter(s.toString());
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == mVendorsSpinner.getId()) {
-            mTaskCaseListViewAdapter.getFilter().filter(mEtCaseSearch.getText().toString());
+            mCaseListViewAdapter.getFilter().filter(mEtCaseSearch.getText().toString());
         }
     }
 
-    private void onTaskCaseSelected(TaskCase taskCase) {
-        if (taskCase == null) return;
-        mTvCaseNameSelected.setText(taskCase.name);
-        mTvCaseVendorSelected.setText(WorkingData.getInstance(getActivity()).getVendorById(taskCase.vendorId).name);
-        if (!TextUtils.isEmpty(mSelectedTaskCase.workerId)) {
-            mTvCaseWorkerInChargeSelected.setText(WorkingData.getInstance(getActivity()).getWorkerItemById(taskCase.workerId).name);
+    private void onCaseSelected(Case aCase) {
+        if (aCase == null) return;
+        mTvCaseNameSelected.setText(aCase.name);
+        mTvCaseVendorSelected.setText(WorkingData.getInstance(getActivity()).getVendorById(aCase.vendorId).name);
+        if (!TextUtils.isEmpty(mSelectedCase.workerId)) {
+            mTvCaseWorkerInChargeSelected.setText(WorkingData.getInstance(getActivity()).getWorkerById(aCase.workerId).name);
         }
-        mTvCaseHoursPassedBy.setText(taskCase.getHoursPassedBy());
-        mTvCaseHoursUnfinished.setText(taskCase.getHoursUnFinished());
-        mTvCaseHoursExpected.setText(taskCase.getHoursExpected());
-        mPbCaseSelected.setProgress(taskCase.getFinishPercent());
-        mTvTaskItemCount.setText(String.valueOf(taskCase.tasks.size()));
-        mTvCaseProgress.setText(taskCase.getFinishItemsCount() + "/" + taskCase.tasks.size());
-        mTvCaseFeedDate.setText(Utils.timestamp2Date(taskCase.materialPurchasedDate, Utils.DATE_FORMAT_YMD));
-        mTvCaseFigureDate.setText(Utils.timestamp2Date(taskCase.layoutDeliveredDate, Utils.DATE_FORMAT_YMD));
-        mTvCaseDeliveryDate.setText(Utils.timestamp2Date(taskCase.deliveredDate, Utils.DATE_FORMAT_YMD));
-        mTvCaseSheetCount.setText(String.valueOf(taskCase.sheetCount));
-        mTvCaseModelCount.setText(String.valueOf(taskCase.modelCount));
-        mTvCaseOthers.setText(taskCase.others);
-        mTvCaseSize.setText(taskCase.getSize());
+        mTvCaseHoursPassedBy.setText(aCase.getHoursPassedBy());
+        mTvCaseHoursUnfinished.setText(aCase.getHoursUnFinished());
+        mTvCaseHoursExpected.setText(aCase.getHoursExpected());
+        mPbCaseSelected.setProgress(aCase.getFinishPercent());
+        mTvTaskItemCount.setText(String.valueOf(aCase.tasks.size()));
+        mTvCaseProgress.setText(aCase.getFinishItemsCount() + "/" + aCase.tasks.size());
+        mTvCaseFeedDate.setText(Utils.timestamp2Date(aCase.materialPurchasedDate, Utils.DATE_FORMAT_YMD));
+        mTvCaseFigureDate.setText(Utils.timestamp2Date(aCase.layoutDeliveredDate, Utils.DATE_FORMAT_YMD));
+        mTvCaseDeliveryDate.setText(Utils.timestamp2Date(aCase.deliveredDate, Utils.DATE_FORMAT_YMD));
+        mTvCaseSheetCount.setText(String.valueOf(aCase.plateCount));
+        mTvCaseModelCount.setText(String.valueOf(aCase.supportBlockCount));
+        mTvCaseOthers.setText(aCase.description);
+        mTvCaseSize.setText(aCase.getSize());
         if (mTabMgr != null) {
-            mTabMgr.selectItem(taskCase);
+            mTabMgr.selectItem(aCase);
         }
     }
 
@@ -225,13 +225,13 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == mTaskCaseListView.getId()) {
+        if (parent.getId() == mCaseListView.getId()) {
             ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(false);
-            if (mSelectedTaskCase == mTaskCaseListViewAdapter.getItem(position)) return;
-            mSelectedTaskCase = mTaskCaseListViewAdapter.getItem(position);
-            onTaskCaseSelected(mSelectedTaskCase);
-            mTaskCaseListViewAdapter.setPositionSelected(position);
-            mTaskCaseListViewAdapter.notifyDataSetChanged();
+            if (mSelectedCase == mCaseListViewAdapter.getItem(position)) return;
+            mSelectedCase = mCaseListViewAdapter.getItem(position);
+            onCaseSelected(mSelectedCase);
+            mCaseListViewAdapter.setPositionSelected(position);
+            mCaseListViewAdapter.notifyDataSetChanged();
         }
     }
 
@@ -267,13 +267,13 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         }
     }
 
-    private class TaskCaseListViewAdapter extends ArrayAdapter<TaskCase> implements Filterable {
-        private ArrayList<TaskCase> mOrigCases;
-        private ArrayList<TaskCase> mFilteredCases;
+    private class CaseListViewAdapter extends ArrayAdapter<Case> implements Filterable {
+        private ArrayList<Case> mOrigCases;
+        private ArrayList<Case> mFilteredCases;
         private CustomFilter mFilter;
         private int mPositionSelected;
 
-        public TaskCaseListViewAdapter(Context context, ArrayList<TaskCase> cases) {
+        public CaseListViewAdapter(Context context, ArrayList<Case> cases) {
             super(context, 0, cases);
             mOrigCases = cases;
             mFilteredCases = new ArrayList<>(cases);
@@ -281,7 +281,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         }
 
         @Override
-        public TaskCase getItem(int position) {
+        public Case getItem(int position) {
             return mFilteredCases.get(position);
         }
 
@@ -300,15 +300,15 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            TaskCase taskCase = getItem(position);
-            holder.mTvCaseName.setText(taskCase.name);
-            holder.mTvVendor.setText(WorkingData.getInstance(getActivity()).getVendorById(taskCase.vendorId).name);
-            if (taskCase.getFinishPercent() == 100) {
+            Case aCase = getItem(position);
+            holder.mTvCaseName.setText(aCase.name);
+            holder.mTvVendor.setText(WorkingData.getInstance(getActivity()).getVendorById(aCase.vendorId).name);
+            if (aCase.getFinishPercent() == 100) {
                 holder.mTvStatus.setText(getResources().getString(R.string.case_finished));
                 holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.bg_solid_textview_bg_gray, null));
                 holder.mTvCaseName.setTextColor(getResources().getColor(R.color.gray1));
             } else {
-                holder.mTvStatus.setText(taskCase.getFinishItemsCount() + "/" + taskCase.tasks.size());
+                holder.mTvStatus.setText(aCase.getFinishItemsCount() + "/" + aCase.tasks.size());
                 holder.mTvStatus.setBackground(getResources().getDrawable(R.drawable.bg_solid_textview_bg_red, null));
                 holder.mTvCaseName.setTextColor(getResources().getColor(R.color.black1));
             }
@@ -352,13 +352,13 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             protected FilterResults performFiltering(CharSequence constraint) {
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
-                ArrayList<TaskCase> filterResult = new ArrayList<>();
+                ArrayList<Case> filterResult = new ArrayList<>();
 
                 Vendor selectedVendor = (Vendor) mVendorsSpinner.getSelectedItem();
-                for (TaskCase taskCase : mOrigCases) {
-                    if ((TextUtils.isEmpty(constraint) || taskCase.name.toLowerCase().contains(constraint))
-                            && TextUtils.isEmpty(selectedVendor.id) || Utils.isSameId(taskCase.vendorId, selectedVendor.id)) {
-                        filterResult.add(taskCase);
+                for (Case aCase : mOrigCases) {
+                    if ((TextUtils.isEmpty(constraint) || aCase.name.toLowerCase().contains(constraint))
+                            && TextUtils.isEmpty(selectedVendor.id) || Utils.isSameId(aCase.vendorId, selectedVendor.id)) {
+                        filterResult.add(aCase);
                     }
                 }
 
@@ -371,13 +371,13 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 mFilteredCases.clear();
-                mFilteredCases.addAll((ArrayList<TaskCase>) results.values);
+                mFilteredCases.addAll((ArrayList<Case>) results.values);
                 notifyDataSetChanged();
             }
         }
     }
 
-    public TaskCase getSelectedTaskCase() {
-        return mSelectedTaskCase;
+    public Case getSelectedCase() {
+        return mSelectedCase;
     }
 }

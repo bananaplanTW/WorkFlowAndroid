@@ -20,7 +20,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.management.ManagementDialog;
 import com.bananaplan.workflowandroid.utility.Utils;
@@ -55,7 +55,7 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private Context mContext;
-    private TaskCase mTaskCase;
+    private Case mCase;
     private ArrayList<Task> mTasksData = new ArrayList<Task>();
 
     private int mSpanCount = 0;
@@ -137,17 +137,17 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
 
                 case R.id.material_purchased_date_edit_text:
-                    setDate(tet, mTaskCase.materialPurchasedDate);
+                    setDate(tet, mCase.materialPurchasedDate);
                     Utils.hideSoftKeyboard((Activity) mContext);
                     break;
 
                 case R.id.layout_delivered_date_edit_text:
-                    setDate(tet, mTaskCase.layoutDeliveredDate);
+                    setDate(tet, mCase.layoutDeliveredDate);
                     Utils.hideSoftKeyboard((Activity) mContext);
                     break;
 
                 case R.id.delivered_date_edit_text:
-                    setDate(tet, mTaskCase.deliveredDate);
+                    setDate(tet, mCase.deliveredDate);
                     Utils.hideSoftKeyboard((Activity) mContext);
                     break;
             }
@@ -197,8 +197,8 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             View.OnFocusChangeListener, View.OnClickListener {
 
         public TextView index;
-        public EditText title;
-        public EditText expectedWorkingTime;
+        public EditText name;
+        public EditText expectedTime;
         public EditText equipment;
         public EditText workerPIC;
         public TextView detailButton;
@@ -229,17 +229,17 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private void findViews(View v) {
             index = (TextView) v.findViewById(R.id.add_case_task_index);
-            title = (EditText) v.findViewById(R.id.add_case_task_title_edit_text);
-            expectedWorkingTime = (EditText) v.findViewById(R.id.add_case_task_expected_working_time_edit_text);
+            name = (EditText) v.findViewById(R.id.add_case_task_name_edit_text);
+            expectedTime = (EditText) v.findViewById(R.id.add_case_task_expected_time_edit_text);
             equipment = (EditText) v.findViewById(R.id.add_case_task_equipment_edit_text);
             workerPIC = (EditText) v.findViewById(R.id.add_case_task_worker_pic_edit_text);
             detailButton = (TextView) v.findViewById(R.id.add_case_task_detail_button);
         }
 
         private void setupListeners() {
-            title.addTextChangedListener(mTextWatcher);
-            expectedWorkingTime.setOnFocusChangeListener(this);
-            expectedWorkingTime.setOnClickListener(this);
+            name.addTextChangedListener(mTextWatcher);
+            expectedTime.setOnFocusChangeListener(this);
+            expectedTime.setOnClickListener(this);
             equipment.setOnFocusChangeListener(this);
             equipment.setOnClickListener(this);
             workerPIC.setOnFocusChangeListener(this);
@@ -260,7 +260,7 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private void setupOnClickEvents(int id) {
             switch (id) {
-                case R.id.add_case_task_expected_working_time_edit_text:
+                case R.id.add_case_task_expected_time_edit_text:
                     showTimePicker();
                     break;
                 case R.id.add_case_task_equipment_edit_text:
@@ -289,10 +289,10 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mTasksData.get(TaskViewHolder.this.getAdapterPosition()).expectedWorkingTime =
+                    mTasksData.get(TaskViewHolder.this.getAdapterPosition()).expectedTime =
                             Utils.timeToMilliseconds(hourOfDay, minute);
-                    TaskViewHolder.this.expectedWorkingTime.setText(
-                            getExpectedWorkingTime(mTasksData.get(TaskViewHolder.this.getAdapterPosition()).expectedWorkingTime));
+                    TaskViewHolder.this.expectedTime.setText(
+                            getExpectedTime(mTasksData.get(TaskViewHolder.this.getAdapterPosition()).expectedTime));
                 }
 
             }, 0, 0, true).show(ft, DialogTag.TIME_PICKER);
@@ -323,7 +323,7 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public AddCaseAdapter(Context context, int spanCount) {
         mContext = context;
         mSpanCount = spanCount;
-        mTaskCase = new TaskCase();
+        mCase = new Case();
         initTasksData();
     }
 
@@ -375,22 +375,22 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void onBindInfoHeaderViewHolder(InfoHeaderViewHolder holder) {
-        holder.materialPurchasedDate.setContent(getDate(mTaskCase.materialPurchasedDate));
-        holder.layoutDeliveredDate.setContent(getDate(mTaskCase.layoutDeliveredDate));
-        holder.deliveredDate.setContent(getDate(mTaskCase.deliveredDate));
+        holder.materialPurchasedDate.setContent(getDate(mCase.materialPurchasedDate));
+        holder.layoutDeliveredDate.setContent(getDate(mCase.layoutDeliveredDate));
+        holder.deliveredDate.setContent(getDate(mCase.deliveredDate));
     }
 
     private void onBindTaskViewHolder(TaskViewHolder holder, int position) {
         holder.index.setText(String.valueOf(position));
-        holder.title.setText(mTasksData.get(position).name);
-        holder.expectedWorkingTime.setText(getExpectedWorkingTime(mTasksData.get(position).expectedWorkingTime));
+        holder.name.setText(mTasksData.get(position).name);
+        holder.expectedTime.setText(getExpectedTime(mTasksData.get(position).expectedTime));
     }
 
     private String getDate(Date date) {
         return date == null ? "" : Utils.millisecondsToDate(mContext, date.getTime());
     }
 
-    private String getExpectedWorkingTime(long milliseconds) {
+    private String getExpectedTime(long milliseconds) {
         String s = "";
         if (milliseconds != -1L) {
             int[] times = Utils.millisecondsToTime(milliseconds);

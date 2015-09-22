@@ -11,7 +11,7 @@ import com.bananaplan.workflowandroid.data.worker.status.FileData;
 import com.bananaplan.workflowandroid.data.worker.status.HistoryData;
 import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
 import com.bananaplan.workflowandroid.data.worker.status.RecordData;
-import com.bananaplan.workflowandroid.data.Warning.WarningStatus;
+import com.bananaplan.workflowandroid.data.Warning.Status;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public final class WorkingData {
         public static final int FACTIRY = 1;
         public static final int MANAGER = 2;
         public static final int TASK = 3;
-        public static final int TASK_CASE = 4;
+        public static final int CASE = 4;
         public static final int VENDOR = 5;
         public static final int WARNING = 6;
         public static final int WORKER = 7;
@@ -47,8 +47,8 @@ public final class WorkingData {
     private HashMap<String, Manager> mManagersMap = new HashMap<>();
     private HashMap<String, Worker> mWorkersMap = new HashMap<>();
     private HashMap<String, Vendor> mVendorsMap = new HashMap<>();
-    private HashMap<String, Task> mTaskItemsMap = new HashMap<>();
-    private HashMap<String, TaskCase> mTaskCaseMap = new HashMap<>();
+    private HashMap<String, Task> mTasksMap = new HashMap<>();
+    private HashMap<String, Case> mCasesMap = new HashMap<>();
     private HashMap<String, Equipment> mEquipmentsMap = new HashMap<>();
     private HashMap<String, Factory> mFactoriesMap = new HashMap<>();
 
@@ -82,8 +82,8 @@ public final class WorkingData {
     public ArrayList<Vendor> getVendors() {
         return new ArrayList<>(mVendorsMap.values());
     }
-    public ArrayList<TaskCase> getTaskCases() {
-        return new ArrayList<>(mTaskCaseMap.values());
+    public ArrayList<Case> getCases() {
+        return new ArrayList<>(mCasesMap.values());
     }
     public ArrayList<Equipment> getEquipments() {
         return new ArrayList<>(mEquipmentsMap.values());
@@ -93,7 +93,7 @@ public final class WorkingData {
     public ArrayList<Task> getTasksByWorker(Worker worker) {
         ArrayList<Task> tmp = new ArrayList<>();
         if (worker == null) return tmp;
-        ArrayList<Task> orig = new ArrayList<>(mTaskItemsMap.values());
+        ArrayList<Task> orig = new ArrayList<>(mTasksMap.values());
         for (Task item : orig) {
             if (Utils.isSameId(item.workerId, worker.id)) {
                 tmp.add(item);
@@ -104,7 +104,7 @@ public final class WorkingData {
     public ArrayList<Task> getTasksByEquipment(Equipment equipment) {
         ArrayList<Task> tmp = new ArrayList<>();
         if (equipment == null) return tmp;
-        ArrayList<Task> orig = new ArrayList<>(mTaskItemsMap.values());
+        ArrayList<Task> orig = new ArrayList<>(mTasksMap.values());
         for (Task item : orig) {
             if (Utils.isSameId(item.equipmentId, equipment.id)) {
                 tmp.add(item);
@@ -117,17 +117,17 @@ public final class WorkingData {
     public Manager getManagerById(String managerId) {
         return mManagersMap.get(managerId);
     }
-    public TaskCase getTaskCaseById(String taskCaseId) {
-        return mTaskCaseMap.get(taskCaseId);
+    public Case getCaseById(String caseId) {
+        return mCasesMap.get(caseId);
     }
     public Vendor getVendorById(String vendorId) {
         return mVendorsMap.get(vendorId);
     }
-    public Worker getWorkerItemById(String workerId) {
+    public Worker getWorkerById(String workerId) {
         return mWorkersMap.get(workerId);
     }
     public Task getTaskById(String taskId) {
-        return mTaskItemsMap.get(taskId);
+        return mTasksMap.get(taskId);
     }
     public Equipment getEquipmentById(String equipmentId) {
         return mEquipmentsMap.get(equipmentId);
@@ -235,15 +235,15 @@ public final class WorkingData {
             mVendorsMap.put(vendor.id, vendor);
 
             for (int j = 1; j <= taskCaseCount; j++) {
-                String taskCaseId = generateDataId(DataType.TASK_CASE);
-                TaskCase taskCase = new TaskCase(taskCaseId, taskCaseId);
-                mTaskCaseMap.put(taskCase.id, taskCase);
-                taskCase.vendorId = vendor.id;
-                taskCase.workerId = getRandomWorkerId();
-                taskCase.materialPurchasedDate = getRandomDate();
-                taskCase.deliveredDate = getRandomDate();
-                taskCase.layoutDeliveredDate = getRandomDate();
-                vendor.taskCases.add(taskCase);
+                String taskCaseId = generateDataId(DataType.CASE);
+                Case aCase = new Case(taskCaseId, taskCaseId);
+                mCasesMap.put(aCase.id, aCase);
+                aCase.vendorId = vendor.id;
+                aCase.workerId = getRandomWorkerId();
+                aCase.materialPurchasedDate = getRandomDate();
+                aCase.deliveredDate = getRandomDate();
+                aCase.layoutDeliveredDate = getRandomDate();
+                vendor.cases.add(aCase);
                 for (int k = 1; k <= taskItemCount; k++) {
                     String taskId = generateDataId(DataType.TASK);
                     Task task = new Task(taskId, taskId);
@@ -254,11 +254,11 @@ public final class WorkingData {
 //                            task.finishDate = getRandomDate();
 //                        }
 //                    }
-                    task.taskCaseId = taskCase.id;
-                    Warning w1 = new Warning("No power", WarningStatus.SOLVED);
-                    Warning w2 = new Warning("No power", WarningStatus.SOLVED);
-                    Warning w3 = new Warning("No resource", WarningStatus.UNSOLVED);
-                    Warning w4 = new Warning("No resource", WarningStatus.UNSOLVED);
+                    task.caseId = aCase.id;
+                    Warning w1 = new Warning("No power", Status.CLOSE);
+                    Warning w2 = new Warning("No power", Status.CLOSE);
+                    Warning w3 = new Warning("No resource", Status.OPEN);
+                    Warning w4 = new Warning("No resource", Status.OPEN);
                     w1.taskId = task.id;
                     w2.taskId = task.id;
                     w3.taskId = task.id;
@@ -271,11 +271,11 @@ public final class WorkingData {
                     task.warningList.add(w2);
                     task.warningList.add(w3);
                     task.warningList.add(w4);
-                    taskCase.tasks.add(task);
-                    mTaskItemsMap.put(task.id, task);
+                    aCase.tasks.add(task);
+                    mTasksMap.put(task.id, task);
                     task.equipmentId = getRandomEquipmentId();
                     task.workerId = getRandomWorkerId();
-                    getWorkerItemById(task.workerId).currentTask = task;
+                    getWorkerById(task.workerId).currentTask = task;
                 }
             }
         }
@@ -340,7 +340,7 @@ public final class WorkingData {
             case DataType.TASK:
                 id = "task" + sDataIdCount;
                 break;
-            case DataType.TASK_CASE:
+            case DataType.CASE:
                 id = "taskcase" + sDataIdCount;
                 break;
             case DataType.VENDOR:

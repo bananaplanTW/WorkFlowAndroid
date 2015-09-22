@@ -37,12 +37,12 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private static final String TAG = "WorkerGridViewAdapter";
 
-    public interface OnRefreshTaskCaseListener {
-        void onRefreshTaskCase();
+    public interface OnRefreshCaseListener {
+        void onRefreshCase();
     }
 
     private final Context mContext;
-    private OnRefreshTaskCaseListener mOnRefreshTaskCaseListener;
+    private OnRefreshCaseListener mOnRefreshCaseListener;
 
     private RecyclerView mGridView;
     private List<Worker> mWorkerDataSet;
@@ -174,10 +174,10 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public WorkerGridViewAdapter(Context context, OnRefreshTaskCaseListener listener,
+    public WorkerGridViewAdapter(Context context, OnRefreshCaseListener listener,
                                  RecyclerView gridView, List<Worker> workerDataSet) {
         mContext = context;
-        mOnRefreshTaskCaseListener = listener;
+        mOnRefreshCaseListener = listener;
         mGridView = gridView;
         mWorkerDataSet = workerDataSet;
     }
@@ -187,15 +187,15 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         if (worker.hasCurrentTask()) {
             worker.nextTasks.add(task);
-            task.status = Task.Status.IN_SCHEDULE;
+            task.status = Task.Status.PENDING;
         } else {
             worker.currentTask = task;
-            task.status = Task.Status.WORKING;
+            task.status = Task.Status.WIP;
         }
     }
 
     private void removeTaskFromCurrentWorker(Task dropTask) {
-        Worker currentWorker = WorkingData.getInstance(mContext).getWorkerItemById(dropTask.workerId);
+        Worker currentWorker = WorkingData.getInstance(mContext).getWorkerById(dropTask.workerId);
         if (currentWorker == null || !isWorkerHasTargetTask(currentWorker, dropTask)) {
             return;
         }
@@ -233,8 +233,8 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void assignTaskFinished() {
-        if (mOnRefreshTaskCaseListener != null) {
-            mOnRefreshTaskCaseListener.onRefreshTaskCase();
+        if (mOnRefreshCaseListener != null) {
+            mOnRefreshCaseListener.onRefreshCase();
         }
         notifyDataSetChanged();
     }
@@ -263,7 +263,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (worker.hasCurrentTask()) {
             workerCardViewHolder.currentTaskName.setText(worker.currentTask.name);
             workerCardViewHolder.currentTaskCaseName.setText(
-                    WorkingData.getInstance(mContext).getTaskCaseById(worker.currentTask.taskCaseId).name);
+                    WorkingData.getInstance(mContext).getCaseById(worker.currentTask.caseId).name);
             workerCardViewHolder.currentTaskWorkingTime.setText(worker.currentTask.getWorkingTime());
         } else {
             workerCardViewHolder.currentTaskName.setText("");

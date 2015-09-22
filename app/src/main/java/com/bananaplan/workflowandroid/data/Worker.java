@@ -19,20 +19,40 @@ public class Worker extends IdData {
 
     public static Drawable sDefaultAvatarDrawable;
 
+    public enum Status {
+        WIP, PENDING, PAUSE, STOP, OFF
+    }
+
+    private class PaymentClassification {
+        String type;
+        double base;
+        double overtimeBase;
+
+        public PaymentClassification(String type, double base, double overtimeBase) {
+            this.type = type;
+            this.base = base;
+            this.overtimeBase = overtimeBase;
+        }
+    }
+
     public String factoryId;
 
     public String jobTitle;
-    public Task currentTask;
-    public List<Task> nextTasks;
-
     public String address;
     public String phone;
     public int score;
+    public Status status;
+
+    public Task currentTask;
+    public List<Task> nextTasks;
+    public List<Task> warningTasks;
+
     public ArrayList<BaseData> records = new ArrayList<>();
     public ArrayList<LeaveData> leaveDatas = new ArrayList<>();
     public boolean isOverTime = false;
 
     private Drawable avatar;
+
 
     public Worker(final Context context, String id, String name, String title) {
         this(context, id, name, title, new ArrayList<Task>());

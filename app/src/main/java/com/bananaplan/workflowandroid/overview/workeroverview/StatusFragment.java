@@ -321,11 +321,11 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private void scoreWorker(boolean plus) {
         final Worker worker = getSelectedWorker();
         if (plus) {
-            WorkingData.getInstance(getActivity()).getWorkerItemById(getSelectedWorker().id).score++;
+            WorkingData.getInstance(getActivity()).getWorkerById(getSelectedWorker().id).score++;
         } else {
-            WorkingData.getInstance(getActivity()).getWorkerItemById(getSelectedWorker().id).score--;
+            WorkingData.getInstance(getActivity()).getWorkerById(getSelectedWorker().id).score--;
         }
-        mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerItemById(worker.id).score));
+        mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
     }
 
     private void onTabSelected(int id) {
@@ -345,7 +345,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     public void onItemSelected(Object item) {
         Worker worker = (Worker) item;
         if (worker == null) return;
-        mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerItemById(worker.id).score));
+        mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
         ArrayList<BaseData> records = new ArrayList<>(worker.records);
         Collections.sort(records, new Comparator<BaseData>() {
             @Override
@@ -434,7 +434,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             switch (data.type) {
                 case RECORD:
                     if (data instanceof RecordData) {
-                        worker = WorkingData.getInstance(getActivity()).getWorkerItemById(((RecordData) data).reporter);
+                        worker = WorkingData.getInstance(getActivity()).getWorkerById(((RecordData) data).reporter);
                         holder.avatar.setImageDrawable(worker.getAvator());
                         holder.name.setText(worker.name);
                         holder.description.setText(((RecordData) data).description);
@@ -444,7 +444,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                     break;
                 case FILE:
                     if (data instanceof FileData) {
-                        worker = WorkingData.getInstance(getActivity()).getWorkerItemById(((FileData) data).uploader);
+                        worker = WorkingData.getInstance(getActivity()).getWorkerById(((FileData) data).uploader);
                         String statusTxt = (worker != null ? worker.name + " " : "") +
                                 getResources().getString(R.string.worker_ov_tab_status_upload) +
                                 (TextUtils.isEmpty(((FileData) data).fileName) ? "" : " " + ((FileData) data).fileName);
@@ -463,7 +463,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 case PHOTO:
                     if (data instanceof PhotoData) {
                         final PhotoData photoData = (PhotoData) data;
-                        worker = WorkingData.getInstance(getActivity()).getWorkerItemById(photoData.uploader);
+                        worker = WorkingData.getInstance(getActivity()).getWorkerById(photoData.uploader);
                         holder.status.setText((worker != null ? worker.name + " " : "") +
                                 getResources().getString(R.string.worker_ov_tab_status_capture) +
                                 (TextUtils.isEmpty(photoData.fileName) ? "" : " " + photoData.fileName));

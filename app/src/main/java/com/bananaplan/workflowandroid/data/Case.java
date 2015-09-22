@@ -11,36 +11,46 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015.06.13
  */
-public class TaskCase extends IdData {
+public class Case extends IdData {
 
     public class Size {
-        public int length;
-        public int width;
-        public int height;
+        public float length;
+        public float width;
+        public float height;
+        public float weight;
     }
 
-    public String vendorId;
+    public String description;
+
+    public String managerId;
     public String workerId;
+    public String vendorId;
 
     public Date deliveredDate;
+
+    ////////  TODO: Use Adapter pattern
     public Date materialPurchasedDate;
     public Date layoutDeliveredDate;
-    public int sheetCount;
-    public int modelCount;
-    public String others;
-    public Size size;
+    public int plateCount;
+    public int supportBlockCount;
+    public Size movableMoldSize;
+    public Size fixedMoldSize;
+    public Size supportBlockMoldSize;
+    ////////
+
     public List<Task> tasks;
+    public List<Tag> tags;
 
 
-    public TaskCase() {
+    public Case() {
         tasks = new ArrayList<Task>();
     }
 
-    public TaskCase(String id, String name) {
+    public Case(String id, String name) {
         this(id, name, new ArrayList<Task>());
     }
 
-    public TaskCase(String id, String name, List<Task> tasks) {
+    public Case(String id, String name, List<Task> tasks) {
         this.id = id;
         this.name = name;
         this.vendorId = null;
@@ -70,7 +80,7 @@ public class TaskCase extends IdData {
     public int getFinishItemsCount() {
         int count = 0;
         for (Task item : tasks) {
-            if (item.status == Task.Status.FINISH) {
+            if (item.status == Task.Status.DONE) {
                 count++;
             }
         }
@@ -78,7 +88,7 @@ public class TaskCase extends IdData {
     }
 
     public String getSize() {
-        if (this.size == null) return "0 x 0 x 0";
-        return this.size.length + " x " + this.size.width + " x " + this.size.height;
+        if (this.movableMoldSize == null) return "0 x 0 x 0";
+        return this.movableMoldSize.length + " x " + this.movableMoldSize.width + " x " + this.movableMoldSize.height;
     }
 }

@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -9,6 +10,7 @@ import java.util.ArrayList;
  */
 public class Factory extends IdData {
 
+    public List<Manager> managers;
     public ArrayList<Worker> workers;
 
 

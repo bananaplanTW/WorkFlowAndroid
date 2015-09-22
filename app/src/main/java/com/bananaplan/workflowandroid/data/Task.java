@@ -15,21 +15,24 @@ import java.util.Date;
 public class Task extends IdData {
 
     public enum Status {
-        IN_SCHEDULE, NOT_START, WORKING, PAUSE, FINISH
+        PENDING, UNCLAIMED, WIP, PAUSE, DONE, EXCEPTION, STOP, CANCEL, INREVIEW
     }
 
-    public String taskCaseId;
+    public String caseId;
     public String workerId;
     public String equipmentId;
 
-    public Date startDate;
-    public Date finishDate;
-    public long expectedWorkingTime = -1L;
+    public Date startDate;   // Milliseconds to Date
+    public Date finishDate;  // Milliseconds to Date
+
+    public long currentStartTime = -1L;
+    public long expectedTime = -1L;
+    public long spentTime = -1L;
 
     public ArrayList<Warning> warningList = new ArrayList<>();
     public int errorCount;
 
-    public Status status = Status.NOT_START;
+    public Status status = Task.Status.UNCLAIMED;
     public ArrayList<BaseData> records = new ArrayList<>();
 
     public Task() {
@@ -41,9 +44,9 @@ public class Task extends IdData {
         this.name = name;
     }
 
-    public Task(String name, long expectedWorkingTime, String equipmentId, String workerId) {
+    public Task(String name, long expectedTime, String equipmentId, String workerId) {
         this.name = name;
-        this.expectedWorkingTime = expectedWorkingTime;
+        this.expectedTime = expectedTime;
         this.equipmentId = equipmentId;
         this.workerId = workerId;
     }
@@ -51,7 +54,7 @@ public class Task extends IdData {
     public int getUnSolvedWarningCount() {
         int count = 0;
         for (Warning warning : warningList) {
-            if (warning.status == Warning.WarningStatus.UNSOLVED) {
+            if (warning.status == Warning.Status.OPEN) {
                 count++;
             }
         }

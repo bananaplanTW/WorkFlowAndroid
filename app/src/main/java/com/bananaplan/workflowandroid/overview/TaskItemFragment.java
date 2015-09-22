@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Equipment;
-import com.bananaplan.workflowandroid.data.TaskCase;
+import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
@@ -181,10 +181,10 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder = (TaskItemListViewAdapterViewHolder) convertView.getTag();
             }
             final Task task = getItem(position);
-            final Worker worker = WorkingData.getInstance(getActivity()).getWorkerItemById(task.workerId);
+            final Worker worker = WorkingData.getInstance(getActivity()).getWorkerById(task.workerId);
 
             int txtColor;
-            if (task.status == Task.Status.FINISH) {
+            if (task.status == Task.Status.DONE) {
                 txtColor = getResources().getColor(R.color.gray1);
             } else {
                 txtColor = getResources().getColor(R.color.black1);
@@ -197,7 +197,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             if (holder.status != null) {
                 holder.status.setText(Utils.getTaskItemStatusString(getActivity(), task));
                 holder.status.setTextColor(txtColor);
-                if (Task.Status.WORKING == task.status) {
+                if (Task.Status.WIP == task.status) {
                     holder.status.setBackground(getResources().getDrawable(R.drawable.border_textview_bg_green, null));
                     holder.status.setTextColor(getResources().getColor(R.color.green));
                 } else {
@@ -209,7 +209,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder.id.setTextColor(txtColor);
             }
             if (holder.caseName != null) {
-                holder.caseName.setText(WorkingData.getInstance(getActivity()).getTaskCaseById(task.taskCaseId).name);
+                holder.caseName.setText(WorkingData.getInstance(getActivity()).getCaseById(task.caseId).name);
                 holder.caseName.setTextColor(txtColor);
             }
             if (holder.itemName != null) {
@@ -335,7 +335,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())) {
             onWorkerSelected((Worker) item);
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
-            onCaseSelected((TaskCase) item);
+            onCaseSelected((Case) item);
         }
         if (mTaskItemListViewAdapter != null && mTaskItemListViewAdapter.getCount() > 0) {
             ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
@@ -346,12 +346,12 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         }
     }
 
-    private void onCaseSelected(TaskCase taskCase) {
+    private void onCaseSelected(Case aCase) {
         // update statistics
         updateStatisticsView(1, R.string.overview_finish_hours);
 
         // update task item listview
-        ArrayList<Task> items = new ArrayList<>(taskCase.tasks);
+        ArrayList<Task> items = new ArrayList<>(aCase.tasks);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);
@@ -405,7 +405,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         ArrayList<Worker> workers = new ArrayList<>();
         if (getSelectedTaskCase() != null) {
             for (Task item : getSelectedTaskCase().tasks) {
-                workers.add(WorkingData.getInstance(getActivity()).getWorkerItemById(item.workerId));
+                workers.add(WorkingData.getInstance(getActivity()).getWorkerById(item.workerId));
             }
         }
         return workers;
