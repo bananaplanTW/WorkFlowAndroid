@@ -15,7 +15,7 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:dropDownListViewStyle">@style/CommonSpinnerStyle</item>
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" >
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
         <!-- Customize color of navigation drawer icon and back arrow -->
         <item name="colorControlNormal">@android:color/white</item>
     </style>
