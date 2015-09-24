@@ -67,7 +67,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
         TabInfo info = new TabInfo(tag, cls, args);
 
         Fragment frag = mActivity.getSupportFragmentManager().findFragmentByTag(tag);
-        info.fragment = (OvTabFragmentBase) frag;
+        info.fragment = frag;
         if (info.fragment != null && !info.fragment.isDetached()) {
             FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
             ft.detach(info.fragment);

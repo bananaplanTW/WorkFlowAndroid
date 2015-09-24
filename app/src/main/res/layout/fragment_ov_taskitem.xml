@@ -64,7 +64,7 @@
                 android:id="@+id/current_task_items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/detailed_worker_current_task_items"
+                android:text="@string/detailed_worker_current_task_text"
                 android:textSize="18dp"
                 android:textColor="@color/gray2"
                 android:layout_marginTop="24dp"

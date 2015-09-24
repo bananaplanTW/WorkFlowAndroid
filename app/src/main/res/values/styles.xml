@@ -142,13 +142,16 @@
         <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
         <item name="android:textColor">@color/button_white_text_color</item>
         <item name="android:textSize">@dimen/button_text_size</item>
-        <item name="android:textStyle">bold</item>
     </style>
     <style name="ButtonStyle.Blue">
         <item name="android:background">@drawable/blue_button_background</item>
     </style>
     <style name="ButtonStyle.Green">
         <item name="android:background">@drawable/green_button_background</item>
+    </style>
+    <style name="ButtonStyle.Gray">
+        <item name="android:textColor">@color/button_black_text_color</item>
+        <item name="android:background">@drawable/gray_button_background</item>
     </style>
 
 

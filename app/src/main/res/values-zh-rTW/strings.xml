@@ -161,7 +161,7 @@
     <string name="add_case_save_case_button_text">儲存案件</string>
     <string name="add_case_save_template_button_text">存為模組</string>
 
-    <!-- Managemant -->
+    <!-- Management -->
     <string name="management_actionbar_title_text">%1$s管理</string>
     <string name="management_equipment_text">機台</string>
     <string name="management_factory_text">廠區</string>
@@ -177,7 +177,10 @@
     <string name="detailed_worker_task_items">工作項目</string>
     <string name="detailed_worker_task_log">工作記錄</string>
     <string name="detailed_worker_worker_log">員工紀錄</string>
-    <string name="detailed_worker_current_task_items">目前工作</string>
+    <string name="detailed_worker_current_task_text">目前工作</string>
+    <string name="detailed_worker_task_schedule_complete_task_button">工作完成</string>
+    <string name="detailed_worker_task_schedule_add_warning_button">新增警訊</string>
+    <string name="detailed_worker_task_schedule_manage_warning_button">管理警訊</string>
 
     <!-- Status Fragment -->
     <string name="status_string_worker">員工 %s 的紀錄</string>
