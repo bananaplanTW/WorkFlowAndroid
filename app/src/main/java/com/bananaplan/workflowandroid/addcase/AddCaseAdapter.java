@@ -323,7 +323,7 @@ public class AddCaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public AddCaseAdapter(Context context, int spanCount) {
         mContext = context;
         mSpanCount = spanCount;
-        mCase = new Case();
+        mCase = new Case();  // TODO: Use new constructor
         initTasksData();
     }
 

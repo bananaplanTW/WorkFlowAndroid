@@ -13,10 +13,6 @@ public class Manager extends IdData {
     private Drawable avatar;
 
 
-    public Manager(String name) {
-        this.name = name;
-    }
-
     public Manager(String id, String name) {
         this.id = id;
         this.name = name;

@@ -3,13 +3,9 @@ package com.bananaplan.workflowandroid.main;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.utility.server.RestfulUtils;
-
-import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends AppCompatActivity {

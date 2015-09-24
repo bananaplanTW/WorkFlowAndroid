@@ -13,11 +13,25 @@ import java.util.List;
  */
 public class Case extends IdData {
 
-    public class Size {
-        public float length;
-        public float width;
-        public float height;
-        public float weight;
+    public static class Size {
+        public double length;
+        public double width;
+        public double height;
+        public double weight;
+
+        public Size(double[] size) {
+            length = size[0];
+            width = size[1];
+            height = size[2];
+            weight = size[3];
+        }
+
+        public String toString() {
+            return "length = " + length + " " +
+                   "width = " + width + " " +
+                   "height = " + height + " " +
+                   "weight = " + weight;
+        }
     }
 
     public String description;
@@ -28,7 +42,7 @@ public class Case extends IdData {
 
     public Date deliveredDate;
 
-    ////////  TODO: Use Adapter pattern
+    // TODO: Use Adapter pattern
     public Date materialPurchasedDate;
     public Date layoutDeliveredDate;
     public int plateCount;
@@ -38,12 +52,58 @@ public class Case extends IdData {
     public Size supportBlockMoldSize;
     ////////
 
+    public List<String> tagIds;
+    public List<String> workerIds;
+
     public List<Task> tasks;
     public List<Tag> tags;
+    public List<Worker> workers;
 
 
     public Case() {
-        tasks = new ArrayList<Task>();
+
+    }
+
+    public Case(String id,
+                String name,
+                String description,
+                String vendorId,
+                String managerId,
+                Date deliveredDate,
+                Date materialPurchasedDate,
+                Date layoutDeliveredDate,
+                Size movableMoldSize,
+                Size fixedMoldSize,
+                Size supportBlockMoldSize,
+                int plateCount,
+                int supportBlockCount,
+                List<String> tagIds,
+                List<String> workerIds) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.vendorId = vendorId;
+        this.managerId = managerId;
+        this.deliveredDate = deliveredDate;
+        this.materialPurchasedDate = materialPurchasedDate;
+        this.layoutDeliveredDate = layoutDeliveredDate;
+        this.movableMoldSize = movableMoldSize;
+        this.fixedMoldSize = fixedMoldSize;
+        this.supportBlockMoldSize = supportBlockMoldSize;
+        this.plateCount = plateCount;
+        this.supportBlockCount = supportBlockCount;
+        this.tagIds = tagIds;
+        this.workerIds = workerIds;
+
+        if (this.tagIds == null) {
+            this.tagIds = new ArrayList<>();
+        }
+        if (this.workerIds == null) {
+            this.workerIds = new ArrayList<>();
+        }
+        this.tasks = new ArrayList<>();
+        this.tags = new ArrayList<>();
+        this.workers = new ArrayList<>();
     }
 
     public Case(String id, String name) {

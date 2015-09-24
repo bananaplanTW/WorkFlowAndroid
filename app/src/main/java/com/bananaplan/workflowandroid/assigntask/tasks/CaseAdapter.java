@@ -216,7 +216,7 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private void bindTaskCaseInformation(TaskCaseHeaderViewHolder holder) {
         holder.progressBar.setProgress(mCase.getFinishPercent());
         holder.vendor.setText(WorkingData.getInstance(mContext).getVendorById(mCase.vendorId).name);
-        holder.personInCharge.setText(WorkingData.getInstance(mContext).getWorkerById(mCase.workerId).name); // TODO: Manager
+        holder.personInCharge.setText(WorkingData.getInstance(mContext).getManagerById(mCase.managerId).name);
         holder.uncompletedTaskTime.setText(mCase.getHoursUnFinished());
         holder.undergoingTaskTime.setText(mCase.getHoursPassedBy());
         holder.editCaseButton.setOnClickListener(new View.OnClickListener() {

@@ -9,9 +9,6 @@ import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.utility.server.RestfulUtils;
-
-import java.util.concurrent.ExecutionException;
 
 
 // TODO: Load data needs to be put in a service
@@ -49,7 +46,7 @@ public class PreloadActivity extends AppCompatActivity {
         setupActionBar();
 
         startLoading = System.currentTimeMillis();
-        //WorkingData.getInstance(this).loadWorkingData();
+        //WorkingData.getInstance(this);
         finishLoading = System.currentTimeMillis();
 
         launchMainActivity(finishLoading - startLoading);

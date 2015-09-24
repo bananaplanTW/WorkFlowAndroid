@@ -12,13 +12,7 @@ import com.bananaplan.workflowandroid.data.worker.status.FileData;
 import com.bananaplan.workflowandroid.data.worker.status.HistoryData;
 import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
 import com.bananaplan.workflowandroid.data.worker.status.RecordData;
-import com.bananaplan.workflowandroid.data.Warning.Status;
 import com.bananaplan.workflowandroid.utility.Utils;
-import com.bananaplan.workflowandroid.utility.server.RestfulUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,7 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+
 
 /**
  * Created by Ben on 2015/7/18.
@@ -34,10 +28,6 @@ import java.util.concurrent.ExecutionException;
 public final class WorkingData {
 
     private static final String TAG = "WorkingData";
-
-    private static final class WorkingDataUrl {
-        public static final String WORKER = "http://bp-workflow.cloudapp.net:3000/api/employees";
-    }
 
     private static final class DataType {
         public static final int EQUIPMENT = 0;
@@ -49,11 +39,6 @@ public final class WorkingData {
         public static final int WARNING = 6;
         public static final int WORKER = 7;
     }
-
-    private static final class WorkerKeys {
-
-    }
-
 
     private volatile static WorkingData sWorkingData = null;
     private static int sDataIdCount = -1;
@@ -67,6 +52,7 @@ public final class WorkingData {
     private HashMap<String, Case> mCasesMap = new HashMap<>();
     private HashMap<String, Equipment> mEquipmentsMap = new HashMap<>();
     private HashMap<String, Factory> mFactoriesMap = new HashMap<>();
+    private HashMap<String, Tag> mTagsMap = new HashMap<>();
 
 
     public static WorkingData getInstance(Context context) {
@@ -86,38 +72,37 @@ public final class WorkingData {
     }
 
 
-    public void loadWorkingData() {
-        try {
-            loadWorkerDatas();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void addCase(Case aCase) {
+        if (aCase == null) return;
+        mCasesMap.put(aCase.id, aCase);
+        Log.d(TAG, "Add case " + aCase.name);
+    }
+    public void addTask(Task task) {
+        if (task == null) return;
+        mTasksMap.put(task.id, task);
+        Log.d(TAG, "Add task " + task.name);
+    }
+    public void addManager(Manager manager) {
+        if (manager == null) return;
+        mManagersMap.put(manager.id, manager);
+        Log.d(TAG, "Add manager " + manager.name);
+    }
+    public void addVendor(Vendor vendor) {
+        if (vendor == null) return;
+        mVendorsMap.put(vendor.id, vendor);
+        Log.d(TAG, "Add vendor " + vendor.name);
+    }
+    public void addTag(Tag tag) {
+        if (tag == null) return;
+        mTagsMap.put(tag.id, tag);
+        Log.d(TAG, "Add tag " + tag.name);
     }
 
-    private void loadWorkerDatas() throws ExecutionException, InterruptedException, JSONException {
-        String workerJsonString = new RestfulUtils.GetRequest().execute(WorkingDataUrl.WORKER).get();
-        JSONArray workerJsons = new JSONObject(workerJsonString).getJSONArray("result");
 
-        for (int i = 0 ; i < workerJsons.length() ; i++) {
-            JSONObject workerJson = workerJsons.getJSONObject(i);
-            String id = workerJson.getString("_id");
-            String name = workerJson.getJSONObject("profile").getString("name");
-            String factoryId = workerJson.getString("groupId");
-            String address = workerJson.getString("address");
-            String phone = workerJson.getString("phone");
-            // TODO: Status
-            // TODO: Tasks
-            boolean isOverTime = workerJson.getBoolean("overwork");
-            int score = workerJson.getInt("score");
-            // TODO: Current task
-
-            Log.d(TAG, "Worker " + i + " name = " + name);
-        }
+    public boolean hasCase(String caseId) {
+        return mCasesMap.containsKey(caseId);
     }
+
 
     public ArrayList<Manager> getManagers() {
         return new ArrayList<>(mManagersMap.values());
@@ -292,6 +277,7 @@ public final class WorkingData {
                 aCase.materialPurchasedDate = getRandomDate();
                 aCase.deliveredDate = getRandomDate();
                 aCase.layoutDeliveredDate = getRandomDate();
+                aCase.managerId = getRandomManagerId();
                 vendor.cases.add(aCase);
                 for (int k = 1; k <= taskItemCount; k++) {
                     String taskId = generateDataId(DataType.TASK);
@@ -304,10 +290,10 @@ public final class WorkingData {
 //                        }
 //                    }
                     task.caseId = aCase.id;
-                    Warning w1 = new Warning("No power", Status.CLOSE);
-                    Warning w2 = new Warning("No power", Status.CLOSE);
-                    Warning w3 = new Warning("No resource", Status.OPEN);
-                    Warning w4 = new Warning("No resource", Status.OPEN);
+                    Warning w1 = new Warning("No power", Warning.Status.CLOSE);
+                    Warning w2 = new Warning("No power", Warning.Status.CLOSE);
+                    Warning w3 = new Warning("No resource", Warning.Status.OPEN);
+                    Warning w4 = new Warning("No resource", Warning.Status.OPEN);
                     w1.taskId = task.id;
                     w2.taskId = task.id;
                     w3.taskId = task.id;
@@ -316,10 +302,10 @@ public final class WorkingData {
                     w2.workerId = getRandomWorkerId();
                     w3.workerId = getRandomWorkerId();
                     w4.workerId = getRandomWorkerId();
-                    task.warningList.add(w1);
-                    task.warningList.add(w2);
-                    task.warningList.add(w3);
-                    task.warningList.add(w4);
+                    task.warnings.add(w1);
+                    task.warnings.add(w2);
+                    task.warnings.add(w3);
+                    task.warnings.add(w4);
                     aCase.tasks.add(task);
                     mTasksMap.put(task.id, task);
                     task.equipmentId = getRandomEquipmentId();
@@ -346,6 +332,15 @@ public final class WorkingData {
     private String getRandomWorkerId() {
         int num = (int) (Math.random() * mWorkersMap.keySet().size());
         List<String> list = new ArrayList<>(mWorkersMap.keySet());
+        if (list.size() == 0) {
+            return "";
+        }
+        return list.get(num);
+    }
+
+    private String getRandomManagerId() {
+        int num = (int) (Math.random() * mManagersMap.keySet().size());
+        List<String> list = new ArrayList<>(mManagersMap.keySet());
         if (list.size() == 0) {
             return "";
         }

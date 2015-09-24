@@ -16,9 +16,12 @@ import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
@@ -71,8 +74,8 @@ public class Utils {
                 r = resources.getString(R.string.task_progress_working);
                 break;
             case DONE:
-                if (item.finishDate != null) {
-                    r = timestamp2Date(item.finishDate, Utils.DATE_FORMAT_MD) + " ";
+                if (item.endDate != null) {
+                    r = timestamp2Date(item.endDate, Utils.DATE_FORMAT_MD) + " ";
                 }
                 r += resources.getString(R.string.task_progress_finish);
                 break;
@@ -232,14 +235,14 @@ public class Utils {
         int txtColor;
         Drawable background;
         int unSolvedCount = item.getUnSolvedWarningCount();
-        int solvedCount = item.warningList.size() - item.getUnSolvedWarningCount();
+        int solvedCount = item.warnings.size() - item.getUnSolvedWarningCount();
         if (unSolvedCount > 1) {
             displayTxt = activity.getResources().getString(R.string.overview_display_warning_txt, unSolvedCount);
         } else if (solvedCount > 1) {
             displayTxt = activity.getResources().getString(R.string.overview_display_warning_txt, solvedCount);
         } else {
             Warning tmp = null;
-            for (Warning warning : item.warningList) {
+            for (Warning warning : item.warnings) {
                 if (tmp == null) {
                     tmp = warning;
                 } else {
@@ -260,13 +263,13 @@ public class Utils {
         v.setTextColor(txtColor);
         v.setText(displayTxt);
         v.setBackground(background);
-        if (hasClickListener && item.warningList.size() > 1) {
+        if (hasClickListener && item.warnings.size() > 1) {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     View view = activity.getLayoutInflater().inflate(R.layout.warning_list_container_layout, null);
                     LinearLayout root = (LinearLayout) view.findViewById(R.id.warning_list_container);
-                    for (Warning warning : item.warningList) {
+                    for (Warning warning : item.warnings) {
                         TextView tv = (TextView) activity.getLayoutInflater().inflate(R.layout.warning_textview_layout, null);
                         setTaskItemWarningTextView(activity, warning, tv);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -426,5 +429,16 @@ public class Utils {
 
     public static boolean isSameId(String id1, String id2) {
         return id1.equals(id2);
+    }
+
+    public static void replaceProgressBarWhenLoadingFinished(Context context, View mainView, ProgressBar progressBar) {
+        Animation fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+        Animation fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+
+        mainView.setAnimation(fadeIn);
+        progressBar.setAnimation(fadeOut);
+
+        mainView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }

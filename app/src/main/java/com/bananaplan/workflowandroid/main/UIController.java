@@ -168,49 +168,51 @@ public class UIController implements OnClickDrawerItemListener {
 
             case R.id.drawer_info:
                 if (mCurrentFragment instanceof InfoFragment) break;
-                replaceTo(InfoFragment.class, FragmentTag.INFO_FRAGMENT);
+                replaceTo(InfoFragment.class, FragmentTag.INFO_FRAGMENT, true);
                 break;
 
             case R.id.drawer_assign_task:
                 if (mCurrentFragment instanceof AssignTaskFragment) break;
-                replaceTo(AssignTaskFragment.class, FragmentTag.ASSIGN_TASK_FRAGMENT);
+                replaceTo(AssignTaskFragment.class, FragmentTag.ASSIGN_TASK_FRAGMENT, false);
                 break;
 
             case R.id.drawer_case_overview:
                 if (mCurrentFragment instanceof CaseOverviewFragment) break;
-                replaceTo(CaseOverviewFragment.class, FragmentTag.CASE_OVERVIEW_FRAGMENT);
+                replaceTo(CaseOverviewFragment.class, FragmentTag.CASE_OVERVIEW_FRAGMENT, true);
                 break;
 
             case R.id.drawer_add_case:
                 if (mCurrentFragment instanceof AddCaseFragment) break;
-                replaceTo(AddCaseFragment.class, FragmentTag.ADD_CASE_FRAGMENT);
+                replaceTo(AddCaseFragment.class, FragmentTag.ADD_CASE_FRAGMENT, true);
                 break;
 
             case R.id.drawer_worker_overview:
                 if (mCurrentFragment instanceof WorkerOverviewFragment) break;
-                replaceTo(WorkerOverviewFragment.class, FragmentTag.WORKER_OVERVIEW_FRAGMENT);
+                replaceTo(WorkerOverviewFragment.class, FragmentTag.WORKER_OVERVIEW_FRAGMENT, true);
                 break;
 
             case R.id.drawer_add_worker:
                 if (mCurrentFragment instanceof AddWorkerFragment) break;
-                replaceTo(AddWorkerFragment.class, FragmentTag.ADD_WORKER_FRAGMENT);
+                replaceTo(AddWorkerFragment.class, FragmentTag.ADD_WORKER_FRAGMENT, true);
                 break;
 
             case R.id.drawer_equipment_overview:
                 if (mCurrentFragment instanceof EquipmentOverviewFragment) break;
-                replaceTo(EquipmentOverviewFragment.class, FragmentTag.EQUIPMENT_OVERVIEW_FRAGMENT);
+                replaceTo(EquipmentOverviewFragment.class, FragmentTag.EQUIPMENT_OVERVIEW_FRAGMENT, true);
                 break;
 
             case R.id.drawer_add_equipment:
                 if (mCurrentFragment instanceof AddEquipmentFragment) break;
-                replaceTo(AddEquipmentFragment.class, FragmentTag.ADD_EQUIPMENT_FRAGMENT);
+                replaceTo(AddEquipmentFragment.class, FragmentTag.ADD_EQUIPMENT_FRAGMENT, true);
                 break;
         }
     }
 
-    private void replaceTo(Class<?> fragmentClass, String fragmentTag) {
+    private void replaceTo(Class<?> fragmentClass, String fragmentTag, boolean useAnimation) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
+        if (useAnimation) {
+            fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
+        }
 
         Fragment fragment = mFragmentManager.findFragmentByTag(fragmentTag);
         if (fragment == null) {

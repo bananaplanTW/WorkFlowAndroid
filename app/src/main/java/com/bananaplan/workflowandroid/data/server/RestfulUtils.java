@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.utility.server;
+package com.bananaplan.workflowandroid.data.server;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -18,6 +18,43 @@ import java.net.URL;
 public class RestfulUtils {
 
     private static final String TAG = "RestfulUtils";
+
+
+    /**
+     * Get the JsonObject from the given url
+     * Note: Do not run this method in UI thread
+     *
+     * @param urlString
+     * @return The JsonObject from this url
+     */
+    public static String getJsonStringFromUrl(String urlString) {
+        InputStream inputStream = null;
+        String result = null;
+        if (urlString != null) {
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(3000);
+                conn.setConnectTimeout(5000);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+
+                conn.connect();
+                int responseCode = conn.getResponseCode();
+                Log.d("Restful api", "Response Code is : " + responseCode);
+                inputStream = conn.getInputStream();
+
+                result = getStringFromInputStream(inputStream);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 
     public static class GetRequest extends AsyncTask<String, Integer, String> {
 

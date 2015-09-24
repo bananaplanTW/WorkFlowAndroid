@@ -5,4 +5,8 @@ package com.bananaplan.workflowandroid.data;
  */
 public class Tag extends IdData {
 
+    public Tag(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
