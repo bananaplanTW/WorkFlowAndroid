@@ -16,12 +16,13 @@ public class Vendor extends IdData {
     public ArrayList<Case> cases;
 
 
-    public Vendor(String id, String name, String address, String phone, List<String> caseIds) {
+    public Vendor(String id, String name, String address, String phone, List<String> caseIds, long lastUpdatedTime) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.caseIds = caseIds;
+        this.lastUpdatedTime = lastUpdatedTime;
     }
 
     public Vendor(String id, String name) {
@@ -32,5 +33,13 @@ public class Vendor extends IdData {
         this.id = id;
         this.name = name;
         this.cases = cases;
+    }
+
+    public void update(Vendor vendor) {
+        this.name = vendor.name;
+        this.address = vendor.address;
+        this.phone = vendor.phone;
+        this.caseIds = vendor.caseIds;
+        this.lastUpdatedTime = lastUpdatedTime;
     }
 }

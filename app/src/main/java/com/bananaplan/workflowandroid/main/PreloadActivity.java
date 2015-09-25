@@ -46,7 +46,7 @@ public class PreloadActivity extends AppCompatActivity {
         setupActionBar();
 
         startLoading = System.currentTimeMillis();
-        //WorkingData.getInstance(this);
+        // TODO: Load dashboard data here
         finishLoading = System.currentTimeMillis();
 
         launchMainActivity(finishLoading - startLoading);

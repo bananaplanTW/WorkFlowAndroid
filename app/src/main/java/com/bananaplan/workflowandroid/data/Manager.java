@@ -13,8 +13,14 @@ public class Manager extends IdData {
     private Drawable avatar;
 
 
-    public Manager(String id, String name) {
+    public Manager(String id, String name, long lastUpdatedTime) {
         this.id = id;
         this.name = name;
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    public void update(Manager manager) {
+        this.name = manager.name;
+        this.lastUpdatedTime = manager.lastUpdatedTime;
     }
 }
