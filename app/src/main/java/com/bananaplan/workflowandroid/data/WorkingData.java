@@ -102,6 +102,15 @@ public final class WorkingData {
     public boolean hasCase(String caseId) {
         return mCasesMap.containsKey(caseId);
     }
+    public boolean hasVendor(String vendorId) {
+        return mVendorsMap.containsKey(vendorId);
+    }
+    public boolean hasManager(String managerId) {
+        return mManagersMap.containsKey(managerId);
+    }
+    public boolean hasTag(String tagId) {
+        return mTagsMap.containsKey(tagId);
+    }
 
 
     public ArrayList<Manager> getManagers() {
@@ -169,6 +178,9 @@ public final class WorkingData {
     public Factory getFactoryById(String factoryId) {
         return mFactoriesMap.get(factoryId);
     }
+    public Tag getTagById(String tagId) {
+        return mTagsMap.get(tagId);
+    }
 
 
     public void addRecordToWorker(Worker worker, BaseData data) {
@@ -197,7 +209,7 @@ public final class WorkingData {
 
         for (int i = 0 ; i < managerCount ; i++) {
             String managerId = generateDataId(DataType.MANAGER);
-            mManagersMap.put(managerId, new Manager(managerId, managerId));
+            mManagersMap.put(managerId, new Manager(managerId, managerId, 100));
         }
 
         for (int i = 1; i <= factoryCount; i++) {

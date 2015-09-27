@@ -41,6 +41,9 @@ import java.util.List;
  *
  * @author Danny Lin
  * @since 2015.05.30
+ *
+ * TODO: Need to handle no-data situation
+ *
  */
 public class AssignTaskFragment extends Fragment implements
         ViewPager.OnPageChangeListener, CaseAdapter.OnSelectCaseListener,
@@ -70,7 +73,7 @@ public class AssignTaskFragment extends Fragment implements
     private GridLayoutManager mGridLayoutManager;
     private CaseAdapter mCaseAdapter;
     private CaseOnTouchListener mCaseOnTouchListener;
-    private ArrayList<String> mCaseSpinnerDatas = new ArrayList<String>();
+    private ArrayList<String> mCaseSpinnerDatas = new ArrayList<>();
 
     private boolean mIsFactorySpinnerFirstCalled = true;
 
@@ -85,9 +88,10 @@ public class AssignTaskFragment extends Fragment implements
 
         @Override
         protected Void doInBackground(Void... params) {
-            // TODO: Need to handle no-data situation
-            //LoadDataUtils.loadCases(mContext);
-            //LoadDataUtils.loadTasksByCase(mContext, WorkingData.getInstance(mContext).getCases().get(0).id);
+//            LoadDataUtils.loadCases(mContext);
+//            for (Case aCase : WorkingData.getInstance(mContext).getCases()) {
+//                LoadDataUtils.loadTasksByCase(mContext, aCase.id);
+//            }
             return null;
         }
 

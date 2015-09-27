@@ -34,6 +34,8 @@ public class Case extends IdData {
         }
     }
 
+    public long lastUpdatedTime = -1L;
+
     public String description;
 
     public String managerId;
@@ -52,11 +54,10 @@ public class Case extends IdData {
     public Size supportBlockMoldSize;
     ////////
 
-    public List<String> tagIds;
     public List<String> workerIds;
+    public List<Tag> tags;
 
     public List<Task> tasks;
-    public List<Tag> tags;
     public List<Worker> workers;
 
 
@@ -77,8 +78,9 @@ public class Case extends IdData {
                 Size supportBlockMoldSize,
                 int plateCount,
                 int supportBlockCount,
-                List<String> tagIds,
-                List<String> workerIds) {
+                List<Tag> tagIds,
+                List<String> workerIds,
+                long lastUpdatedTime) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -92,17 +94,11 @@ public class Case extends IdData {
         this.supportBlockMoldSize = supportBlockMoldSize;
         this.plateCount = plateCount;
         this.supportBlockCount = supportBlockCount;
-        this.tagIds = tagIds;
+        this.tags = tagIds;
         this.workerIds = workerIds;
+        this.lastUpdatedTime = lastUpdatedTime;
 
-        if (this.tagIds == null) {
-            this.tagIds = new ArrayList<>();
-        }
-        if (this.workerIds == null) {
-            this.workerIds = new ArrayList<>();
-        }
         this.tasks = new ArrayList<>();
-        this.tags = new ArrayList<>();
         this.workers = new ArrayList<>();
     }
 
@@ -115,6 +111,24 @@ public class Case extends IdData {
         this.name = name;
         this.vendorId = null;
         this.tasks = tasks;
+    }
+
+    public void update(Case aCase) {
+        this.name = aCase.name;
+        this.description = aCase.description;
+        this.vendorId = aCase.vendorId;
+        this.managerId = aCase.managerId;
+        this.deliveredDate = aCase.deliveredDate;
+        this.materialPurchasedDate = aCase.materialPurchasedDate;
+        this.layoutDeliveredDate = aCase.layoutDeliveredDate;
+        this.movableMoldSize = aCase.movableMoldSize;
+        this.fixedMoldSize = aCase.fixedMoldSize;
+        this.supportBlockMoldSize = aCase.supportBlockMoldSize;
+        this.plateCount = aCase.plateCount;
+        this.supportBlockCount = aCase.supportBlockCount;
+        this.tags = aCase.tags;
+        this.workerIds = aCase.workerIds;
+        this.lastUpdatedTime = aCase.lastUpdatedTime;
     }
 
     public int getFinishPercent() {

@@ -18,7 +18,6 @@ public class PreloadActivity extends AppCompatActivity {
 
     private static final int PRELOAD_TIME_OUT = 500;
 
-
     private Handler mHandler;
     private Runnable mLaunchMainActivity = new Runnable() {
         @Override
@@ -43,21 +42,11 @@ public class PreloadActivity extends AppCompatActivity {
         long startLoading = 0L;
         long finishLoading = 0L;
 
-        setupActionBar();
-
         startLoading = System.currentTimeMillis();
-        //WorkingData.getInstance(this);
+        // TODO: Load dashboard data here
         finishLoading = System.currentTimeMillis();
 
         launchMainActivity(finishLoading - startLoading);
-    }
-
-    private void setupActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() == null) return;
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override

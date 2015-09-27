@@ -32,12 +32,12 @@ public class LoadDataUtils {
     private static final String TAG = "LoadDataUtils";
 
     private static final class WorkingDataUrl {
-        public static final String WORKERS = "http://bp-workflow.cloudapp.net:3000/api/employees";
-        public static final String CASES = "http://bp-workflow.cloudapp.net:3000/api/cases";
-        public static final String TASKS_BY_CASE = "http://bp-workflow.cloudapp.net:3000/api/tasks?caseId=";
-//        public static final String WORKERS = "http://10.1.2.34:3000/api/employees";
-//        public static final String CASES = "http://10.1.2.34:3000/api/cases";
-//        public static final String TASKS_BY_CASE = "http://10.1.2.34:3000/api/tasks?caseId=";
+//        public static final String WORKERS = "http://bp-workflow.cloudapp.net:3000/api/employees";
+//        public static final String CASES = "http://bp-workflow.cloudapp.net:3000/api/cases";
+//        public static final String TASKS_BY_CASE = "http://bp-workflow.cloudapp.net:3000/api/tasks?caseId=";
+        public static final String WORKERS = "http://10.1.1.28:3000/api/employees";
+        public static final String CASES = "http://10.1.1.28:3000/api/cases";
+        public static final String TASKS_BY_CASE = "http://10.1.1.28:3000/api/tasks?caseId=";
     }
 
     public static void loadCases(Context context) {
@@ -51,26 +51,26 @@ public class LoadDataUtils {
                 JSONObject caseManager = caseJson.getJSONObject("lead");
                 JSONArray caseTags = caseJson.getJSONArray("tags");
 
-                WorkingData.getInstance(context).addCase(retrieveCaseFromJson(caseJson));
-                WorkingData.getInstance(context).addVendor(retrieveVendorFromJson(caseVendor));
-                WorkingData.getInstance(context).addManager(retrieveManagerDataFromJson(caseManager));
+                addCaseToWorkingData(context, caseJson);
+                addVendorToWorkingData(context, caseVendor);
+                addManagerToWorkingData(context, caseManager);
                 for (int j = 0 ; j < caseTags.length() ; j++) {
-                    WorkingData.getInstance(context).addTag(retrieveTagDataFromJson(caseTags.getJSONObject(j)));
+                    addTagToWorkingData(context, caseTags.getJSONObject(j));
                 }
             }
 
         } catch (JSONException e) {
-            Log.e(TAG, "Something wrong in loadCases()");
+            Log.e(TAG, "Exception in loadCases()");
             e.printStackTrace();
         }
     }
-
     public static void loadTasksByCase(Context context, String caseId) {
         if (!WorkingData.getInstance(context).hasCase(caseId)) return;
 
         try {
             String taskJsonString = RestfulUtils.getJsonStringFromUrl(getTasksByCaseUrl(caseId));
             JSONArray taskJsonList = new JSONObject(taskJsonString).getJSONArray("result");
+            List<Task> newCaseTasks = new ArrayList<>();
 
             Log.d(TAG, "Case  " + WorkingData.getInstance(context).getCaseById(caseId).name + " tasks :");
             for (int i = 0 ; i < taskJsonList.length() ; i++) {
@@ -112,18 +112,20 @@ public class LoadDataUtils {
                         endDate,
                         new ArrayList<Warning>());
 
-                WorkingData.getInstance(context).getCaseById(caseId).tasks.add(newTask);
+                newCaseTasks.add(newTask);
+
                 WorkingData.getInstance(context).addTask(newTask);
 
                 Log.d(TAG, "Task " + i + " " + newTask.name);
             }
 
+            WorkingData.getInstance(context).getCaseById(caseId).tasks = newCaseTasks;
+
         } catch (JSONException e) {
-            Log.e(TAG, "Something wrong in loadTasksByCase()");
+            Log.e(TAG, "Exception in loadTasksByCase()");
             e.printStackTrace();
         }
     }
-
     public static void loadWorkerDatas() {
         try {
             String workerJsonString = new RestfulUtils.GetRequest().execute(WorkingDataUrl.WORKERS).get();
@@ -153,6 +155,7 @@ public class LoadDataUtils {
         }
     }
 
+
     private static Case retrieveCaseFromJson(JSONObject caseJson) {
         try {
             JSONObject caseIndustrialForm = caseJson.getJSONObject("industrialForm");
@@ -167,6 +170,8 @@ public class LoadDataUtils {
             String vendorId = caseJson.getJSONObject("client").getString("_id");
             String managerId = caseJson.getJSONObject("lead").getString("_id");
             String description = getStringFromJson(caseJson, "details");
+
+            long lastUpdatedTime = caseJson.getLong("updatedAt");
 
             Date deliveredDate = getDateFromJson(caseJson, "willDeliverAt");
             Date materialPurchasedDate = getDateFromJson(caseIndustrialForm, "materialPurchasedAt");
@@ -194,10 +199,10 @@ public class LoadDataUtils {
             int plateCount = caseIndustrialForm.getInt("plateCount");
             int supportBlockCount = caseIndustrialForm.getInt("supportBlockCount");
 
-            List<String> tagIds = new ArrayList<>();
+            List<Tag> tags = new ArrayList<>();
             for (int j = 0 ; j < caseTags.length() ; j++) {
                 JSONObject caseTag = caseTags.getJSONObject(j);
-                tagIds.add(caseTag.getString("_id"));
+                tags.add(new Tag(caseTag.getString("_id"), caseTag.getString("name"), caseTag.getLong("updatedAt")));
             }
 
             List<String> workerIds = new ArrayList<>();
@@ -205,26 +210,28 @@ public class LoadDataUtils {
                 workerIds.add(caseWorkerIds.getString(j));
             }
 
-            Log.d(TAG, "Case id = " + id);
-            Log.d(TAG, "Case name = " + name);
-            Log.d(TAG, "Case description = " + description);
-            Log.d(TAG, "Case vendorId = " + vendorId);
-            Log.d(TAG, "Case managerId = " + managerId);
-            Log.d(TAG, "Case deliveredDate = " + deliveredDate.getTime());
-            Log.d(TAG, "Case materialPurchasedDate = " + materialPurchasedDate.getTime());
-            Log.d(TAG, "Case layoutDeliveredDate = " + layoutDeliveredDate.getTime());
-            Log.d(TAG, "Case movableMoldSize = " + description);
-            Log.d(TAG, "Case movableMoldSize = "
-                    + movableMoldSize[0] + " " + movableMoldSize[1] + " " + movableMoldSize[2] + " " + movableMoldSize[3]);
-            Log.d(TAG, "Case fixedMoldSize = "
-                    + fixedMoldSize[0] + " " + fixedMoldSize[1] + " " + fixedMoldSize[2] + " " + fixedMoldSize[3]);
-            Log.d(TAG, "Case supportBlockMoldSize = "
-                    + supportBlockMoldSize[0] + " " + supportBlockMoldSize[1] + " "
-                    + supportBlockMoldSize[2] + " " + supportBlockMoldSize[3]);
-            Log.d(TAG, "Case plateCount = " + plateCount);
-            Log.d(TAG, "Case supportBlockCount = " + supportBlockCount);
-            Log.d(TAG, "Case tagIds = " + tagIds);
-            Log.d(TAG, "Case workerIds = " + workerIds);
+//            Log.d(TAG, "Case id = " + id);
+//            Log.d(TAG, "Case name = " + name);
+//            Log.d(TAG, "Case description = " + description);
+//            Log.d(TAG, "Case vendorId = " + vendorId);
+//            Log.d(TAG, "Case managerId = " + managerId);
+//            Log.d(TAG, "Case deliveredDate = " + deliveredDate.getTime());
+//            Log.d(TAG, "Case materialPurchasedDate = " + materialPurchasedDate.getTime());
+//            Log.d(TAG, "Case layoutDeliveredDate = " + layoutDeliveredDate.getTime());
+//            Log.d(TAG, "Case movableMoldSize = " + description);
+//            Log.d(TAG, "Case movableMoldSize = "
+//                    + movableMoldSize[0] + " " + movableMoldSize[1] + " " + movableMoldSize[2] + " " + movableMoldSize[3]);
+//            Log.d(TAG, "Case fixedMoldSize = "
+//                    + fixedMoldSize[0] + " " + fixedMoldSize[1] + " " + fixedMoldSize[2] + " " + fixedMoldSize[3]);
+//            Log.d(TAG, "Case supportBlockMoldSize = "
+//                    + supportBlockMoldSize[0] + " " + supportBlockMoldSize[1] + " "
+//                    + supportBlockMoldSize[2] + " " + supportBlockMoldSize[3]);
+//            Log.d(TAG, "Case plateCount = " + plateCount);
+//            Log.d(TAG, "Case supportBlockCount = " + supportBlockCount);
+//            Log.d(TAG, "Case tags = " + tags);
+//            Log.d(TAG, "Case workerIds = " + workerIds);
+//            Log.d(TAG, "Case lastUpdatedTime = " + lastUpdatedTime);
+
 
             return new Case(
                     id,
@@ -240,17 +247,17 @@ public class LoadDataUtils {
                     new Case.Size(supportBlockMoldSize),
                     plateCount,
                     supportBlockCount,
-                    tagIds,
-                    workerIds);
+                    tags,
+                    workerIds,
+                    lastUpdatedTime);
 
         } catch (JSONException e) {
-            Log.e(TAG, "Something wrong in retrieveCaseFromJson()");
+            Log.e(TAG, "Exception in retrieveCaseFromJson()");
             e.printStackTrace();
         }
 
         return null;
     }
-
     private static Vendor retrieveVendorFromJson(JSONObject vendorJson) {
         try {
             JSONArray caseIdsJson = vendorJson.getJSONArray("caseIds");
@@ -259,61 +266,152 @@ public class LoadDataUtils {
             String name = vendorJson.getString("name");
             String address = getStringFromJson(vendorJson, "address");
             String phone = getStringFromJson(vendorJson, "phone");
+            long lastUpdatedTime = vendorJson.getLong("updatedAt");
 
             List<String> caseIds = new ArrayList<>();
             for (int i = 0 ; i < caseIdsJson.length() ; i++) {
                 caseIds.add(caseIdsJson.getString(i));
             }
 
-            return new Vendor(id, name, address, phone, caseIds);
+            return new Vendor(id, name, address, phone, caseIds, lastUpdatedTime);
         } catch (JSONException e) {
-            Log.e(TAG, "Something wrong in retrieveVendorFromJson()");
+            Log.e(TAG, "Exception in retrieveVendorFromJson()");
             e.printStackTrace();
         }
 
         return null;
     }
-
-    private static Manager retrieveManagerDataFromJson(JSONObject managerJson) {
+    private static Manager retrieveManagerFromJson(JSONObject managerJson) {
         try {
             String id = managerJson.getString("_id");
             String name = managerJson.getJSONObject("profile").getString("name");
+            long lastUpdatedTime = managerJson.getLong("updatedAt");
 
-            return new Manager(id, name);
+            return new Manager(id, name, lastUpdatedTime);
         } catch (JSONException e) {
-            Log.e(TAG, "Something wrong in retrieveManagerDataFromJson()");
+            Log.e(TAG, "Exception in retrieveManagerFromJson()");
             e.printStackTrace();
         }
 
         return null;
     }
-
-    private static Tag retrieveTagDataFromJson(JSONObject tagJson) {
+    private static Tag retrieveTagFromJson(JSONObject tagJson) {
         try {
             String id = tagJson.getString("_id");
             String name = tagJson.getString("name");
+            long lastUpdatedTime = tagJson.getLong("updatedAt");
 
-            return new Tag(id, name);
+            return new Tag(id, name, lastUpdatedTime);
         } catch (JSONException e) {
-            Log.e(TAG, "Something wrong in retrieveTagDataFromJson()");
+            Log.e(TAG, "Exception in retrieveTagFromJson()");
             e.printStackTrace();
         }
 
         return null;
     }
+
+
+    private static void addCaseToWorkingData(Context context, JSONObject caseJson) {
+        try {
+            String caseId = caseJson.getString("_id");
+            long lastUpdatedTime = caseJson.getLong("updatedAt");
+            boolean workingDataHasCase = WorkingData.getInstance(context).hasCase(caseId);
+
+            if (workingDataHasCase &&
+                WorkingData.getInstance(context).getCaseById(caseId).lastUpdatedTime >= lastUpdatedTime) {
+                return;
+            }
+
+            if (workingDataHasCase) {
+                WorkingData.getInstance(context).getCaseById(caseId).update(retrieveCaseFromJson(caseJson));
+//                Log.d(TAG, "Update case " + caseJson.getString("name"));
+//                Log.d(TAG, "Local lastUpdatedTime =  " + WorkingData.getInstance(context).getCaseById(caseId).lastUpdatedTime);
+//                Log.d(TAG, "Server lastUpdatedTime =  " + lastUpdatedTime);
+            } else {
+                WorkingData.getInstance(context).addCase(retrieveCaseFromJson(caseJson));
+//                Log.d(TAG, "Add new case " + caseJson.getString("name"));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in addCaseToWorkingData()");
+            e.printStackTrace();
+        }
+    }
+    private static void addVendorToWorkingData(Context context, JSONObject vendorJson) {
+        try {
+            String vendorId = vendorJson.getString("_id");
+            long lastUpdatedTime = vendorJson.getLong("updatedAt");
+            boolean workingDataHasVendor = WorkingData.getInstance(context).hasVendor(vendorId);
+
+            if (workingDataHasVendor &&
+                WorkingData.getInstance(context).getVendorById(vendorId).lastUpdatedTime >= lastUpdatedTime) {
+                return;
+            }
+
+            if (workingDataHasVendor) {
+                WorkingData.getInstance(context).getVendorById(vendorId).update(retrieveVendorFromJson(vendorJson));
+            } else {
+                WorkingData.getInstance(context).addVendor(retrieveVendorFromJson(vendorJson));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in addVendorToWorkingData()");
+            e.printStackTrace();
+        }
+    }
+    private static void addManagerToWorkingData(Context context, JSONObject managerJson) {
+        try {
+            String managerId = managerJson.getString("_id");
+            long lastUpdatedTime = managerJson.getLong("updatedAt");
+            boolean workingDataHasManager = WorkingData.getInstance(context).hasManager(managerId);
+
+            if (workingDataHasManager &&
+                WorkingData.getInstance(context).getManagerById(managerId).lastUpdatedTime >= lastUpdatedTime) {
+                return;
+            }
+
+            if (workingDataHasManager) {
+                WorkingData.getInstance(context).getManagerById(managerId).update(retrieveManagerFromJson(managerJson));
+            } else {
+                WorkingData.getInstance(context).addManager(retrieveManagerFromJson(managerJson));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in addManagerToWorkingData()");
+            e.printStackTrace();
+        }
+    }
+    private static void addTagToWorkingData(Context context, JSONObject tagJson) {
+        try {
+            String tagId = tagJson.getString("_id");
+            long lastUpdatedTime = tagJson.getLong("updatedAt");
+            boolean workingDataHasTag = WorkingData.getInstance(context).hasTag(tagId);
+
+            if (workingDataHasTag &&
+                WorkingData.getInstance(context).getTagById(tagId).lastUpdatedTime >= lastUpdatedTime) {
+                return;
+            }
+
+            if (workingDataHasTag) {
+                WorkingData.getInstance(context).getTagById(tagId).update(retrieveTagFromJson(tagJson));
+            } else {
+                WorkingData.getInstance(context).addTag(retrieveTagFromJson(tagJson));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in addTagToWorkingData()");
+            e.printStackTrace();
+        }
+    }
+
 
     private static String getTasksByCaseUrl(String caseId) {
         return WorkingDataUrl.TASKS_BY_CASE + caseId;
     }
 
+
     private static Date getDateFromJson(JSONObject jsonObject, String key) throws JSONException {
         return jsonObject.has(key) ? new Date(jsonObject.getLong(key)) : null;
     }
-
     private static String getStringFromJson(JSONObject jsonObject, String key) throws JSONException {
         return jsonObject.has(key) ? jsonObject.getString(key) : "";
     }
-
     private static long getLongFromJson(JSONObject jsonObject, String key) throws JSONException {
         return jsonObject.has(key) ? jsonObject.getLong(key) : -1L;
     }

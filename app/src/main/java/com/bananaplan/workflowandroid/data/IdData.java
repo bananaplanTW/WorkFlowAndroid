@@ -10,4 +10,5 @@ public class IdData {
 
     public String id;
     public String name;
+    public long lastUpdatedTime = -1L;
 }
