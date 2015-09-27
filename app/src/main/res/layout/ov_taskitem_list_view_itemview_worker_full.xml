@@ -13,7 +13,7 @@
         android:baselineAligned="false">
 
         <LinearLayout
-            android:layout_width="72dp"
+            android:layout_width="104dp"
             android:layout_height="match_parent"
             android:gravity="center">
 
@@ -29,7 +29,7 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="match_parent"
             android:gravity="center">
 
@@ -46,7 +46,7 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="115dp"
             android:layout_height="match_parent"
             android:gravity="center">
 
@@ -62,7 +62,7 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="113dp"
+            android:layout_width="112dp"
             android:layout_height="match_parent"
             android:gravity="center">
 
@@ -78,7 +78,7 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="80dp"
+            android:layout_width="95dp"
             android:layout_height="match_parent"
             android:gravity="center">
 
@@ -94,7 +94,7 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="80dp"
+            android:layout_width="95dp"
             android:layout_height="match_parent"
             android:gravity="center">
 
@@ -126,7 +126,7 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="50dp"
+            android:layout_width="97dp"
             android:layout_height="match_parent"
             android:gravity="center">
 

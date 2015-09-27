@@ -176,6 +176,11 @@ public final class WorkingData {
         worker.records.add(data);
     }
 
+    public void addRecordToTask(Task task, BaseData data) {
+        if (task == null || data == null) return;
+        task.records.add(data);
+    }
+
     public String getLoginWorkerId() { // TODO
         return getRandomWorkerId();
     }

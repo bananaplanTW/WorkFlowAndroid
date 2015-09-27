@@ -117,15 +117,17 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     }
 
     private void setupTabs() {
-        Bundle bundle = new Bundle();
+        Bundle bundle1 = new Bundle();
         TabHost.TabSpec taskItemsTabSpec = mTabHost.newTabSpec(TAB_TAG.TASK_ITEMS)
                 .setIndicator(getTabTitleView(TAB_TAG.TASK_ITEMS));
-        bundle.putString(TaskItemFragment.FROM, getClass().getSimpleName());
-        mTabMgr.addTab(taskItemsTabSpec, TaskItemFragment.class, bundle);
+        bundle1.putString(TaskItemFragment.FROM, getClass().getSimpleName());
+        mTabMgr.addTab(taskItemsTabSpec, TaskItemFragment.class, bundle1);
 
         TabHost.TabSpec workerStatusTabSpec = mTabHost.newTabSpec(TAB_TAG.WORKER_STATUS)
                 .setIndicator(getTabTitleView(TAB_TAG.WORKER_STATUS));
-        mTabMgr.addTab(workerStatusTabSpec, StatusFragment.class, null);
+        Bundle bundle2 = new Bundle();
+        bundle2.putString(StatusFragment.FROM, getClass().getSimpleName());
+        mTabMgr.addTab(workerStatusTabSpec, StatusFragment.class, bundle2);
 
         TabHost.TabSpec workerAttendanceStatusTabSpec = mTabHost.newTabSpec(TAB_TAG.WORKER_ATTENDANCE_STATUS)
                 .setIndicator(getTabTitleView(TAB_TAG.WORKER_ATTENDANCE_STATUS));

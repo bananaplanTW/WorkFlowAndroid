@@ -17,6 +17,7 @@ import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.StatusFragment;
+import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.utility.TabManager;
 
 public class DetailedWorkerActivity extends AppCompatActivity {
@@ -38,7 +39,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
 
     private ImageView mWorkerAvatar;
     private TextView mWorkerName;
-    private TextView mWorkerJobtitle;
+    private TextView mWorkerJobTitle;
 
     private Worker mWorker;
     private TabManager mTabMgr;
@@ -63,7 +64,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
         mTabHost = (TabHost) findViewById(R.id.detailed_worker_tab_host);
         mWorkerAvatar = (ImageView) findViewById(R.id.detailed_worker_avatar);
         mWorkerName = (TextView) findViewById(R.id.detailed_worker_name);
-        mWorkerJobtitle = (TextView) findViewById(R.id.detailed_worker_jobtitle);
+        mWorkerJobTitle = (TextView) findViewById(R.id.detailed_worker_jobtitle);
         mTabMgr = new TabManager(this, null, mTabHost, android.R.id.tabcontent);
     }
 
@@ -80,12 +81,17 @@ public class DetailedWorkerActivity extends AppCompatActivity {
 
     private void setupTabs() {
         mTabHost.setup();
-        addTab(FragmentTag.TASK_SCHEDULE, null, TaskScheduleFragment.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(TaskItemFragment.FROM, getClass().getSimpleName());
-        addTab(FragmentTag.TASK_ITEM, bundle, TaskItemFragment.class);
-        addTab(FragmentTag.TASK_LOG, null, StatusFragment.class);
-        addTab(FragmentTag.WORKER_LOG, null, StatusFragment.class);
+        Bundle bundle1 = new Bundle();
+        addTab(FragmentTag.TASK_SCHEDULE, bundle1, TaskScheduleFragment.class);
+        Bundle bundle2 = new Bundle();
+        bundle2.putString(TaskItemFragment.FROM, getClass().getSimpleName());
+        addTab(FragmentTag.TASK_ITEM, bundle2, TaskItemFragment.class);
+        Bundle bundle3 = new Bundle();
+        bundle3.putString(StatusFragment.FROM, getClass().getSimpleName());
+        addTab(FragmentTag.TASK_LOG, bundle3, StatusFragment.class);
+        Bundle bundle4 = new Bundle();
+        bundle4.putString(StatusFragment.FROM, WorkerOverviewFragment.class.getSimpleName());
+        addTab(FragmentTag.WORKER_LOG, bundle4, StatusFragment.class);
     }
 
     private void addTab(String tabTag, Bundle bundle, Class<?> cls) {
@@ -125,7 +131,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
     private void setupViews() {
         mWorkerAvatar.setImageDrawable(mWorker.getAvator());
         mWorkerName.setText(mWorker.name);
-        mWorkerJobtitle.setText(mWorker.jobTitle);
+        mWorkerJobTitle.setText(mWorker.jobTitle);
     }
 
     @Override
@@ -137,5 +143,9 @@ public class DetailedWorkerActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public Worker getSelectedWorker() {
+        return mWorker;
     }
 }

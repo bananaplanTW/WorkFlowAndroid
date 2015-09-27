@@ -104,6 +104,12 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             ((LinearLayout.LayoutParams) mBarChartContainer.getLayoutParams()).topMargin =
                     getResources().getDimensionPixelOffset(R.dimen.case_ov_statistics_margin_top);
             onItemSelected(getSelectedTaskCase());
+        } else if (mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
+            getActivity().findViewById(R.id.workers_list_vg).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.worker_ov_edit_task_item).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.upper).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.current_task_items).setVisibility(View.VISIBLE);
+            onItemSelected(getSelectedWorker());
         }
     }
 
@@ -116,14 +122,13 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             return R.layout.ov_taskitem_list_view_itemview_case;
         } else if (mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
-            return R.layout.ov_taskitem_list_view_itemview_case;// TODO
+            return R.layout.ov_taskitem_list_view_itemview_worker_full;
         }
         return -1;
     }
 
     private View getTaskItemListViewHeader() {
-        final View view = getActivity().getLayoutInflater()
-                .inflate(getItemViewLayoutId(), null);
+        final View view = getActivity().getLayoutInflater().inflate(getItemViewLayoutId(), null);
         TaskItemListViewAdapterViewHolder holder = new TaskItemListViewAdapterViewHolder(view, true);
         if (holder.workerNameString != null) {
             holder.workerNameString.setVisibility(View.VISIBLE);
@@ -144,7 +149,9 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                                 * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
                                 + mTaskItemListViewHeaderHeight;
                         mTaskItemListView.requestLayout();
-                        ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
+                        if ((getActivity().findViewById(R.id.scroll)) != null) {
+                            ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(true);
+                        }
                     }
                 }
             });
@@ -332,7 +339,8 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         if (item == null) return;
         if (mFrom.equals(EquipmentOverviewFragment.class.getSimpleName())) {
             onEquipmentSelected((Equipment) item);
-        } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())) {
+        } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())
+                || mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
             onWorkerSelected((Worker) item);
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             onCaseSelected((Case) item);
@@ -373,7 +381,9 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
 
     private void onWorkerSelected(Worker worker) {
         // update statistics
-        updateStatisticsView(3, R.string.overview_working_hours);
+        if (!mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
+            updateStatisticsView(3, R.string.overview_working_hours);
+        }
 
         // update task item listview
         ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTasksByWorker(worker);

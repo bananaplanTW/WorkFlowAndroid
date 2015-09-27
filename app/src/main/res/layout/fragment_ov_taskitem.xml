@@ -11,9 +11,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/ov_statisticts"/>
+            <LinearLayout
+                android:id="@+id/upper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <include layout="@layout/h_divider"/>
+                <include layout="@layout/ov_statisticts"/>
+
+                <include layout="@layout/h_divider"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/worker_ov_edit_task_item"
@@ -53,6 +59,17 @@
                     android:divider="@null"
                     widget:hlv_dividerWidth="10dp"/>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/current_task_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detailed_worker_current_task_items"
+                android:textSize="18dp"
+                android:textColor="@color/gray2"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="24dp"
+                android:visibility="gone"/>
 
             <ListView
                 android:id="@+id/listview_task_item"

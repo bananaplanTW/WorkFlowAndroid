@@ -188,5 +188,10 @@
     <string name="detailed_worker_task_items">Task Items</string>
     <string name="detailed_worker_task_log">Task Log</string>
     <string name="detailed_worker_worker_log">Worker Log</string>
+    <string name="detailed_worker_current_task_items">Current task items</string>
+
+    <!-- Status Fragment -->
+    <string name="status_string_worker">Worker %s records</string>
+    <string name="status_string_task">Task %s records</string>
 
 </resources>

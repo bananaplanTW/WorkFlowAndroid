@@ -4,13 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +32,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
+import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
@@ -60,6 +66,12 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         private final static String HISTORY = "worker_status_tab_tag_history";
     }
 
+    public static final String FROM = "from";
+    private static class CONTENT_SHOW {
+        private final static int TASK_STATUS = 1;
+        private final static int WOKER_STATUS = 2;
+    }
+
     private static final int REQUEST_IMAGE_CAPTURE = 10001;
     private static final int REQUEST_PICK_FILE = 10002;
 
@@ -70,6 +82,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private DataAdapter mAdapter;
 
     private String mCurrentPhotoPath = null;
+    private int mContentShow;
 
     static {
         mTabInfos.add(new TabInfo(BaseData.TYPE.ALL.ordinal(), TAB_TAG.ALL, R.id.tab_all, R.id.worker_status_list));
@@ -102,6 +115,12 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        String from = getArguments() != null ? getArguments().getString(FROM) : "";
+        if (from.equals(WorkerOverviewFragment.class.getSimpleName())) {
+            mContentShow = CONTENT_SHOW.WOKER_STATUS;
+        } else if (from.equals(DetailedWorkerActivity.class.getSimpleName())) {
+            mContentShow = CONTENT_SHOW.TASK_STATUS;
+        }
         mRecordEditText = (EditText) getActivity().findViewById(R.id.et_record);
         getActivity().findViewById(R.id.upload).setOnClickListener(this);
         getActivity().findViewById(R.id.record).setOnClickListener(this);
@@ -112,6 +131,26 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         setupTabHost();
         mScore = (TextView) getActivity().findViewById(R.id.score);
         onItemSelected(getSelectedWorker());
+        String temp = null;
+        switch (mContentShow) {
+            case CONTENT_SHOW.WOKER_STATUS:
+                temp = getString(R.string.status_string_worker, getSelectedWorker().name);
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                temp = getString(R.string.status_string_task,
+                        getSelectedWorker().currentTask != null ? getSelectedWorker().currentTask.name: "");
+                break;
+            default:
+                break;
+        }
+        if (!TextUtils.isEmpty(temp)) {
+            SpannableStringBuilder statusStringBuilder = new SpannableStringBuilder(temp);
+            StyleSpan span = new StyleSpan(Typeface.BOLD);
+            statusStringBuilder.setSpan(span, temp.indexOf(" ") + 1, temp.lastIndexOf(" "), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            if (statusStringBuilder != null) {
+                ((TextView) getActivity().findViewById(R.id.status_string)).setText(statusStringBuilder);
+            }
+        }
     }
 
     private void setupTabHost() {
@@ -195,7 +234,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         record.time = Calendar.getInstance().getTime();
         record.reporter = WorkingData.getInstance(getActivity()).getLoginWorkerId();
         record.description = mRecordEditText.getText().toString();
-        WorkingData.getInstance(getActivity()).addRecordToWorker(getSelectedWorker(), record);
+        addRecord(getSelectedWorker(), record);
         onItemSelected(getSelectedWorker()); // force notify adapter data changed
         mRecordEditText.setText("");
     }
@@ -276,7 +315,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         file.time = Calendar.getInstance().getTime();
         file.fileName = path.substring(path.lastIndexOf('/') + 1);
         file.filePath = uri;
-        WorkingData.getInstance(getActivity()).addRecordToWorker(getSelectedWorker(), file);
+        addRecord(getSelectedWorker(), file);
         onItemSelected(getSelectedWorker()); // force notify adapter data changed
     }
 
@@ -302,9 +341,19 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         photo.fileName = mCurrentPhotoPath.substring(mCurrentPhotoPath.lastIndexOf('/') + 1);
         photo.photo = new BitmapDrawable(getResources(), bitmap);
         photo.filePath = Uri.parse(mCurrentPhotoPath);
-        WorkingData.getInstance(getActivity()).addRecordToWorker(getSelectedWorker(), photo);
+        addRecord(getSelectedWorker(), photo);
         scanPhotoToGallery();
         onItemSelected(getSelectedWorker()); // force notify adapter data changed
+    }
+
+    private void addRecord(Worker worker, BaseData data) {
+        if (mContentShow == CONTENT_SHOW.WOKER_STATUS) {
+            WorkingData.getInstance(getActivity()).addRecordToWorker(worker, data);
+        } else {
+            if (worker.currentTask != null) {
+                WorkingData.getInstance(getActivity()).addRecordToTask(worker.currentTask, data);
+            }
+        }
     }
 
     private void scanPhotoToGallery() {
@@ -346,7 +395,19 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         Worker worker = (Worker) item;
         if (worker == null) return;
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
-        ArrayList<BaseData> records = new ArrayList<>(worker.records);
+        ArrayList<BaseData> records = null;
+        switch (mContentShow) {
+            case CONTENT_SHOW.WOKER_STATUS:
+                records = new ArrayList<>(worker.records);
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                if (worker.currentTask != null) {
+                    records = new ArrayList<>(worker.currentTask.records);
+                } else {
+                    records = new ArrayList<>();
+                }
+                break;
+        }
         Collections.sort(records, new Comparator<BaseData>() {
             @Override
             public int compare(BaseData lhs, BaseData rhs) {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.bananaplan.workflowandroid.data.Equipment;
+import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.main.UIController;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
@@ -46,10 +47,14 @@ public abstract class OvTabFragmentBase extends Fragment {
     }
 
     public Worker getSelectedWorker() {
-        Fragment frag = getFragmentManager().findFragmentByTag(UIController.FragmentTag.WORKER_OVERVIEW_FRAGMENT);
-        if (frag == null) return null;
-        if (!(frag instanceof WorkerOverviewFragment)) return null;
-        return ((WorkerOverviewFragment) frag).getSelectedWorker();
+        if (getActivity() instanceof DetailedWorkerActivity) {
+            return ((DetailedWorkerActivity) getActivity()).getSelectedWorker();
+        } else {
+            Fragment frag = getFragmentManager().findFragmentByTag(UIController.FragmentTag.WORKER_OVERVIEW_FRAGMENT);
+            if (frag == null) return null;
+            if (!(frag instanceof WorkerOverviewFragment)) return null;
+            return ((WorkerOverviewFragment) frag).getSelectedWorker();
+        }
     }
 
     public Case getSelectedTaskCase() {
