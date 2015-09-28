@@ -1,5 +1,6 @@
 package com.bananaplan.workflowandroid.detail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 
 /**
@@ -37,6 +39,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     private TextView mCurrentEquipment;
     private TextView mCurrentExpectedCompletedTime;
     private TextView mCurrentError;
+    private TextView mCurrentWarnings;
 
     private Worker mWorker;
 
@@ -79,7 +82,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         mCurrentEquipment = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_equipment);
         mCurrentExpectedCompletedTime = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_expected_completed_time);
         mCurrentError = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_error);
-        // TODO: Warnings
+        mCurrentWarnings = (TextView) mMainView.findViewById(R.id.taskitem_listview_warning);
     }
 
     private void setupCurrentTask() {
@@ -92,7 +95,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         mCurrentEquipment.setText(WorkingData.getInstance(mContext).getEquipmentById(mWorker.currentTask.equipmentId).name);
         // TODO: Expected completed time
         // TODO: Error
-        // TODO: Warnings
+        Utils.setTaskItemWarningTextView((Activity) mContext, mWorker.currentTask, mCurrentWarnings, true);
     }
 
     private void setupButtons() {

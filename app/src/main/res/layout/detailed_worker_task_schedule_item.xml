@@ -61,9 +61,18 @@
     <include
         layout="@layout/detailed_worker_task_schedule_item_divider" />
 
-    <TextView
-        android:id="@+id/detailed_worker_task_schedule_warnings"
-        style="@style/DetailedWorkerTaskSchedule.Item"
-        android:layout_weight="@integer/detailed_worker_task_schedule_warnings_weight" />
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="@integer/detailed_worker_task_schedule_warnings_weight"
+        android:layout_gravity="center">
+
+        <include
+            layout="@layout/warning_textview_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
