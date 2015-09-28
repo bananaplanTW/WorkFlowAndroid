@@ -16,7 +16,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
-import com.bananaplan.workflowandroid.overview.workeroverview.StatusFragment;
+import com.bananaplan.workflowandroid.overview.StatusFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.utility.TabManager;
 
@@ -66,7 +66,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
         mWorkerAvatar = (ImageView) findViewById(R.id.detailed_worker_avatar);
         mWorkerName = (TextView) findViewById(R.id.detailed_worker_name);
         mWorkerJobTitle = (TextView) findViewById(R.id.detailed_worker_jobtitle);
-        mTabMgr = new TabManager(this, null, mTabHost, android.R.id.tabcontent);
+        mTabMgr = new TabManager(this, mTabHost, android.R.id.tabcontent);
     }
 
     private void setupActionBar() {

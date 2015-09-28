@@ -27,6 +27,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.main.MainActivity;
+import com.bananaplan.workflowandroid.overview.StatusFragment;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
@@ -94,7 +95,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         getActivity().findViewById(R.id.worker_ov_right_pane_edit_worker).setOnClickListener(this);
         mTabHost = (TabHost) getActivity().findViewById(R.id.worker_ov_right_pane_tab_host);
         mTabHost.setup();
-        mTabMgr = new TabManager((MainActivity) getActivity(), this, mTabHost, android.R.id.tabcontent);
+        mTabMgr = new TabManager((MainActivity) getActivity(), mTabHost, android.R.id.tabcontent);
         setupTabs();
 
         // factory spinner

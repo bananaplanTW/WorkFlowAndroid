@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.overview.workeroverview;
+package com.bananaplan.workflowandroid.overview;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,6 +33,7 @@ import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
+import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;

@@ -82,7 +82,7 @@ public class EquipmentOverviewFragment extends Fragment implements
         mListView.setAdapter(mEquipmentAdapter);
         mTabHost = (TabHost) getActivity().findViewById(R.id.tab_host);
         mTabHost.setup();
-        mTabMgr = new TabManager((MainActivity) getActivity(), this, mTabHost, android.R.id.tabcontent);
+        mTabMgr = new TabManager((MainActivity) getActivity(), mTabHost, android.R.id.tabcontent);
         setupTabs();
         new InitTask().execute();
     }

@@ -110,7 +110,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher, Adapt
         mTvCaseProgress = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_case_progress);
         mTabHost = (TabHost) getActivity().findViewById(R.id.case_ov_right_pane_tab_host);
         mTabHost.setup();
-        mTabMgr = new TabManager((MainActivity) getActivity(), this, mTabHost, android.R.id.tabcontent);
+        mTabMgr = new TabManager((MainActivity) getActivity(), mTabHost, android.R.id.tabcontent);
         setupTabs();
 
         mCaseListViewAdapter = new CaseListViewAdapter(getActivity(), getTaskCases());

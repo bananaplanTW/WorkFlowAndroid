@@ -21,17 +21,16 @@ public class TabManager implements TabHost.OnTabChangeListener {
     private final int mContainerId;
     private final HashMap<String, TabInfo> mTabs = new HashMap<>();
     TabInfo mLastTab;
-    private Fragment mParentFragment;
 
     static final class TabInfo {
         private final String tag;
-        private final Class<?> clss;
+        private final Class<?> cls;
         private final Bundle args;
         private Fragment fragment;
 
         TabInfo(String _tag, Class<?> _class, Bundle _args) {
             tag = _tag;
-            clss = _class;
+            cls = _class;
             args = _args;
         }
     }
@@ -52,11 +51,10 @@ public class TabManager implements TabHost.OnTabChangeListener {
         }
     }
 
-    public TabManager(AppCompatActivity activity, Fragment parent, TabHost tabHost, int containerId) {
+    public TabManager(AppCompatActivity activity, TabHost tabHost, int containerId) {
         mActivity = activity;
         mTabHost = tabHost;
         mContainerId = containerId;
-        mParentFragment = parent;
         mTabHost.setOnTabChangedListener(this);
     }
 
@@ -87,8 +85,8 @@ public class TabManager implements TabHost.OnTabChangeListener {
                 ((OverviewScrollView) mActivity.findViewById(R.id.scroll)).setScrollEnable(false);
             }
             FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
             if (mLastTab != null) {
+                ft.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
                 if (mLastTab.fragment != null) {
                     ft.detach(mLastTab.fragment);
                 }
@@ -96,7 +94,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
 
             if (newTab != null) {
                 newTab.fragment = Fragment.instantiate(mActivity,
-                        newTab.clss.getName(), newTab.args);
+                        newTab.cls.getName(), newTab.args);
                 ft.add(mContainerId, newTab.fragment, newTab.tag);
                 if (newTab.fragment == null) {
                     ft.detach(mLastTab.fragment);
