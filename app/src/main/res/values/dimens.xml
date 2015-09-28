@@ -153,5 +153,10 @@
     <dimen name="detailed_worker_current_task_text_size">18dp</dimen>
     <dimen name="detailed_worker_task_schedule_current_task_container_padding">24dp</dimen>
     <dimen name="detailed_worker_task_schedule_current_task_container_button_margin_right">15dp</dimen>
+    <dimen name="detailed_worker_task_schedule_current_task_margin_top">5dp</dimen>
+    <dimen name="detailed_worker_task_schedule_item_height">50dp</dimen>
+    <dimen name="detailed_worker_task_schedule_item_stroke_width">1dp</dimen>
+    <dimen name="detailed_worker_task_schedule_item_divider_width">1dp</dimen>
+    <dimen name="detailed_worker_task_schedule_item_text_size">15dp</dimen>
 
 </resources>

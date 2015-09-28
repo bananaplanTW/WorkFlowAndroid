@@ -192,6 +192,14 @@
     <string name="detailed_worker_task_schedule_complete_task_button">Complete task</string>
     <string name="detailed_worker_task_schedule_add_warning_button">Add warning</string>
     <string name="detailed_worker_task_schedule_manage_warning_button">Manage warning</string>
+    <string name="detailed_worker_task_schedule_header_case">Case</string>
+    <string name="detailed_worker_task_schedule_header_task">Task</string>
+    <string name="detailed_worker_task_schedule_header_expected_time">Expected time</string>
+    <string name="detailed_worker_task_schedule_header_spent_time">Spent time</string>
+    <string name="detailed_worker_task_schedule_header_equipment">Equipment</string>
+    <string name="detailed_worker_task_schedule_header_expected_completed_time">Expected completed time</string>
+    <string name="detailed_worker_task_schedule_header_error">Error</string>
+    <string name="detailed_worker_task_schedule_header_warnings">Warnings</string>
 
     <!-- Status Fragment -->
     <string name="status_string_worker">Worker %s records</string>

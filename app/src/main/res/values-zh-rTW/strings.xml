@@ -181,6 +181,14 @@
     <string name="detailed_worker_task_schedule_complete_task_button">工作完成</string>
     <string name="detailed_worker_task_schedule_add_warning_button">新增警訊</string>
     <string name="detailed_worker_task_schedule_manage_warning_button">管理警訊</string>
+    <string name="detailed_worker_task_schedule_header_case">案件</string>
+    <string name="detailed_worker_task_schedule_header_task">工作項目</string>
+    <string name="detailed_worker_task_schedule_header_expected_time">預計時間</string>
+    <string name="detailed_worker_task_schedule_header_spent_time">工作時間</string>
+    <string name="detailed_worker_task_schedule_header_equipment">使用機器</string>
+    <string name="detailed_worker_task_schedule_header_expected_completed_time">預計完成時間</string>
+    <string name="detailed_worker_task_schedule_header_error">錯誤</string>
+    <string name="detailed_worker_task_schedule_header_warnings">警訊</string>
 
     <!-- Status Fragment -->
     <string name="status_string_worker">員工 %s 的紀錄</string>

@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.Worker;
+import com.bananaplan.workflowandroid.data.WorkingData;
+
 
 /**
  * Task schedule of a worker
@@ -25,6 +28,17 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     private TextView mCompleteTaskButton;
     private TextView mAddWarningButton;
     private TextView mManageWarningButton;
+
+    // Information of the current task
+    private TextView mCurrentCase;
+    private TextView mCurrentTask;
+    private TextView mCurrentExpectedTime;
+    private TextView mCurrentSpentTime;
+    private TextView mCurrentEquipment;
+    private TextView mCurrentExpectedCompletedTime;
+    private TextView mCurrentError;
+
+    private Worker mWorker;
 
 
     @Override
@@ -47,7 +61,9 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
 
     private void initialize() {
         mMainView = getView();
+        mWorker = WorkingData.getInstance(mContext).getWorkerById(getArguments().getString(DetailedWorkerActivity.EXTRA_WORKER_ID));
         findViews();
+        setupCurrentTask();
         setupButtons();
     }
 
@@ -55,6 +71,28 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         mCompleteTaskButton = (TextView) mMainView.findViewById(R.id.complete_task_button);
         mAddWarningButton = (TextView) mMainView.findViewById(R.id.add_warning_button);
         mManageWarningButton = (TextView) mMainView.findViewById(R.id.manage_warning_button);
+
+        mCurrentCase = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_case);
+        mCurrentTask = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_task);
+        mCurrentExpectedTime = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_expected_time);
+        mCurrentSpentTime = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_spent_time);
+        mCurrentEquipment = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_equipment);
+        mCurrentExpectedCompletedTime = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_expected_completed_time);
+        mCurrentError = (TextView) mMainView.findViewById(R.id.detailed_worker_task_schedule_error);
+        // TODO: Warnings
+    }
+
+    private void setupCurrentTask() {
+        if (!mWorker.hasCurrentTask()) return;
+
+        mCurrentCase.setText(WorkingData.getInstance(mContext).getCaseById(mWorker.currentTask.caseId).name);
+        mCurrentTask.setText(mWorker.currentTask.name);
+        // TODO: Expected time
+        // TODO: Spent time
+        mCurrentEquipment.setText(WorkingData.getInstance(mContext).getEquipmentById(mWorker.currentTask.equipmentId).name);
+        // TODO: Expected completed time
+        // TODO: Error
+        // TODO: Warnings
     }
 
     private void setupButtons() {

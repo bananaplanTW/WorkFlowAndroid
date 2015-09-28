@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <TextView
+        style="@style/DetailedWorkerTaskSchedule.Header"
+        android:layout_weight="@integer/detailed_worker_task_schedule_case_weight"
+        android:text="@string/detailed_worker_task_schedule_header_case"/>
+
+    <TextView
+        style="@style/DetailedWorkerTaskSchedule.Header"
+        android:layout_weight="@integer/detailed_worker_task_schedule_task_weight"
+        android:text="@string/detailed_worker_task_schedule_header_task"/>
+
+    <TextView
+        style="@style/DetailedWorkerTaskSchedule.Header"
+        android:layout_weight="@integer/detailed_worker_task_schedule_expected_time_weight"
+        android:text="@string/detailed_worker_task_schedule_header_expected_time"/>
+
+    <TextView
+        style="@style/DetailedWorkerTaskSchedule.Header"
+        android:layout_weight="@integer/detailed_worker_task_schedule_spent_time_weight"
+        android:text="@string/detailed_worker_task_schedule_header_spent_time"/>
+
+    <TextView
+        style="@style/DetailedWorkerTaskSchedule.Header"
+        android:layout_weight="@integer/detailed_worker_task_schedule_equipment_weight"
+        android:text="@string/detailed_worker_task_schedule_header_equipment"/>
+
+    <TextView
+        style="@style/DetailedWorkerTaskSchedule.Header"
+        android:layout_weight="@integer/detailed_worker_task_schedule_expected_complected_time_weight"
+        android:text="@string/detailed_worker_task_schedule_header_expected_completed_time"/>
+
+    <TextView
+        style="@style/DetailedWorkerTaskSchedule.Header"
+        android:layout_weight="@integer/detailed_worker_task_schedule_error_weight"
+        android:text="@string/detailed_worker_task_schedule_header_error"/>
+
+    <TextView
+        style="@style/DetailedWorkerTaskSchedule.Header"
+        android:layout_weight="@integer/detailed_worker_task_schedule_warnings_weight"
+        android:text="@string/detailed_worker_task_schedule_header_warnings"/>
+
+</LinearLayout>

@@ -44,6 +44,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
     private Worker mWorker;
     private TabManager mTabMgr;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,14 +82,19 @@ public class DetailedWorkerActivity extends AppCompatActivity {
 
     private void setupTabs() {
         mTabHost.setup();
+
         Bundle bundle1 = new Bundle();
+        bundle1.putString(EXTRA_WORKER_ID, mWorker.id);
         addTab(FragmentTag.TASK_SCHEDULE, bundle1, TaskScheduleFragment.class);
+
         Bundle bundle2 = new Bundle();
         bundle2.putString(TaskItemFragment.FROM, getClass().getSimpleName());
         addTab(FragmentTag.TASK_ITEM, bundle2, TaskItemFragment.class);
+
         Bundle bundle3 = new Bundle();
         bundle3.putString(StatusFragment.FROM, getClass().getSimpleName());
         addTab(FragmentTag.TASK_LOG, bundle3, StatusFragment.class);
+
         Bundle bundle4 = new Bundle();
         bundle4.putString(StatusFragment.FROM, WorkerOverviewFragment.class.getSimpleName());
         addTab(FragmentTag.WORKER_LOG, bundle4, StatusFragment.class);

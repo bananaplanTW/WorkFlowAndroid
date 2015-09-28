@@ -22,6 +22,24 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/detailed_worker_task_schedule_header" />
+
+            <include
+                layout="@layout/detailed_worker_task_schedule_item"
+                android:id="@+id/detailed_worker_current_task"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/detailed_worker_task_schedule_item_height"
+                android:layout_marginTop="@dimen/detailed_worker_task_schedule_current_task_margin_top"/>
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/complete_task_button"
             style="@style/ButtonStyle.Blue"

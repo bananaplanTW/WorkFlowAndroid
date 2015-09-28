@@ -16,4 +16,15 @@
     <integer name="add_case_grid_view_span_count">4</integer>
     <integer name="add_case_info_header_description_min_lines">3</integer>
 
+
+    <!-- Detailed worker -->
+    <integer name="detailed_worker_task_schedule_case_weight">106</integer>
+    <integer name="detailed_worker_task_schedule_task_weight">177</integer>
+    <integer name="detailed_worker_task_schedule_expected_time_weight">83</integer>
+    <integer name="detailed_worker_task_schedule_spent_time_weight">84</integer>
+    <integer name="detailed_worker_task_schedule_equipment_weight">118</integer>
+    <integer name="detailed_worker_task_schedule_expected_complected_time_weight">131</integer>
+    <integer name="detailed_worker_task_schedule_error_weight">58</integer>
+    <integer name="detailed_worker_task_schedule_warnings_weight">228</integer>
+
 </resources>
