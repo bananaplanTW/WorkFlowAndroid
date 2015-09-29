@@ -7,8 +7,8 @@
         android:id="@+id/add_maintenance_record"
         style="@style/ButtonStyle.Green"
         android:layout_gravity="right"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginRight="@dimen/equipment_maintenance_ov_add_maintenance_record_margin_right"
+        android:layout_marginTop="@dimen/equipment_maintenance_ov_add_maintenance_record_margin_top"
         android:text="@string/add_maintenance_record"/>
 
     <ListView
@@ -17,6 +17,6 @@
         android:layout_height="match_parent"
         android:divider="@color/gray3"
         android:dividerHeight="@dimen/divider_height"
-        android:layout_marginTop="17dp"/>
+        android:layout_marginTop="@dimen/equipment_maintenance_ov_listview_maintenance_records_margin_top"/>
 
 </LinearLayout>

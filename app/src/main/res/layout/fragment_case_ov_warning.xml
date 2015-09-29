@@ -4,4 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:divider="@null"
-    android:paddingTop="17dp"/>
+    android:paddingTop="@dimen/case_warning_listview_padding_top"/>

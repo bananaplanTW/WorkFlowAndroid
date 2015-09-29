@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -70,7 +69,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     public static final String FROM = "from";
     private static class CONTENT_SHOW {
         private final static int TASK_STATUS = 1;
-        private final static int WOKER_STATUS = 2;
+        private final static int WORKER_STATUS = 2;
     }
 
     private static final int REQUEST_IMAGE_CAPTURE = 10001;
@@ -118,7 +117,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         super.onViewCreated(view, savedInstanceState);
         String from = getArguments() != null ? getArguments().getString(FROM) : "";
         if (from.equals(WorkerOverviewFragment.class.getSimpleName())) {
-            mContentShow = CONTENT_SHOW.WOKER_STATUS;
+            mContentShow = CONTENT_SHOW.WORKER_STATUS;
         } else if (from.equals(DetailedWorkerActivity.class.getSimpleName())) {
             mContentShow = CONTENT_SHOW.TASK_STATUS;
         }
@@ -134,7 +133,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         onItemSelected(getSelectedWorker());
         String temp = null;
         switch (mContentShow) {
-            case CONTENT_SHOW.WOKER_STATUS:
+            case CONTENT_SHOW.WORKER_STATUS:
                 temp = getString(R.string.status_string_worker, getSelectedWorker().name);
                 break;
             case CONTENT_SHOW.TASK_STATUS:
@@ -348,7 +347,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     }
 
     private void addRecord(Worker worker, BaseData data) {
-        if (mContentShow == CONTENT_SHOW.WOKER_STATUS) {
+        if (mContentShow == CONTENT_SHOW.WORKER_STATUS) {
             WorkingData.getInstance(getActivity()).addRecordToWorker(worker, data);
         } else {
             if (worker.currentTask != null) {
@@ -398,7 +397,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
         ArrayList<BaseData> records = null;
         switch (mContentShow) {
-            case CONTENT_SHOW.WOKER_STATUS:
+            case CONTENT_SHOW.WORKER_STATUS:
                 records = new ArrayList<>(worker.records);
                 break;
             case CONTENT_SHOW.TASK_STATUS:

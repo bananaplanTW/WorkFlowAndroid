@@ -7,12 +7,12 @@
         android:id="@+id/worker_ov_left_pane"
         layout="@layout/overview_left_pane" />
 
-    <View
+    <include
         android:id="@+id/worker_ov_vertical_divider"
-        android:layout_width="8dp"
+        layout="@layout/v_divider"
+        android:layout_width="@dimen/ov_divider_width"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@id/worker_ov_left_pane"
-        android:background="@drawable/divider_v" />
+        android:layout_toRightOf="@id/worker_ov_left_pane" />
 
     <com.bananaplan.workflowandroid.utility.OverviewScrollView
         android:id="@+id/scroll"
@@ -31,16 +31,16 @@
                 android:id="@+id/worker_ov_right_pane_worker_personal_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="34dp"
-                android:paddingTop="16dp">
+                android:paddingBottom="@dimen/worker_ov_right_pane_worker_personal_info_padding_bottom"
+                android:paddingTop="@dimen/worker_ov_right_pane_worker_personal_info_padding_top">
 
                 <ImageView
                     android:id="@+id/worker_ov_right_pane_worker_avatar"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
+                    android:layout_width="@dimen/worker_ov_right_pane_worker_avatar_width"
+                    android:layout_height="@dimen/worker_ov_right_pane_worker_avatar_height"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="14dp"
+                    android:layout_marginLeft="@dimen/worker_ov_right_pane_worker_avatar_margin_left"
+                    android:layout_marginRight="@dimen/worker_ov_right_pane_worker_avatar_margin_right"
                     android:background="@drawable/border_avatar" />
 
                 <TextView
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="266dp"
+                    android:layout_marginLeft="@dimen/worker_ov_right_pane_worker_address_margin_left"
                     android:textColor="@color/gray1"
                     android:textSize="16dp" />
 
@@ -87,26 +87,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/worker_ov_right_pane_worker_address"
-                    android:layout_marginLeft="266dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_alignLeft="@id/worker_ov_right_pane_worker_address"
+                    android:layout_marginTop="@dimen/worker_ov_right_pane_worker_phone_margin_top"
                     android:textColor="@color/gray1"
                     android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/worker_ov_right_pane_edit_worker"
                     style="@style/ButtonStyle.Blue"
-                    android:layout_alignTop="@id/worker_ov_right_pane_worker_avatar"
-                    android:layout_marginRight="16dp"
                     android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/worker_ov_right_pane_worker_avatar"
+                    android:layout_marginRight="@dimen/worker_ov_right_pane_edit_worker_margin_right"
                     android:text="@string/case_overview_edit_worker" />
 
             </RelativeLayout>
 
-            <View
-                android:id="@+id/worker_ov_right_pane_horozontal_divider"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@drawable/divider_h" />
+            <include layout="@layout/h_divider" />
 
             <TabHost
                 android:id="@+id/worker_ov_right_pane_tab_host"

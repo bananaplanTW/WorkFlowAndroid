@@ -186,17 +186,21 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (mCaseListViewAdapter == null || mCaseListViewAdapter.getFilter() == null) return;
-        mCaseListViewAdapter.getFilter().filter(s.toString());
+        filterCaseList(s.toString());
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.ov_leftpane_spinner:
-                mCaseListViewAdapter.getFilter().filter(mEtCaseSearch.getText().toString());
+                filterCaseList(mEtCaseSearch.getText().toString());
                 break;
         }
+    }
+
+    private void filterCaseList(String query) {
+        if (mCaseListViewAdapter == null || mCaseListViewAdapter.getFilter() == null) return;
+        mCaseListViewAdapter.getFilter().filter(query);
     }
 
     private void onCaseSelected(Case aCase) {
@@ -231,13 +235,15 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == mCaseListView.getId()) {
-            ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(false);
-            if (mSelectedCase == mCaseListViewAdapter.getItem(position)) return;
-            mSelectedCase = mCaseListViewAdapter.getItem(position);
-            onCaseSelected(mSelectedCase);
-            mCaseListViewAdapter.setPositionSelected(position);
-            mCaseListViewAdapter.notifyDataSetChanged();
+        switch (parent.getId()) {
+            case R.id.ov_leftpane_listview:
+                if (mSelectedCase == mCaseListViewAdapter.getItem(position)) return;
+                ((OverviewScrollView) getActivity().findViewById(R.id.scroll)).setScrollEnable(false);
+                mSelectedCase = mCaseListViewAdapter.getItem(position);
+                onCaseSelected(mSelectedCase);
+                mCaseListViewAdapter.setPositionSelected(position);
+                mCaseListViewAdapter.notifyDataSetChanged();
+                break;
         }
     }
 
@@ -307,32 +313,39 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            Case aCase = getItem(position);
             convertView.findViewById(R.id.header_divider)
                     .setVisibility(position == 0 ? View.VISIBLE : View.GONE);
-            Case aCase = getItem(position);
-            holder.mTvCaseName.setText(aCase.name);
-            holder.mTvVendor.setText(
-                    WorkingData.getInstance(getActivity()).getVendorById(aCase.vendorId).name);
+            int highlightBgColor;
+            int caseNameColor;
+            int vendorColor;
+            String statusText;
+            int statusBgId;
             if (aCase.getFinishPercent() == 100) {
-                holder.mTvStatus.setText(getResources().getString(R.string.case_finished));
-                holder.mTvStatus.setBackground(getResources().getDrawable(
-                        R.drawable.bg_solid_textview_bg_gray, null));
-                holder.mTvCaseName.setTextColor(getResources().getColor(R.color.gray1));
+                statusText = getResources().getString(R.string.case_finished);
+                statusBgId = R.drawable.bg_solid_textview_bg_gray;
+                caseNameColor = getResources().getColor(R.color.gray1);
             } else {
-                holder.mTvStatus.setText(aCase.getFinishItemsCount() + "/" + aCase.tasks.size());
-                holder.mTvStatus.setBackground(getResources().getDrawable(
-                        R.drawable.bg_solid_textview_bg_red, null));
-                holder.mTvCaseName.setTextColor(getResources().getColor(R.color.black1));
+                statusText = aCase.getFinishItemsCount() + "/" + aCase.tasks.size();
+                statusBgId = R.drawable.bg_solid_textview_bg_red;
+                caseNameColor = getResources().getColor(R.color.black1);
             }
+            // highlight the chosen item
             if (position == mPositionSelected) {
-                holder.mRoot.setBackgroundColor(getResources().getColor(R.color.blue1));
-                holder.mTvCaseName.setTextColor(Color.WHITE);
-                holder.mTvVendor.setTextColor(Color.WHITE);
+                highlightBgColor = getResources().getColor(R.color.blue1);
+                vendorColor = Color.WHITE;
+                caseNameColor = Color.WHITE;
             } else {
-                holder.mRoot.setBackgroundColor(Color.TRANSPARENT);
-                holder.mTvCaseName.setTextColor(getResources().getColor(R.color.black1));
-                holder.mTvVendor.setTextColor(getResources().getColor(R.color.gray1));
+                highlightBgColor = Color.TRANSPARENT;
+                vendorColor = getResources().getColor(R.color.gray1);
             }
+            holder.mRoot.setBackgroundColor(highlightBgColor);
+            holder.mTvVendor.setTextColor(vendorColor);
+            holder.mTvCaseName.setText(aCase.name);
+            holder.mTvVendor.setText(WorkingData.getInstance(getActivity()).getVendorById(aCase.vendorId).name);
+            holder.mTvStatus.setText(statusText);
+            holder.mTvStatus.setBackground(getResources().getDrawable(statusBgId, null));
+            holder.mTvCaseName.setTextColor(caseNameColor);
             return convertView;
         }
 

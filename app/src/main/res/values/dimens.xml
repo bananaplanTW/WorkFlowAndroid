@@ -116,6 +116,9 @@
     <dimen name="case_ov_right_top_pane_case_detail_tv_margin_top">20dp</dimen>
     <dimen name="case_ov_right_top_pane_case_detail_tv_margin_bottom">20dp</dimen>
 
+    <!-- CaseWarningFragment -->
+    <dimen name="case_warning_listview_padding_top">17dp</dimen>
+
     <!-- WorkerOverView fragment -->
     <dimen name="worker_ov_statistics_margin_top">112dp</dimen>
 
@@ -162,10 +165,55 @@
     <!-- Worker ov -->
     <dimen name="photo_thumbnail_max_width">170dp</dimen>
     <dimen name="photo_thumbnail_max_height">110dp</dimen>
+    <dimen name="worker_ov_right_pane_worker_personal_info_padding_top">16dp</dimen>
+    <dimen name="worker_ov_right_pane_worker_personal_info_padding_bottom">34dp</dimen>
+    <dimen name="worker_ov_right_pane_worker_avatar_width">72dp</dimen>
+    <dimen name="worker_ov_right_pane_worker_avatar_height">72dp</dimen>
+    <dimen name="worker_ov_right_pane_worker_avatar_margin_left">16dp</dimen>
+    <dimen name="worker_ov_right_pane_worker_avatar_margin_right">14dp</dimen>
+    <dimen name="worker_ov_right_pane_worker_address_margin_left">266dp</dimen>
+    <dimen name="worker_ov_right_pane_worker_phone_margin_top">8dp</dimen>
+    <dimen name="worker_ov_right_pane_edit_worker_margin_right">16dp</dimen>
+
+    <!-- Worker ov status -->
+    <dimen name="worker_status_ov_top_pane_padding_left">24dp</dimen>
+    <dimen name="worker_status_ov_top_pane_padding_right">16dp</dimen>
+    <dimen name="worker_status_ov_top_pane_padding_top">16dp</dimen>
+    <dimen name="worker_status_ov_top_pane_margin_bottom">25dp</dimen>
+    <dimen name="worker_status_ov_top_pane_et_record_height">100dp</dimen>
+    <dimen name="worker_status_ov_top_pane_et_record_margin_top">16dp</dimen>
+    <dimen name="worker_status_ov_top_pane_et_record_padding">16dp</dimen>
+    <dimen name="worker_status_ov_top_pane_buttons_root_height">32dp</dimen>
+    <dimen name="worker_status_ov_top_pane_buttons_root_margin_top">18dp</dimen>
+    <dimen name="worker_status_ov_top_pane_button_width">96dp</dimen>
+    <dimen name="worker_status_ov_top_pane_button_margin_right">17dp</dimen>
+    <dimen name="worker_status_ov_top_pane_button_iv_margin_right">12dp</dimen>
+    <dimen name="worker_status_ov_top_pane_button_score_width">32dp</dimen>
+    <dimen name="worker_status_ov_top_pane_button_score_margin_horizontal">8dp</dimen>
+    <dimen name="worker_status_ov_tab_width">63dp</dimen>
+    <dimen name="worker_status_ov_listview_item_padding_left">15dp</dimen>
+    <dimen name="worker_status_ov_listview_item_padding_right">30dp</dimen>
+    <dimen name="worker_status_ov_listview_item_padding_top">16dp</dimen>
+    <dimen name="worker_status_ov_listview_item_padding_bottom">16dp</dimen>
+    <dimen name="worker_status_ov_listview_item_avatar_size">48dp</dimen>
+    <dimen name="worker_status_ov_listview_item_name_margin_left">23dp</dimen>
+    <dimen name="worker_status_ov_listview_item_description_margin_left">23dp</dimen>
+    <dimen name="worker_status_ov_listview_item_status_margin_left">23dp</dimen>
+    <dimen name="worker_status_ov_listview_item_download_width">68dp</dimen>
+    <dimen name="worker_status_ov_listview_item_download_height">35dp</dimen>
+    <dimen name="worker_status_ov_listview_item_download_margin_left">405dp</dimen>
+    <dimen name="worker_status_ov_listview_item_photo_margin_left">71dp</dimen>
+    <dimen name="worker_status_ov_listview_item_photo_margin_top">48dp</dimen>
 
     <!-- Equipment ov -->
     <dimen name="equipment_ov_listview_item_min_height">80dp</dimen>
     <dimen name="divider_height">1dp</dimen>
+
+    <!-- Equipment maintenance ov -->
+    <dimen name="equipment_maintenance_ov_add_maintenance_record_margin_right">16dp</dimen>
+    <dimen name="equipment_maintenance_ov_add_maintenance_record_margin_top">17dp</dimen>
+    <dimen name="equipment_maintenance_ov_listview_maintenance_records_margin_top">17dp</dimen>
+
 
     <!-- Management -->
     <dimen name="management_dialog_window_width">600dp</dimen>
@@ -210,5 +258,17 @@
     <dimen name="ov_statistics_highlight_stroke_width">3dp</dimen>
     <dimen name="ov_taskitem_listview_header_text_size">14dp</dimen>
     <dimen name="ov_statistics_x_axis_padding">8dp</dimen>
+
+    <!-- Overview task list fragment-->
+    <dimen name="edit_task_margin_right">16dp</dimen>
+    <dimen name="edit_task_margin_top">17dp</dimen>
+    <dimen name="workers_list_vg_margin_top">17dp</dimen>
+    <dimen name="case_overview_worker_margin_left">24dp</dimen>
+    <dimen name="workers_hlist_height">30dp</dimen>
+    <dimen name="workers_hlist_margin_left">17dp</dimen>
+    <dimen name="workers_hlist_divider_width">10dp</dimen>
+    <dimen name="current_task_items_margin_left">24dp</dimen>
+    <dimen name="current_task_items_margin_top">24dp</dimen>
+    <dimen name="tasks_listview_margin_top">17dp</dimen>
 
 </resources>

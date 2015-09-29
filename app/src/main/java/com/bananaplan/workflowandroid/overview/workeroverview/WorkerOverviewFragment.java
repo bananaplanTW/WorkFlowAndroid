@@ -1,6 +1,5 @@
 package com.bananaplan.workflowandroid.overview.workeroverview;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -72,16 +71,8 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (!(activity instanceof MainActivity)) {
-            throw new IllegalArgumentException("WorkerOverviewFragment activity = " + activity);
-        }
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // findview
         mFactoriesSpinner = (Spinner) getActivity().findViewById(R.id.ov_leftpane_spinner);
         mWorkerSearchEditText = (EditText) getActivity().findViewById(R.id.ov_leftpane_search_edittext);
@@ -107,13 +98,13 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         mWorkerSearchEditText.addTextChangedListener(this);
 
         // worker listview
-        mWorkerLisViewAdapter = new WorkerLisViewAdapter(getWorkerLisviewAdapterData());
+        mWorkerLisViewAdapter = new WorkerLisViewAdapter(getWorkerListViewAdapterData());
         mWorkerListView.setAdapter(mWorkerLisViewAdapter);
         mWorkerListView.setOnItemClickListener(this);
 
         if (mWorkerLisViewAdapter.getCount() > 0) {
             mSelectedWorker = mWorkerLisViewAdapter.getItem(0);
-            onWorkerSelected(mSelectedWorker, true);
+            onWorkerSelected(mSelectedWorker);
         }
     }
 
@@ -196,7 +187,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         }
     }
 
-    private ArrayList<Worker> getWorkerLisviewAdapterData() {
+    private ArrayList<Worker> getWorkerListViewAdapterData() {
         ArrayList<Worker> tmp = new ArrayList<>();
         for (Factory factory : WorkingData.getInstance(getActivity()).getFactories()) {
             tmp.addAll(factory.workers);
@@ -332,7 +323,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
                 if (mSelectedWorker == mWorkerLisViewAdapter.getItem(position)) return;
                 mSelectedWorker = mWorkerLisViewAdapter.getItem(position);
                 mWorkerLisViewAdapter.setSelectedPosition(position);
-                onWorkerSelected(mSelectedWorker, false);
+                onWorkerSelected(mSelectedWorker);
                 mWorkerLisViewAdapter.notifyDataSetChanged();
                 break;
             default:
@@ -352,14 +343,14 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     }
 
     private void oFactorySelected(Factory factory) {
-        mWorkerLisViewAdapter.getFilter().filter(mWorkerSearchEditText.getText().toString());
+        filterWorkerList(mWorkerSearchEditText.getText().toString());
     }
 
     /*
      * parameter calledFromActivityCreated: since WorkerFragmentBase is created later,
      * update worker's content only when WorkerFragmentBase fragment is ready
      */
-    private void onWorkerSelected(Worker worker, boolean calledFromActivityCreated) {
+    private void onWorkerSelected(Worker worker) {
         if (worker == null) return;
         // update worker's personal info.
         mIvWorkerAvatar.setImageDrawable(worker.getAvator());
@@ -370,7 +361,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
                 + (TextUtils.isEmpty(worker.address) ? "" : worker.address));
         mTvWorkerPhone.setText(getResources().getString(R.string.worker_ov_worker_phone)
                 + (TextUtils.isEmpty(worker.phone) ? "" : worker.phone));
-        if (mTabMgr != null && !calledFromActivityCreated) {
+        if (mTabMgr != null) {
             mTabMgr.selectItem(worker);
         }
     }
@@ -382,7 +373,12 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
 
     @Override
     public void afterTextChanged(Editable s) {
-        mWorkerLisViewAdapter.getFilter().filter(mWorkerSearchEditText.getText().toString());
+        filterWorkerList(mWorkerSearchEditText.getText().toString());
+    }
+
+    private void filterWorkerList(String query) {
+        if (mWorkerLisViewAdapter == null || mWorkerLisViewAdapter.getFilter() == null) return;
+        mWorkerLisViewAdapter.getFilter().filter(query);
     }
 
     @Override
