@@ -11,8 +11,15 @@ import java.util.List;
 public class Factory extends IdData {
 
     public List<Manager> managers;
-    public ArrayList<Worker> workers;
+    public List<Worker> workers;
 
+
+    public Factory(String id, String name, List<Manager> managers, long lastUpdatedTime) {
+        this.id = id;
+        this.name = name;
+        this.managers = managers;
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
 
     public Factory(String id, String name) {
         this(id, name, new ArrayList<Worker>());
@@ -22,5 +29,11 @@ public class Factory extends IdData {
         this.id = id;
         this.name = name;
         this.workers = workers;
+    }
+
+    public void update(Factory factory) {
+        this.name = factory.name;
+        this.managers = factory.managers;
+        this.lastUpdatedTime = factory.lastUpdatedTime;
     }
 }

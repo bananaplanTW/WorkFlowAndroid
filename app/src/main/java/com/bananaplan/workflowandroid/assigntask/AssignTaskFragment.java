@@ -62,7 +62,7 @@ public class AssignTaskFragment extends Fragment implements
     private IconSpinnerAdapter mFactorySpinnerAdapter;
     private ArrayList<String> mFactorySpinnerDatas = new ArrayList<String>();
 
-    private List<WorkerFragment> mWorkerPageList;
+    private List<WorkerFragment> mWorkerPageList = new ArrayList<>();
     private ViewPager mWorkerPager;
     private WorkerPagerAdapter mWorkerPagerAdapter;
     private int mMaxWorkerCountInPage;
@@ -92,6 +92,16 @@ public class AssignTaskFragment extends Fragment implements
 //            for (Case aCase : WorkingData.getInstance(mContext).getCases()) {
 //                LoadDataUtils.loadTasksByCase(mContext, aCase.id);
 //            }
+//
+//            LoadDataUtils.loadFactories(mContext);
+//            for (Factory factory : WorkingData.getInstance(mContext).getFactories()) {
+//                LoadDataUtils.loadWorkersByFactory(mContext, factory.id);
+//
+////                for (Worker worker : WorkingData.getInstance(mContext).getFactoryById(factory.id).workers) {
+////                    loadTasksByWorker(worker.id);
+////                }
+//            }
+
             return null;
         }
 
@@ -265,15 +275,12 @@ public class AssignTaskFragment extends Fragment implements
     }
 
     private void createWorkerPages(List<Worker> workerDatas) {
-        int workerCount = workerDatas.size();
-        if (workerCount <= 0) return;
+        if (workerDatas == null || workerDatas.size() < 0) return;
+
+        addWorkerPage();
 
         int fragmentIndex = 0;
-        if (mWorkerPageList == null) {
-            mWorkerPageList = new ArrayList<WorkerFragment>();
-        }
-        addWorkerPage();
-        for (int i = 0 ; i < workerCount ; i++) {
+        for (int i = 0 ; i < workerDatas.size() ; i++) {
             if (mMaxWorkerCountInPage == mWorkerPageList.get(fragmentIndex).getWorkerDatas().size()) {
                 fragmentIndex++;
                 addWorkerPage();
@@ -293,6 +300,7 @@ public class AssignTaskFragment extends Fragment implements
     }
 
     private void initWorkerPagerIndicator() {
+        if (mWorkerPagerIndicatorContainer.getChildAt(0) == null) return;
         mWorkerPagerIndicatorContainer.getChildAt(0).setSelected(true);
         mPreviousPagerIndex = 0;
     }

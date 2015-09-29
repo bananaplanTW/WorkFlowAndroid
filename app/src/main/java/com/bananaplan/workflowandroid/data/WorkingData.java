@@ -97,6 +97,16 @@ public final class WorkingData {
         mTagsMap.put(tag.id, tag);
         Log.d(TAG, "Add tag " + tag.name);
     }
+    public void addFactory(Factory factory) {
+        if (factory == null) return;
+        mFactoriesMap.put(factory.id, factory);
+        Log.d(TAG, "Add factory " + factory.name);
+    }
+    public void addWorker(Worker worker) {
+        if (worker == null) return;
+        mWorkersMap.put(worker.id, worker);
+        Log.d(TAG, "Add worker " + worker.name);
+    }
 
 
     public boolean hasCase(String caseId) {
@@ -110,6 +120,12 @@ public final class WorkingData {
     }
     public boolean hasTag(String tagId) {
         return mTagsMap.containsKey(tagId);
+    }
+    public boolean hasFactory(String factoryId) {
+        return mFactoriesMap.containsKey(factoryId);
+    }
+    public boolean hasWorker(String workerId) {
+        return mWorkersMap.containsKey(workerId);
     }
 
 
@@ -193,9 +209,11 @@ public final class WorkingData {
         task.records.add(data);
     }
 
+
     public String getLoginWorkerId() { // TODO
         return getRandomWorkerId();
     }
+
 
     // +++ only for test case
     private void generateFakeData() {

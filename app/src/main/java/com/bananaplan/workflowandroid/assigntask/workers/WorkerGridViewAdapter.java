@@ -169,7 +169,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             overtime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mWorkerDataSet.get(getAdapterPosition()).isOverTime = isChecked;
+                    mWorkerDataSet.get(getAdapterPosition()).isOvertime = isChecked;
                 }
             });
         }
@@ -255,10 +255,11 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         WorkerCardViewHolder workerCardViewHolder = (WorkerCardViewHolder) holder;
         Worker worker =  mWorkerDataSet.get(position);
 
-        workerCardViewHolder.avatar.setImageDrawable(worker.getAvator());
+        workerCardViewHolder.avatar.setImageDrawable(worker.getAvator() == null ?
+                                                     mContext.getDrawable(R.drawable.ic_person_black) : worker.getAvator());
         workerCardViewHolder.name.setText(worker.name);
         workerCardViewHolder.jobTitle.setText(worker.jobTitle);
-        workerCardViewHolder.overtime.setChecked(worker.isOverTime);
+        workerCardViewHolder.overtime.setChecked(worker.isOvertime);
 
         // Current task name and current task case name
         if (worker.hasCurrentTask()) {

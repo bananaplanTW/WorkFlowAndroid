@@ -12,6 +12,7 @@ public class Manager extends IdData {
 
     private Drawable avatar;
 
+    // TODO: 只需要傳現在這些資料就可以
 
     public Manager(String id, String name, long lastUpdatedTime) {
         this.id = id;

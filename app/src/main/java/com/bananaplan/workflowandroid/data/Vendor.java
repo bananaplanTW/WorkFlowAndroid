@@ -40,6 +40,6 @@ public class Vendor extends IdData {
         this.address = vendor.address;
         this.phone = vendor.phone;
         this.caseIds = vendor.caseIds;
-        this.lastUpdatedTime = lastUpdatedTime;
+        this.lastUpdatedTime = vendor.lastUpdatedTime;
     }
 }
