@@ -4,6 +4,7 @@ import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.DragEvent;
@@ -53,7 +54,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public boolean onDrag(View v, DragEvent event) {
 
             final int action = event.getAction();
-            GradientDrawable workerItemBackground = (GradientDrawable) v.getBackground();
+            GradientDrawable workerItemBackground = (GradientDrawable) ((RippleDrawable) v.getBackground()).getDrawable(0);
 
             int strokeWidth = mContext.getResources().getDimensionPixelSize(R.dimen.worker_card_stroke_width);
             int highlightStrokeWidth = strokeWidth *
