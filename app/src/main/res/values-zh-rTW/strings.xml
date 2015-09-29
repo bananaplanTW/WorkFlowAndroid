@@ -178,9 +178,11 @@
     <string name="detailed_worker_task_log">工作記錄</string>
     <string name="detailed_worker_worker_log">員工紀錄</string>
     <string name="detailed_worker_current_task_text">目前工作</string>
+    <string name="detailed_worker_scheduled_task_text">預排工作</string>
     <string name="detailed_worker_task_schedule_complete_task_button">工作完成</string>
     <string name="detailed_worker_task_schedule_add_warning_button">新增警訊</string>
     <string name="detailed_worker_task_schedule_manage_warning_button">管理警訊</string>
+    <string name="detailed_worker_task_schedule_manage_tasks_button">調整工作</string>
     <string name="detailed_worker_task_schedule_header_case">案件</string>
     <string name="detailed_worker_task_schedule_header_task">工作項目</string>
     <string name="detailed_worker_task_schedule_header_expected_time">預計時間</string>

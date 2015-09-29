@@ -135,7 +135,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public TextView currentTaskCaseName;
         public TextView currentTaskWorkingTime;
 
-        public TextView nextTaskName;
+        public TextView scheduledTaskName;
 
 
         public WorkerCardViewHolder(View view) {
@@ -153,7 +153,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             currentTaskName = (TextView) view.findViewById(R.id.worker_card_current_task_name);
             currentTaskCaseName = (TextView) view.findViewById(R.id.worker_card_current_task_case_name);
             currentTaskWorkingTime = (TextView) view.findViewById(R.id.worker_card_current_task_working_time);
-            nextTaskName = (TextView) view.findViewById(R.id.worker_card_next_task);
+            scheduledTaskName = (TextView) view.findViewById(R.id.worker_card_scheduled_task);
         }
 
         private void setupListeners() {
@@ -187,7 +187,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         task.workerId = worker.id;
 
         if (worker.hasCurrentTask()) {
-            worker.nextTasks.add(task);
+            worker.scheduledTasks.add(task);
             task.status = Task.Status.PENDING;
         } else {
             worker.currentTask = task;
@@ -206,13 +206,13 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             currentWorker.currentTask = null;
 
         } else {
-            // Next tasks
-            currentWorker.nextTasks.remove(dropTask);
+            // Scheduled tasks
+            currentWorker.scheduledTasks.remove(dropTask);
         }
     }
 
     private boolean isWorkerHasTargetTask(Worker worker, Task task) {
-        if ((worker.currentTask == null && worker.nextTasks.size() == 0) || task == null) {
+        if ((worker.currentTask == null && worker.scheduledTasks.size() == 0) || task == null) {
             return false;
         }
 
@@ -223,9 +223,9 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             isWorkerHasTask = true;
         }
 
-        // Next tasks
-        for (Task nextTask : worker.nextTasks) {
-            if (Utils.isSameId(nextTask.id, task.id)) {
+        // Scheduled tasks
+        for (Task scheduledTask : worker.scheduledTasks) {
+            if (Utils.isSameId(scheduledTask.id, task.id)) {
                 isWorkerHasTask = true;
             }
         }
@@ -272,12 +272,12 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             workerCardViewHolder.currentTaskWorkingTime.setText("");
         }
 
-        // Next tasks
-        if (worker.hasNextTasks()) {
-            Log.d(TAG, worker.name + " has " + worker.nextTasks.size() + " next tasks");
-            workerCardViewHolder.nextTaskName.setText(worker.nextTasks.get(0).name);
+        // Scheduled tasks
+        if (worker.hasScheduledTasks()) {
+            Log.d(TAG, worker.name + " has " + worker.scheduledTasks.size() + " scheduled tasks");
+            workerCardViewHolder.scheduledTaskName.setText(worker.scheduledTasks.get(0).name);
         } else {
-            workerCardViewHolder.nextTaskName.setText("無排程");
+            workerCardViewHolder.scheduledTaskName.setText("無排程");
         }
     }
 

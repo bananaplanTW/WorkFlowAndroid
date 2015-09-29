@@ -123,7 +123,7 @@
             android:text="@string/worker_card_next_task_text"/>
 
         <TextView
-            android:id="@+id/worker_card_next_task"
+            android:id="@+id/worker_card_scheduled_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/worker_card_text_gray"

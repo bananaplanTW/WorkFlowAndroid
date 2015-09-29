@@ -189,9 +189,11 @@
     <string name="detailed_worker_task_log">Task Log</string>
     <string name="detailed_worker_worker_log">Worker Log</string>
     <string name="detailed_worker_current_task_text">Current task items</string>
+    <string name="detailed_worker_scheduled_task_text">Scheduled tasks</string>
     <string name="detailed_worker_task_schedule_complete_task_button">Complete task</string>
     <string name="detailed_worker_task_schedule_add_warning_button">Add warning</string>
     <string name="detailed_worker_task_schedule_manage_warning_button">Manage warning</string>
+    <string name="detailed_worker_task_schedule_manage_tasks_button">Manage tasks</string>
     <string name="detailed_worker_task_schedule_header_case">Case</string>
     <string name="detailed_worker_task_schedule_header_task">Task</string>
     <string name="detailed_worker_task_schedule_header_expected_time">Expected time</string>

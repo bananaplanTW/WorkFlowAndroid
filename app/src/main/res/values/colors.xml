@@ -107,7 +107,7 @@
     <color name="detailed_worker_actionbar_baseline_color">#FF9B9B9B</color>
     <color name="detailed_worker_acitonbar_name_text_color">#FF4A4A4A</color>
     <color name="detailed_worker_acitonbar_jobtitle_text_color">#FF9B9B9B</color>
-    <color name="detailed_worker_current_task_text_color">#FF696969</color>
+    <color name="detailed_worker_task_schedule_title_text_color">#FF696969</color>
     <color name="detailed_worker_task_schedule_header_text_color">#FF4A4A4A</color>
     <color name="detailed_worker_task_schedule_item_text_color">@android:color/black</color>
     <color name="detailed_worker_task_schedule_item_divider_color">#FFE1E1E1</color>
