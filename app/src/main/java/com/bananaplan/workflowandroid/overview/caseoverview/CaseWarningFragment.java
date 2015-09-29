@@ -88,14 +88,14 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
             Worker worker = WorkingData.getInstance(getActivity()).getWorkerById(item.workerId);
             Utils.setTaskItemWarningTextView(getActivity(), warning, holder.warning);
             holder.title.setText(item.name);
-            holder.responsibleWorkerName.setText(worker.name);
-            holder.responsibleWorkerAvatar.setImageDrawable(worker.getAvator());
-            if (!TextUtils.isEmpty(warning.workerId)) {
-                holder.handleWorkerName.setText(WorkingData.getInstance(getActivity()).getWorkerById(warning.workerId).name);
+            holder.workerName.setText(worker.name);
+            holder.workerAvatar.setImageDrawable(worker.getAvator());
+            if (!TextUtils.isEmpty(warning.managerId)) {
+                holder.handleMgrName.setText(WorkingData.getInstance(getActivity()).getManagerById(warning.managerId).name);
             } else {
-                holder.handleWorkerName.setText("");
+                holder.handleMgrName.setText("");
             }
-            holder.time.setText("");
+            holder.time.setText(Utils.timestamp2Date(warning.spentTime, Utils.DATE_FORMAT_MD));
             holder.description.setText(TextUtils.isEmpty(warning.description) ? "" : warning.description);
             return convertView;
         }
@@ -104,26 +104,26 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
     private static class ViewHolder {
         private TextView warning;
         private TextView title;
-        private ImageView responsibleWorkerAvatar;
-        private TextView responsibleWorkerName;
-        private TextView handleWorkerName;
+        private ImageView workerAvatar;
+        private TextView workerName;
+        private TextView handleMgrName;
         private TextView time;
         private TextView description;
-        private LinearLayout responsibleWorkerInfo;
-        private TextView responsibleWorkerString;
+        private LinearLayout workerInfoRoot;
+        private TextView workerString;
         ArrayList<View> dividerViews = new ArrayList<>();
         ArrayList<View> horizontalDividerViews = new ArrayList<>();
 
         public ViewHolder(View v) {
             warning = (TextView) v.findViewById(R.id.taskitem_listview_warning);
             title = (TextView) v.findViewById(R.id.title);
-            responsibleWorkerAvatar = (ImageView) v.findViewById(R.id.resposible_worker_avator);
-            responsibleWorkerName = (TextView) v.findViewById(R.id.resposible_worker_name);
-            handleWorkerName = (TextView) v.findViewById(R.id.handle_worker);
+            workerAvatar = (ImageView) v.findViewById(R.id.worker_avator);
+            workerName = (TextView) v.findViewById(R.id.worker_name);
+            handleMgrName = (TextView) v.findViewById(R.id.handle_manager);
             time = (TextView) v.findViewById(R.id.time);
             description = (TextView) v.findViewById(R.id.description);
-            responsibleWorkerInfo = (LinearLayout) v.findViewById(R.id.resposible_worker_info);
-            responsibleWorkerString = (TextView) v.findViewById(R.id.worker_name_string);
+            workerInfoRoot = (LinearLayout) v.findViewById(R.id.worker_info);
+            workerString = (TextView) v.findViewById(R.id.worker_name_string);
             if (!(v instanceof LinearLayout)) return;
             LinearLayout root = (LinearLayout) v;
             for (int i = 0; i < root.getChildCount(); i++) {
@@ -146,8 +146,8 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         final View view = getActivity().getLayoutInflater().inflate(R.layout.case_ov_warning_listview_itemview, null);
         if (view == null) throw new NullPointerException();
         ViewHolder holder = new ViewHolder(view);
-        holder.responsibleWorkerInfo.setVisibility(View.GONE);
-        holder.responsibleWorkerString.setVisibility(View.VISIBLE);
+        holder.workerInfoRoot.setVisibility(View.GONE);
+        holder.workerString.setVisibility(View.VISIBLE);
         for (View divider : holder.dividerViews) {
             divider.setVisibility(View.INVISIBLE);
         }

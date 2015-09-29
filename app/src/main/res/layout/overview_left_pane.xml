@@ -1,37 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="227dp"
+    android:layout_width="@dimen/ov_left_pane_width"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <Spinner
         android:id="@+id/ov_leftpane_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:spinnerMode="dropdown"
-        android:popupBackground="@android:color/white"/>
+        style="@style/OverviewSpinnerStyle"/>
 
     <include layout="@layout/h_divider"/>
 
     <EditText
         android:id="@+id/ov_leftpane_search_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="50.5dp"
-        android:background="@null"
-        android:drawableLeft="@drawable/ic_search_black"
-        android:paddingLeft="14dp"
-        android:singleLine="true"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/gray3" />
+        style="@style/OverviewSearchEditText"/>
 
     <ListView
         android:id="@+id/ov_leftpane_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/gray3"
-        android:dividerHeight="2dp" />
+        android:dividerHeight="@dimen/ov_left_pane_listview_divider_height" />
 </LinearLayout>

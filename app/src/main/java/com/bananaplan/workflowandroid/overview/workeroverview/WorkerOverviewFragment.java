@@ -237,6 +237,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            convertView.findViewById(R.id.header_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
             holder.avatar.setImageDrawable(getItem(position).getAvator());
             holder.name.setText(getItem(position).name);
             holder.title.setText(getItem(position).jobTitle);

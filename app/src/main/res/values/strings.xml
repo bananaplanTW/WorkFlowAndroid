@@ -22,7 +22,7 @@
     <!-- CaseOverView fragment-->
     <string name="case_spinner_all_vendors">"All vendors"</string>
     <string name="case_vendor_selected">"Principal manufacturers"</string>
-    <string name="case_person_in_charge_selected">"Case officer"</string>
+    <string name="case_worker_name">"Case officer"</string>
     <string name="case_percent_selected">"Case progress"</string>
     <string name="case_feed_date">"Feed Date"</string>
     <string name="case_sheet">"Sheet"</string>
@@ -34,7 +34,7 @@
     <string name="case_task_count_in_process">"Task count int process"</string>
     <string name="case_hours_passed_by">"Hours passed by"</string>
     <string name="case_hours_unfinished">"Hours not yet completed"</string>
-    <string name="case_hours_forecast">"Expect delays/early hours"</string>
+    <string name="case_hours_expected">"Expect delays/early hours"</string>
     <string name="case_finished">"Finished"</string>
     <string name="case_overview_edit_case">"Edit"</string>
     <string name="case_overview_edit_worker">"Edit"</string>

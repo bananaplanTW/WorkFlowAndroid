@@ -94,19 +94,11 @@
 
                 <TextView
                     android:id="@+id/worker_ov_right_pane_edit_worker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    style="@style/ButtonStyle.Blue"
                     android:layout_alignTop="@id/worker_ov_right_pane_worker_avatar"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/border_textview_edit_case_bg"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/case_overview_edit_worker"
-                    android:textColor="@android:color/white"
-                    android:textSize="16dp" />
+                    android:layout_alignParentRight="true"
+                    android:text="@string/case_overview_edit_worker" />
 
             </RelativeLayout>
 

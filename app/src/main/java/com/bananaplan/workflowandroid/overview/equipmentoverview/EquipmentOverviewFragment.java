@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Equipment;
@@ -41,7 +42,7 @@ import java.util.Collection;
  * @since 2015/8/22.
  */
 public class EquipmentOverviewFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener, TextWatcher, AdapterView.OnItemClickListener {
+        AdapterView.OnItemSelectedListener, TextWatcher, AdapterView.OnItemClickListener, View.OnClickListener {
 
     public static class TAB_TAG {
         private static final String TASK_ITEMS              = "tab_tag_task_items";
@@ -78,6 +79,7 @@ public class EquipmentOverviewFragment extends Fragment implements
         mEditText = (EditText) getActivity().findViewById(R.id.ov_leftpane_search_edittext);
         mEditText.addTextChangedListener(this);
         mListView.setOnItemClickListener(this);
+        getActivity().findViewById(R.id.equipment_edit).setOnClickListener(this);
         mEquipmentAdapter = new EquipmentDataAdapter(new ArrayList<Equipment>());
         mListView.setAdapter(mEquipmentAdapter);
         mTabHost = (TabHost) getActivity().findViewById(R.id.tab_host);
@@ -153,6 +155,7 @@ public class EquipmentOverviewFragment extends Fragment implements
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            convertView.findViewById(R.id.header_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
             if (position == mSelectedPosition) {
                 holder.root.setBackgroundColor(getResources().getColor(R.color.blue1));
                 holder.name.setTextColor(Color.WHITE);
@@ -331,7 +334,16 @@ public class EquipmentOverviewFragment extends Fragment implements
         }
     }
 
-    public Equipment getSelectedTool() {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.equipment_edit:
+                Toast.makeText(getActivity(), "Edit equipment = " + getSelectedEquipment().name, Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    public Equipment getSelectedEquipment() {
         return mSelectedEquipment;
     }
 }

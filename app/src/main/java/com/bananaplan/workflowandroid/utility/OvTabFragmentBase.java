@@ -68,7 +68,7 @@ public abstract class OvTabFragmentBase extends Fragment {
         Fragment frag = getFragmentManager().findFragmentByTag(UIController.FragmentTag.EQUIPMENT_OVERVIEW_FRAGMENT);
         if (frag == null) return null;
         if (!(frag instanceof EquipmentOverviewFragment)) return null;
-        return ((EquipmentOverviewFragment) frag).getSelectedTool();
+        return ((EquipmentOverviewFragment) frag).getSelectedEquipment();
     }
 
     @Override

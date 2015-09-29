@@ -18,8 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Case;
+import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
@@ -27,10 +27,10 @@ import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
-import com.bananaplan.workflowandroid.utility.OverviewScrollView;
-import com.bananaplan.workflowandroid.utility.data.BarChartData;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
+import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.Utils;
+import com.bananaplan.workflowandroid.utility.data.BarChartData;
 
 import java.util.ArrayList;
 
@@ -43,7 +43,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         AdapterView.OnItemClickListener, OvTabFragmentBase.OvCallBack,
         it.sephiroth.android.library.widget.AdapterView.OnItemClickListener{
 
-    public static final String FROM = "fragment_from";
+    public static final String FROM = "from";
 
     private String mFrom;
     private LinearLayout mBarChartContainer;
@@ -74,15 +74,15 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         mTvWorkingHours = (TextView) getActivity().findViewById(R.id.ov_statistics_working_hour_tv);
         mTvOvertimeHours = (TextView) getActivity().findViewById(R.id.ov_statistics_overtime_hour_tv);
         mTvIdleHours = (TextView) getActivity().findViewById(R.id.ov_statistics_idle_hour_tv);
-        getActivity().findViewById(R.id.worker_ov_edit_task_item).setOnClickListener(this);
+        getActivity().findViewById(R.id.edit_task).setOnClickListener(this);
         getActivity().findViewById(R.id.ov_statistics_week_chooser).setOnClickListener(this);
-        mTaskItemListView = (ListView) getActivity().findViewById(R.id.listview_task_item);
+        mTaskItemListView = (ListView) getActivity().findViewById(R.id.tasks);
         mTaskItemListView.setOnItemClickListener(this);
         mTaskItemListView.addHeaderView(getTaskItemListViewHeader(), null, false);
         if (mFrom.equals(EquipmentOverviewFragment.class.getSimpleName())) {
             getActivity().findViewById(R.id.ov_statistics_overtime_hour_vg).setVisibility(View.GONE);
             getActivity().findViewById(R.id.ov_statistics_idle_hour_vg).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.worker_ov_edit_task_item).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.edit_task).setVisibility(View.GONE);
             getActivity().findViewById(R.id.workers_list_vg).setVisibility(View.GONE);
             ((LinearLayout.LayoutParams) mBarChartContainer.getLayoutParams()).topMargin =
                     getResources().getDimensionPixelOffset(R.dimen.case_ov_statistics_margin_top);
@@ -97,16 +97,16 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             getActivity().findViewById(R.id.ov_statistics_overtime_hour_vg).setVisibility(View.GONE);
             getActivity().findViewById(R.id.ov_statistics_idle_hour_vg).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.worker_ov_edit_task_item).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.edit_task).setVisibility(View.GONE);
             getActivity().findViewById(R.id.workers_list_vg).setVisibility(View.VISIBLE);
-            mWorkerListView = (HListView) getActivity().findViewById(R.id.case_workers_listview);
+            mWorkerListView = (HListView) getActivity().findViewById(R.id.workers);
             mWorkerListView.setOnItemClickListener(this);
             ((LinearLayout.LayoutParams) mBarChartContainer.getLayoutParams()).topMargin =
                     getResources().getDimensionPixelOffset(R.dimen.case_ov_statistics_margin_top);
             onItemSelected(getSelectedTaskCase());
         } else if (mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
             getActivity().findViewById(R.id.workers_list_vg).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.worker_ov_edit_task_item).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.edit_task).setVisibility(View.GONE);
             getActivity().findViewById(R.id.upper).setVisibility(View.GONE);
             getActivity().findViewById(R.id.current_task_items).setVisibility(View.VISIBLE);
             onItemSelected(getSelectedWorker());
@@ -117,12 +117,11 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         if (TextUtils.isEmpty(mFrom)) return -1;
         if (mFrom.equals(EquipmentOverviewFragment.class.getSimpleName())) {
             return R.layout.ov_taskitem_list_view_itemview_equipment;
-        } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())) {
+        } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())
+                || mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
             return R.layout.ov_taskitem_list_view_itemview_worker;
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             return R.layout.ov_taskitem_list_view_itemview_case;
-        } else if (mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
-            return R.layout.ov_taskitem_list_view_itemview_worker_full;
         }
         return -1;
     }
@@ -323,7 +322,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             case R.id.ov_statistics_week_chooser:
                 Toast.makeText(getActivity(), "Choose date", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.worker_ov_edit_task_item:
+            case R.id.edit_task:
                 Toast.makeText(getActivity(), "Edit item", Toast.LENGTH_SHORT).show();
                 break;
         }

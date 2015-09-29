@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    android:paddingRight="@dimen/case_ov_right_top_pane_padding_right"
+    android:paddingTop="@dimen/case_ov_right_top_pane_padding_top"
+    android:layout_marginBottom="@dimen/case_ov_right_top_pane_margin_bottom">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,192 +15,177 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:textSize="18sp"
+            android:textSize="@dimen/case_ov_right_top_pane_tv_case_text_size"
             android:textStyle="bold"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_case_margin_left"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="123dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_progress_string_margin_left"
             android:text="@string/case_percent_selected"
             android:textColor="@color/gray2"
-            android:textSize="14dp"
+            android:textSize="@dimen/case_ov_right_top_pane_tv_progress_string_text_size"
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/case_ov_right_pane_case_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="195dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_progress_margin_left"
             android:textColor="@color/black1"
-            android:textSize="14dp"
+            android:textSize="@dimen/case_ov_right_top_pane_tv_progress_text_size"
             android:layout_centerVertical="true"/>
         <com.bananaplan.workflowandroid.utility.view.CustomProgressBar
             android:id="@+id/case_ov_right_pane_case_progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="330dp"
-            android:layout_height="18dp"
-            android:layout_marginLeft="254dp"
+            android:layout_width="@dimen/case_ov_right_top_pane_progress_bar_width"
+            android:layout_height="@dimen/case_ov_right_top_pane_progress_bar_height"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_progress_bar_margin_left"
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/case_ov_right_pane_edit_case"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/border_textview_edit_case_bg"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp"
             android:text="@string/case_overview_edit_case"
-            android:textColor="@android:color/white"
-            android:textSize="16dp"/>
+            style="@style/ButtonStyle.Blue"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="@dimen/case_ov_right_top_pane_case_detail_info_margin_top">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/case_vendor_selected"
             android:textSize="14dp"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_vendor_string_margin_left"/>
         <TextView
             android:id="@+id/case_ov_right_pane_vendor_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="104dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_vendor_margin_left"
             android:textSize="16dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="216dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_feed_date_string_margin_left"
             android:text="@string/case_feed_date"/>
         <TextView
             android:id="@+id/case_ov_right_pane_feed_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="305dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_feed_date_margin_left"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="442dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_sheet_string_margin_left"
             android:text="@string/case_sheet"/>
         <TextView
             android:id="@+id/case_ov_right_pane_sheet_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16dp"
-            android:layout_marginLeft="495dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_sheet_margin_left"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="@dimen/case_ov_right_top_pane_case_detail_info_margin_top">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/case_person_in_charge_selected"
+            android:text="@string/case_worker_name"
             android:textSize="14dp"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_vendor_string_margin_left"/>
         <TextView
             android:id="@+id/case_ov_right_pane_worker_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="104dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_vendor_margin_left"
             android:textSize="16dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="216dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_feed_date_string_margin_left"
             android:text="@string/case_figure_date"/>
         <TextView
             android:id="@+id/case_ov_right_pane_figure_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="305dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_feed_date_margin_left"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="442dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_sheet_string_margin_left"
             android:text="@string/case_model"/>
         <TextView
             android:id="@+id/case_ov_right_pane_model_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16dp"
-            android:layout_marginLeft="495dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_sheet_margin_left"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="@dimen/case_ov_right_top_pane_case_detail_info_margin_top">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/case_size"
             android:textSize="14dp"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_vendor_string_margin_left"/>
         <TextView
             android:id="@+id/case_ov_right_pane_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="104dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_vendor_margin_left"
             android:textSize="16dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="216dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_feed_date_string_margin_left"
             android:text="@string/case_delivery"/>
         <TextView
             android:id="@+id/case_ov_right_pane_delivery_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="305dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_feed_date_margin_left"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:layout_marginLeft="442dp"
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_sheet_string_margin_left"
             android:text="@string/case_others"/>
         <TextView
             android:id="@+id/case_ov_right_pane_others"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16dp"
-            android:layout_marginLeft="495dp"/>
+            android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_sheet_margin_left"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="32dp"
         android:baselineAligned="false"
-        android:paddingLeft="11dp"
-        android:paddingRight="11dp">
+        android:layout_marginTop="@dimen/case_ov_right_top_pane_case_detail_linear_layout_margin_top"
+        android:paddingLeft="@dimen/case_ov_right_top_pane_case_detail_linear_layout_padding_left"
+        android:paddingRight="@dimen/case_ov_right_top_pane_case_detail_linear_layout_padding_right">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:layout_marginRight="21dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_viewgroup_bg_gray"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            style="@style/CaseOvStatsLinearLayout">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -208,35 +194,17 @@
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="7.5dp"
-                    android:layout_marginTop="7.5dp"
-                    android:singleLine="true"
-                    android:text="@string/case_task_count_in_process"
-                    android:textColor="@color/gray2"
-                    android:textSize="14sp" />
+                    style="@style/CaseOvStatsTextViewDisplay"
+                    android:text="@string/case_task_count_in_process" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/case_tv_task_item_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="19.5dp"
-                android:layout_marginTop="19dp"
-                android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                style="@style/CaseOvStatsTextViewValue" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:layout_marginRight="21dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_viewgroup_bg_gray"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            style="@style/CaseOvStatsLinearLayout">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -245,35 +213,17 @@
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="7.5dp"
-                    android:layout_marginTop="7.5dp"
-                    android:singleLine="true"
-                    android:text="@string/case_hours_passed_by"
-                    android:textColor="@color/gray2"
-                    android:textSize="14sp" />
+                    style="@style/CaseOvStatsTextViewDisplay"
+                    android:text="@string/case_hours_passed_by" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/case_tv_hours_passed_by"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="19.5dp"
-                android:layout_marginTop="19dp"
-                android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                style="@style/CaseOvStatsTextViewValue" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:layout_marginRight="21dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_viewgroup_bg_gray"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            style="@style/CaseOvStatsLinearLayout">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -282,35 +232,17 @@
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="7.5dp"
-                    android:layout_marginTop="7.5dp"
-                    android:singleLine="true"
-                    android:text="@string/case_hours_unfinished"
-                    android:textColor="@color/gray2"
-                    android:textSize="14sp" />
+                    style="@style/CaseOvStatsTextViewDisplay"
+                    android:text="@string/case_hours_unfinished" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/case_tv_hours_unfinished"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="19.5dp"
-                android:layout_marginTop="19dp"
-                android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                style="@style/CaseOvStatsTextViewValue" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:layout_marginRight="21dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_viewgroup_bg_gray"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            style="@style/CaseOvStatsLinearLayout">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -319,24 +251,13 @@
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="7.5dp"
-                    android:layout_marginTop="7.5dp"
-                    android:singleLine="true"
-                    android:text="@string/case_hours_forecast"
-                    android:textColor="@color/gray2"
-                    android:textSize="14sp" />
+                    style="@style/CaseOvStatsTextViewDisplay"
+                    android:text="@string/case_hours_expected" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/case_tv_hours_forecast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="19.5dp"
-                android:layout_marginTop="19dp"
-                android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                android:id="@+id/case_tv_hours_expected"
+                style="@style/CaseOvStatsTextViewValue" />
         </LinearLayout>
 
     </LinearLayout>

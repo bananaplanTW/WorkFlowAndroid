@@ -80,10 +80,23 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@null</item>
-        <item name="android:divider">#979797</item>
-        <item name="android:dividerHeight">1dp</item>
+        <item name="android:divider">@color/gray5</item>
+        <item name="android:dividerHeight">@dimen/divider_height</item>
     </style>
 
+    <style name="OverviewSpinnerStyle" parent="CommonSpinnerStyle">
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:popupBackground">@android:color/white</item>
+    </style>
+
+    <style name="OverviewSearchEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/ov_search_edittext_height</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawableLeft">@drawable/ic_search_black</item>
+        <item name="android:paddingLeft">@dimen/ov_search_edittext_padding_left</item>
+        <item name="android:singleLine">true</item>
+    </style>
 
     <style name="DrawerItemStyle">
         <item name="android:layout_width">match_parent</item>
@@ -182,6 +195,35 @@
     <style name="DetailedWorkerTaskSchedule.Item">
         <item name="android:textColor">@color/detailed_worker_task_schedule_item_text_color</item>
         <item name="android:textSize">@dimen/detailed_worker_task_schedule_item_text_size</item>
+    </style>
+
+    <style name="CaseOvStatsLinearLayout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/case_ov_right_top_pane_case_detail_linear_layout_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/case_ov_right_top_pane_case_detail_linear_layout_margin_right</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/border_viewgroup_bg_gray</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:minHeight">@dimen/case_ov_right_top_pane_case_detail_linear_layout_min_height</item>
+    </style>
+
+    <style name="CaseOvStatsTextViewDisplay">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/case_ov_right_top_pane_case_detail_tv_string_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/case_ov_right_top_pane_case_detail_tv_string_margin_bottom</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/gray2</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="CaseOvStatsTextViewValue" parent="CaseOvStatsTextViewDisplay">
+        <item name="android:layout_marginLeft">@dimen/case_ov_right_top_pane_case_detail_linear_layout_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/case_ov_right_top_pane_case_detail_linear_layout_margin_right</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">24dp</item>
     </style>
 
 </resources>

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:minHeight="@dimen/equipment_ov_listview_item_min_height">
-    <View
-        android:id="@+id/top_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray3"
-        android:visibility="gone"/>
+    <include layout="@layout/ov_left_pane_listview_top_divider"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,4 +42,4 @@
             android:textSize="14dp"/>
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

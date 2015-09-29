@@ -45,7 +45,7 @@
                     android:id="@+id/task_case_person_in_charge_label"
                     style="@style/TaskCaseTextStyle.TaskCaseInformationTitle"
                     android:layout_marginTop="10dp"
-                    android:text="@string/case_person_in_charge_selected"/>
+                    android:text="@string/case_worker_name"/>
 
                 <TextView
                     android:id="@+id/task_case_person_in_charge"

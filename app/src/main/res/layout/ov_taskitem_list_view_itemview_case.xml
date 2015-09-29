@@ -13,9 +13,10 @@
         android:baselineAligned="false">
 
         <LinearLayout
-            android:layout_width="40dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="40">
             <TextView
                 android:id="@+id/id"
                 android:layout_width="wrap_content"
@@ -28,9 +29,10 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="100">
 
             <TextView
                 android:id="@+id/status"
@@ -45,9 +47,10 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="113dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="113">
 
             <TextView
                 android:id="@+id/item_name"
@@ -61,9 +64,10 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="80">
 
             <TextView
                 android:id="@+id/expected_time"
@@ -77,9 +81,10 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="80">
 
             <TextView
                 android:id="@+id/work_time"
@@ -93,9 +98,10 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <LinearLayout
-            android:layout_width="110dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="110">
 
             <TextView
                 android:id="@+id/equipment_used"
@@ -109,8 +115,9 @@
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <RelativeLayout
-            android:layout_width="120dp"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="120">
             <TextView
                 android:id="@+id/worker_name_string"
                 android:layout_width="wrap_content"
@@ -124,7 +131,7 @@
                 android:textColor="@color/black1" />
             <LinearLayout
                 android:id="@+id/worker_info"
-                android:layout_width="119dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -150,7 +157,7 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="116"
             android:gravity="center">
 
             <TextView

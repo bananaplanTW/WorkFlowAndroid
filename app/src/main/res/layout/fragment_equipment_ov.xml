@@ -63,20 +63,11 @@
 
             <TextView
                 android:id="@+id/equipment_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/equipment_name"
+                style="@style/ButtonStyle.Blue"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/border_textview_edit_case_bg"
-                android:gravity="center"
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp"
-                android:text="@string/equipment_edit"
-                android:textColor="@android:color/white"
-                android:textSize="16dp" />
+                android:layout_alignTop="@id/equipment_name"
+                android:layout_alignParentRight="true"
+                android:text="@string/equipment_edit" />
 
             <View
                 android:id="@+id/right_pane_horizontal_divider"

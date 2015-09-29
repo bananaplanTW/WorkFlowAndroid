@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <View xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/horozontal_divider"
+    android:id="@+id/header_divider"
     android:layout_width="match_parent"
     android:layout_height="@dimen/ov_left_pane_listview_divider_height"
-    android:background="@color/gray5"
-    android:visibility="gone"/>
+    android:background="@color/gray3"
+    android:visibility="gone" />

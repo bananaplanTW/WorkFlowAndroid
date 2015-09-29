@@ -41,9 +41,9 @@
             android:gravity="right">
             <LinearLayout
                 android:id="@+id/record"
+                style="@style/ButtonStyle.Blue"
                 android:layout_width="96dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_solid_btn_bg_blue"
                 android:gravity="center"
                 android:layout_alignParentRight="true">
                 <TextView

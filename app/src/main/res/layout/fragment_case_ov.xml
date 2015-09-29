@@ -9,8 +9,8 @@
     <include
         android:id="@+id/case_pane_vertical_divider"
         layout="@layout/v_divider"
-        android:layout_width="8dp"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/ov_divider_width"
+        android:layout_height="match_parent"
         android:layout_toRightOf="@id/case_left_pane" />
 
     <com.bananaplan.workflowandroid.utility.OverviewScrollView

@@ -107,8 +107,8 @@ public class Utils {
         renderer.setXLabelsColor(Color.BLACK);
         renderer.setLabelsTextSize(activity.getResources().getDimensionPixelSize(R.dimen.ov_statistics_axis_text_size));
         renderer.setYLabelsColor(0, Color.BLACK);
-        renderer.setXLabelsPadding(resources.getDimension(R.dimen.case_overview_statistics_x_axis_padding));
-        renderer.setYLabelsPadding(resources.getDimension(R.dimen.case_overview_statistics_x_axis_padding));
+        renderer.setXLabelsPadding(resources.getDimension(R.dimen.ov_statistics_x_axis_padding));
+        renderer.setYLabelsPadding(resources.getDimension(R.dimen.ov_statistics_x_axis_padding));
         renderer.setXLabelsAlign(Paint.Align.CENTER);
         renderer.setYLabelsAlign(Paint.Align.CENTER);
         renderer.setXLabelsAngle(0);

@@ -10,16 +10,18 @@
         android:orientation="horizontal"
         android:baselineAligned="false">
         <LinearLayout
-            android:layout_width="99dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="99">
             <include layout="@layout/warning_textview_layout"/>
         </LinearLayout>
         <include layout="@layout/ov_listview_vertical_divider"/>
         <LinearLayout
-            android:layout_width="113dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="113">
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -30,8 +32,9 @@
         </LinearLayout>
         <include layout="@layout/ov_listview_vertical_divider"/>
         <RelativeLayout
-            android:layout_width="102dp"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="102">
             <TextView
                 android:id="@+id/worker_name_string"
                 android:layout_width="wrap_content"
@@ -43,18 +46,18 @@
                 android:textSize="14sp"
                 android:visibility="gone" />
             <LinearLayout
-                android:id="@+id/resposible_worker_info"
-                android:layout_width="match_parent"
+                android:id="@+id/worker_info"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical">
                 <ImageView
-                    android:id="@+id/resposible_worker_avator"
+                    android:id="@+id/worker_avator"
                     android:layout_width="24dp"
                     android:layout_height="24dp" />
                 <TextView
-                    android:id="@+id/resposible_worker_name"
+                    android:id="@+id/worker_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -65,11 +68,12 @@
         </RelativeLayout>
         <include layout="@layout/ov_listview_vertical_divider"/>
         <LinearLayout
-            android:layout_width="82dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="82">
             <TextView
-                android:id="@+id/handle_worker"
+                android:id="@+id/handle_manager"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/case_overview_listview_taskitem_header_handle_worker"
@@ -78,9 +82,10 @@
         </LinearLayout>
         <include layout="@layout/ov_listview_vertical_divider"/>
         <LinearLayout
-            android:layout_width="79dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_weight="79">
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
@@ -93,7 +98,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="250"
             android:gravity="center">
             <TextView
                 android:id="@+id/description"

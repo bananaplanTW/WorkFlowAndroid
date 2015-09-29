@@ -315,10 +315,10 @@ public final class WorkingData {
                     w2.taskId = task.id;
                     w3.taskId = task.id;
                     w4.taskId = task.id;
-                    w1.workerId = getRandomWorkerId();
-                    w2.workerId = getRandomWorkerId();
-                    w3.workerId = getRandomWorkerId();
-                    w4.workerId = getRandomWorkerId();
+                    w1.managerId = getRandomManagerId();
+                    w2.managerId = getRandomManagerId();
+                    w3.managerId = getRandomManagerId();
+                    w4.managerId = getRandomManagerId();
                     task.warnings.add(w1);
                     task.warnings.add(w2);
                     task.warnings.add(w3);

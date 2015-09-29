@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/case_listview_itemview_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="9dp"
-    android:id="@+id/case_listview_root">
+    android:minHeight="@dimen/ov_listview_item_height">
+
+    <include layout="@layout/ov_left_pane_listview_top_divider" />
 
     <TextView
-        android:layout_width="49dp"
-        android:layout_height="36dp"
-        android:textSize="16dp"
-        android:textColor="@android:color/white"
-        android:gravity="center"
-        android:padding="3dp"
-        android:layout_marginRight="13dp"
+        android:id="@+id/case_listview_itemview_tv_progress"
+        android:layout_width="@dimen/case_ov_listview_tv_progress_width"
+        android:layout_height="@dimen/case_ov_listview_tv_progress_height"
         android:layout_centerVertical="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/case_listview_view_tv_status" />
+        android:layout_marginLeft="@dimen/case_ov_listview_tv_progress_margin_left"
+        android:layout_marginRight="@dimen/case_ov_listview_tv_progress_margin_right"
+        android:gravity="center"
+        android:padding="@dimen/case_ov_listview_tv_progress_padding"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/case_ov_listview_tv_progress_text_size" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical"
-        android:layout_toRightOf="@id/case_listview_view_tv_status">
+        android:layout_toRightOf="@id/case_listview_itemview_tv_progress"
+        android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/case_listview_itemview_tv_case_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@color/black1"
-            android:textSize="16sp"
-            android:singleLine="true"
-            android:id="@+id/case_listview_view_tv_case_name" />
+            android:textSize="@dimen/case_ov_listview_tv_case_text_size" />
 
         <TextView
+            android:id="@+id/case_listview_itemview_tv_vendor_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray1"
-            android:textSize="14sp"
-            android:layout_below="@id/case_listview_view_tv_case_name"
-            android:layout_marginTop="7dp"
+            android:layout_below="@id/case_listview_itemview_tv_case_name"
+            android:layout_marginTop="@dimen/case_ov_listview_tv_vendor_margin_top"
             android:singleLine="true"
-            android:id="@+id/case_listview_view_tv_vendor_name"/>
+            android:textColor="@color/gray1"
+            android:textSize="@dimen/case_ov_listview_tv_vendor_text_size" />
 
     </RelativeLayout>
 </RelativeLayout>

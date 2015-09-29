@@ -62,7 +62,7 @@ public class MaintenanceRecordsFragment extends OvTabFragmentBase implements OvT
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            convertView.findViewById(R.id.top_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+            convertView.findViewById(R.id.header_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
             MaintenanceRecord record = getItem(position);
             holder.reason.setText(record.reason);
             holder.date.setText(Utils.timestamp2Date(record.date, Utils.DATE_FORMAT_YMD_HM_AMPM));

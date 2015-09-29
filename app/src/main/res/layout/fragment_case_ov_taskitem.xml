@@ -5,7 +5,7 @@
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include layout="@layout/ov_statisticts"/>
+        <include layout="@layout/charts"/>
         <include layout="@layout/h_divider"/>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                     android:text="@string/case_overview_worker"/>
                 <it.sephiroth.android.library.widget.HListView
                     xmlns:widget="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/case_workers_listview"
+                    android:id="@+id/workers"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="16.7dp"

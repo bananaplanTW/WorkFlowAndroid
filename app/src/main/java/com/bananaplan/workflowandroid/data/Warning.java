@@ -16,12 +16,12 @@ public class Warning extends IdData {
 
     public Date endDate;
 
-    public long spentTime;
+    public Date spentTime;
     public long currentStartTime;
 
     public String taskId;
     public String caseId;
-    public String workerId;
+    public String managerId;
     public String description;
 
 

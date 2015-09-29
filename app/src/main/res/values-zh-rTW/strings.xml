@@ -19,7 +19,7 @@
     <!-- CaseOverView fragment-->
     <string name="case_spinner_all_vendors">"全部廠商"</string>
     <string name="case_vendor_selected">"委託廠商"</string>
-    <string name="case_person_in_charge_selected">"案件負責人"</string>
+    <string name="case_worker_name">"案件負責人"</string>
     <string name="case_percent_selected">"案件進度"</string>
     <string name="case_feed_date">"進料日期"</string>
     <string name="case_sheet">"板材"</string>
@@ -31,7 +31,7 @@
     <string name="case_task_count_in_process">"現正進行項目數"</string>
     <string name="case_hours_passed_by">"已經進行時數"</string>
     <string name="case_hours_unfinished">"尚未完成時數"</string>
-    <string name="case_hours_forecast">"預計延遲/提早時數"</string>
+    <string name="case_hours_expected">"預計延遲/提早時數"</string>
     <string name="case_finished">"完成"</string>
     <string name="case_overview_edit_case">"修改案件"</string>
     <string name="case_overview_edit_worker">"修改個人資訊"</string>
