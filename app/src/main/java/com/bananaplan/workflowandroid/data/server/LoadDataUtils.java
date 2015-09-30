@@ -129,10 +129,11 @@ public class LoadDataUtils {
 
             for (int i = 0 ; i < workerJsonList.length() ; i++) {
                 JSONObject workerJson = workerJsonList.getJSONObject(i);
-                Worker newWorker = addWorkerToWorkingData(context, workerJson);
+                String workerId = workerJson.getString("_id");
 
-                if (newWorker != null) {
-                    newWorkers.add(newWorker);
+                addWorkerToWorkingData(context, workerJson);
+                if (WorkingData.getInstance(context).hasWorker(workerId)) {
+                    newWorkers.add(WorkingData.getInstance(context).getWorkerById(workerId));
                 }
             }
 
@@ -246,9 +247,7 @@ public class LoadDataUtils {
             e.printStackTrace();
         }
     }
-    private static Worker addWorkerToWorkingData(Context context, JSONObject workerJson) {
-        Worker worker = null;
-
+    private static void addWorkerToWorkingData(Context context, JSONObject workerJson) {
         try {
             String workerId = workerJson.getString("_id");
             long lastUpdatedTime = workerJson.getLong("updatedAt");
@@ -256,14 +255,13 @@ public class LoadDataUtils {
 
             if (workingDataHasWorker &&
                     WorkingData.getInstance(context).getWorkerById(workerId).lastUpdatedTime >= lastUpdatedTime) {
-                worker = WorkingData.getInstance(context).getWorkerById(workerId);
+                return;
             }
 
-            worker = retrieveWorkerFromJson(workerJson);
             if (workingDataHasWorker) {
-                WorkingData.getInstance(context).getWorkerById(workerId).update(worker);
+                WorkingData.getInstance(context).getWorkerById(workerId).update(retrieveWorkerFromJson(workerJson));
             } else {
-                WorkingData.getInstance(context).addWorker(worker);
+                WorkingData.getInstance(context).addWorker(retrieveWorkerFromJson(workerJson));
             }
             //Log.d(TAG, "Add worker " + workerJson.getString("username"));
 
@@ -271,8 +269,6 @@ public class LoadDataUtils {
             Log.e(TAG, "Exception in addWorkerToWorkingData()");
             e.printStackTrace();
         }
-
-        return worker;
     }
     private static void addVendorToWorkingData(Context context, JSONObject vendorJson) {
         try {

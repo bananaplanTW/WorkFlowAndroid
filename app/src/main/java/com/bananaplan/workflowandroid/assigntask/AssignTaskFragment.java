@@ -46,10 +46,10 @@ import java.util.List;
  *
  */
 public class AssignTaskFragment extends Fragment implements
-        ViewPager.OnPageChangeListener, CaseAdapter.OnSelectCaseListener,
-        WorkerGridViewAdapter.OnRefreshCaseListener {
+        ViewPager.OnPageChangeListener, CaseAdapter.OnSelectCaseListener, WorkerGridViewAdapter.OnRefreshCaseListener {
 
     private static final String TAG = "AssignTaskFragment";
+
     private static final String KEY_FACTORY_SPINNER_POSITION = "key_factory_spinner_position";
 
     private Context mContext;

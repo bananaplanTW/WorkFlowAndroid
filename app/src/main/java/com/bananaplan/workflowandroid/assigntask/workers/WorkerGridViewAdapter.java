@@ -253,7 +253,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         WorkerCardViewHolder workerCardViewHolder = (WorkerCardViewHolder) holder;
-        Worker worker =  mWorkerDataSet.get(position);
+        Worker worker = mWorkerDataSet.get(position);
 
         workerCardViewHolder.avatar.setImageDrawable(worker.getAvator() == null ?
                                                      mContext.getDrawable(R.drawable.ic_person_black) : worker.getAvator());
