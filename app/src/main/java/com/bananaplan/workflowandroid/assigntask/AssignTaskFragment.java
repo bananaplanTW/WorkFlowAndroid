@@ -88,18 +88,29 @@ public class AssignTaskFragment extends Fragment implements
 
         @Override
         protected Void doInBackground(Void... params) {
+//            // Load cases
 //            LoadDataUtils.loadCases(mContext);
 //            for (Case aCase : WorkingData.getInstance(mContext).getCases()) {
 //                LoadDataUtils.loadTasksByCase(mContext, aCase.id);
 //            }
 //
+//            // Load factories
 //            LoadDataUtils.loadFactories(mContext);
 //            for (Factory factory : WorkingData.getInstance(mContext).getFactories()) {
 //                LoadDataUtils.loadWorkersByFactory(mContext, factory.id);
+//            }
 //
-////                for (Worker worker : WorkingData.getInstance(mContext).getFactoryById(factory.id).workers) {
-////                    loadTasksByWorker(worker.id);
-////                }
+//            // Connect tasks and workers
+//            for (Worker worker : WorkingData.getInstance(mContext).getWorkers()) {
+//                if (WorkingData.getInstance(mContext).hasTask(worker.wipTaskId)) {
+//                    worker.wipTask = WorkingData.getInstance(mContext).getTaskById(worker.wipTaskId);
+//                }
+//
+//                for (String stId : worker.scheduledTaskIds) {
+//                    if (WorkingData.getInstance(mContext).hasTask(stId)) {
+//                        worker.scheduledTasks.add(WorkingData.getInstance(mContext).getTaskById(stId));
+//                    }
+//                }
 //            }
 
             return null;
@@ -145,7 +156,7 @@ public class AssignTaskFragment extends Fragment implements
 
     private class WorkerPagerAdapter extends FragmentStatePagerAdapter {
 
-        private List<WorkerFragment> mWorkerPageData = new ArrayList<WorkerFragment>();
+        private List<WorkerFragment> mWorkerPageData = new ArrayList<>();
 
         public WorkerPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -281,11 +292,11 @@ public class AssignTaskFragment extends Fragment implements
 
         int fragmentIndex = 0;
         for (int i = 0 ; i < workerDatas.size() ; i++) {
-            if (mMaxWorkerCountInPage == mWorkerPageList.get(fragmentIndex).getWorkerDatas().size()) {
+            if (mMaxWorkerCountInPage == mWorkerPageList.get(fragmentIndex).getDataSize()) {
                 fragmentIndex++;
                 addWorkerPage();
             }
-            mWorkerPageList.get(fragmentIndex).getWorkerDatas().add(workerDatas.get(i));  // After DB is created, add worker information
+            mWorkerPageList.get(fragmentIndex).addWorker(workerDatas.get(i));  // After DB is created, add worker information
         }
     }
 
@@ -306,7 +317,7 @@ public class AssignTaskFragment extends Fragment implements
     }
 
     private void clearWorkers() {
-        mWorkerPageList = null;
+        mWorkerPageList.clear();
         mWorkerPager.removeAllViews();
         mWorkerPagerIndicatorContainer.removeAllViews();
     }

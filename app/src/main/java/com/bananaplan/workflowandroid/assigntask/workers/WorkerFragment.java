@@ -36,7 +36,7 @@ public class WorkerFragment extends Fragment {
     private GridLayoutManager mGridLayoutManager;
     private WorkerGridViewAdapter mWorkerGridViewAdapter;
 
-    private List<Worker> mWorkerDataSet = new ArrayList<Worker>();
+    private List<Worker> mWorkerDataSet = new ArrayList<>();
 
 
     @Override
@@ -79,20 +79,19 @@ public class WorkerFragment extends Fragment {
         mWorkerGridView.setAdapter(mWorkerGridViewAdapter);
     }
 
-//    public void addWorker(WorkerItem workerItem) {
-//        mWorkerDatas.add(workerItem);
-//    }
+    public int getDataSize() {
+        return mWorkerDataSet.size();
+    }
 
-//    public void clearWorkers() {
-//        mWorkerDatas.clear();
-//    }
+    public void addWorker(Worker worker) {
+        mWorkerDataSet.add(worker);
+    }
+
+    public void clearWorkers() {
+        mWorkerDataSet.clear();
+    }
 
     public void setOnRefreshCaseListener(OnRefreshCaseListener listener) {
         mOnRefreshCaseListener = listener;
-    }
-
-    // TODO: Might need to be modified. Use addWorker(), etc.
-    public List<Worker> getWorkerDatas() {
-        return mWorkerDataSet;
     }
 }

@@ -131,9 +131,9 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public TextView jobTitle;
         public Switch overtime;
 
-        public TextView currentTaskName;
-        public TextView currentTaskCaseName;
-        public TextView currentTaskWorkingTime;
+        public TextView wipTaskName;
+        public TextView wipCaseName;
+        public TextView wipTaskWorkingTime;
 
         public TextView scheduledTaskName;
 
@@ -150,9 +150,9 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             name = (TextView) view.findViewById(R.id.worker_card_name);
             jobTitle = (TextView) view.findViewById(R.id.worker_card_job_title);
             overtime = (Switch) view.findViewById(R.id.worker_card_overtime_switch);
-            currentTaskName = (TextView) view.findViewById(R.id.worker_card_current_task_name);
-            currentTaskCaseName = (TextView) view.findViewById(R.id.worker_card_current_task_case_name);
-            currentTaskWorkingTime = (TextView) view.findViewById(R.id.worker_card_current_task_working_time);
+            wipTaskName = (TextView) view.findViewById(R.id.worker_card_wip_task_name);
+            wipCaseName = (TextView) view.findViewById(R.id.worker_card_wip_task_case_name);
+            wipTaskWorkingTime = (TextView) view.findViewById(R.id.worker_card_wip_task_working_time);
             scheduledTaskName = (TextView) view.findViewById(R.id.worker_card_scheduled_task);
         }
 
@@ -186,11 +186,11 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void assignTaskToWorker(Task task, Worker worker) {
         task.workerId = worker.id;
 
-        if (worker.hasCurrentTask()) {
+        if (worker.hasWipTask()) {
             worker.scheduledTasks.add(task);
             task.status = Task.Status.PENDING;
         } else {
-            worker.currentTask = task;
+            worker.wipTask = task;
             task.status = Task.Status.WIP;
         }
     }
@@ -202,8 +202,8 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         // Current task
-        if (currentWorker.hasCurrentTask() && Utils.isSameId(currentWorker.currentTask.id, dropTask.id)) {
-            currentWorker.currentTask = null;
+        if (currentWorker.hasWipTask() && Utils.isSameId(currentWorker.wipTask.id, dropTask.id)) {
+            currentWorker.wipTask = null;
 
         } else {
             // Scheduled tasks
@@ -212,14 +212,14 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private boolean isWorkerHasTargetTask(Worker worker, Task task) {
-        if ((worker.currentTask == null && worker.scheduledTasks.size() == 0) || task == null) {
+        if ((worker.wipTask == null && worker.scheduledTasks.size() == 0) || task == null) {
             return false;
         }
 
         boolean isWorkerHasTask = false;
 
         // Current task
-        if (Utils.isSameId(worker.currentTask.id, task.id)) {
+        if (Utils.isSameId(worker.wipTask.id, task.id)) {
             isWorkerHasTask = true;
         }
 
@@ -262,15 +262,15 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         workerCardViewHolder.overtime.setChecked(worker.isOvertime);
 
         // Current task name and current task case name
-        if (worker.hasCurrentTask()) {
-            workerCardViewHolder.currentTaskName.setText(worker.currentTask.name);
-            workerCardViewHolder.currentTaskCaseName.setText(
-                    WorkingData.getInstance(mContext).getCaseById(worker.currentTask.caseId).name);
-            workerCardViewHolder.currentTaskWorkingTime.setText(worker.currentTask.getWorkingTime());
+        if (worker.hasWipTask()) {
+            workerCardViewHolder.wipTaskName.setText(worker.wipTask.name);
+            workerCardViewHolder.wipCaseName.setText(
+                    WorkingData.getInstance(mContext).getCaseById(worker.wipTask.caseId).name);
+            workerCardViewHolder.wipTaskWorkingTime.setText(worker.wipTask.getWorkingTime());
         } else {
-            workerCardViewHolder.currentTaskName.setText("");
-            workerCardViewHolder.currentTaskCaseName.setText("");
-            workerCardViewHolder.currentTaskWorkingTime.setText("");
+            workerCardViewHolder.wipTaskName.setText("");
+            workerCardViewHolder.wipCaseName.setText("");
+            workerCardViewHolder.wipTaskWorkingTime.setText("");
         }
 
         // Scheduled tasks

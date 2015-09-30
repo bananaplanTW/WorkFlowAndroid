@@ -88,16 +88,16 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     }
 
     private void setupCurrentTask() {
-        if (!mWorker.hasCurrentTask()) return;
+        if (!mWorker.hasWipTask()) return;
 
-        mCurrentCase.setText(WorkingData.getInstance(mContext).getCaseById(mWorker.currentTask.caseId).name);
-        mCurrentTask.setText(mWorker.currentTask.name);
+        mCurrentCase.setText(WorkingData.getInstance(mContext).getCaseById(mWorker.wipTask.caseId).name);
+        mCurrentTask.setText(mWorker.wipTask.name);
         // TODO: Expected time
         // TODO: Spent time
-        mCurrentEquipment.setText(WorkingData.getInstance(mContext).getEquipmentById(mWorker.currentTask.equipmentId).name);
+        mCurrentEquipment.setText(WorkingData.getInstance(mContext).getEquipmentById(mWorker.wipTask.equipmentId).name);
         // TODO: Expected completed time
         // TODO: Error
-        Utils.setTaskItemWarningTextView((Activity) mContext, mWorker.currentTask, mCurrentWarnings, true);
+        Utils.setTaskItemWarningTextView((Activity) mContext, mWorker.wipTask, mCurrentWarnings, true);
     }
 
     private void setupButtons() {

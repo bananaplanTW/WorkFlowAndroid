@@ -75,7 +75,7 @@
             android:padding="@dimen/worker_card_current_task_container_padding">
 
             <TextView
-                android:id="@+id/worker_card_current_task_name"
+                android:id="@+id/worker_card_wip_task_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -84,10 +84,10 @@
                 android:textSize="@dimen/worker_card_content_text_size" />
 
             <TextView
-                android:id="@+id/worker_card_current_task_case_name"
+                android:id="@+id/worker_card_wip_task_case_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/worker_card_current_task_name"
+                android:layout_below="@+id/worker_card_wip_task_name"
                 android:textColor="@color/worker_card_text_gray"
                 android:textSize="@dimen/worker_card_content_text_size"/>
 
@@ -99,7 +99,7 @@
             android:background="@color/worker_card_divider_color"/>
 
         <TextView
-            android:id="@+id/worker_card_current_task_working_time"
+            android:id="@+id/worker_card_wip_task_working_time"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"

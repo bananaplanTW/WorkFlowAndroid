@@ -53,6 +53,7 @@ public final class WorkingData {
     private HashMap<String, Equipment> mEquipmentsMap = new HashMap<>();
     private HashMap<String, Factory> mFactoriesMap = new HashMap<>();
     private HashMap<String, Tag> mTagsMap = new HashMap<>();
+    private HashMap<String, Warning> mWarningsMap = new HashMap<>();
 
 
     public static WorkingData getInstance(Context context) {
@@ -107,6 +108,11 @@ public final class WorkingData {
         mWorkersMap.put(worker.id, worker);
         Log.d(TAG, "Add worker " + worker.name);
     }
+    public void addWarning(Warning warning) {
+        if (warning == null) return;
+        mWarningsMap.put(warning.id, warning);
+        Log.d(TAG, "Add warning " + warning.name);
+    }
 
 
     public boolean hasCase(String caseId) {
@@ -126,6 +132,12 @@ public final class WorkingData {
     }
     public boolean hasWorker(String workerId) {
         return mWorkersMap.containsKey(workerId);
+    }
+    public boolean hasTask(String taskId) {
+        return mTasksMap.containsKey(taskId);
+    }
+    public boolean hasWarning(String warningId) {
+        return mWarningsMap.containsKey(warningId);
     }
 
 
@@ -196,6 +208,9 @@ public final class WorkingData {
     }
     public Tag getTagById(String tagId) {
         return mTagsMap.get(tagId);
+    }
+    public Warning getWarningById(String warningId) {
+        return mWarningsMap.get(warningId);
     }
 
 
@@ -345,7 +360,7 @@ public final class WorkingData {
                     mTasksMap.put(task.id, task);
                     task.equipmentId = getRandomEquipmentId();
                     task.workerId = getRandomWorkerId();
-                    getWorkerById(task.workerId).currentTask = task;
+                    getWorkerById(task.workerId).wipTask = task;
                 }
             }
         }

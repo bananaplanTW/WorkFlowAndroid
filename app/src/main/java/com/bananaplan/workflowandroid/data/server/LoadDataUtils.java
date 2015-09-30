@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -38,12 +37,17 @@ public class LoadDataUtils {
         public static final String CASES = "http://bp-workflow.cloudapp.net:3000/api/cases";
         public static final String FACTORIES = "http://bp-workflow.cloudapp.net:3000/api/groups";
         public static final String TASKS_BY_CASE = "http://bp-workflow.cloudapp.net:3000/api/tasks?caseId=";
+        public static final String TASKS_BY_WORKER = "http://bp-workflow.cloudapp.net:3000/api/employee/tasks?employeeId=";
         public static final String WORKERS_BY_FACTORY = "http://bp-workflow.cloudapp.net:3000/api/group/employees?groupId=";
-//        public static final String WORKERS = "http://10.1.1.28:3000/api/employees";
-//        public static final String CASES = "http://10.1.1.28:3000/api/cases";
-//        public static final String TASKS_BY_CASE = "http://10.1.1.28:3000/api/tasks?caseId=";
     }
 
+
+    /**
+     * Load all cases data from server, not include tasks data.
+     * We only load task id of each task in the case.
+     *
+     * @param context
+     */
     public static void loadCases(Context context) {
         try {
             String caseJsonListString = RestfulUtils.getJsonStringFromUrl(WorkingDataUrl.CASES);
@@ -68,6 +72,13 @@ public class LoadDataUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Load all factories data from server, not include workers data.
+     * We only load worker id of each worker in the factory.
+     *
+     * @param context
+     */
     public static void loadFactories(Context context) {
         try {
             String factoryJsonListString = RestfulUtils.getJsonStringFromUrl(WorkingDataUrl.FACTORIES);
@@ -88,61 +99,23 @@ public class LoadDataUtils {
         if (!WorkingData.getInstance(context).hasCase(caseId)) return;
 
         try {
-            String taskJsonString = RestfulUtils.getJsonStringFromUrl(getTasksByCaseUrl(caseId));
-            JSONArray taskJsonList = new JSONObject(taskJsonString).getJSONArray("result");
+            String taskJsonListString = RestfulUtils.getJsonStringFromUrl(getTasksByCaseUrl(caseId));
+            JSONArray taskJsonList = new JSONObject(taskJsonListString).getJSONArray("result");
             List<Task> newCaseTasks = new ArrayList<>();
 
-            //Log.d(TAG, "Case  " + WorkingData.getInstance(context).getCaseById(caseId).name + " tasks :");
             for (int i = 0 ; i < taskJsonList.length() ; i++) {
                 JSONObject taskJson = taskJsonList.getJSONObject(i);
-                JSONArray taskWarnings = taskJson.getJSONArray("taskExceptions");
+                String taskId = taskJson.getString("_id");
 
-                String id = taskJson.getString("_id");
-                String taskCaseId = taskJson.getString("caseId");
-                String workerId = getStringFromJson(taskJson, "employeeId");
-                String equipmentId = getStringFromJson(taskJson, "resourceId");
-                String name = taskJson.getString("name");
-                Task.Status status = Task.convertStringToStatus(taskJson.getString("status"));
-                long expectedTime = taskJson.getLong("expectedTime");
-                long spentTime = taskJson.getLong("spentTime");
-                Date startDate = getDateFromJson(taskJson, "startDate");
-                Date endDate = getDateFromJson(taskJson, "endDate");
-                Date assignDate = getDateFromJson(taskJson, "dispatchedDate");
-
-                // TODO: Warning list
-//                List<Warning> warnings = new ArrayList<>();
-//                for (int j = 0 ; j < taskWarnings.length() ; j++) {
-//                    warnings.add();
-//                }
-
-
-                // TODO: Sub tasks list
-
-                Task newTask = new Task(
-                        id,
-                        name,
-                        taskCaseId,
-                        workerId,
-                        equipmentId,
-                        status,
-                        expectedTime,
-                        spentTime,
-                        assignDate,
-                        startDate,
-                        endDate,
-                        new ArrayList<Warning>());
-
-                newCaseTasks.add(newTask);
-
-                WorkingData.getInstance(context).addTask(newTask);
-
-                //Log.d(TAG, "Task " + i + " " + newTask.name);
+                addTaskToWorkingData(context, taskJson);
+                if (WorkingData.getInstance(context).hasTask(taskId)) {
+                    newCaseTasks.add(WorkingData.getInstance(context).getTaskById(taskId));
+                }
             }
 
             WorkingData.getInstance(context).getCaseById(caseId).tasks = newCaseTasks;
 
         } catch (JSONException e) {
-            Log.e(TAG, "Exception in loadTasksByCase()");
             e.printStackTrace();
         }
     }
@@ -164,6 +137,39 @@ public class LoadDataUtils {
             }
 
             WorkingData.getInstance(context).getFactoryById(factoryId).workers = newWorkers;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void loadTasksByWorker(Context context, String workerId) {
+        if (!WorkingData.getInstance(context).hasWorker(workerId)) return;
+
+        try {
+            String taskJsonString = RestfulUtils.getJsonStringFromUrl(getTasksByWorkerUrl(workerId));
+            JSONObject taskJson = new JSONObject(taskJsonString).getJSONObject("result");
+            JSONObject wipTaskJson = taskJson.getJSONObject("WIPTask");
+            String wipTaskId = wipTaskJson.getString("_id");
+            JSONArray scheduledTaskJsonList = taskJson.getJSONArray("scheduledTasks");
+            List<Task> scheduledTasks = new ArrayList<>();
+
+            addTaskToWorkingData(context, wipTaskJson);
+
+            for (int i = 0 ; i < scheduledTaskJsonList.length() ; i++) {
+                JSONObject scheduledTaskJson = scheduledTaskJsonList.getJSONObject(i);
+                String scheduledTaskId = scheduledTaskJson.getString("_id");
+                addTaskToWorkingData(context, scheduledTaskJson);
+
+                if (WorkingData.getInstance(context).hasTask(scheduledTaskId)) {
+                    scheduledTasks.add(WorkingData.getInstance(context).getTaskById(scheduledTaskId));
+                }
+            }
+
+            if (WorkingData.getInstance(context).hasTask(wipTaskId)) {
+                WorkingData.getInstance(context).getWorkerById(workerId).wipTask
+                        = WorkingData.getInstance(context).getTaskById(wipTaskId);
+            }
+            WorkingData.getInstance(context).getWorkerById(workerId).scheduledTasks = scheduledTasks;
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -197,7 +203,25 @@ public class LoadDataUtils {
         }
     }
     private static void addTaskToWorkingData(Context context, JSONObject taskJson) {
-        // TODO: addTaskToWorkingData
+        try {
+            String taskId = taskJson.getString("_id");
+            long lastUpdatedTime = taskJson.getLong("updatedAt");
+            boolean workingDataHasTask = WorkingData.getInstance(context).hasTask(taskId);
+
+            if (workingDataHasTask &&
+                    WorkingData.getInstance(context).getTaskById(taskId).lastUpdatedTime >= lastUpdatedTime) {
+                return;
+            }
+
+            if (workingDataHasTask) {
+                WorkingData.getInstance(context).getTaskById(taskId).update(retrieveTaskFromJson(context, taskJson));
+            } else {
+                WorkingData.getInstance(context).addTask(retrieveTaskFromJson(context, taskJson));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in addTaskToWorkingData()");
+            e.printStackTrace();
+        }
     }
     private static void addFactoryToWorkingData(Context context, JSONObject factoryJson) {
         try {
@@ -250,8 +274,6 @@ public class LoadDataUtils {
 
         return worker;
     }
-
-
     private static void addVendorToWorkingData(Context context, JSONObject vendorJson) {
         try {
             String vendorId = vendorJson.getString("_id");
@@ -291,6 +313,27 @@ public class LoadDataUtils {
             }
         } catch (JSONException e) {
             Log.e(TAG, "Exception in addManagerToWorkingData()");
+            e.printStackTrace();
+        }
+    }
+    private static void addWarningToWorkingData(Context context, JSONObject warningJson) {
+        try {
+            String warningId = warningJson.getString("_id");
+            long lastUpdatedTime = warningJson.getLong("updatedAt");
+            boolean workingDataHasWarning = WorkingData.getInstance(context).hasWarning(warningId);
+
+            if (workingDataHasWarning &&
+                    WorkingData.getInstance(context).getWarningById(warningId).lastUpdatedTime >= lastUpdatedTime) {
+                return;
+            }
+
+            if (workingDataHasWarning) {
+                WorkingData.getInstance(context).getWarningById(warningId).update(retrieveWarningFromJson(warningJson));
+            } else {
+                WorkingData.getInstance(context).addWarning(retrieveWarningFromJson(warningJson));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in addWarningToWorkingData()");
             e.printStackTrace();
         }
     }
@@ -447,10 +490,12 @@ public class LoadDataUtils {
     private static Worker retrieveWorkerFromJson(JSONObject workerJson) {
         try {
             JSONObject paymentJson = workerJson.getJSONObject("paymentClassification");
+            JSONArray scheduledTaskJsonList = workerJson.getJSONArray("scheduledTaskIds");
 
             String id = workerJson.getString("_id");
             String name = workerJson.getJSONObject("profile").getString("name");
             String factoryId = getStringFromJson(workerJson, "groupId");
+            String wipTaskId = getStringFromJson(workerJson, "WIPTaskId");
             String address = getStringFromJson(workerJson, "address");
             String phone = getStringFromJson(workerJson, "phone");
             int score = workerJson.getInt("score");
@@ -465,19 +510,79 @@ public class LoadDataUtils {
                                                      paymentJson.getDouble("hourlyPayment"),
                                                      paymentJson.getDouble("overtimeBase"));
 
+            List<String> scheduledTaskIds = new ArrayList<>();
+            for (int st = 0 ; st < scheduledTaskJsonList.length() ; st++) {
+                scheduledTaskIds.add(scheduledTaskJsonList.getString(st));
+            }
+
             return new Worker(
                     id,
                     name,
                     factoryId,
+                    wipTaskId,
                     address,
                     phone,score,
                     isOvertime,
                     status,
                     payment,
+                    scheduledTaskIds,
                     lastUpdatedTime);
 
         } catch (JSONException e) {
             Log.e(TAG, "Exception in retrieveWorkerFromJson()");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    private static Task retrieveTaskFromJson(Context context, JSONObject taskJson) {
+        try {
+            JSONArray warningJsonList = taskJson.getJSONArray("taskExceptions");
+
+            String id = taskJson.getString("_id");
+            String name = taskJson.getString("name");
+            String caseId = taskJson.getString("caseId");
+            String workerId = getStringFromJson(taskJson, "employeeId");
+            String equipmentId = getStringFromJson(taskJson, "resourceId"); // TODO: 傳Json格式
+
+            Task.Status status = Task.convertStringToStatus(taskJson.getString("status"));
+
+            long expectedTime = taskJson.getLong("expectedTime");
+            long spentTime = taskJson.getLong("spentTime");
+            long lastUpdatedTime = taskJson.getLong("updatedAt");
+
+            Date startDate = getDateFromJson(taskJson, "startDate");
+            Date endDate = getDateFromJson(taskJson, "endDate");
+            Date assignDate = getDateFromJson(taskJson, "dispatchedDate");
+
+            List<Warning> warnings = new ArrayList<>();
+            for (int w = 0 ; w < warningJsonList.length() ; w++) {
+                JSONObject warningJson = warningJsonList.getJSONObject(w);
+                String warningId = warningJson.getString("_id");
+
+                addWarningToWorkingData(context, warningJson);
+                warnings.add(WorkingData.getInstance(context).getWarningById(warningId));
+            }
+
+            // TODO: Sub task
+
+            return new Task(
+                    id,
+                    name,
+                    caseId,
+                    workerId,
+                    equipmentId,
+                    status,
+                    assignDate,
+                    startDate,
+                    endDate,
+                    warnings,
+                    expectedTime,
+                    spentTime,
+                    lastUpdatedTime);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in retrieveTaskFromJson()");
             e.printStackTrace();
         }
 
@@ -534,10 +639,43 @@ public class LoadDataUtils {
 
         return null;
     }
+    private static Warning retrieveWarningFromJson(JSONObject warningJson) {
+        try {
+            String id = warningJson.getString("_id");
+            String name = warningJson.getString("name");
+            String caseId = warningJson.getString("caseId");
+            String taskId = warningJson.getString("taskId");
+            String workerId = warningJson.getString("employeeId");
+
+            long spentTime = warningJson.getLong("spentTime");
+            long lastUpdatedTime = warningJson.getLong("updatedAt");
+
+            Warning.Status status = Warning.convertStringToStatus(warningJson.getString("status"));
+
+            return new Warning(
+                    id,
+                    name,
+                    caseId,
+                    taskId,
+                    workerId,
+                    status,
+                    spentTime,
+                    lastUpdatedTime);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in retrieveTagFromJson()");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
     private static String getTasksByCaseUrl(String caseId) {
         return WorkingDataUrl.TASKS_BY_CASE + caseId;
+    }
+    private static String getTasksByWorkerUrl(String workerId) {
+        return WorkingDataUrl.TASKS_BY_WORKER + workerId;
     }
     private static String getWorkersByFactoryUrl(String factoryId) {
         return WorkingDataUrl.WORKERS_BY_FACTORY + factoryId;

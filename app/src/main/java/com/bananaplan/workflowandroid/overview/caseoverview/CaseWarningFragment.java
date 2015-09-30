@@ -25,6 +25,7 @@ import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Ben on 2015/8/23.
@@ -95,7 +96,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
             } else {
                 holder.handleMgrName.setText("");
             }
-            holder.time.setText(Utils.timestamp2Date(warning.spentTime, Utils.DATE_FORMAT_MD));
+            holder.time.setText(Utils.timestamp2Date(new Date(warning.spentTime), Utils.DATE_FORMAT_MD));
             holder.description.setText(TextUtils.isEmpty(warning.description) ? "" : warning.description);
             return convertView;
         }

@@ -46,8 +46,12 @@ public class Worker extends IdData {
     public Status status;
     public PaymentClassification paymentClassification;
 
-    public Task currentTask;
-    public List<Task> scheduledTasks;
+    public String wipTaskId;
+    public List<String> scheduledTaskIds = new ArrayList<>();
+
+
+    public Task wipTask;
+    public List<Task> scheduledTasks = new ArrayList<>();
     public List<Task> warningTasks;
 
     public ArrayList<BaseData> records = new ArrayList<>();
@@ -61,22 +65,26 @@ public class Worker extends IdData {
             String id,
             String name,
             String factoryId,
+            String wipTaskId,
             String address,
             String phone,
             int score,
             boolean isOvertime,
             Status status,
             PaymentClassification payment,
+            List<String> scheduledTaskIds,
             long lastUpdatedTime) {
         this.id = id;
         this.name = name;
         this.factoryId = factoryId;
+        this.wipTaskId = wipTaskId;
         this.address = address;
         this.phone = phone;
         this.score = score;
         this.isOvertime = isOvertime;
         this.status = status;
         this.paymentClassification = payment;
+        this.scheduledTaskIds = scheduledTaskIds;
         this.lastUpdatedTime = lastUpdatedTime;
     }
 
@@ -102,24 +110,25 @@ public class Worker extends IdData {
     }
 
     public void update(Worker worker) {
-        this.id = worker.id;
         this.name = worker.name;
         this.factoryId = worker.factoryId;
+        this.wipTaskId = worker.wipTaskId;
         this.address = worker.address;
         this.phone = worker.phone;
         this.score = worker.score;
         this.isOvertime = worker.isOvertime;
         this.status = worker.status;
         this.paymentClassification = worker.paymentClassification;
+        this.scheduledTaskIds = worker.scheduledTaskIds;
         this.lastUpdatedTime = worker.lastUpdatedTime;
     }
 
-    public boolean hasCurrentTask() {
-        return currentTask != null;
+    public boolean hasWipTask() {
+        return this.wipTask != null;
     }
 
     public boolean hasScheduledTasks() {
-        return scheduledTasks != null && scheduledTasks.size() != 0;
+        return this.scheduledTasks != null && this.scheduledTasks.size() != 0;
     }
 
     public static Status convertStringToStatus(String status) {

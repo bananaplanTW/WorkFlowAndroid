@@ -50,12 +50,13 @@ public class Task extends IdData {
                 String workerId,
                 String equipmentId,
                 Status status,
-                long expectedTime,
-                long spentTime,
                 Date assignDate,
                 Date startDate,
                 Date endDate,
-                List<Warning> warnings) {
+                List<Warning> warnings,
+                long expectedTime,
+                long spentTime,
+                long lastUpdatedTime) {
         this.id = id;
         this.name = name;
         this.caseId = caseId;
@@ -68,6 +69,7 @@ public class Task extends IdData {
         this.startDate = startDate;
         this.endDate = endDate;
         this.warnings = warnings;
+        this.lastUpdatedTime = lastUpdatedTime;
 
         if (this.warnings == null) {
             this.warnings = new ArrayList<>();
@@ -96,6 +98,21 @@ public class Task extends IdData {
             }
         }
         return count;
+    }
+
+    public void update(Task task) {
+        this.name = task.name;
+        this.caseId = task.caseId;
+        this.workerId = task.workerId;
+        this.equipmentId = task.equipmentId;
+        this.status = task.status;
+        this.expectedTime = task.expectedTime;
+        this.spentTime = task.spentTime;
+        this.assignDate = task.assignDate;
+        this.startDate = task.startDate;
+        this.endDate = task.endDate;
+        this.warnings = task.warnings;
+        this.lastUpdatedTime = task.lastUpdatedTime;
     }
 
     // TODO: Get this information from server
