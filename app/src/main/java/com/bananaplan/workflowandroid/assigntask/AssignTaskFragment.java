@@ -196,13 +196,14 @@ public class AssignTaskFragment extends Fragment implements
 
         mCaseOnTouchListener = new CaseOnTouchListener(mCaseView);
 
+        int caseSpanCount = mContext.getResources().getInteger(R.integer.task_case_column_count);
         mGridLayoutManager =
-                new GridLayoutManager(mContext, mContext.getResources().getInteger(R.integer.task_case_column_count));
+                new GridLayoutManager(mContext, caseSpanCount);
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
 
         mCaseView.setLayoutManager(mGridLayoutManager);
-        mCaseView.addItemDecoration(new CaseCardDecoration(mContext));
+        mCaseView.addItemDecoration(new CaseCardDecoration(mContext, caseSpanCount));
         mCaseView.setOnTouchListener(mCaseOnTouchListener);
         mCaseView.setAdapter(mCaseAdapter);
     }

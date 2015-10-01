@@ -15,10 +15,12 @@ import com.bananaplan.workflowandroid.R;
 public class CaseCardDecoration extends RecyclerView.ItemDecoration {
 
     private Context mContext;
+    private int mSpanCount;
 
 
-    public CaseCardDecoration(Context context) {
+    public CaseCardDecoration(Context context, int spanCount) {
         mContext = context;
+        mSpanCount = spanCount;
     }
 
     @Override
@@ -34,10 +36,10 @@ public class CaseCardDecoration extends RecyclerView.ItemDecoration {
         if (position == 0) return;
 
         // Top and bottom
-        if (position == 1 || position == 2) {
+        if (position < mSpanCount + 1) {
             outRect.top = boundaryMargin;
             outRect.bottom = normalMargin;
-        } else if (position == itemCount - 1 || position == itemCount - 2) {
+        } else if (position > itemCount - mSpanCount) {
             outRect.top = normalMargin;
             outRect.bottom = boundaryMargin;
         } else {
