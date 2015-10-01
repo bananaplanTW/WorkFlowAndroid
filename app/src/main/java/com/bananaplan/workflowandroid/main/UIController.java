@@ -173,7 +173,7 @@ public class UIController implements OnClickDrawerItemListener {
 
             case R.id.drawer_assign_task:
                 if (mCurrentFragment instanceof AssignTaskFragment) break;
-                replaceTo(AssignTaskFragment.class, FragmentTag.ASSIGN_TASK_FRAGMENT, false);
+                replaceTo(AssignTaskFragment.class, FragmentTag.ASSIGN_TASK_FRAGMENT, true);
                 break;
 
             case R.id.drawer_case_overview:

@@ -154,8 +154,18 @@ public class AssignTaskFragment extends Fragment implements
         mFragmentManager = getFragmentManager();
         mMaxWorkerCountInPage = WorkerFragment.MAX_WORKER_COUNT_IN_PAGE; // Need to get count according to the device size.
         findViews();
+        showViews();
 
-        new LoadingDataTask(mContext, this).execute();
+        //new LoadingDataTask(mContext, this).execute();
+    }
+
+    private void showViews() {
+        getCaseSpinnerTitles();
+        getFactorySpinnerTitles();
+        initCaseView();
+        initFactorySpinner();
+        initWorkerPager();
+        Utils.replaceProgressBarWhenLoadingFinished(mContext, mMainView, mProgressBar);
     }
 
     private void getFactorySpinnerTitles() {
@@ -301,11 +311,6 @@ public class AssignTaskFragment extends Fragment implements
 
     @Override
     public void onFinishLoadingData() {
-        getCaseSpinnerTitles();
-        getFactorySpinnerTitles();
-        initCaseView();
-        initFactorySpinner();
-        initWorkerPager();
-        Utils.replaceProgressBarWhenLoadingFinished(mContext, mMainView, mProgressBar);
+        showViews();
     }
 }
