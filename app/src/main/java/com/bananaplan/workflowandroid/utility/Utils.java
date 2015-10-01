@@ -231,6 +231,11 @@ public class Utils {
 
     public static void setTaskItemWarningTextView(final Activity activity, final Task item,
                                                   final TextView v, boolean hasClickListener) {
+        if (item.warnings.size() == 0) {
+            v.setVisibility(View.GONE);
+            return;
+        }
+
         String displayTxt = "";
         int txtColor;
         Drawable background;
