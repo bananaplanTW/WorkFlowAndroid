@@ -68,7 +68,7 @@ public final class WorkingData {
 
     private WorkingData(Context context) {
         mContext = context;
-        generateFakeData(); // +++ only for test case
+        //generateFakeData(); // +++ only for test case
     }
 
 

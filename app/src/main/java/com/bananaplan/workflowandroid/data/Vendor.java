@@ -13,7 +13,8 @@ public class Vendor extends IdData {
     public String phone;
 
     public List<String> caseIds;
-    public ArrayList<Case> cases;
+
+    public List<Case> cases = new ArrayList<>();
 
 
     public Vendor(String id, String name, String address, String phone, List<String> caseIds, long lastUpdatedTime) {

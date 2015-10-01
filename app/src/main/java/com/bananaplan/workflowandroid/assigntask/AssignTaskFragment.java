@@ -23,6 +23,7 @@ import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.assigntask.tasks.CaseCardDecoration;
 import com.bananaplan.workflowandroid.assigntask.tasks.CaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.CaseOnTouchListener;
+import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.server.LoadDataUtils;
 import com.bananaplan.workflowandroid.utility.GridSpanSizeLookup;
 import com.bananaplan.workflowandroid.data.Factory;
@@ -88,30 +89,41 @@ public class AssignTaskFragment extends Fragment implements
 
         @Override
         protected Void doInBackground(Void... params) {
-//            // Load cases
-//            LoadDataUtils.loadCases(mContext);
-//            for (Case aCase : WorkingData.getInstance(mContext).getCases()) {
-//                LoadDataUtils.loadTasksByCase(mContext, aCase.id);
-//            }
-//
-//            // Load factories
-//            LoadDataUtils.loadFactories(mContext);
-//            for (Factory factory : WorkingData.getInstance(mContext).getFactories()) {
-//                LoadDataUtils.loadWorkersByFactory(mContext, factory.id);
-//            }
-//
-//            // Connect tasks and workers
-//            for (Worker worker : WorkingData.getInstance(mContext).getWorkers()) {
-//                if (WorkingData.getInstance(mContext).hasTask(worker.wipTaskId)) {
-//                    worker.wipTask = WorkingData.getInstance(mContext).getTaskById(worker.wipTaskId);
-//                }
-//
-//                for (String stId : worker.scheduledTaskIds) {
-//                    if (WorkingData.getInstance(mContext).hasTask(stId)) {
-//                        worker.scheduledTasks.add(WorkingData.getInstance(mContext).getTaskById(stId));
-//                    }
-//                }
-//            }
+            // Load cases
+            LoadDataUtils.loadCases(mContext);
+            for (Case aCase : WorkingData.getInstance(mContext).getCases()) {
+                LoadDataUtils.loadTasksByCase(mContext, aCase.id);
+            }
+
+            // Load factories
+            LoadDataUtils.loadFactories(mContext);
+            for (Factory factory : WorkingData.getInstance(mContext).getFactories()) {
+                LoadDataUtils.loadWorkersByFactory(mContext, factory.id);
+            }
+
+            // Connect tasks and workers
+            for (Worker worker : WorkingData.getInstance(mContext).getWorkers()) {
+                if (WorkingData.getInstance(mContext).hasTask(worker.wipTaskId)) {
+                    worker.wipTask = WorkingData.getInstance(mContext).getTaskById(worker.wipTaskId);
+                }
+
+                worker.scheduledTasks.clear();
+                for (String stId : worker.scheduledTaskIds) {
+                    if (WorkingData.getInstance(mContext).hasTask(stId)) {
+                        worker.scheduledTasks.add(WorkingData.getInstance(mContext).getTaskById(stId));
+                    }
+                }
+            }
+
+            // Connect vendors and cases
+            for (Vendor vendor : WorkingData.getInstance(mContext).getVendors()) {
+                vendor.cases.clear();
+                for (String caseId : vendor.caseIds) {
+                    if (WorkingData.getInstance(mContext).hasCase(caseId)) {
+                        vendor.cases.add(WorkingData.getInstance(mContext).getCaseById(caseId));
+                    }
+                }
+            }
 
             return null;
         }

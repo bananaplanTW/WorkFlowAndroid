@@ -215,7 +215,8 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder.id.setTextColor(txtColor);
             }
             if (holder.caseName != null) {
-                holder.caseName.setText(WorkingData.getInstance(getActivity()).getCaseById(task.caseId).name);
+                holder.caseName.setText(WorkingData.getInstance(getActivity()).hasCase(task.caseId) ?
+                        WorkingData.getInstance(getActivity()).getCaseById(task.caseId).name : "");
                 holder.caseName.setTextColor(txtColor);
             }
             if (holder.itemName != null) {
@@ -231,7 +232,8 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder.workTime.setTextColor(txtColor);
             }
             if (holder.equipment != null) {
-                holder.equipment.setText(WorkingData.getInstance(getActivity()).getEquipmentById(task.equipmentId).name);
+                holder.equipment.setText(WorkingData.getInstance(getActivity()).hasEquipment(task.equipmentId) ?
+                        WorkingData.getInstance(getActivity()).getEquipmentById(task.equipmentId).name : "");
                 holder.equipment.setTextColor(txtColor);
             }
             if (holder.errorCount != null) {
