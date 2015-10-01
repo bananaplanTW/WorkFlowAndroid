@@ -62,6 +62,7 @@ public class Worker extends IdData {
 
 
     public Worker(
+            Context context,
             String id,
             String name,
             String factoryId,
@@ -86,6 +87,10 @@ public class Worker extends IdData {
         this.paymentClassification = payment;
         this.scheduledTaskIds = scheduledTaskIds;
         this.lastUpdatedTime = lastUpdatedTime;
+
+        if (sDefaultAvatarDrawable == null) {
+            sDefaultAvatarDrawable = context.getDrawable(R.drawable.ic_person_black);
+        }
     }
 
     public Worker(final Context context, String id, String name, String title) {
@@ -106,6 +111,7 @@ public class Worker extends IdData {
         if (this.avatar != null) {
             return this.avatar;
         }
+
         return sDefaultAvatarDrawable;
     }
 

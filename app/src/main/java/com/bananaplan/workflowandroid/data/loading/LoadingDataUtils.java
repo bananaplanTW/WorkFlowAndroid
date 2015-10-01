@@ -539,6 +539,7 @@ public class LoadingDataUtils {
             }
 
             return new Worker(
+                    context,
                     id,
                     name,
                     factoryId,
