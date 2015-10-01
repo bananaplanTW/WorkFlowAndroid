@@ -286,7 +286,7 @@ public class EquipmentOverviewFragment extends Fragment implements
                 .setText(WorkingData.getInstance(getActivity()).getFactoryById(equipment.factoryId).name);
         ((TextView) getActivity().findViewById(R.id.equipment_purchase_date))
                 .setText(getResources().getString(R.string.equipment_purchase_date)
-                        + Utils.timestamp2Date(equipment.purchaseDate, Utils.DATE_FORMAT_YMD));
+                        + Utils.timestamp2Date(equipment.purchasedDate, Utils.DATE_FORMAT_YMD));
         ((TextView) getActivity().findViewById(R.id.equipment_fix_date))
                 .setText(getResources().getString(R.string.equipment_fix_date)
                         + Utils.timestamp2Date(equipment.getRecentlyMaintenanceDate(), Utils.DATE_FORMAT_YMD));

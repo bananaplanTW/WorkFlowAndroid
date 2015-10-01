@@ -10,18 +10,37 @@ import java.util.Date;
  */
 public class Equipment extends IdData {
 
-    // 運轉中, 停止運轉, 維修中
     public enum Status {
         WIP, STOP, MAINTENANCE
     }
 
+    public String description;
     public String factoryId;
 
-    public Date purchaseDate;
-    public Date lastMaintenanceDate;
     public Status status;
 
+    public Date purchasedDate;
+    public Date lastMaintenanceDate;
+
     public ArrayList<MaintenanceRecord> records = new ArrayList<>();
+
+
+    public Equipment(
+            String id,
+            String name,
+            String description,
+            String factoryId,
+            Status status,
+            Date purchasedDate,
+            long lastUpdatedTime) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.factoryId = factoryId;
+        this.status = status;
+        this.purchasedDate = purchasedDate;
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
 
     public Equipment(String id, String name) {
         this(id, name, null);
@@ -31,6 +50,15 @@ public class Equipment extends IdData {
         this.id = id;
         this.name = name;
         this.factoryId = factoryId;
+    }
+
+    public void update(Equipment equipment) {
+        this.name = equipment.name;
+        this.description = equipment.description;
+        this.factoryId = equipment.factoryId;
+        this.status = equipment.status;
+        this.purchasedDate = equipment.purchasedDate;
+        this.lastUpdatedTime = equipment.lastUpdatedTime;
     }
 
     public Date getRecentlyMaintenanceDate() {
@@ -44,5 +72,22 @@ public class Equipment extends IdData {
             }
         }
         return date;
+    }
+
+    public static Status convertStringToStatus(String status) {
+        Status result = Status.STOP;
+
+        if ("wip".equals(status)) {
+            result = Status.WIP;
+
+        } else if ("stop".equals(status)) {
+            result = Status.STOP;
+
+        } else if ("maintenance".equals(status)) {
+            result = Status.MAINTENANCE;
+
+        }
+
+        return result;
     }
 }

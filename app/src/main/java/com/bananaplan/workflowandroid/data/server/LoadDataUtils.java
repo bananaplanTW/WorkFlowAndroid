@@ -1,9 +1,11 @@
 package com.bananaplan.workflowandroid.data.server;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.Case;
+import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Tag;
@@ -33,12 +35,18 @@ public class LoadDataUtils {
     private static final String TAG = "LoadDataUtils";
 
     private static final class WorkingDataUrl {
-        public static final String WORKERS = "http://bp-workflow.cloudapp.net:3000/api/employees";
-        public static final String CASES = "http://bp-workflow.cloudapp.net:3000/api/cases";
-        public static final String FACTORIES = "http://bp-workflow.cloudapp.net:3000/api/groups";
-        public static final String TASKS_BY_CASE = "http://bp-workflow.cloudapp.net:3000/api/tasks?caseId=";
-        public static final String TASKS_BY_WORKER = "http://bp-workflow.cloudapp.net:3000/api/employee/tasks?employeeId=";
-        public static final String WORKERS_BY_FACTORY = "http://bp-workflow.cloudapp.net:3000/api/group/employees?groupId=";
+//        public static final String WORKERS = "http://bp-workflow.cloudapp.net:3000/api/employees";
+//        public static final String CASES = "http://bp-workflow.cloudapp.net:3000/api/cases";
+//        public static final String FACTORIES = "http://bp-workflow.cloudapp.net:3000/api/groups";
+//        public static final String TASKS_BY_CASE = "http://bp-workflow.cloudapp.net:3000/api/tasks?caseId=";
+//        public static final String TASKS_BY_WORKER = "http://bp-workflow.cloudapp.net:3000/api/employee/tasks?employeeId=";
+//        public static final String WORKERS_BY_FACTORY = "http://bp-workflow.cloudapp.net:3000/api/group/employees?groupId=";
+        public static final String WORKERS = "http://128.199.198.169:3000/api/employees";
+        public static final String CASES = "http://128.199.198.169:3000/api/cases";
+        public static final String FACTORIES = "http://128.199.198.169:3000/api/groups";
+        public static final String TASKS_BY_CASE = "http://128.199.198.169:3000/api/tasks?caseId=";
+        public static final String TASKS_BY_WORKER = "http://128.199.198.169:3000/api/employee/tasks?employeeId=";
+        public static final String WORKERS_BY_FACTORY = "http://128.199.198.169:3000/api/group/employees?groupId=";
     }
 
 
@@ -55,16 +63,7 @@ public class LoadDataUtils {
 
             for (int i = 0; i < caseJsonList.length(); i++) {
                 JSONObject caseJson = caseJsonList.getJSONObject(i);
-                JSONObject caseVendor = caseJson.getJSONObject("client");
-                JSONObject caseManager = caseJson.getJSONObject("lead");
-                JSONArray caseTags = caseJson.getJSONArray("tags");
-
                 addCaseToWorkingData(context, caseJson);
-                addVendorToWorkingData(context, caseVendor);
-                addManagerToWorkingData(context, caseManager);
-                for (int j = 0 ; j < caseTags.length() ; j++) {
-                    addTagToWorkingData(context, caseTags.getJSONObject(j));
-                }
             }
 
         } catch (JSONException e) {
@@ -182,21 +181,17 @@ public class LoadDataUtils {
         try {
             String caseId = caseJson.getString("_id");
             long lastUpdatedTime = caseJson.getLong("updatedAt");
-            boolean workingDataHasCase = WorkingData.getInstance(context).hasCase(caseId);
+            boolean hasCase = WorkingData.getInstance(context).hasCase(caseId);
 
-            if (workingDataHasCase &&
+            if (hasCase &&
                     WorkingData.getInstance(context).getCaseById(caseId).lastUpdatedTime >= lastUpdatedTime) {
                 return;
             }
 
-            if (workingDataHasCase) {
-                WorkingData.getInstance(context).getCaseById(caseId).update(retrieveCaseFromJson(caseJson));
-//                Log.d(TAG, "Update case " + caseJson.getString("name"));
-//                Log.d(TAG, "Local lastUpdatedTime =  " + WorkingData.getInstance(context).getCaseById(caseId).lastUpdatedTime);
-//                Log.d(TAG, "Server lastUpdatedTime =  " + lastUpdatedTime);
+            if (hasCase) {
+                WorkingData.getInstance(context).updateCase(caseId, retrieveCaseFromJson(context, caseJson));
             } else {
-                WorkingData.getInstance(context).addCase(retrieveCaseFromJson(caseJson));
-//                Log.d(TAG, "Add new case " + caseJson.getString("name"));
+                WorkingData.getInstance(context).addCase(retrieveCaseFromJson(context, caseJson));
             }
         } catch (JSONException e) {
             Log.e(TAG, "Exception in addCaseToWorkingData()");
@@ -215,7 +210,7 @@ public class LoadDataUtils {
             }
 
             if (workingDataHasTask) {
-                WorkingData.getInstance(context).getTaskById(taskId).update(retrieveTaskFromJson(context, taskJson));
+                WorkingData.getInstance(context).updateTask(taskId, retrieveTaskFromJson(context, taskJson));
             } else {
                 WorkingData.getInstance(context).addTask(retrieveTaskFromJson(context, taskJson));
             }
@@ -228,20 +223,18 @@ public class LoadDataUtils {
         try {
             String factoryId = factoryJson.getString("_id");
             long lastUpdatedTime = factoryJson.getLong("updatedAt");
-            boolean workingDataHasFactory = WorkingData.getInstance(context).hasFactory(factoryId);
+            boolean hasFactory = WorkingData.getInstance(context).hasFactory(factoryId);
 
-            if (workingDataHasFactory &&
+            if (hasFactory &&
                     WorkingData.getInstance(context).getFactoryById(factoryId).lastUpdatedTime >= lastUpdatedTime) {
                 return;
             }
 
-            if (workingDataHasFactory) {
-                WorkingData.getInstance(context).getFactoryById(factoryId).update(retrieveFactoryFromJson(context, factoryJson));
+            if (hasFactory) {
+                WorkingData.getInstance(context).updateFactory(factoryId, retrieveFactoryFromJson(context, factoryJson));
             } else {
                 WorkingData.getInstance(context).addFactory(retrieveFactoryFromJson(context, factoryJson));
             }
-            //Log.d(TAG, "Add factory " + factoryJson.getString("name"));
-
         } catch (JSONException e) {
             Log.e(TAG, "Exception in addFactoryToWorkingData()");
             e.printStackTrace();
@@ -259,11 +252,10 @@ public class LoadDataUtils {
             }
 
             if (workingDataHasWorker) {
-                WorkingData.getInstance(context).getWorkerById(workerId).update(retrieveWorkerFromJson(workerJson));
+                WorkingData.getInstance(context).getWorkerById(workerId).update(retrieveWorkerFromJson(context, workerJson));
             } else {
-                WorkingData.getInstance(context).addWorker(retrieveWorkerFromJson(workerJson));
+                WorkingData.getInstance(context).addWorker(retrieveWorkerFromJson(context, workerJson));
             }
-            //Log.d(TAG, "Add worker " + workerJson.getString("username"));
 
         } catch (JSONException e) {
             Log.e(TAG, "Exception in addWorkerToWorkingData()");
@@ -282,7 +274,7 @@ public class LoadDataUtils {
             }
 
             if (workingDataHasVendor) {
-                WorkingData.getInstance(context).getVendorById(vendorId).update(retrieveVendorFromJson(vendorJson));
+                WorkingData.getInstance(context).updateVendor(vendorId, retrieveVendorFromJson(vendorJson));
             } else {
                 WorkingData.getInstance(context).addVendor(retrieveVendorFromJson(vendorJson));
             }
@@ -295,15 +287,15 @@ public class LoadDataUtils {
         try {
             String managerId = managerJson.getString("_id");
             long lastUpdatedTime = managerJson.getLong("updatedAt");
-            boolean workingDataHasManager = WorkingData.getInstance(context).hasManager(managerId);
+            boolean hasManager = WorkingData.getInstance(context).hasManager(managerId);
 
-            if (workingDataHasManager &&
-                WorkingData.getInstance(context).getManagerById(managerId).lastUpdatedTime >= lastUpdatedTime) {
+            if (hasManager &&
+                    WorkingData.getInstance(context).getManagerById(managerId).lastUpdatedTime >= lastUpdatedTime) {
                 return;
             }
 
-            if (workingDataHasManager) {
-                WorkingData.getInstance(context).getManagerById(managerId).update(retrieveManagerFromJson(managerJson));
+            if (hasManager) {
+                WorkingData.getInstance(context).updateManager(managerId, retrieveManagerFromJson(managerJson));
             } else {
                 WorkingData.getInstance(context).addManager(retrieveManagerFromJson(managerJson));
             }
@@ -324,7 +316,7 @@ public class LoadDataUtils {
             }
 
             if (workingDataHasWarning) {
-                WorkingData.getInstance(context).getWarningById(warningId).update(retrieveWarningFromJson(warningJson));
+                WorkingData.getInstance(context).updateWarning(warningId, retrieveWarningFromJson(warningJson));
             } else {
                 WorkingData.getInstance(context).addWarning(retrieveWarningFromJson(warningJson));
             }
@@ -345,7 +337,7 @@ public class LoadDataUtils {
             }
 
             if (workingDataHasTag) {
-                WorkingData.getInstance(context).getTagById(tagId).update(retrieveTagFromJson(tagJson));
+                WorkingData.getInstance(context).updateTag(tagId, retrieveTagFromJson(tagJson));
             } else {
                 WorkingData.getInstance(context).addTag(retrieveTagFromJson(tagJson));
             }
@@ -354,28 +346,53 @@ public class LoadDataUtils {
             e.printStackTrace();
         }
     }
+    private static void addEquipmentToWorkingData(Context context, JSONObject equipmentJson) {
+        try {
+            String equipmentId = equipmentJson.getString("_id");
+            long lastUpdatedTime = equipmentJson.getLong("updatedAt");
+            boolean hasEquipment = WorkingData.getInstance(context).hasEquipment(equipmentId);
+
+            if (hasEquipment &&
+                    WorkingData.getInstance(context).getEquipmentById(equipmentId).lastUpdatedTime >= lastUpdatedTime) {
+                return;
+            }
+
+            if (hasEquipment) {
+                WorkingData.getInstance(context).updateEquipment(equipmentId, retrieveEquipmentFromJson(equipmentJson));
+            } else {
+                WorkingData.getInstance(context).addEquipment(retrieveEquipmentFromJson(equipmentJson));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in addEquipmentToWorkingData()");
+            e.printStackTrace();
+        }
+    }
 
 
-    private static Case retrieveCaseFromJson(JSONObject caseJson) {
+    private static Case retrieveCaseFromJson(Context context, JSONObject caseJson) {
         try {
             JSONObject caseIndustrialForm = caseJson.getJSONObject("industrialForm");
+            JSONObject caseVendor = caseJson.getJSONObject("client");
+            JSONObject caseManager = caseJson.getJSONObject("lead");
             JSONArray caseMovableMoldSize = caseIndustrialForm.getJSONArray("movableMoldSize");
             JSONArray caseFixedMoldSize = caseIndustrialForm.getJSONArray("fixedMoldSize");
             JSONArray caseSupportBlockMoldSize = caseIndustrialForm.getJSONArray("supportBlockMoldSize");
-            JSONArray caseTags = caseJson.getJSONArray("tags");
+            JSONArray caseTagListJson = caseJson.getJSONArray("tags");
             JSONArray caseWorkerIds = caseJson.getJSONArray("employeeIdList");
 
             String id = caseJson.getString("_id");
             String name = caseJson.getString("name");
-            String vendorId = caseJson.getJSONObject("client").getString("_id");
-            String managerId = caseJson.getJSONObject("lead").getString("_id");
             String description = getStringFromJson(caseJson, "details");
 
-            long lastUpdatedTime = caseJson.getLong("updatedAt");
+            addVendorToWorkingData(context, caseVendor);
+            String vendorId = caseVendor.getString("_id");
 
-            Date deliveredDate = getDateFromJson(caseJson, "willDeliverAt");
-            Date materialPurchasedDate = getDateFromJson(caseIndustrialForm, "materialPurchasedAt");
-            Date layoutDeliveredDate = getDateFromJson(caseIndustrialForm, "layoutDeliveredAt");
+            addManagerToWorkingData(context, caseManager);
+            String managerId = caseManager.getString("_id");
+
+            int plateCount = caseIndustrialForm.getInt("plateCount");
+            int supportBlockCount = caseIndustrialForm.getInt("supportBlockCount");
+            long lastUpdatedTime = caseJson.getLong("updatedAt");
 
             double[] movableMoldSize = {
                     caseMovableMoldSize.getDouble(0),
@@ -396,18 +413,22 @@ public class LoadDataUtils {
                     caseIndustrialForm.getDouble("supportBlockMoldWeight")
             };
 
-            int plateCount = caseIndustrialForm.getInt("plateCount");
-            int supportBlockCount = caseIndustrialForm.getInt("supportBlockCount");
+            Date deliveredDate = getDateFromJson(caseJson, "willDeliverAt");
+            Date materialPurchasedDate = getDateFromJson(caseIndustrialForm, "materialPurchasedAt");
+            Date layoutDeliveredDate = getDateFromJson(caseIndustrialForm, "layoutDeliveredAt");
 
             List<Tag> tags = new ArrayList<>();
-            for (int j = 0 ; j < caseTags.length() ; j++) {
-                JSONObject caseTag = caseTags.getJSONObject(j);
-                tags.add(new Tag(caseTag.getString("_id"), caseTag.getString("name"), caseTag.getLong("updatedAt")));
+            for (int j = 0 ; j < caseTagListJson.length() ; j++) {
+                JSONObject caseTag = caseTagListJson.getJSONObject(j);
+                String tagId = caseTag.getString("_id");
+
+                addTagToWorkingData(context, caseTag);
+                tags.add(WorkingData.getInstance(context).getTagById(tagId));
             }
 
             List<String> workerIds = new ArrayList<>();
-            for (int j = 0 ; j < caseWorkerIds.length() ; j++) {
-                workerIds.add(caseWorkerIds.getString(j));
+            for (int w = 0 ; w < caseWorkerIds.length() ; w++) {
+                workerIds.add(caseWorkerIds.getString(w));
             }
 
 //            Log.d(TAG, "Case id = " + id);
@@ -483,17 +504,25 @@ public class LoadDataUtils {
 
         return null;
     }
-    private static Worker retrieveWorkerFromJson(JSONObject workerJson) {
+    private static Worker retrieveWorkerFromJson(Context context, JSONObject workerJson) {
         try {
             JSONObject paymentJson = workerJson.getJSONObject("paymentClassification");
+            JSONObject equipmentJson = getJsonObjectFromJson(workerJson, "resource");
             JSONArray scheduledTaskJsonList = workerJson.getJSONArray("scheduledTaskIds");
 
             String id = workerJson.getString("_id");
             String name = workerJson.getJSONObject("profile").getString("name");
             String factoryId = getStringFromJson(workerJson, "groupId");
+            String equipmentId = "";
             String wipTaskId = getStringFromJson(workerJson, "WIPTaskId");
             String address = getStringFromJson(workerJson, "address");
             String phone = getStringFromJson(workerJson, "phone");
+
+            if (equipmentJson != null) {
+                equipmentId = equipmentJson.getString("_id");
+                addEquipmentToWorkingData(context, equipmentJson);
+            }
+
             int score = workerJson.getInt("score");
             long lastUpdatedTime = workerJson.getLong("updatedAt");
             boolean isOvertime = workerJson.getBoolean("overwork");
@@ -534,12 +563,18 @@ public class LoadDataUtils {
     private static Task retrieveTaskFromJson(Context context, JSONObject taskJson) {
         try {
             JSONArray warningJsonList = taskJson.getJSONArray("taskExceptions");
+            JSONObject equipmentJson = getJsonObjectFromJson(taskJson, "resource");
 
             String id = taskJson.getString("_id");
             String name = taskJson.getString("name");
             String caseId = taskJson.getString("caseId");
             String workerId = getStringFromJson(taskJson, "employeeId");
-            String equipmentId = getStringFromJson(taskJson, "resourceId"); // TODO: 傳Json格式
+            String equipmentId = "";
+
+            if (equipmentJson != null) {
+                equipmentId = equipmentJson.getString("_id");
+                addEquipmentToWorkingData(context, equipmentJson);
+            }
 
             Task.Status status = Task.convertStringToStatus(taskJson.getString("status"));
 
@@ -665,6 +700,34 @@ public class LoadDataUtils {
 
         return null;
     }
+    private static Equipment retrieveEquipmentFromJson(JSONObject equipmentJson) {
+        try {
+            String id = equipmentJson.getString("_id");
+            String name = equipmentJson.getString("name");
+            String description = getStringFromJson(equipmentJson, "details");
+            String factoryId = equipmentJson.getString("workingGroupId");
+
+            long lastUpdatedTime = equipmentJson.getLong("updatedAt");
+            Date purchasedDate = getDateFromJson(equipmentJson, "purchasedDate");
+
+            Equipment.Status status = Equipment.convertStringToStatus(equipmentJson.getString("status"));
+
+            return new Equipment(
+                    id,
+                    name,
+                    description,
+                    factoryId,
+                    status,
+                    purchasedDate,
+                    lastUpdatedTime);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in retrieveTagFromJson()");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
     private static String getTasksByCaseUrl(String caseId) {
@@ -686,5 +749,8 @@ public class LoadDataUtils {
     }
     private static long getLongFromJson(JSONObject jsonObject, String key) throws JSONException {
         return jsonObject.has(key) ? jsonObject.getLong(key) : -1L;
+    }
+    private static JSONObject getJsonObjectFromJson(JSONObject jsonObject, String key) throws JSONException {
+        return jsonObject.has(key) ? jsonObject.getJSONObject(key) : null;
     }
 }

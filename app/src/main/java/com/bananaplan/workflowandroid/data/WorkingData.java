@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.data;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
@@ -31,7 +30,7 @@ public final class WorkingData {
 
     private static final class DataType {
         public static final int EQUIPMENT = 0;
-        public static final int FACTIRY = 1;
+        public static final int FACTORY = 1;
         public static final int MANAGER = 2;
         public static final int TASK = 3;
         public static final int CASE = 4;
@@ -76,42 +75,67 @@ public final class WorkingData {
     public void addCase(Case aCase) {
         if (aCase == null) return;
         mCasesMap.put(aCase.id, aCase);
-        Log.d(TAG, "Add case " + aCase.name);
     }
     public void addTask(Task task) {
         if (task == null) return;
         mTasksMap.put(task.id, task);
-        Log.d(TAG, "Add task " + task.name);
     }
     public void addManager(Manager manager) {
         if (manager == null) return;
         mManagersMap.put(manager.id, manager);
-        Log.d(TAG, "Add manager " + manager.name);
     }
     public void addVendor(Vendor vendor) {
         if (vendor == null) return;
         mVendorsMap.put(vendor.id, vendor);
-        Log.d(TAG, "Add vendor " + vendor.name);
     }
     public void addTag(Tag tag) {
         if (tag == null) return;
         mTagsMap.put(tag.id, tag);
-        Log.d(TAG, "Add tag " + tag.name);
     }
     public void addFactory(Factory factory) {
         if (factory == null) return;
         mFactoriesMap.put(factory.id, factory);
-        Log.d(TAG, "Add factory " + factory.name);
     }
     public void addWorker(Worker worker) {
         if (worker == null) return;
         mWorkersMap.put(worker.id, worker);
-        Log.d(TAG, "Add worker " + worker.name);
     }
     public void addWarning(Warning warning) {
         if (warning == null) return;
         mWarningsMap.put(warning.id, warning);
-        Log.d(TAG, "Add warning " + warning.name);
+    }
+    public void addEquipment(Equipment equipment) {
+        if (equipment == null) return;
+        mEquipmentsMap.put(equipment.id, equipment);
+    }
+
+
+    public void updateCase(String caseId, Case updatedCase) {
+        getCaseById(caseId).update(updatedCase);
+    }
+    public void updateTask(String taskId, Task updatedTask) {
+        getTaskById(taskId).update(updatedTask);
+    }
+    public void updateManager(String managerId, Manager updatedManager) {
+        getManagerById(managerId).update(updatedManager);
+    }
+    public void updateVendor(String vendorId, Vendor updatedVendor) {
+        getVendorById(vendorId).update(updatedVendor);
+    }
+    public void updateTag(String tagId, Tag updatedTag) {
+        getTagById(tagId).update(updatedTag);
+    }
+    public void updateFactory(String factoryId, Factory updatedFactory) {
+        getFactoryById(factoryId).update(updatedFactory);
+    }
+    public void updateWorker(String workerId, Worker updatedWorker) {
+        getWorkerById(workerId).update(updatedWorker);
+    }
+    public void updateWarning(String warningId, Warning updatedWarning) {
+        getWarningById(warningId).update(updatedWarning);
+    }
+    public void updateEquipment(String equipmentId, Equipment updatedEquipment) {
+        getEquipmentById(equipmentId).update(updatedEquipment);
     }
 
 
@@ -138,6 +162,9 @@ public final class WorkingData {
     }
     public boolean hasWarning(String warningId) {
         return mWarningsMap.containsKey(warningId);
+    }
+    public boolean hasEquipment(String equipmentId) {
+        return mEquipmentsMap.containsKey(equipmentId);
     }
 
 
@@ -212,21 +239,18 @@ public final class WorkingData {
     public Warning getWarningById(String warningId) {
         return mWarningsMap.get(warningId);
     }
+    public String getLoginWorkerId() { // TODO
+        return getRandomWorkerId();
+    }
 
 
     public void addRecordToWorker(Worker worker, BaseData data) {
         if (worker == null || data == null) return;
         worker.records.add(data);
     }
-
     public void addRecordToTask(Task task, BaseData data) {
         if (task == null || data == null) return;
         task.records.add(data);
-    }
-
-
-    public String getLoginWorkerId() { // TODO
-        return getRandomWorkerId();
     }
 
 
@@ -246,7 +270,7 @@ public final class WorkingData {
         }
 
         for (int i = 1; i <= factoryCount; i++) {
-            String factoryId = generateDataId(DataType.FACTIRY);
+            String factoryId = generateDataId(DataType.FACTORY);
             Factory factory = new Factory(factoryId, factoryId);
             mFactoriesMap.put(factory.id, factory);
 
@@ -262,7 +286,7 @@ public final class WorkingData {
         for (int i = 0; i < equipmentCount; i++) {
             String equipmentId = generateDataId(DataType.EQUIPMENT);
             Equipment equipment = new Equipment(equipmentId, equipmentId, getRandomFactoryId());
-            equipment.purchaseDate = getRandomDate();
+            equipment.purchasedDate = getRandomDate();
             equipment.records.add(new MaintenanceRecord("reason1", getRandomDate()));
             equipment.records.add(new MaintenanceRecord("reason2", getRandomDate()));
             mEquipmentsMap.put(equipment.id, equipment);
@@ -425,7 +449,7 @@ public final class WorkingData {
             case DataType.EQUIPMENT:
                 id = "equipment" + sDataIdCount;
                 break;
-            case DataType.FACTIRY:
+            case DataType.FACTORY:
                 id = "factory" + sDataIdCount;
                 break;
             case DataType.MANAGER:

@@ -58,7 +58,6 @@ public class Case extends IdData {
     public List<Tag> tags;
 
     public List<Task> tasks;
-    public List<Worker> workers;
 
 
     public Case() {
@@ -78,7 +77,7 @@ public class Case extends IdData {
                 Size supportBlockMoldSize,
                 int plateCount,
                 int supportBlockCount,
-                List<Tag> tagIds,
+                List<Tag> tags,
                 List<String> workerIds,
                 long lastUpdatedTime) {
         this.id = id;
@@ -94,12 +93,11 @@ public class Case extends IdData {
         this.supportBlockMoldSize = supportBlockMoldSize;
         this.plateCount = plateCount;
         this.supportBlockCount = supportBlockCount;
-        this.tags = tagIds;
+        this.tags = tags;
         this.workerIds = workerIds;
         this.lastUpdatedTime = lastUpdatedTime;
 
         this.tasks = new ArrayList<>();
-        this.workers = new ArrayList<>();
     }
 
     public Case(String id, String name) {
