@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.WorkingData;
 
 
-// TODO: Load data needs to be put in a service
 public class PreloadActivity extends AppCompatActivity {
 
     private static final String TAG = "PreloadActivity";

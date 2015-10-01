@@ -1,7 +1,6 @@
-package com.bananaplan.workflowandroid.data.server;
+package com.bananaplan.workflowandroid.data.loading;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.Case;
@@ -30,7 +29,7 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015/9/23.
  */
-public class LoadDataUtils {
+public class LoadingDataUtils {
 
     private static final String TAG = "LoadDataUtils";
 
@@ -48,7 +47,6 @@ public class LoadDataUtils {
         public static final String TASKS_BY_WORKER = "http://128.199.198.169:3000/api/employee/tasks?employeeId=";
         public static final String WORKERS_BY_FACTORY = "http://128.199.198.169:3000/api/group/employees?groupId=";
     }
-
 
     /**
      * Load all cases data from server, not include tasks data.
