@@ -33,10 +33,10 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        loadCases();
-        loadFactories();
-        connectTasksWithWorkers();
-        connectCasesWithVendors();
+//        loadCases();
+//        loadFactories();
+//        connectTasksWithWorkers();
+//        connectCasesWithVendors();
 
         return null;
     }
