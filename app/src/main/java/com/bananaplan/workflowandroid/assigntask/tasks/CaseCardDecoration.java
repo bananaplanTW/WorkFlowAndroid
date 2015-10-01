@@ -39,7 +39,7 @@ public class CaseCardDecoration extends RecyclerView.ItemDecoration {
         if (position < mSpanCount + 1) {
             outRect.top = boundaryMargin;
             outRect.bottom = normalMargin;
-        } else if (position > itemCount - mSpanCount) {
+        } else if (position > itemCount - mSpanCount + 1) {
             outRect.top = normalMargin;
             outRect.bottom = boundaryMargin;
         } else {
