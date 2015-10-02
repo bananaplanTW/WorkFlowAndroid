@@ -563,6 +563,7 @@ public class LoadingDataUtils {
         try {
             JSONArray warningJsonList = taskJson.getJSONArray("taskExceptions");
             JSONObject equipmentJson = getJsonObjectFromJson(taskJson, "resource");
+            JSONObject taskTimecardJson = getJsonObjectFromJson(taskJson, "taskTimecard");
 
             String id = taskJson.getString("_id");
             String name = taskJson.getString("name");
@@ -578,7 +579,10 @@ public class LoadingDataUtils {
             Task.Status status = Task.convertStringToStatus(taskJson.getString("status"));
 
             long expectedTime = taskJson.getLong("expectedTime");
-            long startTime = getLongFromJson(taskJson.getJSONObject("taskTimecard"), "startDate");
+            long startTime = 0L;
+            if (taskTimecardJson != null) {
+                startTime = taskTimecardJson.getLong("startDate");
+            }
             long spentTime = taskJson.getLong("spentTime");
             long lastUpdatedTime = taskJson.getLong("updatedAt");
 
