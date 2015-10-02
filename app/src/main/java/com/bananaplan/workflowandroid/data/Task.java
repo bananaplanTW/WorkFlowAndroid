@@ -16,7 +16,7 @@ import java.util.List;
 public class Task extends IdData {
 
     public enum Status {
-        PENDING, UNCLAIMED, WIP, PAUSE, DONE, EXCEPTION, STOP, CANCEL, INREVIEW
+        PENDING, UNCLAIMED, WIP, PAUSE, DONE, EXCEPTION, STOP, CANCEL, IN_REVIEW
     }
 
     public String caseId;
@@ -27,9 +27,9 @@ public class Task extends IdData {
     public Date endDate;
     public Date assignDate;
 
-    public long currentStartTime = -1L;
-    public long expectedTime = -1L;
-    public long spentTime = -1L;
+    public long currentStartTime = 0L;
+    public long expectedTime = 0L;
+    public long spentTime = 0L;
 
     public List<Warning> warnings;
     public List<Task> subTaskIds;
@@ -82,14 +82,6 @@ public class Task extends IdData {
         this.warnings = new ArrayList<>();
     }
 
-    public Task(String name, long expectedTime, String equipmentId, String workerId) {
-        this.name = name;
-        this.expectedTime = expectedTime;
-        this.equipmentId = equipmentId;
-        this.workerId = workerId;
-        this.warnings = new ArrayList<>();
-    }
-
     public int getUnSolvedWarningCount() {
         int count = 0;
         for (Warning warning : warnings) {
@@ -120,11 +112,6 @@ public class Task extends IdData {
         return "11 : 00";
     }
 
-    // TODO: Get this information from server
-    public String getExpectedFinishedTime() {
-        return "11:00";
-    }
-
     public static Status convertStringToStatus(String status) {
         Status result = Status.UNCLAIMED;
 
@@ -153,7 +140,7 @@ public class Task extends IdData {
             result = Status.CANCEL;
 
         } else if ("inreview".equals(status)) {
-            result = Status.INREVIEW;
+            result = Status.IN_REVIEW;
         }
 
         return result;

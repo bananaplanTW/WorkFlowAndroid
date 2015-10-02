@@ -237,8 +237,8 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Warning
         Utils.setTaskItemWarningTextView((Activity) mContext, task, holder.warning, false);
 
-        // Task working time
-        holder.workingTime.setText(task.getWorkingTime());
+        // Task expected time
+        holder.workingTime.setText(Utils.millisecondsToTimeString(task.expectedTime));
 
         // Equipment
         Equipment equipment = WorkingData.getInstance(mContext).getEquipmentById(task.equipmentId);

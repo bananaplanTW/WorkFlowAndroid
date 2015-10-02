@@ -224,7 +224,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder.itemName.setTextColor(txtColor);
             }
             if (holder.expectedTime != null) {
-                holder.expectedTime.setText(task.getExpectedFinishedTime());
+                holder.expectedTime.setText(Utils.millisecondsToTimeString(task.expectedTime));
                 holder.expectedTime.setTextColor(txtColor);
             }
             if (holder.workTime != null) {

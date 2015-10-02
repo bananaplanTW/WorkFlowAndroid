@@ -222,10 +222,13 @@ public class Utils {
 
     public static String timestamp2Date(Date date, String format) {
         if (date == null) return "";
+
         String r;
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+
         cal.setTimeInMillis(date.getTime());
         r = DateFormat.format(format, cal).toString();
+
         return r;
     }
 
@@ -340,6 +343,20 @@ public class Utils {
         long hoursInMinutes = TimeUnit.HOURS.toMinutes(hours);
 
         return new int[]{(int) hours, (int) (minutes - hoursInMinutes)};
+    }
+
+    /**
+     * Convert time from milliseconds to hh:mm format.
+     *
+     * @param milliseconds
+     * @return Equal time in hh:mm
+     */
+    public static String millisecondsToTimeString(long milliseconds) {
+        long hours = TimeUnit.MILLISECONDS.toHours(milliseconds);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds);
+        long hoursInMinutes = TimeUnit.HOURS.toMinutes(hours);
+
+        return pad((int) hours) + ":" + pad((int) (minutes - hoursInMinutes));
     }
 
     /**

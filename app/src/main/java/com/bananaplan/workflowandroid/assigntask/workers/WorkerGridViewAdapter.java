@@ -266,6 +266,8 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             workerCardViewHolder.wipTaskName.setText(worker.wipTask.name);
             workerCardViewHolder.wipCaseName.setText(
                     WorkingData.getInstance(mContext).getCaseById(worker.wipTask.caseId).name);
+
+            // TODO: Calculate working time
             workerCardViewHolder.wipTaskWorkingTime.setText(worker.wipTask.getWorkingTime());
         } else {
             workerCardViewHolder.wipTaskName.setText("");
