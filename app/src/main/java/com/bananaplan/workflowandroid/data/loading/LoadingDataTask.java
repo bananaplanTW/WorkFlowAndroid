@@ -20,10 +20,13 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
 
     public interface OnFinishLoadingDataListener {
         void onFinishLoadingData();
+        void onFailLoadingData(boolean isFailCausedByInternet);
     }
 
     private Context mContext;
     private OnFinishLoadingDataListener mOnFinishLoadingDataListener;
+
+    private boolean isFailCausedByInternet = false;
 
 
     public LoadingDataTask(Context context, OnFinishLoadingDataListener listener) {
@@ -33,12 +36,23 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-//        loadCases();
-//        loadFactories();
-//        connectTasksWithWorkers();
-//        connectCasesWithVendors();
+//        if (RestfulUtils.isConnectToInternet(mContext)) {
+//            loadCases();
+//            loadFactories();
+//            connectTasksWithWorkers();
+//            connectCasesWithVendors();
+//        } else {
+//            isFailCausedByInternet = true;
+//            cancel(true);
+//        }
 
         return null;
+    }
+
+    @Override
+    protected void onCancelled(Void aVoid) {
+        super.onCancelled(aVoid);
+        mOnFinishLoadingDataListener.onFailLoadingData(isFailCausedByInternet);
     }
 
     @Override

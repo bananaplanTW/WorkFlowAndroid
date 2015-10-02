@@ -46,7 +46,7 @@ import java.util.List;
  */
 public class AssignTaskFragment extends Fragment implements
         ViewPager.OnPageChangeListener, CaseAdapter.OnSelectCaseListener, WorkerGridViewAdapter.OnRefreshCaseListener,
-        LoadingDataTask.OnFinishLoadingDataListener{
+        LoadingDataTask.OnFinishLoadingDataListener {
 
     private static final String TAG = "AssignTaskFragment";
 
@@ -312,6 +312,11 @@ public class AssignTaskFragment extends Fragment implements
 
     @Override
     public void onFinishLoadingData() {
-        showViews();
+        //showViews();
+    }
+
+    @Override
+    public void onFailLoadingData(boolean isFailCausedByInternet) {
+
     }
 }
