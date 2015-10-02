@@ -578,6 +578,7 @@ public class LoadingDataUtils {
             Task.Status status = Task.convertStringToStatus(taskJson.getString("status"));
 
             long expectedTime = taskJson.getLong("expectedTime");
+            long startTime = getLongFromJson(taskJson.getJSONObject("taskTimecard"), "startDate");
             long spentTime = taskJson.getLong("spentTime");
             long lastUpdatedTime = taskJson.getLong("updatedAt");
 
@@ -608,6 +609,7 @@ public class LoadingDataUtils {
                     endDate,
                     warnings,
                     expectedTime,
+                    startTime,
                     spentTime,
                     lastUpdatedTime);
 
@@ -747,7 +749,7 @@ public class LoadingDataUtils {
         return jsonObject.has(key) ? jsonObject.getString(key) : "";
     }
     private static long getLongFromJson(JSONObject jsonObject, String key) throws JSONException {
-        return jsonObject.has(key) ? jsonObject.getLong(key) : -1L;
+        return jsonObject.has(key) ? jsonObject.getLong(key) : 0L;
     }
     private static JSONObject getJsonObjectFromJson(JSONObject jsonObject, String key) throws JSONException {
         return jsonObject.has(key) ? jsonObject.getJSONObject(key) : null;

@@ -1,6 +1,5 @@
 package com.bananaplan.workflowandroid.data;
 
-
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 
 import java.util.ArrayList;
@@ -23,12 +22,13 @@ public class Task extends IdData {
     public String workerId;
     public String equipmentId;
 
-    public Date startDate;
+    public Date startDate;  // The starting working date of this task
     public Date endDate;
     public Date assignDate;
 
     public long currentStartTime = 0L;
     public long expectedTime = 0L;
+    public long startTime = 0L;  // The starting time of this working section
     public long spentTime = 0L;
 
     public List<Warning> warnings;
@@ -55,6 +55,7 @@ public class Task extends IdData {
                 Date endDate,
                 List<Warning> warnings,
                 long expectedTime,
+                long startTime,
                 long spentTime,
                 long lastUpdatedTime) {
         this.id = id;
@@ -64,6 +65,7 @@ public class Task extends IdData {
         this.equipmentId = equipmentId;
         this.status = status;
         this.expectedTime = expectedTime;
+        this.startTime = startTime;
         this.spentTime = spentTime;
         this.assignDate = assignDate;
         this.startDate = startDate;
@@ -99,6 +101,7 @@ public class Task extends IdData {
         this.equipmentId = task.equipmentId;
         this.status = task.status;
         this.expectedTime = task.expectedTime;
+        this.startTime = task.startTime;
         this.spentTime = task.spentTime;
         this.assignDate = task.assignDate;
         this.startDate = task.startDate;
@@ -107,9 +110,8 @@ public class Task extends IdData {
         this.lastUpdatedTime = task.lastUpdatedTime;
     }
 
-    // TODO: Get this information from server
-    public String getWorkingTime() {
-        return "11 : 00";
+    public long getWorkingTime() {
+        return System.currentTimeMillis() - startTime + spentTime;
     }
 
     public static Status convertStringToStatus(String status) {
