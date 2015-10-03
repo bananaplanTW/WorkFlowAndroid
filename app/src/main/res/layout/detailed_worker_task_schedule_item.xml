@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -9,7 +9,8 @@
         android:layout_width="@dimen/detailed_worker_task_schedule_item_id_width"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_alignParentLeft="true">
 
         <TextView
             android:id="@+id/id"
@@ -22,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/detailed_worker_task_schedule_item_background"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/id_root">
 
         <TextView
             android:id="@+id/detailed_worker_task_schedule_case"
@@ -101,4 +103,4 @@
 
         </RelativeLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

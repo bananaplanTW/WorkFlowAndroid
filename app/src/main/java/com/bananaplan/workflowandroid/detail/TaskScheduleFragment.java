@@ -1,6 +1,5 @@
 package com.bananaplan.workflowandroid.detail;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,16 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.Utils;
+import com.mobeta.android.dslv.DragSortController;
+import com.mobeta.android.dslv.DragSortListView;
 
 import java.util.ArrayList;
 
@@ -33,8 +33,10 @@ import java.util.ArrayList;
 public class TaskScheduleFragment extends Fragment implements View.OnClickListener {
 
     private Worker mWorker;
-    private ListView mListView;
+    private DragSortListView mListView;
     private TaskAdapter mAdapter;
+    private DragSortController mController;
+    private ViewHolder mListViewHeaderHolder;
 
 
     @Override
@@ -64,18 +66,42 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         getActivity().findViewById(R.id.complete_task_button).setOnClickListener(this);
         getActivity().findViewById(R.id.add_warning_button).setOnClickListener(this);
         getActivity().findViewById(R.id.manage_warning_button).setOnClickListener(this);
-        getActivity().findViewById(R.id.manage_tasks_button).setOnClickListener(this);
-        mListView = (ListView) getActivity().findViewById(R.id.task_list);
-        mListView.addHeaderView(new ViewHolder(
+        mListView = (DragSortListView) getActivity().findViewById(R.id.task_list);
+        mListViewHeaderHolder = new ViewHolder(
                 getActivity().getLayoutInflater().inflate(R.layout.detailed_worker_task_schedule_item, null),
                 true,
-                false).getView());
+                false);
+        mListView.addHeaderView(mListViewHeaderHolder.getView());
         ArrayList<Task> data = new ArrayList<>(mWorker.scheduledTasks);
         mAdapter = new TaskAdapter(data);
         mListView.setAdapter(mAdapter);
+        mListView.setDropListener(new DragSortListView.DropListener() {
+            @Override
+            public void drop(int from, int to) {
+                if (from != to) {
+                    Task item = mAdapter.getItem(from);
+                    mAdapter.remove(item);
+                    mAdapter.insert(item, to);
+                }
+            }
+        });
+        mController = buildController(mListView);
+        mListView.setFloatViewManager(mController);
+        mListView.setOnTouchListener(mController);
+        mListView.setDragEnabled(true);
+    }
+
+    private DragSortController buildController(DragSortListView dslv) {
+        DragSortController controller = new DragSortController(dslv);
+        controller.setRemoveEnabled(false);
+        controller.setSortEnabled(true);
+        controller.setDragInitMode(DragSortController.ON_LONG_PRESS);
+        controller.setBackgroundColor(Color.TRANSPARENT);
+        return controller;
     }
 
     private class TaskAdapter extends ArrayAdapter<Task> {
+
         public TaskAdapter(ArrayList<Task> items) {
             super(getActivity(), 0, items);
         }
@@ -197,8 +223,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
             case R.id.add_warning_button:
                 break;
             case R.id.manage_warning_button:
-                break;
-            case R.id.manage_tasks_button:
                 break;
         }
     }

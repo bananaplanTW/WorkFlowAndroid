@@ -92,24 +92,17 @@
                 android:textColor="@color/detailed_worker_task_schedule_title_text_color"
                 android:textSize="@dimen/detailed_worker_scheduled_task_text_size" />
 
-            <TextView
-                android:id="@+id/manage_tasks_button"
-                style="@style/ButtonStyle.Gray"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/detailed_worker_task_schedule_manage_tasks_button" />
-
-            <ListView
+            <com.mobeta.android.dslv.DragSortListView
                 android:id="@+id/task_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/manage_tasks_button"
+                android:layout_below="@id/scheduled_task_text"
                 android:headerDividersEnabled="false"
                 android:divider="@null"
                 android:dividerHeight="@dimen/detailed_worker_task_schedule_listview_divider_height"
                 android:layout_marginLeft="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_left"
                 android:layout_marginRight="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_right"
-                android:layout_marginTop="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_top"/>
+                android:layout_marginTop="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_top" />
 
         </RelativeLayout>
 
