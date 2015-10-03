@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,14 +14,10 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.CustomProgressBar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -44,45 +38,12 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
 
-    private List<String> mCaseTitles = null;
     private Case mSelectedCase = null;
 
-    private CaseSpinnerAdapter mCaseSpinnerAdapter;
-
-    private int mSelectedCasePosition = 0;
-    private boolean mIsCaseSpinnerInitialized = false;
-
-
-    private class CaseSpinnerAdapter extends IconSpinnerAdapter<String> {
-        public CaseSpinnerAdapter(Context context, int resource, List<String> datas) {
-            super(context, resource, datas);
-        }
-
-        @Override
-        public String getSpinnerViewDisplayString(int position) {
-            return (String) getItem(position);
-        }
-
-        @Override
-        public int getSpinnerIconResourceId() {
-            return R.drawable.case_spinner_icon;
-        }
-
-        @Override
-        public boolean isDropdownSelectedIconVisible(int position) {
-            return mSelectedCasePosition == position;
-        }
-
-        @Override
-        public String getDropdownSpinnerViewDisplayString(int position) {
-            return (String) getItem(position);
-        }
-    }
 
     private class CaseHeaderViewHolder extends RecyclerView.ViewHolder {
 
         public View header;
-        public Spinner caseSpinner;
         public CustomProgressBar progressBar;
         public TextView vendor;
         public TextView pic;
@@ -94,7 +55,6 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         public CaseHeaderViewHolder(View v) {
             super(v);
             header = v;
-            caseSpinner = (Spinner) v.findViewById(R.id.case_spinner);
             progressBar = (CustomProgressBar) v.findViewById(R.id.case_information_progressbar);
             vendor = (TextView) v.findViewById(R.id.case_principal_vendor);
             pic = (TextView) v.findViewById(R.id.case_pic);
@@ -130,9 +90,8 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
      * When initialize the adapter, we should pass all of task cases' titles and the current task case data
      * to be displayed.
      */
-    public CaseAdapter(Context context, ArrayList<String> caseTitles, Case firstDisplayedCase) {
+    public CaseAdapter(Context context, Case firstDisplayedCase) {
         mContext = context;
-        mCaseTitles = caseTitles;
         mSelectedCase = firstDisplayedCase;
     }
 
@@ -163,38 +122,7 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private void onBindHeaderViewHolder(ViewHolder vh) {
         CaseHeaderViewHolder holder = (CaseHeaderViewHolder) vh;
-        mIsCaseSpinnerInitialized = false;
 
-        bindTaskCaseSpinner(holder);
-        bindTaskCaseInformation(holder);
-    }
-
-    private void bindTaskCaseSpinner(CaseHeaderViewHolder holder) {
-        mCaseSpinnerAdapter = new CaseSpinnerAdapter(mContext, R.layout.icon_spinner_item, mCaseTitles);
-        mCaseSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        holder.caseSpinner.setAdapter(mCaseSpinnerAdapter);
-        holder.caseSpinner.setSelection(mSelectedCasePosition);
-        holder.caseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Avoid the first call of onItemSelected() when the spinner is initialized.
-                if (!mIsCaseSpinnerInitialized) {
-                    mIsCaseSpinnerInitialized = true;
-                    return;
-                }
-                mSelectedCasePosition = position;
-
-                swapCase(WorkingData.getInstance(mContext).getCases().get(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    private void bindTaskCaseInformation(CaseHeaderViewHolder holder) {
         holder.progressBar.setProgress(mSelectedCase.getFinishPercent());
         holder.vendor.setText(WorkingData.getInstance(mContext).getVendorById(mSelectedCase.vendorId).name);
         holder.pic.setText(WorkingData.getInstance(mContext).getManagerById(mSelectedCase.managerId).name);

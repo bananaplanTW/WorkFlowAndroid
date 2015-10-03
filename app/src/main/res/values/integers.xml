@@ -5,7 +5,7 @@
 
     <!-- Assign task -->
     <integer name="worker_container_weight">5</integer>
-    <integer name="task_container_weight">3</integer>
+    <integer name="case_container_weight">3</integer>
     <integer name="task_case_column_count">2</integer>
     <integer name="worker_gridview_column_count">3</integer>
     <integer name="assign_task_drag_and_drop_highlight_stroke_width">4</integer>

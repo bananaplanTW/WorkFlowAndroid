@@ -58,9 +58,16 @@ public class AssignTaskFragment extends Fragment implements
     private View mMainView;
     private ProgressBar mProgressBar;
 
+    private Spinner mCaseSpinner;
+    private CaseSpinnerAdapter mCaseSpinnerAdapter;
+    private List<String> mCaseTitles = new ArrayList<>();
+    private int mSelectedCasePosition = 0;
+    private boolean mIsCaseSpinnerInitialized = false;
+
     private Spinner mFactorySpinner;
     private IconSpinnerAdapter mFactorySpinnerAdapter;
-    private ArrayList<String> mFactorySpinnerDatas = new ArrayList<String>();
+    private List<String> mFactorySpinnerDatas = new ArrayList<>();
+    private boolean mIsFactorySpinnerFirstCalled = true;
 
     private List<WorkerFragment> mWorkerPageList = new ArrayList<>();
     private ViewPager mWorkerPager;
@@ -73,13 +80,36 @@ public class AssignTaskFragment extends Fragment implements
     private GridLayoutManager mGridLayoutManager;
     private CaseAdapter mCaseAdapter;
     private CaseOnTouchListener mCaseOnTouchListener;
-    private ArrayList<String> mCaseSpinnerDatas = new ArrayList<>();
 
-    private boolean mIsFactorySpinnerFirstCalled = true;
 
+    private class CaseSpinnerAdapter extends IconSpinnerAdapter<String> {
+        public CaseSpinnerAdapter(Context context, int resource, List<String> datas) {
+            super(context, resource, datas);
+        }
+
+        @Override
+        public String getSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
+
+        @Override
+        public int getSpinnerIconResourceId() {
+            return R.drawable.case_spinner_icon;
+        }
+
+        @Override
+        public boolean isDropdownSelectedIconVisible(int position) {
+            return mSelectedCasePosition == position;
+        }
+
+        @Override
+        public String getDropdownSpinnerViewDisplayString(int position) {
+            return (String) getItem(position);
+        }
+    }
 
     private class FactorySpinnerAdapter extends IconSpinnerAdapter<String> {
-        public FactorySpinnerAdapter(Context context, int resource, ArrayList<String> datas) {
+        public FactorySpinnerAdapter(Context context, int resource, List<String> datas) {
             super(context, resource, datas);
         }
 
@@ -159,13 +189,30 @@ public class AssignTaskFragment extends Fragment implements
         //new LoadingDataTask(mContext, this).execute();
     }
 
+    private void findViews() {
+        mMainView = getView().findViewById(R.id.main_view);
+        mProgressBar = (ProgressBar) getView().findViewById(R.id.progress_bar);
+        mCaseSpinner = (Spinner) getView().findViewById(R.id.case_spinner);
+        mFactorySpinner = (Spinner) getView().findViewById(R.id.factory_spinner);
+        mWorkerPager = (ViewPager) getView().findViewById(R.id.worker_pager);
+        mWorkerPagerIndicatorContainer = (ViewGroup) getView().findViewById(R.id.worker_pager_indicator_container);
+        mCaseView = (RecyclerView) getView().findViewById(R.id.task_case_view);
+    }
+
     private void showViews() {
         getCaseSpinnerTitles();
         getFactorySpinnerTitles();
-        initCaseView();
+        initCaseSpinner();
         initFactorySpinner();
+        initCaseView();
         initWorkerPager();
         Utils.replaceProgressBarWhenLoadingFinished(mContext, mMainView, mProgressBar);
+    }
+
+    private void getCaseSpinnerTitles() {
+        for (Case aCase : WorkingData.getInstance(mContext).getCases()) {
+            mCaseTitles.add(aCase.name);
+        }
     }
 
     private void getFactorySpinnerTitles() {
@@ -174,35 +221,30 @@ public class AssignTaskFragment extends Fragment implements
         }
     }
 
-    private void getCaseSpinnerTitles() {
-        for (Case aCase : WorkingData.getInstance(mContext).getCases()) {
-            mCaseSpinnerDatas.add(aCase.name);
-        }
-    }
+    private void initCaseSpinner() {
+        mCaseSpinnerAdapter = new CaseSpinnerAdapter(mContext, R.layout.icon_spinner_item, mCaseTitles);
+        mCaseSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        mCaseSpinner.setAdapter(mCaseSpinnerAdapter);
+        mCaseSpinner.setSelection(mSelectedCasePosition);
+        mCaseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Avoid the first call of onItemSelected() when the spinner is initialized.
+                if (!mIsCaseSpinnerInitialized) {
+                    mIsCaseSpinnerInitialized = true;
+                    return;
+                }
 
-    private void findViews() {
-        mMainView = getView().findViewById(R.id.main_view);
-        mProgressBar = (ProgressBar) getView().findViewById(R.id.progress_bar);
-        mFactorySpinner = (Spinner) getView().findViewById(R.id.factory_spinner);
-        mWorkerPager = (ViewPager) getView().findViewById(R.id.worker_pager);
-        mWorkerPagerIndicatorContainer = (ViewGroup) getView().findViewById(R.id.worker_pager_indicator_container);
-        mCaseView = (RecyclerView) getView().findViewById(R.id.task_case_view);
-    }
+                mSelectedCasePosition = position;
+                mCaseAdapter.swapCase(WorkingData.getInstance(mContext).getCases().get(position));
+                mCaseView.scrollToPosition(0);
+            }
 
-    private void initCaseView() {
-        mCaseAdapter = new CaseAdapter(mContext, mCaseSpinnerDatas, WorkingData.getInstance(mContext).getCases().get(0));
-        mCaseOnTouchListener = new CaseOnTouchListener(mCaseView);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        int caseSpanCount = mContext.getResources().getInteger(R.integer.task_case_column_count);
-        mGridLayoutManager =
-                new GridLayoutManager(mContext, caseSpanCount);
-        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
-
-        mCaseView.setLayoutManager(mGridLayoutManager);
-        mCaseView.addItemDecoration(new CaseCardDecoration(mContext, caseSpanCount));
-        mCaseView.setOnTouchListener(mCaseOnTouchListener);
-        mCaseView.setAdapter(mCaseAdapter);
+            }
+        });
     }
 
     // TODO: Need to handle rotation
@@ -230,6 +272,22 @@ public class AssignTaskFragment extends Fragment implements
 
             }
         });
+    }
+
+    private void initCaseView() {
+        mCaseAdapter = new CaseAdapter(mContext, WorkingData.getInstance(mContext).getCases().get(0));
+        mCaseOnTouchListener = new CaseOnTouchListener(mCaseView);
+
+        int caseSpanCount = mContext.getResources().getInteger(R.integer.task_case_column_count);
+        mGridLayoutManager =
+                new GridLayoutManager(mContext, caseSpanCount);
+        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
+
+        mCaseView.setLayoutManager(mGridLayoutManager);
+        mCaseView.addItemDecoration(new CaseCardDecoration(mContext, caseSpanCount));
+        mCaseView.setOnTouchListener(mCaseOnTouchListener);
+        mCaseView.setAdapter(mCaseAdapter);
     }
 
     // TODO: Need to handle rotation
