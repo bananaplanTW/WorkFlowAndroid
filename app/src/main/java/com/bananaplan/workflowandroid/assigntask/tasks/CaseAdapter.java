@@ -2,7 +2,6 @@ package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -51,8 +50,8 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         public CustomProgressBar progressBar;
         public TextView vendor;
         public TextView pic;
-        public TextView uncompletedTaskTime;
-        public TextView undergoingTaskTime;
+        public TextView unfinishedTime;
+        public TextView spentTime;
         public TextView editCaseButton;
 
 
@@ -63,8 +62,8 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             progressBar = (CustomProgressBar) v.findViewById(R.id.case_information_progressbar);
             vendor = (TextView) v.findViewById(R.id.case_principal_vendor);
             pic = (TextView) v.findViewById(R.id.case_pic);
-            uncompletedTaskTime = (TextView) v.findViewById(R.id.case_hours_unfinished);
-            undergoingTaskTime = (TextView) v.findViewById(R.id.case_hours_pass_by);
+            spentTime = (TextView) v.findViewById(R.id.case_spent_time);
+            unfinishedTime = (TextView) v.findViewById(R.id.case_unfinished_time);
             editCaseButton = (TextView) v.findViewById(R.id.case_edit_button);
         }
     }
@@ -136,8 +135,8 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.progressBar.setProgress(mSelectedCase.getFinishPercent());
         holder.vendor.setText(WorkingData.getInstance(mContext).getVendorById(mSelectedCase.vendorId).name);
         holder.pic.setText(WorkingData.getInstance(mContext).getManagerById(mSelectedCase.managerId).name);
-        holder.uncompletedTaskTime.setText(mSelectedCase.getHoursUnFinished());
-        holder.undergoingTaskTime.setText(mSelectedCase.getHoursPassedBy());
+        holder.spentTime.setText(Utils.millisecondsToTimeString(mSelectedCase.getSpentTime()));
+        holder.unfinishedTime.setText(Utils.millisecondsToTimeString(mSelectedCase.getUnfinishedTime()));
 
         holder.participatedWorkerContainer.removeAllViews();
         int count = 0;

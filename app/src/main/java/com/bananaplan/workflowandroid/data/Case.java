@@ -129,6 +129,24 @@ public class Case extends IdData {
         this.lastUpdatedTime = aCase.lastUpdatedTime;
     }
 
+    public long getSpentTime() {
+        long time = 0L;
+        for (Task task : tasks) {
+            time += task.spentTime;
+        }
+
+        return time;
+    }
+
+    public long getUnfinishedTime() {
+        long time = 0L;
+        for (Task task : tasks) {
+            time += task.expectedTime;
+        }
+
+        return time - getSpentTime();
+    }
+
     public int getFinishPercent() {
         if (tasks.size() == 0) return 100;
         return getFinishItemsCount() * 100 / tasks.size();

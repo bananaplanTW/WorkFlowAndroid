@@ -313,11 +313,20 @@ public class Utils {
     }
 
     public static String pad(int c) {
-        if (c >= 10) {
-            return String.valueOf(c);
-        } else {
-            return "0" + String.valueOf(c);
+        StringBuilder s = new StringBuilder();
+        int absC = Math.abs(c);
+
+        if (c < 0) {
+            s.append("-");
         }
+
+        if (absC >= 10) {
+            s.append(String.valueOf(absC));
+        } else {
+            s.append("0").append(String.valueOf(absC));
+        }
+
+        return s.toString();
     }
 
     /**
