@@ -114,6 +114,10 @@ public class Task extends IdData {
         return System.currentTimeMillis() - startTime + spentTime;
     }
 
+    public long getExpectedFinishedTime() {
+        return 0;
+    }
+
     public static Status convertStringToStatus(String status) {
         Status result = Status.UNCLAIMED;
 

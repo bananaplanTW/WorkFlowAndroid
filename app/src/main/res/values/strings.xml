@@ -199,7 +199,7 @@
     <string name="detailed_worker_task_schedule_header_case">Case</string>
     <string name="detailed_worker_task_schedule_header_task">Task</string>
     <string name="detailed_worker_task_schedule_header_expected_time">Expected time</string>
-    <string name="detailed_worker_task_schedule_header_spent_time">Spent time</string>
+    <string name="detailed_worker_task_schedule_header_work_time">Work time</string>
     <string name="detailed_worker_task_schedule_header_equipment">Equipment</string>
     <string name="detailed_worker_task_schedule_header_expected_completed_time">Expected completed time</string>
     <string name="detailed_worker_task_schedule_header_error">Error</string>

@@ -125,7 +125,7 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             super(v);
             view = v;
             name = (TextView) v.findViewById(R.id.task_card_title);
-            warning = (TextView) v.findViewById(R.id.taskitem_listview_warning);
+            warning = (TextView) v.findViewById(R.id.listview_task_warning);
             workingTime = (TextView) v.findViewById(R.id.task_card_current_task_working_time);
             equipment = (TextView) v.findViewById(R.id.task_card_equipment);
             worker = (TextView) v.findViewById(R.id.task_card_worker);

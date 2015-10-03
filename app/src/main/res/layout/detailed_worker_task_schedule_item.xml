@@ -1,78 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/detailed_worker_task_schedule_item_height"
-    android:background="@drawable/detailed_worker_task_schedule_item_background"
-    android:orientation="horizontal" >
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/detailed_worker_task_schedule_case"
-        style="@style/DetailedWorkerTaskSchedule.Item"
-        android:layout_weight="@integer/detailed_worker_task_schedule_case_weight" />
+    <LinearLayout
+        android:id="@+id/id_root"
+        android:layout_width="@dimen/detailed_worker_task_schedule_item_id_width"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
 
-    <include
-        layout="@layout/detailed_worker_task_schedule_item_divider" />
+        <TextView
+            android:id="@+id/id"
+            style="@style/DetailedWorkerTaskSchedule.Item"
+            android:layout_width="wrap_content"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/detailed_worker_task_schedule_task"
-        style="@style/DetailedWorkerTaskSchedule.Item"
-        android:layout_weight="@integer/detailed_worker_task_schedule_task_weight" />
+    <LinearLayout
+        android:id="@+id/task_item_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/detailed_worker_task_schedule_item_background"
+        android:orientation="horizontal">
 
-    <include
-        layout="@layout/detailed_worker_task_schedule_item_divider" />
-
-    <TextView
-        android:id="@+id/detailed_worker_task_schedule_expected_time"
-        style="@style/DetailedWorkerTaskSchedule.Item"
-        android:layout_weight="@integer/detailed_worker_task_schedule_expected_time_weight" />
-
-    <include
-        layout="@layout/detailed_worker_task_schedule_item_divider" />
-
-    <TextView
-        android:id="@+id/detailed_worker_task_schedule_spent_time"
-        style="@style/DetailedWorkerTaskSchedule.Item"
-        android:layout_weight="@integer/detailed_worker_task_schedule_spent_time_weight" />
-
-    <include
-        layout="@layout/detailed_worker_task_schedule_item_divider" />
-
-    <TextView
-        android:id="@+id/detailed_worker_task_schedule_equipment"
-        style="@style/DetailedWorkerTaskSchedule.Item"
-        android:layout_weight="@integer/detailed_worker_task_schedule_equipment_weight" />
-
-    <include
-        layout="@layout/detailed_worker_task_schedule_item_divider" />
-
-    <TextView
-        android:id="@+id/detailed_worker_task_schedule_expected_completed_time"
-        style="@style/DetailedWorkerTaskSchedule.Item"
-        android:layout_weight="@integer/detailed_worker_task_schedule_expected_complected_time_weight" />
-
-    <include
-        layout="@layout/detailed_worker_task_schedule_item_divider" />
-
-    <TextView
-        android:id="@+id/detailed_worker_task_schedule_error"
-        style="@style/DetailedWorkerTaskSchedule.Item"
-        android:layout_weight="@integer/detailed_worker_task_schedule_error_weight" />
-
-    <include
-        layout="@layout/detailed_worker_task_schedule_item_divider" />
-
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="@integer/detailed_worker_task_schedule_warnings_weight"
-        android:layout_gravity="center">
+        <TextView
+            android:id="@+id/detailed_worker_task_schedule_case"
+            style="@style/DetailedWorkerTaskSchedule.Item"
+            android:layout_weight="@integer/detailed_worker_task_schedule_case_weight" />
 
         <include
-            layout="@layout/warning_textview_layout"
-            android:layout_width="wrap_content"
+            android:id="@+id/divider"
+            layout="@layout/detailed_worker_task_schedule_item_divider" />
+
+        <TextView
+            android:id="@+id/detailed_worker_task_schedule_task"
+            style="@style/DetailedWorkerTaskSchedule.Item"
+            android:layout_weight="@integer/detailed_worker_task_schedule_task_weight" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/detailed_worker_task_schedule_item_divider" />
+
+        <TextView
+            android:id="@+id/detailed_worker_task_schedule_expected_time"
+            style="@style/DetailedWorkerTaskSchedule.Item"
+            android:layout_weight="@integer/detailed_worker_task_schedule_expected_time_weight" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/detailed_worker_task_schedule_item_divider" />
+
+        <TextView
+            android:id="@+id/detailed_worker_task_schedule_spent_time"
+            style="@style/DetailedWorkerTaskSchedule.Item"
+            android:layout_weight="@integer/detailed_worker_task_schedule_spent_time_weight" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/detailed_worker_task_schedule_item_divider" />
+
+        <TextView
+            android:id="@+id/detailed_worker_task_schedule_equipment"
+            style="@style/DetailedWorkerTaskSchedule.Item"
+            android:layout_weight="@integer/detailed_worker_task_schedule_equipment_weight" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/detailed_worker_task_schedule_item_divider" />
+
+        <TextView
+            android:id="@+id/detailed_worker_task_schedule_expected_completed_time"
+            style="@style/DetailedWorkerTaskSchedule.Item"
+            android:layout_weight="@integer/detailed_worker_task_schedule_expected_complected_time_weight" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/detailed_worker_task_schedule_item_divider" />
+
+        <TextView
+            android:id="@+id/detailed_worker_task_schedule_error"
+            style="@style/DetailedWorkerTaskSchedule.Item"
+            android:layout_weight="@integer/detailed_worker_task_schedule_error_weight" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/detailed_worker_task_schedule_item_divider" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_gravity="center"
+            android:layout_weight="@integer/detailed_worker_task_schedule_warnings_weight">
 
-    </RelativeLayout>
+            <include
+                layout="@layout/warning_textview_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
 
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

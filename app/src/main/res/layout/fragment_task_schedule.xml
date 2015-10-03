@@ -1,119 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:fillViewport="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="@dimen/detailed_worker_task_schedule_padding"
-        android:background="@drawable/common_block_background">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/current_task_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/detailed_worker_current_task_text"
-            android:textSize="@dimen/detailed_worker_current_task_text_size"
-            android:textColor="@color/detailed_worker_task_schedule_title_text_color"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"/>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/common_block_background"
+            android:padding="@dimen/detailed_worker_task_schedule_padding">
 
-            <include
-                layout="@layout/detailed_worker_task_schedule_header" />
+            <TextView
+                android:id="@+id/current_task_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/detailed_worker_current_task_text"
+                android:textColor="@color/detailed_worker_task_schedule_title_text_color"
+                android:textSize="@dimen/detailed_worker_current_task_text_size" />
 
-            <include
-                layout="@layout/detailed_worker_task_schedule_item"
-                android:id="@+id/detailed_worker_current_task"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/detailed_worker_task_schedule_item_height"
-                android:layout_marginTop="@dimen/detailed_worker_task_schedule_current_task_margin_top"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/complete_task_button"
-            style="@style/ButtonStyle.Blue"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:text="@string/detailed_worker_task_schedule_complete_task_button" />
-
-        <TextView
-            android:id="@+id/add_warning_button"
-            style="@style/ButtonStyle.Gray"
-            android:layout_toLeftOf="@+id/complete_task_button"
-            android:layout_alignBottom="@+id/complete_task_button"
-            android:layout_marginRight="@dimen/detailed_worker_task_schedule_current_task_container_button_margin_right"
-            android:text="@string/detailed_worker_task_schedule_add_warning_button" />
-
-        <TextView
-            android:id="@+id/manage_warning_button"
-            style="@style/ButtonStyle.Gray"
-            android:layout_toLeftOf="@+id/add_warning_button"
-            android:layout_alignBottom="@+id/complete_task_button"
-            android:layout_marginRight="@dimen/detailed_worker_task_schedule_current_task_container_button_margin_right"
-            android:text="@string/detailed_worker_task_schedule_manage_warning_button" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/detailed_worker_divider_width"
-        android:background="@color/main_window_divider_color" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:paddingLeft="@dimen/detailed_worker_task_schedule_padding"
-        android:paddingRight="@dimen/detailed_worker_task_schedule_padding"
-        android:paddingTop="@dimen/detailed_worker_task_schedule_padding"
-        android:background="@drawable/common_block_background">
-
-        <TextView
-            android:id="@+id/scheduled_task_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/detailed_worker_scheduled_task_text"
-            android:textSize="@dimen/detailed_worker_scheduled_task_text_size"
-            android:textColor="@color/detailed_worker_task_schedule_title_text_color"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"/>
-
-        <TextView
-            android:id="@+id/manage_tasks_button"
-            style="@style/ButtonStyle.Gray"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/detailed_worker_task_schedule_manage_tasks_button" />
-
-        <LinearLayout
-            android:id="@+id/scheduled_tasks_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/manage_tasks_button"
-            android:layout_marginTop="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_top"
-            android:layout_marginLeft="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_left"
-            android:layout_marginRight="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_right"
-            android:orientation="vertical">
-
-            <include
-                layout="@layout/detailed_worker_task_schedule_header"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/detailed_worker_task_schedule_scheduled_tasks_item_index_width"/>
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <include
+                    android:id="@+id/header"
+                    layout="@layout/detailed_worker_task_schedule_item" />
 
-    </RelativeLayout>
+                <include
+                    android:id="@+id/detailed_worker_current_task"
+                    layout="@layout/detailed_worker_task_schedule_item" />
 
-</LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/complete_task_button"
+                style="@style/ButtonStyle.Blue"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/detailed_worker_task_schedule_complete_task_button" />
+
+            <TextView
+                android:id="@+id/add_warning_button"
+                style="@style/ButtonStyle.Gray"
+                android:layout_alignBottom="@+id/complete_task_button"
+                android:layout_marginRight="@dimen/detailed_worker_task_schedule_current_task_container_button_margin_right"
+                android:layout_toLeftOf="@+id/complete_task_button"
+                android:text="@string/detailed_worker_task_schedule_add_warning_button" />
+
+            <TextView
+                android:id="@+id/manage_warning_button"
+                style="@style/ButtonStyle.Gray"
+                android:layout_alignBottom="@+id/complete_task_button"
+                android:layout_marginRight="@dimen/detailed_worker_task_schedule_current_task_container_button_margin_right"
+                android:layout_toLeftOf="@+id/add_warning_button"
+                android:text="@string/detailed_worker_task_schedule_manage_warning_button" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detailed_worker_divider_width"
+            android:background="@color/main_window_divider_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@drawable/common_block_background"
+            android:paddingLeft="@dimen/detailed_worker_task_schedule_padding"
+            android:paddingRight="@dimen/detailed_worker_task_schedule_padding"
+            android:paddingTop="@dimen/detailed_worker_task_schedule_padding">
+
+            <TextView
+                android:id="@+id/scheduled_task_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/detailed_worker_scheduled_task_text"
+                android:textColor="@color/detailed_worker_task_schedule_title_text_color"
+                android:textSize="@dimen/detailed_worker_scheduled_task_text_size" />
+
+            <TextView
+                android:id="@+id/manage_tasks_button"
+                style="@style/ButtonStyle.Gray"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/detailed_worker_task_schedule_manage_tasks_button" />
+
+            <ListView
+                android:id="@+id/task_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/manage_tasks_button"
+                android:headerDividersEnabled="false"
+                android:divider="@null"
+                android:dividerHeight="@dimen/detailed_worker_task_schedule_listview_divider_height"
+                android:layout_marginLeft="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_left"
+                android:layout_marginRight="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_right"
+                android:layout_marginTop="@dimen/detailed_worker_task_schedule_scheduled_tasks_container_margin_top"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

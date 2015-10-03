@@ -116,7 +116,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         ArrayList<View> horizontalDividerViews = new ArrayList<>();
 
         public ViewHolder(View v) {
-            warning = (TextView) v.findViewById(R.id.taskitem_listview_warning);
+            warning = (TextView) v.findViewById(R.id.listview_task_warning);
             title = (TextView) v.findViewById(R.id.title);
             workerAvatar = (ImageView) v.findViewById(R.id.worker_avator);
             workerName = (TextView) v.findViewById(R.id.worker_name);

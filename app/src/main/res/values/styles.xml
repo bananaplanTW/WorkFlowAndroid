@@ -163,7 +163,7 @@
         <item name="android:background">@drawable/green_button_background</item>
     </style>
     <style name="ButtonStyle.Gray">
-        <item name="android:textColor">@color/button_black_text_color</item>
+        <item name="android:textColor">@color/black1</item>
         <item name="android:background">@drawable/gray_button_background</item>
     </style>
 

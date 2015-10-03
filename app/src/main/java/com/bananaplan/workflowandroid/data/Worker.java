@@ -49,7 +49,6 @@ public class Worker extends IdData {
     public String wipTaskId;
     public List<String> scheduledTaskIds = new ArrayList<>();
 
-
     public Task wipTask;
     public List<Task> scheduledTasks = new ArrayList<>();
     public List<Task> warningTasks;

@@ -188,7 +188,7 @@
     <string name="detailed_worker_task_schedule_header_case">案件</string>
     <string name="detailed_worker_task_schedule_header_task">工作項目</string>
     <string name="detailed_worker_task_schedule_header_expected_time">預計時間</string>
-    <string name="detailed_worker_task_schedule_header_spent_time">工作時間</string>
+    <string name="detailed_worker_task_schedule_header_work_time">工作時間</string>
     <string name="detailed_worker_task_schedule_header_equipment">使用機器</string>
     <string name="detailed_worker_task_schedule_header_expected_completed_time">預計完成時間</string>
     <string name="detailed_worker_task_schedule_header_error">錯誤</string>

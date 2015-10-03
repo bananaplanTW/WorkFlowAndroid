@@ -237,6 +237,7 @@
     <dimen name="detailed_worker_task_schedule_padding">24dp</dimen>
     <dimen name="detailed_worker_task_schedule_current_task_container_button_margin_right">15dp</dimen>
     <dimen name="detailed_worker_task_schedule_current_task_margin_top">5dp</dimen>
+    <dimen name="detailed_worker_task_schedule_header_height">30dp</dimen>
     <dimen name="detailed_worker_task_schedule_item_height">50dp</dimen>
     <dimen name="detailed_worker_task_schedule_item_stroke_width">1dp</dimen>
     <dimen name="detailed_worker_task_schedule_item_divider_width">1dp</dimen>
@@ -245,6 +246,8 @@
     <dimen name="detailed_worker_task_schedule_scheduled_tasks_container_margin_left">50dp</dimen>
     <dimen name="detailed_worker_task_schedule_scheduled_tasks_container_margin_right">95dp</dimen>
     <dimen name="detailed_worker_task_schedule_scheduled_tasks_item_index_width">30dp</dimen>
+    <dimen name="detailed_worker_task_schedule_item_id_width">40dp</dimen>
+    <dimen name="detailed_worker_task_schedule_listview_divider_height">6dp</dimen>
 
     <!-- Overview-->
     <dimen name="ov_left_pane_width">227dp</dimen>

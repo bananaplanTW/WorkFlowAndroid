@@ -22,7 +22,7 @@
     <TextView
         style="@style/DetailedWorkerTaskSchedule.Header"
         android:layout_weight="@integer/detailed_worker_task_schedule_spent_time_weight"
-        android:text="@string/detailed_worker_task_schedule_header_spent_time"/>
+        android:text="@string/detailed_worker_task_schedule_header_work_time"/>
 
     <TextView
         style="@style/DetailedWorkerTaskSchedule.Header"

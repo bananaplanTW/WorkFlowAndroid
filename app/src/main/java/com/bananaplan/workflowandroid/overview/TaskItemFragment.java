@@ -240,19 +240,21 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder.errorCount.setText(String.valueOf(task.errorCount));
                 holder.errorCount.setTextColor(txtColor);
             }
-            if (holder.workerName != null) {
-                holder.workerName.setText(worker.name);
-            }
-            if (holder.workerAvatar != null) {
-                holder.workerAvatar.setImageDrawable(worker.getAvator());
-            }
-            if (holder.workerInfo != null) {
-                holder.workerInfo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getActivity(), "View worker's info = " + worker.name, Toast.LENGTH_SHORT).show();
-                    }
-                });
+            if (worker != null) {
+                if (holder.workerName != null) {
+                    holder.workerName.setText(worker.name);
+                }
+                if (holder.workerAvatar != null) {
+                    holder.workerAvatar.setImageDrawable(worker.getAvator());
+                }
+                if (holder.workerInfo != null) {
+                    holder.workerInfo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getActivity(), "View worker's info = " + worker.name, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
             if (holder.warning != null) {
                 Utils.setTaskItemWarningTextView(getActivity(), task, holder.warning, true);
@@ -387,7 +389,10 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         }
 
         // update task item listview
-        ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTasksByWorker(worker);
+        ArrayList<Task> items = (ArrayList<Task>) worker.scheduledTasks;
+        if (worker.wipTask != null) {
+            items.add(worker.wipTask);
+        }
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);
@@ -416,7 +421,10 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         ArrayList<Worker> workers = new ArrayList<>();
         if (getSelectedTaskCase() != null) {
             for (Task item : getSelectedTaskCase().tasks) {
-                workers.add(WorkingData.getInstance(getActivity()).getWorkerById(item.workerId));
+                if (TextUtils.isEmpty(item.workerId)) continue;
+                Worker worker = WorkingData.getInstance(getActivity()).getWorkerById(item.workerId);
+                if (workers.contains(worker)) continue;
+                workers.add(worker);
             }
         }
         return workers;
