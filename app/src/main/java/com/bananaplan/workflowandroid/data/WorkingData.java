@@ -63,6 +63,7 @@ public final class WorkingData {
                 }
             }
         }
+
         return sWorkingData;
     }
 

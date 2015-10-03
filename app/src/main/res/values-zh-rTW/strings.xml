@@ -14,6 +14,8 @@
     <string name="task_progress_working">進行中</string>
     <string name="task_progress_pause">暫停</string>
     <string name="task_progress_finish">完成</string>
+    <string name="task_card_no_equipment">無使用工具</string>
+    <string name="task_card_no_worker">無員工</string>
     <string name="worker_action_start">全體動作</string>
     <string name="worker_card_next_task_text">下個項目</string>
     <string name="worker_card_overtime_text">加班</string>

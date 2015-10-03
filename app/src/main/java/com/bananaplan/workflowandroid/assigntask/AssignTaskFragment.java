@@ -45,7 +45,7 @@ import java.util.List;
  *
  */
 public class AssignTaskFragment extends Fragment implements
-        ViewPager.OnPageChangeListener, CaseAdapter.OnSelectCaseListener, WorkerGridViewAdapter.OnRefreshCaseListener,
+        ViewPager.OnPageChangeListener, WorkerGridViewAdapter.OnRefreshCaseListener,
         LoadingDataTask.OnFinishLoadingDataListener {
 
     private static final String TAG = "AssignTaskFragment";
@@ -190,10 +190,7 @@ public class AssignTaskFragment extends Fragment implements
     }
 
     private void initCaseView() {
-        mCaseAdapter = new CaseAdapter(mContext);
-        mCaseAdapter.initCaseDatas(mCaseSpinnerDatas, WorkingData.getInstance(mContext).getCases().get(0));
-        mCaseAdapter.setOnSelectCaseListener(this);
-
+        mCaseAdapter = new CaseAdapter(mContext, mCaseSpinnerDatas, WorkingData.getInstance(mContext).getCases().get(0));
         mCaseOnTouchListener = new CaseOnTouchListener(mCaseView);
 
         int caseSpanCount = mContext.getResources().getInteger(R.integer.task_case_column_count);
@@ -297,12 +294,6 @@ public class AssignTaskFragment extends Fragment implements
     @Override
     public void onPageScrollStateChanged(int state) {
 
-    }
-
-    @Override
-    public void onSelectCase(int position) {
-        mCaseAdapter.swapCase(WorkingData.getInstance(mContext).getCases().get(position));
-        mCaseAdapter.notifyDataSetChanged();
     }
 
     @Override
