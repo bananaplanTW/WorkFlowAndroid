@@ -8,6 +8,7 @@ import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.main.MainApplication;
 
 
 /**
@@ -36,15 +37,17 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-//        if (RestfulUtils.isConnectToInternet(mContext)) {
-//            loadCases();
-//            loadFactories();
-//            connectTasksWithWorkers();
-//            connectCasesWithVendors();
-//        } else {
-//            isFailCausedByInternet = true;
-//            cancel(true);
-//        }
+        if (!MainApplication.sUseTestData) {
+            if (RestfulUtils.isConnectToInternet(mContext)) {
+                loadCases();
+                loadFactories();
+                connectTasksWithWorkers();
+                connectCasesWithVendors();
+            } else {
+                isFailCausedByInternet = true;
+                cancel(true);
+            }
+        }
 
         return null;
     }
