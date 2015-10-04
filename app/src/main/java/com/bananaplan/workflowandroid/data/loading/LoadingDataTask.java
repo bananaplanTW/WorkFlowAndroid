@@ -2,13 +2,18 @@ package com.bananaplan.workflowandroid.data.loading;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Factory;
+import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.main.MainApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -41,8 +46,9 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
             if (RestfulUtils.isConnectToInternet(mContext)) {
                 loadCases();
                 loadFactories();
-                connectTasksWithWorkers();
-                connectCasesWithVendors();
+                putWorkerIdsIntoCases();
+                putTasksIntoWorkers();
+                putCasesIntoVendors();
             } else {
                 isFailCausedByInternet = true;
                 cancel(true);
@@ -85,9 +91,9 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
     }
 
     /**
-     * Connect WIP-task and scheduled-tasks with each worker
+     * Put WIP-task and scheduled-tasks into each worker
      */
-    private void connectTasksWithWorkers() {
+    private void putTasksIntoWorkers() {
         for (Worker worker : WorkingData.getInstance(mContext).getWorkers()) {
             if (WorkingData.getInstance(mContext).hasTask(worker.wipTaskId)) {
                 worker.wipTask = WorkingData.getInstance(mContext).getTaskById(worker.wipTaskId);
@@ -102,7 +108,20 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    private void connectCasesWithVendors() {
+    private void putWorkerIdsIntoCases() {
+        for (Case c : WorkingData.getInstance(mContext).getCases()) {
+            List<String> workerIdList = new ArrayList<>();
+
+            for (Task task : c.tasks) {
+                if (TextUtils.isEmpty(task.workerId) || workerIdList.contains(task.workerId)) continue;
+                workerIdList.add(task.workerId);
+            }
+
+            c.workerIds = workerIdList;
+        }
+    }
+
+    private void putCasesIntoVendors() {
         for (Vendor vendor : WorkingData.getInstance(mContext).getVendors()) {
             vendor.cases.clear();
             for (String caseId : vendor.caseIds) {

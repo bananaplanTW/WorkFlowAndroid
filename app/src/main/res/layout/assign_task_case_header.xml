@@ -10,8 +10,8 @@
         android:id="@+id/task_case_information_expandablelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:el_headerLayout="@layout/task_case_information_header"
-        app:el_contentLayout="@layout/task_case_information_content"
+        app:el_headerLayout="@layout/assign_task_case_information_header"
+        app:el_contentLayout="@layout/assign_task_case_information_content"
         android:background="@drawable/common_block_background"/>
 
     <View

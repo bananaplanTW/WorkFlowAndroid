@@ -25,10 +25,15 @@
     <dimen name="task_case_spinner_item_text_size">18dp</dimen>
     <dimen name="task_case_information_height">120dp</dimen>
     <dimen name="task_case_information_padding">15dp</dimen>
+    <dimen name="task_case_information_padding_left_right">30dp</dimen>
     <dimen name="task_case_information_progressbar_height">20dp</dimen>
     <dimen name="task_case_information_progressbar_margin_top">10dp</dimen>
     <dimen name="task_case_information_title_text_size">18dp</dimen>
-    <dimen name="task_case_information_participated_employee_label_margin_top">10dp</dimen>
+    <dimen name="task_case_information_participated_worker_label_margin_top">10dp</dimen>
+    <dimen name="task_case_information_participated_worker_container_margin_top">5dp</dimen>
+    <dimen name="task_case_information_participated_worker_avatar_width_height">35dp</dimen>
+    <dimen name="task_case_information_participated_worker_avatar_padding">3dp</dimen>
+    <dimen name="task_case_information_participated_worker_avatar_text_size">16dp</dimen>
     <dimen name="task_case_edit_button_padding">15dp</dimen>
     <dimen name="task_case_edit_button_text_size">20dp</dimen>
     <dimen name="task_card_part1_height">70dp</dimen>

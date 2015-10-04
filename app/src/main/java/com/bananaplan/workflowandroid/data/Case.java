@@ -54,10 +54,10 @@ public class Case extends IdData {
     public Size supportBlockMoldSize;
     ////////
 
-    public List<String> workerIds;
-    public List<Tag> tags;
+    public List<String> workerIds = new ArrayList<>();
+    public List<Tag> tags = new ArrayList<>();
 
-    public List<Task> tasks;
+    public List<Task> tasks = new ArrayList<>();
 
 
     public Case() {

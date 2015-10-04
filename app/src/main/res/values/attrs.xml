@@ -36,4 +36,9 @@
         <attr name="tet_contentBackground" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="SquareAvatar">
+        <attr name="sa_avatar" format="reference" />
+        <attr name="sa_text" format="string" />
+    </declare-styleable>
+
 </resources>

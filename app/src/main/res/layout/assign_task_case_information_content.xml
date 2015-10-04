@@ -13,7 +13,10 @@
         android:id="@+id/task_case_information_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/task_case_information_padding"
+        android:paddingTop="@dimen/task_case_information_padding"
+        android:paddingBottom="@dimen/task_case_information_padding"
+        android:paddingLeft="@dimen/task_case_information_padding_left_right"
+        android:paddingRight="@dimen/task_case_information_padding_left_right"
         android:layout_below="@+id/task_case_information_divider1"
         android:orientation="vertical">
 
@@ -84,18 +87,19 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/task_case_participated_employee_label"
+            android:id="@+id/task_case_participated_worker_label"
             style="@style/TaskCaseTextStyle.TaskCaseInformationTitle"
             android:layout_below="@+id/task_case_information"
-            android:layout_marginTop="@dimen/task_case_information_participated_employee_label_margin_top"
+            android:layout_marginTop="@dimen/task_case_information_participated_worker_label_margin_top"
             android:layout_centerHorizontal="true"
-            android:text="@string/task_case_participated_employee_text"/>
+            android:text="@string/task_case_participated_worker_text"/>
 
         <LinearLayout
-            android:id="@+id/participated_employee_container"
+            android:id="@+id/participated_worker_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/task_case_participated_employee_label"
+            android:layout_marginTop="@dimen/task_case_information_participated_worker_container_margin_top"
+            android:layout_below="@+id/task_case_participated_worker_label"
             android:orientation="horizontal"/>
 
     </RelativeLayout>

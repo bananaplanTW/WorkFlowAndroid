@@ -9,6 +9,7 @@
     <integer name="task_case_column_count">2</integer>
     <integer name="worker_gridview_column_count">3</integer>
     <integer name="assign_task_drag_and_drop_highlight_stroke_width">4</integer>
+    <integer name="assign_task_case_information_avatar_count">9</integer>
 
     <!-- Add case -->
     <integer name="add_case_left_part_weight">1</integer>

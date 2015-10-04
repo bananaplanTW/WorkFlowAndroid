@@ -424,6 +424,7 @@ public class LoadingDataUtils {
                 tags.add(WorkingData.getInstance(context).getTagById(tagId));
             }
 
+            // TODO: employeeIdList is empty
             List<String> workerIds = new ArrayList<>();
             for (int w = 0 ; w < caseWorkerIds.length() ; w++) {
                 workerIds.add(caseWorkerIds.getString(w));

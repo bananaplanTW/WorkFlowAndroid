@@ -10,7 +10,7 @@
 
     <!-- Assign task -->
     <string name="task_case_progress_text">Case Progress</string>
-    <string name="task_case_participated_employee_text">Participated Employee</string>
+    <string name="task_case_participated_worker_text">Participated Worker</string>
     <string name="task_case_edit_text">Edit case</string>
     <string name="task_progress_not_start">Not start</string>
     <string name="task_progress_in_schedule">In schedule</string>
