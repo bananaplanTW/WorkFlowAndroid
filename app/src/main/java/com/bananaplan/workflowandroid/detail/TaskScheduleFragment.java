@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +22,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -47,17 +48,18 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return LayoutInflater.from(getActivity()).inflate(R.layout.fragment_task_schedule, container, false);
+        return inflater.inflate(R.layout.fragment_task_schedule, container, false);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initialize();
     }
 
     private void initialize() {
-        mWorker = WorkingData.getInstance(getActivity()).getWorkerById(getArguments().getString(DetailedWorkerActivity.EXTRA_WORKER_ID));
+        mWorker = WorkingData.getInstance(getActivity()).getWorkerById(getArguments()
+                .getString(DetailedWorkerActivity.EXTRA_WORKER_ID));
         findViews();
         setupCurrentTask();
     }
@@ -66,25 +68,18 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         getActivity().findViewById(R.id.complete_task_button).setOnClickListener(this);
         getActivity().findViewById(R.id.add_warning_button).setOnClickListener(this);
         getActivity().findViewById(R.id.manage_warning_button).setOnClickListener(this);
+        getActivity().findViewById(R.id.manage_tasks_button).setOnClickListener(this);
         mListView = (DragSortListView) getActivity().findViewById(R.id.task_list);
         mListViewHeaderHolder = new ViewHolder(
-                getActivity().getLayoutInflater().inflate(R.layout.detailed_worker_task_schedule_item, null),
+                getActivity().getLayoutInflater().inflate(
+                        R.layout.detailed_worker_task_schedule_item, null),
                 true,
                 false);
         mListView.addHeaderView(mListViewHeaderHolder.getView());
         ArrayList<Task> data = new ArrayList<>(mWorker.scheduledTasks);
         mAdapter = new TaskAdapter(data);
         mListView.setAdapter(mAdapter);
-        mListView.setDropListener(new DragSortListView.DropListener() {
-            @Override
-            public void drop(int from, int to) {
-                if (from != to) {
-                    Task item = mAdapter.getItem(from);
-                    mAdapter.remove(item);
-                    mAdapter.insert(item, to);
-                }
-            }
-        });
+        mListView.setDropListener(mAdapter);
         mController = buildController(mListView);
         mListView.setFloatViewManager(mController);
         mListView.setOnTouchListener(mController);
@@ -92,7 +87,16 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     }
 
     private DragSortController buildController(DragSortListView dslv) {
-        DragSortController controller = new DragSortController(dslv);
+        DragSortController controller = new DragSortController(dslv) {
+            @Override
+            public int startDragPosition(MotionEvent ev) {
+                if (super.dragHandleHitPosition(ev) == mAdapter.getDivPosition() + 1) {
+                    return DragSortController.MISS;
+                } else {
+                    return super.startDragPosition(ev);
+                }
+            }
+        };
         controller.setRemoveEnabled(false);
         controller.setSortEnabled(true);
         controller.setDragInitMode(DragSortController.ON_LONG_PRESS);
@@ -100,29 +104,113 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         return controller;
     }
 
-    private class TaskAdapter extends ArrayAdapter<Task> {
+    private class TaskAdapter extends ArrayAdapter<Task> implements DragSortListView.DropListener {
+
+        private final static int SECTION_DIV = 0;
+        private final static int SECTION_DATA = 1;
+
+        private List<Task> mData;
+        private int mDivPos;
 
         public TaskAdapter(ArrayList<Task> items) {
             super(getActivity(), 0, items);
+            mData = items;
+            calDivPos();
+        }
+
+        private void calDivPos() {
+            mDivPos = mData.size() / 2; // TODO
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                holder = new ViewHolder(
-                        getActivity().getLayoutInflater().inflate(R.layout.detailed_worker_task_schedule_item, parent, false),
-                        false,
-                        false);
-                convertView = holder.getView();
-                convertView.setTag(holder);
+            final int type = getItemViewType(position);
+            if (type == SECTION_DIV) {
+                return getActivity().getLayoutInflater().inflate(
+                        R.layout.detailed_worker_task_schedule_item_horizontal_divider, parent, false);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                ViewHolder holder;
+                if (convertView == null) {
+                    holder = new ViewHolder(
+                            getActivity().getLayoutInflater().inflate(
+                                    R.layout.detailed_worker_task_schedule_item, parent, false),
+                            false,
+                            false);
+                    convertView = holder.getView();
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+                Task task = getItem(position);
+                holder.id.setText(String.valueOf(dataPosition(position) + 1));
+                setListViewItemContent(holder, task);
+                return convertView;
             }
-            Task task = getItem(position);
-            holder.id.setText(String.valueOf(position + 1));
-            setListViewItemContent(holder, task);
-            return convertView;
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+            return false;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 2;
+        }
+
+        @Override
+        public int getCount() {
+            return mData.size() > 0 ? mData.size() + 1 : 0;
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+            return position != mDivPos;
+        }
+
+        public int getDivPosition() {
+            return mDivPos;
+        }
+
+        @Override
+        public Task getItem(int position) {
+            if (position != mDivPos) {
+                return mData.get(dataPosition(position));
+            }
+            return null;
+        }
+
+        private int dataPosition(int position) {
+            return position > mDivPos ? position - 1 : position;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (position == mDivPos) {
+                return SECTION_DIV;
+            } else {
+                return SECTION_DATA;
+            }
+        }
+
+        @Override
+        public void drop(int from, int to) {
+            if (from != to) {
+                if (to != mDivPos) {
+                    Task task = mData.remove(dataPosition(from));
+                    mData.add(dataPosition(to), task);
+                    mWorker.scheduledTasks.clear();
+                    mWorker.scheduledTasks.addAll(mData);
+                }
+                if (from < mDivPos && to > mDivPos) {
+                    mDivPos--;
+                } else if (from > mDivPos && to < mDivPos) {
+                    mDivPos++;
+                } else if (mDivPos == to) {
+                    mDivPos = from;
+                }
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -223,6 +311,8 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
             case R.id.add_warning_button:
                 break;
             case R.id.manage_warning_button:
+                break;
+            case R.id.manage_tasks_button:
                 break;
         }
     }

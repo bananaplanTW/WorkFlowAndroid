@@ -195,6 +195,7 @@
     <string name="detailed_worker_task_schedule_header_expected_completed_time">預計完成時間</string>
     <string name="detailed_worker_task_schedule_header_error">錯誤</string>
     <string name="detailed_worker_task_schedule_header_warnings">警訊</string>
+    <string name="detailed_worker_task_schedule_listview_divider_text">以上預計今日完成</string>
 
     <!-- Status Fragment -->
     <string name="status_string_worker">員工 %s 的紀錄</string>

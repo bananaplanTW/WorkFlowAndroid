@@ -33,7 +33,7 @@
 
         <include
             android:id="@+id/divider"
-            layout="@layout/detailed_worker_task_schedule_item_divider" />
+            layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
         <TextView
             android:id="@+id/detailed_worker_task_schedule_task"
@@ -42,7 +42,7 @@
 
         <include
             android:id="@+id/divider"
-            layout="@layout/detailed_worker_task_schedule_item_divider" />
+            layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
         <TextView
             android:id="@+id/detailed_worker_task_schedule_expected_time"
@@ -51,7 +51,7 @@
 
         <include
             android:id="@+id/divider"
-            layout="@layout/detailed_worker_task_schedule_item_divider" />
+            layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
         <TextView
             android:id="@+id/detailed_worker_task_schedule_spent_time"
@@ -60,7 +60,7 @@
 
         <include
             android:id="@+id/divider"
-            layout="@layout/detailed_worker_task_schedule_item_divider" />
+            layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
         <TextView
             android:id="@+id/detailed_worker_task_schedule_equipment"
@@ -69,7 +69,7 @@
 
         <include
             android:id="@+id/divider"
-            layout="@layout/detailed_worker_task_schedule_item_divider" />
+            layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
         <TextView
             android:id="@+id/detailed_worker_task_schedule_expected_completed_time"
@@ -78,7 +78,7 @@
 
         <include
             android:id="@+id/divider"
-            layout="@layout/detailed_worker_task_schedule_item_divider" />
+            layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
         <TextView
             android:id="@+id/detailed_worker_task_schedule_error"
@@ -87,7 +87,7 @@
 
         <include
             android:id="@+id/divider"
-            layout="@layout/detailed_worker_task_schedule_item_divider" />
+            layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
         <RelativeLayout
             android:layout_width="0dp"
