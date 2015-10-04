@@ -38,7 +38,7 @@
                     android:text="@string/case_vendor_selected"/>
 
                 <TextView
-                    android:id="@+id/task_case_principal_vendor"
+                    android:id="@+id/case_principal_vendor"
                     style="@style/TaskCaseTextStyle.TaskCaseInformationTitle" />
 
                 <TextView
@@ -48,7 +48,7 @@
                     android:text="@string/case_worker_name"/>
 
                 <TextView
-                    android:id="@+id/task_case_person_in_charge"
+                    android:id="@+id/case_pic"
                     style="@style/TaskCaseTextStyle.TaskCaseInformationTitle"/>
 
             </LinearLayout>
@@ -66,7 +66,7 @@
                     android:text="@string/case_hours_passed_by"/>
 
                 <TextView
-                    android:id="@+id/task_case_hours_pass_by"
+                    android:id="@+id/case_hours_pass_by"
                     style="@style/TaskCaseTextStyle.TaskCaseInformationTitle"/>
 
                 <TextView
@@ -76,7 +76,7 @@
                     android:text="@string/case_hours_unfinished"/>
 
                 <TextView
-                    android:id="@+id/task_case_hours_unfinished"
+                    android:id="@+id/case_hours_unfinished"
                     style="@style/TaskCaseTextStyle.TaskCaseInformationTitle"/>
 
             </LinearLayout>
@@ -108,7 +108,7 @@
         android:background="@color/task_case_information_divider_color"/>
 
     <TextView
-        android:id="@+id/task_case_edit_button"
+        android:id="@+id/case_edit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/task_case_edit_button_padding"

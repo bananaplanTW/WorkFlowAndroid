@@ -11,6 +11,7 @@ import com.bananaplan.workflowandroid.data.worker.status.FileData;
 import com.bananaplan.workflowandroid.data.worker.status.HistoryData;
 import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
 import com.bananaplan.workflowandroid.data.worker.status.RecordData;
+import com.bananaplan.workflowandroid.main.MainApplication;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -63,12 +64,15 @@ public final class WorkingData {
                 }
             }
         }
+
         return sWorkingData;
     }
 
     private WorkingData(Context context) {
         mContext = context;
-        generateFakeData(); // +++ only for test case
+        if (MainApplication.sUseTestData) {
+            generateFakeData(); // +++ only for test case
+        }
     }
 
 

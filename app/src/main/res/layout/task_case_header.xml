@@ -6,15 +6,6 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-    <Spinner
-        android:id="@+id/task_case_spinner"
-        style="@style/CommonSpinnerStyle"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/assign_task_divider_width_height"
-        android:background="@color/main_window_divider_color" />
-
     <com.bananaplan.workflowandroid.utility.view.ExpandableLayout
         android:id="@+id/task_case_information_expandablelayout"
         android:layout_width="match_parent"
