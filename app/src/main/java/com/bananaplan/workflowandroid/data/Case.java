@@ -144,7 +144,7 @@ public class Case extends IdData {
             time += task.expectedTime;
         }
 
-        return time - getSpentTime();
+        return time - getSpentTime() < 0L ? 0L : time - getSpentTime();
     }
 
     public int getFinishPercent() {
