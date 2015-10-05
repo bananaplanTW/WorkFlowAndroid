@@ -187,10 +187,10 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         task.workerId = worker.id;
 
         if (worker.hasWipTask()) {
-            worker.scheduledTasks.add(task);
+            worker.addScheduledTask(task);
             task.status = Task.Status.PENDING;
         } else {
-            worker.wipTask = task;
+            worker.setWipTask(task);
             task.status = Task.Status.WIP;
         }
     }
@@ -202,29 +202,29 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         // Current task
-        if (currentWorker.hasWipTask() && Utils.isSameId(currentWorker.wipTask.id, dropTask.id)) {
-            currentWorker.wipTask = null;
+        if (currentWorker.hasWipTask() && Utils.isSameId(currentWorker.getWipTask().id, dropTask.id)) {
+            currentWorker.setWipTask(null);
 
         } else {
             // Scheduled tasks
-            currentWorker.scheduledTasks.remove(dropTask);
+            currentWorker.removeScheduleTask(dropTask);
         }
     }
 
     private boolean isWorkerHasTargetTask(Worker worker, Task task) {
-        if ((worker.wipTask == null && worker.scheduledTasks.size() == 0) || task == null) {
+        if ((worker.getWipTask() == null && worker.getScheduledTasks().size() == 0) || task == null) {
             return false;
         }
 
         boolean isWorkerHasTask = false;
 
         // Current task
-        if (Utils.isSameId(worker.wipTask.id, task.id)) {
+        if (Utils.isSameId(worker.getWipTask().id, task.id)) {
             isWorkerHasTask = true;
         }
 
         // Scheduled tasks
-        for (Task scheduledTask : worker.scheduledTasks) {
+        for (Task scheduledTask : worker.getScheduledTasks()) {
             if (Utils.isSameId(scheduledTask.id, task.id)) {
                 isWorkerHasTask = true;
             }
@@ -263,10 +263,10 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         // Current task name and current task case name
         if (worker.hasWipTask()) {
-            workerCardViewHolder.wipTaskName.setText(worker.wipTask.name);
+            workerCardViewHolder.wipTaskName.setText(worker.getWipTask().name);
             workerCardViewHolder.wipCaseName.setText(
-                    WorkingData.getInstance(mContext).getCaseById(worker.wipTask.caseId).name);
-            workerCardViewHolder.wipTaskWorkingTime.setText(Utils.millisecondsToTimeString(worker.wipTask.getWorkingTime()));
+                    WorkingData.getInstance(mContext).getCaseById(worker.getWipTask().caseId).name);
+            workerCardViewHolder.wipTaskWorkingTime.setText(Utils.millisecondsToTimeString(worker.getWipTask().getWorkingTime()));
         } else {
             workerCardViewHolder.wipTaskName.setText("");
             workerCardViewHolder.wipCaseName.setText("");
@@ -275,8 +275,8 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         // Scheduled tasks
         if (worker.hasScheduledTasks()) {
-            Log.d(TAG, worker.name + " has " + worker.scheduledTasks.size() + " scheduled tasks");
-            workerCardViewHolder.scheduledTaskName.setText(worker.scheduledTasks.get(0).name);
+            Log.d(TAG, worker.name + " has " + worker.getScheduledTasks().size() + " scheduled tasks");
+            workerCardViewHolder.scheduledTaskName.setText(worker.getScheduledTasks().get(0).name);
         } else {
             workerCardViewHolder.scheduledTaskName.setText("無排程");
         }

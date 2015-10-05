@@ -164,10 +164,11 @@ public class LoadingDataUtils {
             }
 
             if (WorkingData.getInstance(context).hasTask(wipTaskId)) {
-                WorkingData.getInstance(context).getWorkerById(workerId).wipTask
-                        = WorkingData.getInstance(context).getTaskById(wipTaskId);
+                WorkingData.getInstance(context).getWorkerById(workerId).
+                        setWipTask(WorkingData.getInstance(context).getTaskById(wipTaskId));
             }
-            WorkingData.getInstance(context).getWorkerById(workerId).scheduledTasks = scheduledTasks;
+
+            WorkingData.getInstance(context).getWorkerById(workerId).setScheduledTasks(scheduledTasks);
 
         } catch (JSONException e) {
             e.printStackTrace();

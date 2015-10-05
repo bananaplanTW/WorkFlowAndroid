@@ -388,7 +388,7 @@ public final class WorkingData {
                     mTasksMap.put(task.id, task);
                     task.equipmentId = getRandomEquipmentId();
                     task.workerId = getRandomWorkerId();
-                    getWorkerById(task.workerId).wipTask = task;
+                    getWorkerById(task.workerId).setWipTask(task);
                 }
             }
         }

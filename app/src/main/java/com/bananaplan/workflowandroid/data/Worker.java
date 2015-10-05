@@ -47,10 +47,11 @@ public class Worker extends IdData {
     public PaymentClassification paymentClassification;
 
     public String wipTaskId;
-    public List<String> scheduledTaskIds = new ArrayList<>();
+    private Task wipTask;
 
-    public Task wipTask;
-    public List<Task> scheduledTasks = new ArrayList<>();
+    public List<String> scheduledTaskIds = new ArrayList<>();
+    private List<Task> scheduledTasks = new ArrayList<>();
+
     public List<Task> warningTasks;
 
     public ArrayList<BaseData> records = new ArrayList<>();
@@ -126,6 +127,59 @@ public class Worker extends IdData {
         this.paymentClassification = worker.paymentClassification;
         this.scheduledTaskIds = worker.scheduledTaskIds;
         this.lastUpdatedTime = worker.lastUpdatedTime;
+    }
+
+    public void setWipTask(Task task) {
+        wipTaskId = task == null ? "" : task.id;
+        wipTask = task;
+    }
+
+    public Task getWipTask() {
+        return wipTask;
+    }
+
+    public void setScheduledTasks(List<Task> tasks) {
+        List<String> tasksIds = new ArrayList<>();
+        for (Task task : tasks) {
+            tasksIds.add(task.id);
+        }
+
+        scheduledTaskIds = tasksIds;
+        scheduledTasks = tasks;
+    }
+
+    public void addScheduledTask(Task task) {
+        if (!scheduledTaskIds.contains(task.id)) {
+            scheduledTaskIds.add(task.id);
+        }
+
+        if (!scheduledTasks.contains(task)) {
+            scheduledTasks.add(task);
+        }
+    }
+
+    public void addAllScheduleTasks(List<Task> tasks) {
+        List<String> tasksIds = new ArrayList<>();
+        for (Task task : tasks) {
+            tasksIds.add(task.id);
+        }
+
+        scheduledTaskIds.addAll(tasksIds);
+        scheduledTasks.addAll(tasks);
+    }
+
+    public void removeScheduleTask(Task task) {
+        scheduledTaskIds.remove(task.id);
+        scheduledTasks.remove(task);
+    }
+
+    public void clearScheduleTasks() {
+        scheduledTaskIds.clear();
+        scheduledTasks.clear();
+    }
+
+    public List<Task> getScheduledTasks() {
+        return scheduledTasks;
     }
 
     public boolean hasWipTask() {

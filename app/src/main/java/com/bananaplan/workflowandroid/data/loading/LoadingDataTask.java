@@ -96,13 +96,13 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
     private void putTasksIntoWorkers() {
         for (Worker worker : WorkingData.getInstance(mContext).getWorkers()) {
             if (WorkingData.getInstance(mContext).hasTask(worker.wipTaskId)) {
-                worker.wipTask = WorkingData.getInstance(mContext).getTaskById(worker.wipTaskId);
+                worker.setWipTask(WorkingData.getInstance(mContext).getTaskById(worker.wipTaskId));
             }
 
-            worker.scheduledTasks.clear();
+            worker.getScheduledTasks().clear();
             for (String stId : worker.scheduledTaskIds) {
                 if (WorkingData.getInstance(mContext).hasTask(stId)) {
-                    worker.scheduledTasks.add(WorkingData.getInstance(mContext).getTaskById(stId));
+                    worker.addScheduledTask(WorkingData.getInstance(mContext).getTaskById(stId));
                 }
             }
         }

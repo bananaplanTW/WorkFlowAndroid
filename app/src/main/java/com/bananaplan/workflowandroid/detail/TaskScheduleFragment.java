@@ -76,7 +76,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                 true,
                 false);
         mListView.addHeaderView(mListViewHeaderHolder.getView());
-        ArrayList<Task> data = new ArrayList<>(mWorker.scheduledTasks);
+        ArrayList<Task> data = new ArrayList<>(mWorker.getScheduledTasks());
         mAdapter = new TaskAdapter(data);
         mListView.setAdapter(mAdapter);
         mListView.setDropListener(mAdapter);
@@ -199,8 +199,8 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                 if (to != mDivPos) {
                     Task task = mData.remove(dataPosition(from));
                     mData.add(dataPosition(to), task);
-                    mWorker.scheduledTasks.clear();
-                    mWorker.scheduledTasks.addAll(mData);
+                    mWorker.clearScheduleTasks();
+                    mWorker.addAllScheduleTasks(mData);
                 }
                 if (from < mDivPos && to > mDivPos) {
                     mDivPos--;
@@ -231,7 +231,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
 
         ViewHolder holder = new ViewHolder(getActivity().findViewById(R.id.detailed_worker_current_task), false, true);
         if (!mWorker.hasWipTask()) return;
-        setListViewItemContent(holder, mWorker.wipTask);
+        setListViewItemContent(holder, mWorker.getWipTask());
     }
 
     private class ViewHolder {

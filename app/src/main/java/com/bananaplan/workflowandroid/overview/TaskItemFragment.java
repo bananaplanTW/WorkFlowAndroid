@@ -389,9 +389,9 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         }
 
         // update task item listview
-        ArrayList<Task> items = (ArrayList<Task>) worker.scheduledTasks;
-        if (worker.wipTask != null) {
-            items.add(worker.wipTask);
+        ArrayList<Task> items = (ArrayList<Task>) worker.getScheduledTasks();
+        if (worker.getWipTask() != null) {
+            items.add(worker.getWipTask());
         }
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);

@@ -138,7 +138,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 break;
             case CONTENT_SHOW.TASK_STATUS:
                 temp = getString(R.string.status_string_task,
-                        getSelectedWorker().wipTask != null ? getSelectedWorker().wipTask.name: "");
+                        getSelectedWorker().getWipTask() != null ? getSelectedWorker().getWipTask().name: "");
                 break;
             default:
                 break;
@@ -350,8 +350,8 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         if (mContentShow == CONTENT_SHOW.WORKER_STATUS) {
             WorkingData.getInstance(getActivity()).addRecordToWorker(worker, data);
         } else {
-            if (worker.wipTask != null) {
-                WorkingData.getInstance(getActivity()).addRecordToTask(worker.wipTask, data);
+            if (worker.getWipTask() != null) {
+                WorkingData.getInstance(getActivity()).addRecordToTask(worker.getWipTask(), data);
             }
         }
     }
@@ -401,8 +401,8 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 records = new ArrayList<>(worker.records);
                 break;
             case CONTENT_SHOW.TASK_STATUS:
-                if (worker.wipTask != null) {
-                    records = new ArrayList<>(worker.wipTask.records);
+                if (worker.getWipTask() != null) {
+                    records = new ArrayList<>(worker.getWipTask().records);
                 } else {
                     records = new ArrayList<>();
                 }
