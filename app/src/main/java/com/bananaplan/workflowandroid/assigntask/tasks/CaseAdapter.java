@@ -190,7 +190,7 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
                 mContext.getString(R.string.task_card_no_worker) : worker.name);
 
         // Status
-        holder.status.setText(Utils.getTaskItemStatusString(mContext, task));
+        holder.status.setText(Task.getTaskStatusString(mContext, task));
     }
 
     public Task getItem(int position) {

@@ -57,33 +57,6 @@ public class Utils {
     public static final String DATE_FORMAT_MD = "MM/dd";
     public static final String DATE_FORMAT_YMD_HM_AMPM = "yyyy/MM/dd hh:mm aa";
 
-    public static String getTaskItemStatusString(final Context context, final Task item) {
-        String r = "";
-        Resources resources = context.getResources();
-        switch (item.status) {
-            case PENDING:
-                r = resources.getString(R.string.task_progress_in_schedule);
-                break;
-            case UNCLAIMED:
-                r = resources.getString(R.string.task_progress_not_start);
-                break;
-            case PAUSE:
-                r = resources.getString(R.string.task_progress_pause);
-                break;
-            case WIP:
-                r = resources.getString(R.string.task_progress_working);
-                break;
-            case DONE:
-                if (item.endDate != null) {
-                    r = timestamp2Date(item.endDate, Utils.DATE_FORMAT_MD) + " ";
-                }
-                r += resources.getString(R.string.task_progress_finish);
-                break;
-            default:
-                break;
-        }
-        return r;
-    }
 
     public static View genBarChart(final Activity activity, final BarChartData data) {
         Resources resources = activity.getResources();

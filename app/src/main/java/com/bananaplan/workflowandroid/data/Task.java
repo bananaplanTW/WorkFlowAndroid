@@ -1,6 +1,11 @@
 package com.bananaplan.workflowandroid.data;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -150,5 +155,39 @@ public class Task extends IdData {
         }
 
         return result;
+    }
+
+    public static String getTaskStatusString(final Context context, final Task item) {
+        String r = "";
+        Resources resources = context.getResources();
+        switch (item.status) {
+            case PENDING:
+                r = resources.getString(R.string.task_progress_in_schedule);
+                break;
+
+            case UNCLAIMED:
+                r = resources.getString(R.string.task_progress_not_start);
+                break;
+
+            case PAUSE:
+                r = resources.getString(R.string.task_progress_pause);
+                break;
+
+            case WIP:
+                r = resources.getString(R.string.task_progress_working);
+                break;
+
+            case DONE:
+                if (item.endDate != null) {
+                    r = Utils.timestamp2Date(item.endDate, Utils.DATE_FORMAT_MD) + " ";
+                }
+                r += resources.getString(R.string.task_progress_finish);
+                break;
+
+            default:
+                break;
+        }
+
+        return r;
     }
 }
