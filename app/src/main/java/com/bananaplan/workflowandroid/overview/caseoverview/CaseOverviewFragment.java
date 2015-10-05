@@ -164,7 +164,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
     private ArrayList<Case> getTaskCases() {
         ArrayList<Case> cases = new ArrayList<>();
         for (Vendor vendor : WorkingData.getInstance(getActivity()).getVendors()) {
-            for (Case aCase : vendor.cases) {
+            for (Case aCase : vendor.getCases()) {
                 if (mSelectedCase == null) {
                     mSelectedCase = aCase;
                 }

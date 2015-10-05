@@ -99,7 +99,9 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
                 worker.setWipTask(WorkingData.getInstance(mContext).getTaskById(worker.wipTaskId));
             }
 
+            // We need task ids to find the corresponding case data, so we don't use clearScheduleTasks() here.
             worker.getScheduledTasks().clear();
+
             for (String stId : worker.scheduledTaskIds) {
                 if (WorkingData.getInstance(mContext).hasTask(stId)) {
                     worker.addScheduledTask(WorkingData.getInstance(mContext).getTaskById(stId));
@@ -123,10 +125,12 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
 
     private void putCasesIntoVendors() {
         for (Vendor vendor : WorkingData.getInstance(mContext).getVendors()) {
-            vendor.cases.clear();
+            // We need case ids to find the corresponding case data, so we don't use clearCases() here.
+            vendor.getCases().clear();
+
             for (String caseId : vendor.caseIds) {
                 if (WorkingData.getInstance(mContext).hasCase(caseId)) {
-                    vendor.cases.add(WorkingData.getInstance(mContext).getCaseById(caseId));
+                    vendor.addCase(WorkingData.getInstance(mContext).getCaseById(caseId));
                 }
             }
         }

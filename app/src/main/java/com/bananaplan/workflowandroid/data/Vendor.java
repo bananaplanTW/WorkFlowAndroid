@@ -12,9 +12,8 @@ public class Vendor extends IdData {
     public String address;
     public String phone;
 
-    public List<String> caseIds;
-
-    public List<Case> cases = new ArrayList<>();
+    public List<String> caseIds = new ArrayList<>();
+    private List<Case> cases = new ArrayList<>();
 
 
     public Vendor(String id, String name, String address, String phone, List<String> caseIds, long lastUpdatedTime) {
@@ -42,5 +41,49 @@ public class Vendor extends IdData {
         this.phone = vendor.phone;
         this.caseIds = vendor.caseIds;
         this.lastUpdatedTime = vendor.lastUpdatedTime;
+    }
+
+    public void setCases(List<Case> cases) {
+        List<String> caseIds = new ArrayList<>();
+        for (Case aCase : cases) {
+            caseIds.add(aCase.id);
+        }
+
+        this.caseIds = caseIds;
+        this.cases = cases;
+    }
+
+    public void addCase(Case aCase) {
+        if (!caseIds.contains(aCase.id)) {
+            caseIds.add(aCase.id);
+        }
+
+        if (!cases.contains(aCase)) {
+            cases.add(aCase);
+        }
+    }
+
+    public List<Case> getCases() {
+        return cases;
+    }
+
+    public void addAllCases(List<Case> cases) {
+        List<String> caseIds = new ArrayList<>();
+        for (Case aCase : cases) {
+            caseIds.add(aCase.id);
+        }
+
+        caseIds.addAll(caseIds);
+        cases.addAll(cases);
+    }
+
+    public void clearCases() {
+        caseIds.clear();
+        cases.clear();
+    }
+
+    public void removeCase(Case aCase) {
+        caseIds.remove(aCase.id);
+        cases.remove(aCase);
     }
 }

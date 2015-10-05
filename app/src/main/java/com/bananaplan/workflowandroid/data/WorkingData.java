@@ -356,7 +356,7 @@ public final class WorkingData {
                 aCase.deliveredDate = getRandomDate();
                 aCase.layoutDeliveredDate = getRandomDate();
                 aCase.managerId = getRandomManagerId();
-                vendor.cases.add(aCase);
+                vendor.addCase(aCase);
                 for (int k = 1; k <= taskItemCount; k++) {
                     String taskId = generateDataId(DataType.TASK);
                     Task task = new Task(taskId, taskId);

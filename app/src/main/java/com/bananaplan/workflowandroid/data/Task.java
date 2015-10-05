@@ -36,8 +36,8 @@ public class Task extends IdData {
     public long startTime = 0L;  // The starting time of this working section
     public long spentTime = 0L;
 
-    public List<Warning> warnings;
-    public List<Task> subTaskIds;
+    public List<Warning> warnings = new ArrayList<>();
+    public List<Task> subTaskIds = new ArrayList<>();
 
     public int errorCount;
 

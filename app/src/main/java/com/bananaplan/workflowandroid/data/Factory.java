@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Factory extends IdData {
 
-    public List<Manager> managers;
-    public List<Worker> workers;
+    public List<Manager> managers = new ArrayList<>();
+    public List<Worker> workers = new ArrayList<>();
 
 
     public Factory(String id, String name, List<Manager> managers, long lastUpdatedTime) {
