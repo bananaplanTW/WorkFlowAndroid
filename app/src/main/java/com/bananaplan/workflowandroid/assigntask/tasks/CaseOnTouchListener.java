@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.bananaplan.workflowandroid.data.Task;
+
 
 /**
  * OnTouchListener for TaskList.
@@ -47,7 +49,8 @@ public class CaseOnTouchListener implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:
                 mDownView = mRecyclerView.findChildViewUnder(event.getX(), event.getY());
                 Log.d(TAG, "Down position = " + mRecyclerView.getChildAdapterPosition(mDownView));
-                if (mDownView == null || mRecyclerView.getChildAdapterPosition(mDownView) == 0) break;
+
+                if (mDownView == null || mRecyclerView.getChildAdapterPosition(mDownView) == 0 || isAssignable()) break;
 
                 mIsTouched = true;
                 mTouchDownX = x;
@@ -118,5 +121,16 @@ public class CaseOnTouchListener implements View.OnTouchListener {
         mIsDragging = false;
         mTouchDownX = 0F;
         mTouchDownY = 0F;
+    }
+
+    /**
+     * If the status of a task is "unclaimed" or "pending", the task can not be assigned.
+     *
+     * @return
+     */
+    private boolean isAssignable() {
+        Task downTask = ((CaseAdapter) mRecyclerView.getAdapter()).getItem(mRecyclerView.getChildAdapterPosition(mDownView));
+
+        return !(Task.Status.UNCLAIMED.equals(downTask.status) || Task.Status.PENDING.equals(downTask.status));
     }
 }
