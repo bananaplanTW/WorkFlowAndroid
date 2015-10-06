@@ -131,6 +131,10 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public TextView jobTitle;
         public Switch overtime;
 
+        public View statusContainer;
+        public TextView status;
+
+        public View wipTaskContainer;
         public TextView wipTaskName;
         public TextView wipCaseName;
         public TextView wipTaskWorkingTime;
@@ -150,6 +154,9 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             name = (TextView) view.findViewById(R.id.worker_card_name);
             jobTitle = (TextView) view.findViewById(R.id.worker_card_job_title);
             overtime = (Switch) view.findViewById(R.id.worker_card_overtime_switch);
+            statusContainer = view.findViewById(R.id.worker_card_status_container);
+            status = (TextView) view.findViewById(R.id.worker_card_status_text);
+            wipTaskContainer = view.findViewById(R.id.worker_card_wip_task_container);
             wipTaskName = (TextView) view.findViewById(R.id.worker_card_wip_task_name);
             wipCaseName = (TextView) view.findViewById(R.id.worker_card_wip_task_case_name);
             wipTaskWorkingTime = (TextView) view.findViewById(R.id.worker_card_wip_task_working_time);
@@ -255,16 +262,27 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         workerCardViewHolder.jobTitle.setText(worker.jobTitle);
         workerCardViewHolder.overtime.setChecked(worker.isOvertime);
 
-        // Current task name and current task case name
-        if (worker.hasWipTask()) {
-            workerCardViewHolder.wipTaskName.setText(worker.getWipTask().name);
-            workerCardViewHolder.wipCaseName.setText(
-                    WorkingData.getInstance(mContext).getCaseById(worker.getWipTask().caseId).name);
-            workerCardViewHolder.wipTaskWorkingTime.setText(Utils.millisecondsToTimeString(worker.getWipTask().getWorkingTime()));
+        // Worker status container and current task container
+        if (!Worker.Status.WIP.equals(worker.status)) {
+            workerCardViewHolder.statusContainer.setVisibility(View.VISIBLE);
+            workerCardViewHolder.wipTaskContainer.setVisibility(View.GONE);
+
+            workerCardViewHolder.status.setText(Worker.getWorkerStatusString(mContext, worker.status));
         } else {
-            workerCardViewHolder.wipTaskName.setText("");
-            workerCardViewHolder.wipCaseName.setText("");
-            workerCardViewHolder.wipTaskWorkingTime.setText("");
+            workerCardViewHolder.statusContainer.setVisibility(View.GONE);
+            workerCardViewHolder.wipTaskContainer.setVisibility(View.VISIBLE);
+
+            // Current task
+            if (worker.hasWipTask()) {
+                workerCardViewHolder.wipTaskName.setText(worker.getWipTask().name);
+                workerCardViewHolder.wipCaseName.setText(
+                        WorkingData.getInstance(mContext).getCaseById(worker.getWipTask().caseId).name);
+                workerCardViewHolder.wipTaskWorkingTime.setText(Utils.millisecondsToTimeString(worker.getWipTask().getWorkingTime()));
+            } else {
+                workerCardViewHolder.wipTaskName.setText("");
+                workerCardViewHolder.wipCaseName.setText("");
+                workerCardViewHolder.wipTaskWorkingTime.setText("");
+            }
         }
 
         // Scheduled tasks

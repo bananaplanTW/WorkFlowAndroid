@@ -73,6 +73,7 @@
     <dimen name="worker_card_content_text_size">14dp</dimen>
     <dimen name="worker_card_current_task_working_time_text_size">20dp</dimen>
     <dimen name="worker_card_current_task_container_padding">5dp</dimen>
+    <dimen name="worker_card_status_text_size">20dp</dimen>
 
     <!-- CaseOverView fragment -->
     <dimen name="case_overview_divider_height">8dp</dimen>

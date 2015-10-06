@@ -43,7 +43,7 @@ public class Worker extends IdData {
     public String address;
     public String phone;
     public int score;
-    public Status status;
+    public Status status = Status.WIP;
     public PaymentClassification paymentClassification;
 
     public String wipTaskId;
