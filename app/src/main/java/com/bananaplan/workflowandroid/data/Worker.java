@@ -212,4 +212,28 @@ public class Worker extends IdData {
 
         return result;
     }
+
+    public static String getWorkerStatusString(Context context, Status status) {
+        String statusString = "";
+
+        switch (status) {
+            case OFF:
+                statusString = context.getString(R.string.worker_status_off);
+                break;
+            case STOP:
+                statusString = context.getString(R.string.worker_status_stop);
+                break;
+            case PAUSE:
+                statusString = context.getString(R.string.worker_status_pause);
+                break;
+            case PENDING:
+                statusString = context.getString(R.string.worker_status_pending);
+                break;
+            case WIP:
+                statusString = context.getString(R.string.worker_status_wip);
+                break;
+        }
+
+        return statusString;
+    }
 }

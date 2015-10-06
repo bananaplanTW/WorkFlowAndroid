@@ -19,6 +19,13 @@
     <string name="task_status_stop">Stop</string>
     <string name="task_status_cancel">Cancel</string>
 
+    <!-- Worker status -->
+    <string name="worker_status_off">Off</string>
+    <string name="worker_status_stop">Stop</string>
+    <string name="worker_status_pause">Pause</string>
+    <string name="worker_status_pending">Pending</string>
+    <string name="worker_status_wip">WIP</string>
+
     <!-- Assign task -->
     <string name="task_case_progress_text">Case Progress</string>
     <string name="task_case_participated_worker_text">Participated Worker</string>

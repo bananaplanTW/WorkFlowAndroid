@@ -16,6 +16,13 @@
     <string name="task_status_stop">停止</string>
     <string name="task_status_cancel">取消</string>
 
+    <!-- Worker status -->
+    <string name="worker_status_off">休假中</string>
+    <string name="worker_status_stop">非上班時段</string>
+    <string name="worker_status_pause">暫停工作</string>
+    <string name="worker_status_pending">無工作</string>
+    <string name="worker_status_wip">工作中</string>
+
     <!-- Assign task -->
     <string name="task_case_progress_text">案件進度</string>
     <string name="task_case_participated_worker_text">參與員工</string>
