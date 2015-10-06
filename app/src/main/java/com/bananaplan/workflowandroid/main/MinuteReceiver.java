@@ -21,6 +21,6 @@ public class MinuteReceiver extends BroadcastReceiver {
     }
 
     private void updateTimeInWorkingData(Context context) {
-        WorkingData.getInstance(context).updateTime();
+        WorkingData.getInstance(context).updateData();
     }
 }

@@ -23,7 +23,7 @@ import com.bananaplan.workflowandroid.assigntask.tasks.CaseCardDecoration;
 import com.bananaplan.workflowandroid.assigntask.tasks.CaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.CaseOnTouchListener;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataTask;
-import com.bananaplan.workflowandroid.data.timeobserver.TimeObserver;
+import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.utility.GridSpanSizeLookup;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
@@ -47,7 +47,7 @@ import java.util.List;
  */
 public class AssignTaskFragment extends Fragment implements
         ViewPager.OnPageChangeListener, WorkerGridViewAdapter.OnRefreshCaseListener,
-        LoadingDataTask.OnFinishLoadingDataListener, TimeObserver {
+        LoadingDataTask.OnFinishLoadingDataListener, DataObserver {
 
     private static final String TAG = "AssignTaskFragment";
 
@@ -178,13 +178,13 @@ public class AssignTaskFragment extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        WorkingData.getInstance(mContext).registerTimeObserver(this);
+        WorkingData.getInstance(mContext).registerDataObserver(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        WorkingData.getInstance(mContext).removeTimeObserver(this);
+        WorkingData.getInstance(mContext).removeDataObserver(this);
     }
 
     @Override
@@ -383,7 +383,7 @@ public class AssignTaskFragment extends Fragment implements
     }
 
     @Override
-    public void updateTime() {
+    public void updateData() {
         mCaseAdapter.notifyDataSetChanged();
 
         for (WorkerFragment workerFragment : mWorkerPageList) {

@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.bananaplan.workflowandroid.addequipment.AddEquipmentFragment;
 import com.bananaplan.workflowandroid.addworker.AddWorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.AssignTaskFragment;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.loading.LoadingDataTask;
 import com.bananaplan.workflowandroid.drawermenu.DrawerFragment;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.drawermenu.OnClickDrawerItemListener;
@@ -36,7 +38,7 @@ import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFrag
  * @since 2015.05.28
  *
  */
-public class UIController implements OnClickDrawerItemListener {
+public class UIController implements OnClickDrawerItemListener, LoadingDataTask.OnFinishLoadingDataListener {
 
     public static final class FragmentTag {
         public static final String DRAWER_MENU_FRAGMENT = "drawer_menu_fragment";
@@ -53,6 +55,7 @@ public class UIController implements OnClickDrawerItemListener {
     private AppCompatActivity mMainActivity;
     private ActionBar mActionBar;
     private Toolbar mToolbar;
+    private Menu mOptionMenu;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -79,12 +82,46 @@ public class UIController implements OnClickDrawerItemListener {
         WorkingData.getInstance(mMainActivity).unregisterMinuteReceiver(mMainActivity);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mMainActivity.getMenuInflater().inflate(R.menu.menu_main, menu);
+        mOptionMenu = menu;
+
+        return true;
+    }
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_refresh).setVisible(!MainApplication.sUseTestData);
+
+        return true;
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
+
         } else {
-            // Normal menu items put here
-            return false;
+            switch(item.getItemId()) {
+                case R.id.action_refresh:
+                    setRefreshMenuItemState(true);
+                    new LoadingDataTask(mMainActivity, this).execute();
+
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+    }
+
+    private void setRefreshMenuItemState(boolean isRefresh) {
+        if (mOptionMenu == null) return;
+
+        MenuItem refreshItem = mOptionMenu.findItem(R.id.action_refresh);
+
+        if (isRefresh) {
+            refreshItem.setActionView(R.layout.actionbar_progressbar);
+        } else {
+            refreshItem.setActionView(null);
         }
     }
 
@@ -237,5 +274,16 @@ public class UIController implements OnClickDrawerItemListener {
 
         mCurrentFragment = fragment;
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onFinishLoadingData() {
+        setRefreshMenuItemState(false);
+        WorkingData.getInstance(mMainActivity).updateData();
+    }
+
+    @Override
+    public void onFailLoadingData(boolean isFailCausedByInternet) {
+
     }
 }

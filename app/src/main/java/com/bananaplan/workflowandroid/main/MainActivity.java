@@ -3,6 +3,7 @@ package com.bananaplan.workflowandroid.main;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bananaplan.workflowandroid.R;
@@ -33,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mUIController.onStop();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return mUIController.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return mUIController.onPrepareOptionsMenu(menu);
     }
 
     @Override

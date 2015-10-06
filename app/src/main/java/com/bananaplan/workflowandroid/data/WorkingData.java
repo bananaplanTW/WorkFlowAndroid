@@ -4,12 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
-import com.bananaplan.workflowandroid.data.timeobserver.TimeObserver;
-import com.bananaplan.workflowandroid.data.timeobserver.TimeSubject;
+import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
+import com.bananaplan.workflowandroid.data.dataobserver.DataSubject;
 import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
@@ -32,7 +31,7 @@ import java.util.List;
 /**
  * Created by Ben on 2015/7/18.
  */
-public final class WorkingData implements TimeSubject {
+public final class WorkingData implements DataSubject {
 
     private static final String TAG = "WorkingData";
 
@@ -52,7 +51,7 @@ public final class WorkingData implements TimeSubject {
 
     private Context mContext;
     private BroadcastReceiver mMinuteReceiver;
-    private List<TimeObserver> mTimeObservers = new ArrayList<>();
+    private List<DataObserver> mDataObservers = new ArrayList<>();
 
     private HashMap<String, Manager> mManagersMap = new HashMap<>();
     private HashMap<String, Worker> mWorkersMap = new HashMap<>();
@@ -282,28 +281,28 @@ public final class WorkingData implements TimeSubject {
     }
 
 
-    public void updateTime() {
-        notifyTimeObservers();
+    public void updateData() {
+        notifyDataObservers();
     }
 
 
     @Override
-    public void registerTimeObserver(TimeObserver o) {
-        mTimeObservers.add(o);
+    public void registerDataObserver(DataObserver o) {
+        mDataObservers.add(o);
     }
 
     @Override
-    public void removeTimeObserver(TimeObserver o) {
-        int index = mTimeObservers.indexOf(o);
+    public void removeDataObserver(DataObserver o) {
+        int index = mDataObservers.indexOf(o);
         if (index >= 0) {
-            mTimeObservers.remove(index);
+            mDataObservers.remove(index);
         }
     }
 
     @Override
-    public void notifyTimeObservers() {
-        for (TimeObserver timeObserver : mTimeObservers) {
-            timeObserver.updateTime();
+    public void notifyDataObservers() {
+        for (DataObserver dataObserver : mDataObservers) {
+            dataObserver.updateData();
         }
     }
 
