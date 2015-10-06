@@ -8,15 +8,21 @@
     <string name="no_internet_connection">Check your connection and try again.</string>
     <string name="retry">Retry</string>
 
+    <!-- Task status -->
+    <string name="task_status_unclaimed">Not start</string>
+    <string name="task_status_pending">In schedule</string>
+    <string name="task_status_wip">Working</string>
+    <string name="task_status_pause">Pause</string>
+    <string name="task_status_finished">Finish</string>
+    <string name="task_status_in_review">In Review</string>
+    <string name="task_status_warning">Warning</string>
+    <string name="task_status_stop">Stop</string>
+    <string name="task_status_cancel">Cancel</string>
+
     <!-- Assign task -->
     <string name="task_case_progress_text">Case Progress</string>
     <string name="task_case_participated_worker_text">Participated Worker</string>
     <string name="task_case_edit_text">Edit case</string>
-    <string name="task_progress_not_start">Not start</string>
-    <string name="task_progress_in_schedule">In schedule</string>
-    <string name="task_progress_working">Working</string>
-    <string name="task_progress_pause">Pause</string>
-    <string name="task_progress_finish">Finish</string>
     <string name="task_card_no_equipment">No equipment</string>
     <string name="task_card_no_worker">No worker</string>
     <string name="worker_action_start">Start for all</string>

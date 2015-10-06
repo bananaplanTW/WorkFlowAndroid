@@ -20,7 +20,7 @@ import java.util.List;
 public class Task extends IdData {
 
     public enum Status {
-        PENDING, UNCLAIMED, WIP, PAUSE, DONE, EXCEPTION, STOP, CANCEL, IN_REVIEW
+        PENDING, UNCLAIMED, WIP, PAUSE, DONE, WARNING, STOP, CANCEL, IN_REVIEW
     }
 
     public String caseId;
@@ -142,7 +142,7 @@ public class Task extends IdData {
             result = Status.DONE;
 
         } else if ("exception".equals(status)) {
-            result = Status.EXCEPTION;
+            result = Status.WARNING;
 
         } else if ("stop".equals(status)) {
             result = Status.STOP;
@@ -160,28 +160,37 @@ public class Task extends IdData {
     public static String getTaskStatusString(final Context context, final Task item) {
         String r = "";
         Resources resources = context.getResources();
+
         switch (item.status) {
             case PENDING:
-                r = resources.getString(R.string.task_progress_in_schedule);
+                r = resources.getString(R.string.task_status_pending);
                 break;
-
             case UNCLAIMED:
-                r = resources.getString(R.string.task_progress_not_start);
+                r = resources.getString(R.string.task_status_unclaimed);
                 break;
-
             case PAUSE:
-                r = resources.getString(R.string.task_progress_pause);
+                r = resources.getString(R.string.task_status_pause);
                 break;
-
             case WIP:
-                r = resources.getString(R.string.task_progress_working);
+                r = resources.getString(R.string.task_status_wip);
                 break;
-
             case DONE:
                 if (item.endDate != null) {
                     r = Utils.timestamp2Date(item.endDate, Utils.DATE_FORMAT_MD) + " ";
                 }
-                r += resources.getString(R.string.task_progress_finish);
+                r += resources.getString(R.string.task_status_finished);
+                break;
+            case IN_REVIEW:
+                r = resources.getString(R.string.task_status_wip);
+                break;
+            case WARNING:
+                r = resources.getString(R.string.task_status_warning);
+                break;
+            case STOP:
+                r = resources.getString(R.string.task_status_stop);
+                break;
+            case CANCEL:
+                r = resources.getString(R.string.task_status_cancel);
                 break;
 
             default:

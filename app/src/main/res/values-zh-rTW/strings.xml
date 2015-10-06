@@ -5,15 +5,21 @@
     <string name="no_internet_connection">請檢查您的連線狀態，然後再試一次。</string>
     <string name="retry">重試</string>
 
+    <!-- Task status -->
+    <string name="task_status_unclaimed">尚未開始</string>
+    <string name="task_status_pending">已排程</string>
+    <string name="task_status_wip">正常工作中</string>
+    <string name="task_status_pause">暫停</string>
+    <string name="task_status_finished">已完成</string>
+    <string name="task_status_in_review">檢驗中</string>
+    <string name="task_status_warning">發生警訊</string>
+    <string name="task_status_stop">停止</string>
+    <string name="task_status_cancel">取消</string>
+
     <!-- Assign task -->
     <string name="task_case_progress_text">案件進度</string>
     <string name="task_case_participated_worker_text">參與員工</string>
     <string name="task_case_edit_text">修改案件</string>
-    <string name="task_progress_not_start">尚未開始</string>
-    <string name="task_progress_in_schedule">已排程</string>
-    <string name="task_progress_working">進行中</string>
-    <string name="task_progress_pause">暫停</string>
-    <string name="task_progress_finish">完成</string>
     <string name="task_card_no_equipment">無使用工具</string>
     <string name="task_card_no_worker">無員工</string>
     <string name="worker_action_start">全體動作</string>
