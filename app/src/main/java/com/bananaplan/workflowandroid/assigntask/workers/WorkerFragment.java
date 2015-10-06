@@ -96,6 +96,8 @@ public class WorkerFragment extends Fragment {
     }
 
     public void notifyDataSetChanged() {
+        if (mWorkerGridViewAdapter == null) return;
+
         mWorkerGridViewAdapter.notifyDataSetChanged();
     }
 }
