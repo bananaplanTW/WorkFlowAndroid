@@ -1,6 +1,10 @@
 package com.bananaplan.workflowandroid.data;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
@@ -12,6 +16,7 @@ import com.bananaplan.workflowandroid.data.worker.status.HistoryData;
 import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
 import com.bananaplan.workflowandroid.data.worker.status.RecordData;
 import com.bananaplan.workflowandroid.main.MainApplication;
+import com.bananaplan.workflowandroid.main.MinuteReceiver;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
@@ -44,6 +49,7 @@ public final class WorkingData {
     private static int sDataIdCount = -1;
 
     private Context mContext;
+    private BroadcastReceiver mMinuteReceiver;
 
     private HashMap<String, Manager> mManagersMap = new HashMap<>();
     private HashMap<String, Worker> mWorkersMap = new HashMap<>();
@@ -70,11 +76,23 @@ public final class WorkingData {
 
     private WorkingData(Context context) {
         mContext = context;
+        mMinuteReceiver = new MinuteReceiver();
+
         if (MainApplication.sUseTestData) {
             generateFakeData(); // +++ only for test case
         }
     }
 
+    public void registerMinuteReceiver(Context context) {
+        IntentFilter timeTickFilter = new IntentFilter(Intent.ACTION_TIME_TICK);
+        context.registerReceiver(mMinuteReceiver, timeTickFilter);
+        //Log.d(TAG, "Register MinuteReceiver");
+    }
+
+    public void unregisterMinuteReceiver(Context context) {
+        context.unregisterReceiver(mMinuteReceiver);
+        //Log.d(TAG, "Unregister MinuteReceiver");
+    }
 
     public void addCase(Case aCase) {
         if (aCase == null) return;

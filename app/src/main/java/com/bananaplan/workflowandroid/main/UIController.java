@@ -20,6 +20,7 @@ import com.bananaplan.workflowandroid.addcase.AddCaseFragment;
 import com.bananaplan.workflowandroid.addequipment.AddEquipmentFragment;
 import com.bananaplan.workflowandroid.addworker.AddWorkerFragment;
 import com.bananaplan.workflowandroid.assigntask.AssignTaskFragment;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.drawermenu.DrawerFragment;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.drawermenu.OnClickDrawerItemListener;
@@ -68,6 +69,14 @@ public class UIController implements OnClickDrawerItemListener {
 
     public void onCreate(Bundle savedInstanceState) {
         initialize();
+    }
+
+    public void onStart() {
+        WorkingData.getInstance(mMainActivity).registerMinuteReceiver(mMainActivity);
+    }
+
+    public void onStop() {
+        WorkingData.getInstance(mMainActivity).unregisterMinuteReceiver(mMainActivity);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

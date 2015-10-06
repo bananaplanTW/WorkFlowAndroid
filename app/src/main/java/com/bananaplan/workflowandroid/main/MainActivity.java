@@ -24,6 +24,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mUIController.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mUIController.onStop();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return mUIController.onOptionsItemSelected(item);
     }
