@@ -185,14 +185,8 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void assignTaskToWorker(Task task, Worker worker) {
         task.workerId = worker.id;
-
-        if (worker.hasWipTask()) {
-            worker.addScheduledTask(task);
-            task.status = Task.Status.PENDING;
-        } else {
-            worker.setWipTask(task);
-            task.status = Task.Status.WIP;
-        }
+        worker.addScheduledTask(task);
+        task.status = Task.Status.PENDING;
     }
 
     private void removeTaskFromCurrentWorker(Task dropTask) {
@@ -219,7 +213,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         boolean isWorkerHasTask = false;
 
         // Current task
-        if (Utils.isSameId(worker.getWipTask().id, task.id)) {
+        if (worker.getWipTask() != null && Utils.isSameId(worker.getWipTask().id, task.id)) {
             isWorkerHasTask = true;
         }
 
