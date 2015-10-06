@@ -94,4 +94,8 @@ public class WorkerFragment extends Fragment {
     public void setOnRefreshCaseListener(OnRefreshCaseListener listener) {
         mOnRefreshCaseListener = listener;
     }
+
+    public void notifyDataSetChanged() {
+        mWorkerGridViewAdapter.notifyDataSetChanged();
+    }
 }

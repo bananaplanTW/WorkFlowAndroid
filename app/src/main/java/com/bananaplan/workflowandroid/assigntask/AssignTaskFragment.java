@@ -23,6 +23,7 @@ import com.bananaplan.workflowandroid.assigntask.tasks.CaseCardDecoration;
 import com.bananaplan.workflowandroid.assigntask.tasks.CaseAdapter;
 import com.bananaplan.workflowandroid.assigntask.tasks.CaseOnTouchListener;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataTask;
+import com.bananaplan.workflowandroid.data.timeobserver.TimeObserver;
 import com.bananaplan.workflowandroid.utility.GridSpanSizeLookup;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.assigntask.workers.WorkerFragment;
@@ -46,7 +47,7 @@ import java.util.List;
  */
 public class AssignTaskFragment extends Fragment implements
         ViewPager.OnPageChangeListener, WorkerGridViewAdapter.OnRefreshCaseListener,
-        LoadingDataTask.OnFinishLoadingDataListener {
+        LoadingDataTask.OnFinishLoadingDataListener, TimeObserver {
 
     private static final String TAG = "AssignTaskFragment";
 
@@ -172,6 +173,18 @@ public class AssignTaskFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        WorkingData.getInstance(mContext).registerTimeObserver(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        WorkingData.getInstance(mContext).removeTimeObserver(this);
     }
 
     @Override
@@ -367,5 +380,14 @@ public class AssignTaskFragment extends Fragment implements
     @Override
     public void onFailLoadingData(boolean isFailCausedByInternet) {
 
+    }
+
+    @Override
+    public void updateTime() {
+        mCaseAdapter.notifyDataSetChanged();
+
+        for (WorkerFragment workerFragment : mWorkerPageList) {
+            workerFragment.notifyDataSetChanged();
+        }
     }
 }

@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
+import com.bananaplan.workflowandroid.data.timeobserver.TimeObserver;
+import com.bananaplan.workflowandroid.data.timeobserver.TimeSubject;
 import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
@@ -30,7 +32,7 @@ import java.util.List;
 /**
  * Created by Ben on 2015/7/18.
  */
-public final class WorkingData {
+public final class WorkingData implements TimeSubject {
 
     private static final String TAG = "WorkingData";
 
@@ -50,6 +52,7 @@ public final class WorkingData {
 
     private Context mContext;
     private BroadcastReceiver mMinuteReceiver;
+    private List<TimeObserver> mTimeObservers = new ArrayList<>();
 
     private HashMap<String, Manager> mManagersMap = new HashMap<>();
     private HashMap<String, Worker> mWorkersMap = new HashMap<>();
@@ -190,6 +193,9 @@ public final class WorkingData {
     }
 
 
+    public List<Task> getTasks() {
+        return new ArrayList<>(mTasksMap.values());
+    }
     public ArrayList<Manager> getManagers() {
         return new ArrayList<>(mManagersMap.values());
     }
@@ -273,6 +279,32 @@ public final class WorkingData {
     public void addRecordToTask(Task task, BaseData data) {
         if (task == null || data == null) return;
         task.records.add(data);
+    }
+
+
+    public void updateTime() {
+        notifyTimeObservers();
+    }
+
+
+    @Override
+    public void registerTimeObserver(TimeObserver o) {
+        mTimeObservers.add(o);
+    }
+
+    @Override
+    public void removeTimeObserver(TimeObserver o) {
+        int index = mTimeObservers.indexOf(o);
+        if (index >= 0) {
+            mTimeObservers.remove(index);
+        }
+    }
+
+    @Override
+    public void notifyTimeObservers() {
+        for (TimeObserver timeObserver : mTimeObservers) {
+            timeObserver.updateTime();
+        }
     }
 
 
