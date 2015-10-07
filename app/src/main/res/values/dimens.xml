@@ -1,5 +1,7 @@
 <resources>
 
+    <dimen name="refresh_action_view_padding">12dp</dimen>
+
     <dimen name="no_internet_connection_text_size">23dp</dimen>
     <dimen name="no_internet_connection_retry_button_text_size">20dp</dimen>
     <dimen name="no_internet_connection_retry_button_margin_top">20dp</dimen>

@@ -11,9 +11,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
@@ -119,8 +123,15 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
         MenuItem refreshItem = mOptionMenu.findItem(R.id.action_refresh);
 
         if (isRefresh) {
-            refreshItem.setActionView(R.layout.actionbar_progressbar);
+            ImageView refresh = (ImageView) LayoutInflater.from(mMainActivity).inflate(R.layout.refresh_action_view, null);
+            Animation rotation = AnimationUtils.loadAnimation(mMainActivity, R.anim.refresh_rotate);
+
+            rotation.setRepeatCount(Animation.INFINITE);
+            refresh.startAnimation(rotation);
+
+            refreshItem.setActionView(refresh);
         } else {
+            refreshItem.getActionView().clearAnimation();
             refreshItem.setActionView(null);
         }
     }
