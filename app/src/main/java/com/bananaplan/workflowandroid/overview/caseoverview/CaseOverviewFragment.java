@@ -210,8 +210,8 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
         if (!TextUtils.isEmpty(mSelectedCase.workerId)) {
             mTvCaseWorker.setText(WorkingData.getInstance(getActivity()).getWorkerById(aCase.workerId).name);
         }
-        mTvCaseHoursPassedBy.setText(aCase.getHoursPassedBy());
-        mTvCaseHoursUnfinished.setText(aCase.getHoursUnFinished());
+        mTvCaseHoursPassedBy.setText(Utils.millisecondsToTimeString(aCase.getSpentTime()));
+        mTvCaseHoursUnfinished.setText(Utils.millisecondsToTimeString(aCase.getUnfinishedTime()));
         mTvCaseHoursExpected.setText(aCase.getHoursExpected());
         mPbCaseSelected.setProgress(aCase.getFinishedPercent());
         mTvTaskItemCount.setText(String.valueOf(aCase.tasks.size()));

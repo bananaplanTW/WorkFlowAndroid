@@ -152,16 +152,6 @@ public class Case extends IdData {
     }
 
     // TODO: Calculate by taskitems
-    public String getHoursPassedBy() {
-        return "32 : 12"; // TODO
-    }
-
-    // TODO: Calculate by taskitems
-    public String getHoursUnFinished() {
-        return "12 : 12"; // TODO
-    }
-
-    // TODO: Calculate by taskitems
     public String getHoursExpected() {
         return "01 : 12"; // TODO
     }
