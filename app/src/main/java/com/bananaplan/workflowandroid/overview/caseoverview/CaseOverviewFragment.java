@@ -213,7 +213,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
         mTvCaseHoursPassedBy.setText(aCase.getHoursPassedBy());
         mTvCaseHoursUnfinished.setText(aCase.getHoursUnFinished());
         mTvCaseHoursExpected.setText(aCase.getHoursExpected());
-        mPbCaseSelected.setProgress(aCase.getFinishPercent());
+        mPbCaseSelected.setProgress(aCase.getFinishedPercent());
         mTvTaskItemCount.setText(String.valueOf(aCase.tasks.size()));
         mTvCaseProgress.setText(aCase.getFinishItemsCount() + "/" + aCase.tasks.size());
         mTvCaseFeedDate.setText(Utils.timestamp2Date(aCase.materialPurchasedDate, Utils.DATE_FORMAT_YMD));
@@ -321,7 +321,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
             int vendorColor;
             String statusText;
             int statusBgId;
-            if (aCase.getFinishPercent() == 100) {
+            if (aCase.getFinishedPercent() == 100) {
                 statusText = getResources().getString(R.string.case_finished);
                 statusBgId = R.drawable.bg_solid_textview_bg_gray;
                 caseNameColor = getResources().getColor(R.color.gray1);

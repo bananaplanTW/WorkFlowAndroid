@@ -147,9 +147,8 @@ public class Case extends IdData {
         return time - getSpentTime() < 0L ? 0L : time - getSpentTime();
     }
 
-    public int getFinishPercent() {
-        if (tasks.size() == 0) return 100;
-        return getFinishItemsCount() * 100 / tasks.size();
+    public int getFinishedPercent() {
+        return tasks.size() <= 0 ? 100 : getFinishItemsCount() * 100 / tasks.size();
     }
 
     // TODO: Calculate by taskitems

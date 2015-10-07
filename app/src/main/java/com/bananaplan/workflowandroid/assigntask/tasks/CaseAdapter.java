@@ -132,7 +132,7 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         int avatarPadding = mContext.getResources().
                 getDimensionPixelSize(R.dimen.task_case_information_participated_worker_avatar_padding);
 
-        holder.progressBar.setProgress(mSelectedCase.getFinishPercent());
+        holder.progressBar.setProgress(mSelectedCase.getFinishedPercent());
         holder.vendor.setText(WorkingData.getInstance(mContext).getVendorById(mSelectedCase.vendorId).name);
         holder.pic.setText(WorkingData.getInstance(mContext).getManagerById(mSelectedCase.managerId).name);
         holder.spentTime.setText(Utils.millisecondsToTimeString(mSelectedCase.getSpentTime()));
