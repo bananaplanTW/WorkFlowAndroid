@@ -6,7 +6,7 @@ package com.bananaplan.workflowandroid.data.worker.status;
 public class RecordData extends BaseData {
     public String reporter;
 
-    public String description;
+    public String description = "";
 
     public RecordData(BaseData.TYPE type) {
         super(type);
