@@ -40,6 +40,10 @@ public class RecordTypeInterpreter {
                 return "工作通過檢驗：";
             case "failReviewTask":
                 return "工作沒通過檢驗：";
+            case "createTaskException":
+                return "工作發生警訊：";
+            case "completeTaskException":
+                return "工作解除警訊：";
 
 
             default:

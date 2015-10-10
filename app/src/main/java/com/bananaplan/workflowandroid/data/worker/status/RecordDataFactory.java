@@ -34,6 +34,8 @@ public class RecordDataFactory {
             case "unloadTask":
             case "passReviewTask":
             case "failReviewTask":
+            case "createTaskException":
+            case "completeTaskException":
                 RecordData record2 = (RecordData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.RECORD);
                 record2.tag = type;
                 record2.time = new Date(recordJSON.getLong("createdAt"));
