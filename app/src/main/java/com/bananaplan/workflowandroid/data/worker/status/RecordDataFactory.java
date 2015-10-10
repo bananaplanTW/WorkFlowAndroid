@@ -22,11 +22,24 @@ public class RecordDataFactory {
             case "becomePending":
             case "becomeOff":
                 // [TODO] should have record builder
-                RecordData record = (RecordData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.RECORD);
-                record.tag = type;
-                record.time = new Date(recordJSON.getLong("createdAt"));
-                record.reporter = recordJSON.getString("ownerId");
-                return record;
+                RecordData record1 = (RecordData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.RECORD);
+                record1.tag = type;
+                record1.time = new Date(recordJSON.getLong("createdAt"));
+                record1.reporter = recordJSON.getString("ownerId");
+                return record1;
+            case "dispatchTask":
+            case "startTask":
+            case "suspendTask":
+            case "completeTask":
+            case "unloadTask":
+            case "passReviewTask":
+            case "failReviewTask":
+                RecordData record2 = (RecordData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.RECORD);
+                record2.tag = type;
+                record2.time = new Date(recordJSON.getLong("createdAt"));
+                record2.reporter = recordJSON.getString("ownerId");
+                record2.description = recordJSON.getString("taskName");
+                return record2;
             default:
                 return null;
         }

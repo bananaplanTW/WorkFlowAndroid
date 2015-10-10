@@ -541,9 +541,10 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             switch (data.type) {
                 case RECORD:
                     if (data instanceof RecordData) {
-                        worker = WorkingData.getInstance(getActivity()).getWorkerById(((RecordData) data).workerId);
+                        RecordData recordData = (RecordData) data;
+                        worker = WorkingData.getInstance(getActivity()).getWorkerById(recordData.workerId);
                         // [TODO] should use String resource to perform multiple languages.
-                        description = RecordTypeInterpreter.getTranslation(((RecordData) data).tag);
+                        description = RecordTypeInterpreter.getTranslation(recordData.tag) + recordData.description;
                         holder.avatar.setImageDrawable(worker.getAvator());
                         holder.name.setText(worker.name);
                         holder.description.setText(description);

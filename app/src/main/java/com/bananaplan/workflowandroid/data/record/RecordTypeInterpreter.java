@@ -24,8 +24,27 @@ public class RecordTypeInterpreter {
                 return "閒置中";
             case "becomeOff":
                 return "休假";
+
+
+            case "dispatchTask":
+                return "分派這項工作：";
+            case "startTask":
+                return "開始這項工作：";
+            case "suspendTask":
+                return "中斷這項工作：";
+            case "completeTask":
+                return "完成這項工作：";
+            case "unloadTask":
+                return "解除這項工作：";
+            case "passReviewTask":
+                return "工作通過檢驗：";
+            case "failReviewTask":
+                return "工作沒通過檢驗：";
+
+
             default:
                 return type;
         }
+
     }
 }
