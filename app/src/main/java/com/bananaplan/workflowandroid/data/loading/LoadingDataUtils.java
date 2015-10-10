@@ -179,7 +179,7 @@ public class LoadingDataUtils {
             e.printStackTrace();
         }
     }
-    public static JSONArray LoadRecordsByWorker(String workerId, int limit) {
+    public static JSONArray LoadActivitiesByWorker(String workerId, int limit) {
         try {
             HashMap<String, String> queries = new HashMap<>();
             queries.put("employeeId", workerId);
@@ -191,7 +191,7 @@ public class LoadingDataUtils {
                 return responseJSON.getJSONArray("result");
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Exception in LoadRecordsByWorker()");
+            Log.e(TAG, "Exception in LoadActivitiesByWorker()");
             e.printStackTrace();
         }
         return null;

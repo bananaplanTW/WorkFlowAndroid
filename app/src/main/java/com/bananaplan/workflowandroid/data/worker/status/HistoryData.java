@@ -9,6 +9,7 @@ public class HistoryData extends BaseData {
     }
     public STATUS status;
 
+    public String description = "";
     public HistoryData(BaseData.TYPE type) {
         super(type);
     }

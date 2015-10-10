@@ -1,9 +1,9 @@
-package com.bananaplan.workflowandroid.data.record;
+package com.bananaplan.workflowandroid.data.activity;
 
 /**
  * Created by daz on 10/10/15.
  */
-public class RecordTypeInterpreter {
+public class EmployeeActivityTypeInterpreter {
     public static String getTranslation(String type) {
         switch (type) {
             case "checkIn":
@@ -13,7 +13,7 @@ public class RecordTypeInterpreter {
             case "becomeWIP":
                 return "忙碌中";
             case "becomePause":
-                return "暫停中";
+                return "休息中";
             case "becomeResume":
                 return "復工";
             case "becomeOverwork":

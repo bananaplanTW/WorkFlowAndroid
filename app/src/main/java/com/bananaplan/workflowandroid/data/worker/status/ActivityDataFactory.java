@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by daz on 10/9/15.
  */
-public class RecordDataFactory {
+public class ActivityDataFactory {
     public static BaseData genData (JSONObject recordJSON) throws JSONException {
         String type = recordJSON.getString("type");
         switch (type) {
@@ -22,11 +22,10 @@ public class RecordDataFactory {
             case "becomePending":
             case "becomeOff":
                 // [TODO] should have record builder
-                RecordData record1 = (RecordData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.RECORD);
-                record1.tag = type;
-                record1.time = new Date(recordJSON.getLong("createdAt"));
-                record1.reporter = recordJSON.getString("ownerId");
-                return record1;
+                HistoryData attendance = (HistoryData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.HISTORY);
+                attendance.tag = type;
+                attendance.time = new Date(recordJSON.getLong("createdAt"));
+                return attendance;
             case "dispatchTask":
             case "startTask":
             case "suspendTask":
@@ -36,12 +35,11 @@ public class RecordDataFactory {
             case "failReviewTask":
             case "createTaskException":
             case "completeTaskException":
-                RecordData record2 = (RecordData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.RECORD);
-                record2.tag = type;
-                record2.time = new Date(recordJSON.getLong("createdAt"));
-                record2.reporter = recordJSON.getString("ownerId");
-                record2.description = recordJSON.getString("taskName");
-                return record2;
+                HistoryData task = (HistoryData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.HISTORY);
+                task.tag = type;
+                task.time = new Date(recordJSON.getLong("createdAt"));
+                task.description = recordJSON.getString("taskName");
+                return task;
             default:
                 return null;
         }

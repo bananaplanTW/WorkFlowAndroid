@@ -31,8 +31,8 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
-import com.bananaplan.workflowandroid.data.record.RecordDataStore;
-import com.bananaplan.workflowandroid.data.record.RecordTypeInterpreter;
+import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
+import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -408,11 +408,11 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         ArrayList<BaseData> records = new ArrayList<>();
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
-                RecordDataStore instance = RecordDataStore.getInstance(getContext());
-                if (instance.hasWorkerRecordsCacheWithWorkerId(worker.id)) {
-                    records = instance.getWorkerRecords(worker.id);
+                ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
+                if (instance.hasWorkerActivitiesCacheWithWorkerId(worker.id)) {
+                    records = instance.getWorkerActivities(worker.id);
                 } else {
-                    instance.loadWorkerRecords(worker.id, 15);
+                    instance.loadWorkerActivities(worker.id, 15);
                     instance.registerDataObserver(this);
                 }
                 break;
@@ -449,10 +449,10 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
      */
     @Override
     public void updateData() {
-        RecordDataStore instance = RecordDataStore.getInstance(getContext());
+        ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
         instance.removeDataObserver(this);
 
-        ArrayList<BaseData> records = instance.getWorkerRecords(mWorker.id);
+        ArrayList<BaseData> records = instance.getWorkerActivities(mWorker.id);
         if (records == null) {
             return;
         }
@@ -544,7 +544,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                         RecordData recordData = (RecordData) data;
                         worker = WorkingData.getInstance(getActivity()).getWorkerById(recordData.workerId);
                         // [TODO] should use String resource to perform multiple languages.
-                        description = RecordTypeInterpreter.getTranslation(recordData.tag) + recordData.description;
+                        description = EmployeeActivityTypeInterpreter.getTranslation(recordData.tag) + recordData.description;
                         holder.avatar.setImageDrawable(worker.getAvator());
                         holder.name.setText(worker.name);
                         holder.description.setText(description);
@@ -597,13 +597,15 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                     break;
                 case HISTORY:
                     if (data instanceof HistoryData) {
-                        worker = getSelectedWorker();
-                        holder.status.setText(worker.name + " " +
-                                (((HistoryData) data).status == HistoryData.STATUS.WORK ?
-                                        getResources().getString(R.string.worker_ov_tab_status_work) :
-                                        getResources().getString(R.string.worker_ov_tab_status_off_work)));
-                        holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
-                        statusVisibility = View.VISIBLE;
+                        HistoryData historyData = (HistoryData) data;
+                        worker = WorkingData.getInstance(getActivity()).getWorkerById(historyData.workerId);
+                        // [TODO] should use String resource to perform multiple languages.
+                        description = EmployeeActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
+                        holder.avatar.setImageDrawable(worker.getAvator());
+                        holder.name.setText(worker.name);
+                        holder.description.setText(description);
+                        nameVisibility = View.VISIBLE;
+                        descriptionVisibility = View.VISIBLE;
                     }
                     break;
             }
