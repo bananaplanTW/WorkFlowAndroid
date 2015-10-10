@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
@@ -532,6 +533,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             }
             BaseData data = getItem(position);
             Worker worker;
+            Manager manager;
             String description;
             int nameVisibility = View.GONE;
             int descriptionVisibility = View.GONE;
@@ -542,12 +544,11 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 case RECORD:
                     if (data instanceof RecordData) {
                         RecordData recordData = (RecordData) data;
-                        worker = WorkingData.getInstance(getActivity()).getWorkerById(recordData.workerId);
-                        // [TODO] should use String resource to perform multiple languages.
-                        description = EmployeeActivityTypeInterpreter.getTranslation(recordData.tag) + recordData.description;
-                        holder.avatar.setImageDrawable(worker.getAvator());
-                        holder.name.setText(worker.name);
-                        holder.description.setText(description);
+                        manager = WorkingData.getInstance(getActivity()).getManagerById(recordData.workerId);
+                        // [TODO] should use manager's avatar
+                        holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
+                        holder.name.setText(manager.name);
+                        holder.description.setText(recordData.description);
                         nameVisibility = View.VISIBLE;
                         descriptionVisibility = View.VISIBLE;
                     }

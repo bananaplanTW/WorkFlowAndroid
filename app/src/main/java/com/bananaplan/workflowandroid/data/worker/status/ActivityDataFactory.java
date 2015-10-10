@@ -40,6 +40,12 @@ public class ActivityDataFactory {
                 task.time = new Date(recordJSON.getLong("createdAt"));
                 task.description = recordJSON.getString("taskName");
                 return task;
+            case "comment":
+                RecordData comment = (RecordData) DataFactory.genData(recordJSON.getString("ownerId"), BaseData.TYPE.RECORD);
+                comment.tag = type;
+                comment.time = new Date(recordJSON.getLong("createdAt"));
+                comment.description = recordJSON.getString("content");
+                return comment;
             default:
                 return null;
         }
