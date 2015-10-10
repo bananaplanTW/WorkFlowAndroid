@@ -1,15 +1,29 @@
 package com.bananaplan.workflowandroid.data.worker.status;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+
+import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
+import com.bananaplan.workflowandroid.data.loading.LoadingDrawableAsyncTask;
+import com.bananaplan.workflowandroid.data.loading.LoadingPhotoDataCommand;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 /**
  * Created by daz on 10/9/15.
  */
 public class ActivityDataFactory {
-    public static BaseData genData (JSONObject recordJSON) throws JSONException {
+    public static BaseData genData (JSONObject recordJSON, Context context) throws JSONException {
         String type = recordJSON.getString("type");
         switch (type) {
             case "checkIn":
@@ -46,6 +60,34 @@ public class ActivityDataFactory {
                 comment.time = new Date(recordJSON.getLong("createdAt"));
                 comment.description = recordJSON.getString("content");
                 return comment;
+            case "attachment":
+                if (recordJSON.getString("contentType").equals("image")) {
+                    PhotoData photoData = (PhotoData) DataFactory.genData(recordJSON.getString("ownerId"), BaseData.TYPE.PHOTO);
+                    photoData.tag = type;
+                    photoData.time = new Date(recordJSON.getLong("createdAt"));
+                    photoData.fileName = recordJSON.getString("name");
+
+                    Uri.Builder thumbBuilder = Uri.parse(LoadingDataUtils.WorkingDataUrl.BASE_URL).buildUpon();
+                    thumbBuilder.path(recordJSON.getString("thumbUrl"));
+                    Uri thumbUri = thumbBuilder.build();
+                    LoadingPhotoDataCommand loadingPhotoDataCommand = new LoadingPhotoDataCommand(context, thumbUri, photoData);
+                    loadingPhotoDataCommand.execute();
+
+                    Uri.Builder imageBuilder = Uri.parse(LoadingDataUtils.WorkingDataUrl.BASE_URL).buildUpon();
+                    imageBuilder.path(recordJSON.getString("imageUrl"));
+                    photoData.filePath = imageBuilder.build();
+                    return photoData;
+                } else if (recordJSON.getString("contentType").equals("file")) {
+                    FileData fileData = (FileData) DataFactory.genData(recordJSON.getString("ownerId"), BaseData.TYPE.FILE);
+                    fileData.tag = type;
+                    fileData.time = new Date(recordJSON.getLong("createdAt"));
+                    fileData.fileName = recordJSON.getString("name");
+
+                    Uri.Builder builder = Uri.parse(LoadingDataUtils.WorkingDataUrl.BASE_URL).buildUpon();
+                    builder.path(recordJSON.getString("fileUrl"));
+                    fileData.filePath = builder.build();
+                    return fileData;
+                }
             default:
                 return null;
         }
