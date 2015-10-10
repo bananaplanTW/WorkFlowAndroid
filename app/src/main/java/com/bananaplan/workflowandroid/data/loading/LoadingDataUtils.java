@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -32,7 +33,6 @@ import java.util.List;
 public class LoadingDataUtils {
 
     private static final String TAG = "LoadDataUtils";
-
     private static final class WorkingDataUrl {
 //        public static final String WORKERS = "http://bp-workflow.cloudapp.net:3000/api/employees";
 //        public static final String CASES = "http://bp-workflow.cloudapp.net:3000/api/cases";
@@ -46,6 +46,11 @@ public class LoadingDataUtils {
         public static final String TASKS_BY_CASE = "http://128.199.198.169:3000/api/tasks?caseId=";
         public static final String TASKS_BY_WORKER = "http://128.199.198.169:3000/api/employee/tasks?employeeId=";
         public static final String WORKERS_BY_FACTORY = "http://128.199.198.169:3000/api/group/employees?groupId=";
+
+        public static final String BASE_URL = "http://128.199.198.169:3000";
+        public static final class EndPoints {
+            public static final String WORKER_RECORDS = "/api/employee/activities";
+        }
     }
 
     /**
@@ -173,6 +178,23 @@ public class LoadingDataUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public static JSONArray LoadRecordsByWorker(String workerId, int limit) {
+        try {
+            HashMap<String, String> queries = new HashMap<>();
+            queries.put("employeeId", workerId);
+            queries.put("limit", "" + limit);
+            String urlString = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.WORKER_RECORDS, queries);
+            String responseJSONString = RestfulUtils.getJsonStringFromUrl(urlString);
+            JSONObject responseJSON = new JSONObject(responseJSONString);
+            if (responseJSON.getString("status").equals("success")) {
+                return responseJSON.getJSONArray("result");
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in LoadRecordsByWorker()");
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

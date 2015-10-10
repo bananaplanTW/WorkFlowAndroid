@@ -30,6 +30,9 @@ import android.widget.Toast;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
+import com.bananaplan.workflowandroid.data.record.RecordDataStore;
+import com.bananaplan.workflowandroid.data.record.RecordTypeInterpreter;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -55,9 +58,10 @@ import java.util.Date;
  * Created by Ben on 2015/8/14.
  */
 public class StatusFragment extends OvTabFragmentBase implements View.OnClickListener,
-        OvTabFragmentBase.OvCallBack {
+        OvTabFragmentBase.OvCallBack, DataObserver {
 
     private static final ArrayList<TabInfo> mTabInfos = new ArrayList<>(5);
+
     private static class TAB_TAG {
         private final static String ALL = "worker_status_tab_tag_all";
         private final static String RECORD = "worker_status_tab_tag_record";
@@ -75,6 +79,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private static final int REQUEST_IMAGE_CAPTURE = 10001;
     private static final int REQUEST_PICK_FILE = 10002;
 
+    private Worker mWorker;
     private EditText mRecordEditText;
     private TabHost mTabHost;
     private TextView mScore;
@@ -85,7 +90,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private int mContentShow;
 
     static {
-        mTabInfos.add(new TabInfo(BaseData.TYPE.ALL.ordinal(), TAB_TAG.ALL, R.id.tab_all, R.id.worker_status_list));
+        //mTabInfos.add(new TabInfo(BaseData.TYPE.ALL.ordinal(), TAB_TAG.ALL, R.id.tab_all, R.id.worker_status_list));
         mTabInfos.add(new TabInfo(BaseData.TYPE.RECORD.ordinal(), TAB_TAG.RECORD, R.id.tab_record, R.id.worker_status_list));
         mTabInfos.add(new TabInfo(BaseData.TYPE.FILE.ordinal(), TAB_TAG.FILE, R.id.tab_file, R.id.worker_status_list));
         mTabInfos.add(new TabInfo(BaseData.TYPE.PHOTO.ordinal(), TAB_TAG.PHOTO, R.id.tab_photo, R.id.worker_status_list));
@@ -116,11 +121,13 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String from = getArguments() != null ? getArguments().getString(FROM) : "";
+
         if (from.equals(WorkerOverviewFragment.class.getSimpleName())) {
             mContentShow = CONTENT_SHOW.WORKER_STATUS;
         } else if (from.equals(DetailedWorkerActivity.class.getSimpleName())) {
             mContentShow = CONTENT_SHOW.TASK_STATUS;
         }
+
         mRecordEditText = (EditText) getActivity().findViewById(R.id.et_record);
         getActivity().findViewById(R.id.upload).setOnClickListener(this);
         getActivity().findViewById(R.id.record).setOnClickListener(this);
@@ -394,11 +401,20 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     public void onItemSelected(Object item) {
         Worker worker = (Worker) item;
         if (worker == null) return;
+
+        mWorker = worker;
+
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
-        ArrayList<BaseData> records = null;
+        ArrayList<BaseData> records = new ArrayList<>();
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
-                records = new ArrayList<>(worker.records);
+                RecordDataStore instance = RecordDataStore.getInstance(getContext());
+                if (instance.hasWorkerRecordsCacheWithWorkerId(worker.id)) {
+                    records = instance.getWorkerRecords(worker.id);
+                } else {
+                    instance.loadWorkerRecords(worker.id, 15);
+                    instance.registerDataObserver(this);
+                }
                 break;
             case CONTENT_SHOW.TASK_STATUS:
                 if (worker.getWipTask() != null) {
@@ -427,6 +443,35 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         mAdapter.notifyDataSetChanged();
         onTabSelected(R.id.tab_all);
     }
+
+    /**
+     * will update data when the record data has been fetch
+     */
+    @Override
+    public void updateData() {
+        RecordDataStore instance = RecordDataStore.getInstance(getContext());
+        instance.removeDataObserver(this);
+
+        ArrayList<BaseData> records = instance.getWorkerRecords(mWorker.id);
+        if (records == null) {
+            return;
+        }
+
+        // [TODO] should move into a single function
+        if (mAdapter == null) {
+            mAdapter = new DataAdapter(records);
+            mListView.setAdapter(mAdapter);
+            if (mListView.getVisibility() != View.VISIBLE) {
+                mListView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            mAdapter.clear();
+            mAdapter.addAll(records);
+        }
+        mAdapter.notifyDataSetChanged();
+        onTabSelected(R.id.tab_all);
+    }
+
 
     @Override
     public Object getCallBack() {
@@ -487,6 +532,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             }
             BaseData data = getItem(position);
             Worker worker;
+            String description;
             int nameVisibility = View.GONE;
             int descriptionVisibility = View.GONE;
             int statusVisibility = View.GONE;
@@ -495,10 +541,12 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             switch (data.type) {
                 case RECORD:
                     if (data instanceof RecordData) {
-                        worker = WorkingData.getInstance(getActivity()).getWorkerById(((RecordData) data).reporter);
+                        worker = WorkingData.getInstance(getActivity()).getWorkerById(((RecordData) data).workerId);
+                        // [TODO] should use String resource to perform multiple languages.
+                        description = RecordTypeInterpreter.getTranslation(((RecordData) data).tag);
                         holder.avatar.setImageDrawable(worker.getAvator());
                         holder.name.setText(worker.name);
-                        holder.description.setText(((RecordData) data).description);
+                        holder.description.setText(description);
                         nameVisibility = View.VISIBLE;
                         descriptionVisibility = View.VISIBLE;
                     }
@@ -578,8 +626,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 FilterResults result = new FilterResults();
                 ArrayList<BaseData> filterResult = new ArrayList<>();
                 for (BaseData data : mOrigData) {
-                    if (mTabHost.getCurrentTab() == data.type.ordinal() ||
-                            mTabHost.getCurrentTab() == BaseData.TYPE.ALL.ordinal()) {
+                    if (mTabHost.getCurrentTab() == data.type.ordinal()) {
                         filterResult.add(data);
                     }
                 }

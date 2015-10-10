@@ -10,8 +10,9 @@ import java.util.Date;
 public class BaseData {
 
     public enum TYPE {
-        ALL, RECORD, FILE, PHOTO, HISTORY
+        RECORD, FILE, PHOTO, HISTORY
     }
+
 
     public long id;
     public String workerId;
@@ -19,6 +20,7 @@ public class BaseData {
     public Drawable avatar;
     public Date time;
     public TYPE type;
+    public String tag;
 
     public BaseData() {}
 

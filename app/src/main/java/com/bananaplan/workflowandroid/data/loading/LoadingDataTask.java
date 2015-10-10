@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2015/10/1.
  */
 public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
-
+    // [TODO] should move out to be a identical interface from here
     public interface OnFinishLoadingDataListener {
         void onFinishLoadingData();
         void onFailLoadingData(boolean isFailCausedByInternet);
