@@ -86,7 +86,7 @@ public class ActivityDataStore implements DataSubject, LoadingWorkerActivitiesAs
 
 
     /**
-     * OnFinishLoadingData Callbacks
+     * LoadingWorkerActivitiesAsyncTask.OnFinishLoadingData Callbacks
      */
     @Override
     public void onFinishLoadingData(String workerId) {
@@ -142,7 +142,7 @@ public class ActivityDataStore implements DataSubject, LoadingWorkerActivitiesAs
         try {
             for (int i = 0; i < length; i++) {
                 JSONObject activity = activities.getJSONObject(i);
-                BaseData activityData = ActivityDataFactory.genData(activity);
+                BaseData activityData = ActivityDataFactory.genData(activity, mContext);
                 if (activityData != null) {
                     parsedActivities.add(activityData);
                 }

@@ -33,7 +33,7 @@ import java.util.List;
 public class LoadingDataUtils {
 
     private static final String TAG = "LoadDataUtils";
-    private static final class WorkingDataUrl {
+    public static final class WorkingDataUrl {
 //        public static final String WORKERS = "http://bp-workflow.cloudapp.net:3000/api/employees";
 //        public static final String CASES = "http://bp-workflow.cloudapp.net:3000/api/cases";
 //        public static final String FACTORIES = "http://bp-workflow.cloudapp.net:3000/api/groups";
@@ -49,7 +49,7 @@ public class LoadingDataUtils {
 
         public static final String BASE_URL = "http://128.199.198.169:3000";
         public static final class EndPoints {
-            public static final String WORKER_RECORDS = "/api/employee/activities";
+            public static final String WORKER_ACTIVITIES = "/api/employee/activities";
         }
     }
 
@@ -184,7 +184,7 @@ public class LoadingDataUtils {
             HashMap<String, String> queries = new HashMap<>();
             queries.put("employeeId", workerId);
             queries.put("limit", "" + limit);
-            String urlString = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.WORKER_RECORDS, queries);
+            String urlString = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.WORKER_ACTIVITIES, queries);
             String responseJSONString = RestfulUtils.getJsonStringFromUrl(urlString);
             JSONObject responseJSON = new JSONObject(responseJSONString);
             if (responseJSON.getString("status").equals("success")) {
