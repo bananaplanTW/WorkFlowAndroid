@@ -3,6 +3,7 @@ package com.bananaplan.workflowandroid.data.worker.status;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.loading.LoadingDrawableAsyncTask;
@@ -38,6 +39,7 @@ public class ActivityDataFactory {
                 // [TODO] should have record builder
                 HistoryData attendance = (HistoryData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.HISTORY);
                 attendance.tag = type;
+                attendance.category = BaseData.CATEGORY.WORKER;
                 attendance.time = new Date(recordJSON.getLong("createdAt"));
                 return attendance;
             case "dispatchTask":
@@ -51,6 +53,7 @@ public class ActivityDataFactory {
             case "completeTaskException":
                 HistoryData task = (HistoryData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.HISTORY);
                 task.tag = type;
+                task.category = BaseData.CATEGORY.WORKER;
                 task.time = new Date(recordJSON.getLong("createdAt"));
                 task.description = recordJSON.getString("taskName");
                 return task;
@@ -88,6 +91,36 @@ public class ActivityDataFactory {
                     fileData.filePath = builder.build();
                     return fileData;
                 }
+
+
+                // Task specific activities
+            case "dispatch":
+                HistoryData dispatchTask = (HistoryData) DataFactory.genData(recordJSON.getString("ownerId"), BaseData.TYPE.HISTORY);
+                dispatchTask.tag = type;
+                dispatchTask.category = BaseData.CATEGORY.TASK;
+                dispatchTask.time = new Date(recordJSON.getLong("createdAt"));
+                dispatchTask.description = recordJSON.getString("employeeName");
+                return dispatchTask;
+            case "start":
+            case "pause":
+            case "resume":
+            case "suspend":
+            case "complete":
+            case "fail":
+            case "pass":
+                HistoryData taskStatus = (HistoryData) DataFactory.genData(recordJSON.getString("ownerId"), BaseData.TYPE.HISTORY);
+                taskStatus.tag = type;
+                taskStatus.category = BaseData.CATEGORY.TASK;
+                taskStatus.time = new Date(recordJSON.getLong("createdAt"));
+                return taskStatus;
+            case "create_exception":
+            case "complete_exception":
+                HistoryData taskException = (HistoryData) DataFactory.genData(recordJSON.getString("ownerId"), BaseData.TYPE.HISTORY);
+                taskException.tag = type;
+                taskException.category = BaseData.CATEGORY.TASK;
+                taskException.time = new Date(recordJSON.getLong("createdAt"));
+                taskException.description = recordJSON.getString("exceptionName");
+                return taskException;
             default:
                 return null;
         }

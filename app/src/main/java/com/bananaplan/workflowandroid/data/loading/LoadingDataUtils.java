@@ -50,6 +50,7 @@ public class LoadingDataUtils {
         public static final String BASE_URL = "http://128.199.198.169:3000";
         public static final class EndPoints {
             public static final String WORKER_ACTIVITIES = "/api/employee/activities";
+            public static final String TASK_ACTIVITIES = "/api/task/activities";
         }
     }
 

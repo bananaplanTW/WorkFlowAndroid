@@ -15,15 +15,15 @@ import java.util.HashMap;
 /**
  * Created by daz on 10/11/15.
  */
-public class LoadingWorkerActivitiesStrategy implements ILoadingActivitiesStrategy {
-    private static final String TAG = LoadingWorkerActivitiesStrategy.class.toString();
+public class LoadingTaskActivitiesStrategy implements ILoadingActivitiesStrategy {
+    private static final String TAG = LoadingTaskActivitiesStrategy.class.toString();
 
-    private String mWorkerId;
+    private String mTaskId;
     private int mLimit;
-    private ActivityCategory activityCategory = ActivityCategory.WORKER;
+    private ActivityCategory activityCategory = ActivityCategory.TASK;
 
-    public LoadingWorkerActivitiesStrategy(String workerId, int limit) {
-        mWorkerId = workerId;
+    public LoadingTaskActivitiesStrategy(String taskId, int limit) {
+        mTaskId = taskId;
         mLimit = limit;
     }
 
@@ -31,9 +31,9 @@ public class LoadingWorkerActivitiesStrategy implements ILoadingActivitiesStrate
     public JSONArray load() {
         try {
             HashMap<String, String> queries = new HashMap<>();
-            queries.put("employeeId", mWorkerId);
+            queries.put("taskId", mTaskId);
             queries.put("limit", "" + mLimit);
-            String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.WORKER_ACTIVITIES, queries);
+            String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.TASK_ACTIVITIES, queries);
             String responseJSONString = RestfulUtils.getJsonStringFromUrl(urlString);
             JSONObject responseJSON = new JSONObject(responseJSONString);
             if (responseJSON.getString("status").equals("success")) {
@@ -45,6 +45,7 @@ public class LoadingWorkerActivitiesStrategy implements ILoadingActivitiesStrate
         }
         return null;
     }
+
     @Override
     public ActivityCategory getCategory() {
         return activityCategory;

@@ -6,6 +6,7 @@ import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.dataobserver.DataSubject;
 import com.bananaplan.workflowandroid.data.loading.LoadingActivitiesAsyncTask;
 import com.bananaplan.workflowandroid.data.loading.loadingactivities.ILoadingActivitiesStrategy;
+import com.bananaplan.workflowandroid.data.loading.loadingactivities.LoadingTaskActivitiesStrategy;
 import com.bananaplan.workflowandroid.data.loading.loadingactivities.LoadingWorkerActivitiesStrategy;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.ActivityDataFactory;
@@ -59,7 +60,7 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
         if (!loadingWorkerActivitiesAsyncTaskHashMap.containsKey(workerId)) {
             synchronized (ActivityDataStore.class) {
                 if (!loadingWorkerActivitiesAsyncTaskHashMap.containsKey(workerId)) {
-                    LoadingWorkerActivitiesStrategy loadingWorkerActivitiesStrategy = new LoadingWorkerActivitiesStrategy(workerId, 15);
+                    LoadingWorkerActivitiesStrategy loadingWorkerActivitiesStrategy = new LoadingWorkerActivitiesStrategy(workerId, limit);
                     LoadingActivitiesAsyncTask loadingWorkerActivitiesTask = new LoadingActivitiesAsyncTask(mContext, workerId, this, loadingWorkerActivitiesStrategy);
                     loadingWorkerActivitiesTask.execute();
                     loadingWorkerActivitiesAsyncTaskHashMap.put(workerId, loadingWorkerActivitiesTask);
@@ -73,27 +74,6 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
     public boolean hasWorkerActivitiesCacheWithWorkerId(String workerId) {
         return mWorkerActivitiesCache.get(workerId) != null;
     }
-
-
-//    public void loadTaskActivities(String taskId, int limit) {
-//        if (!loadingWorkerActivitiesAsyncTaskHashMap.containsKey(taskId)) {
-//            synchronized (ActivityDataStore.class) {
-//                if (!loadingWorkerActivitiesAsyncTaskHashMap.containsKey(taskId)) {
-//                    LoadingActivitiesAsyncTask loadingWorkerActivitiesTask = new LoadingActivitiesAsyncTask(mContext, workerId, limit, this);
-//                    loadingWorkerActivitiesTask.execute();
-//                    loadingWorkerActivitiesAsyncTaskHashMap.put(taskId, loadingWorkerActivitiesTask);
-//                }
-//            }
-//        }
-//    }
-//    public ArrayList<BaseData> getTaskActivities(String taskId) {
-//        return mWorkerActivitiesCache.get(taskId);
-//    }
-//    public boolean hasTaskActivitiesCacheWithTaskId(String taskId) {
-//        return mWorkerActivitiesCache.get(taskId) != null;
-//    }
-
-
     private void removeLoadingWorkerActivitiesAsyncTaskFromHashMap(String workerId) {
         if (loadingWorkerActivitiesAsyncTaskHashMap.containsKey(workerId)) {
             synchronized (ActivityDataStore.class) {
@@ -103,12 +83,54 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
             }
         }
     }
-    private void putActivityDataArrayListToCache(String workerId, ArrayList<BaseData> activityDataArrayList) {
+    private void putWorkerActivityDataArrayListToCache(String workerId, ArrayList<BaseData> activityDataArrayList) {
         synchronized (ActivityDataStore.class) {
             if (mWorkerActivitiesCache.containsKey(workerId)) {
                 mWorkerActivitiesCache.remove(workerId);
             }
             mWorkerActivitiesCache.put(workerId, activityDataArrayList);
+        }
+    }
+
+
+    /**
+     * load task activities
+     * @param taskId
+     * @param limit
+     */
+    public void loadTaskActivities(String taskId, int limit) {
+        if (!loadingTaskActivitiesAsyncTaskHashMap.containsKey(taskId)) {
+            synchronized (ActivityDataStore.class) {
+                if (!loadingTaskActivitiesAsyncTaskHashMap.containsKey(taskId)) {
+                    LoadingTaskActivitiesStrategy loadingTaskActivitiesStrategy = new LoadingTaskActivitiesStrategy(taskId, limit);
+                    LoadingActivitiesAsyncTask loadingWorkerActivitiesTask = new LoadingActivitiesAsyncTask(mContext, taskId, this, loadingTaskActivitiesStrategy);
+                    loadingWorkerActivitiesTask.execute();
+                    loadingTaskActivitiesAsyncTaskHashMap.put(taskId, loadingWorkerActivitiesTask);
+                }
+            }
+        }
+    }
+    public ArrayList<BaseData> getTaskActivities(String taskId) {
+        return mTaskActivityesCache.get(taskId);
+    }
+    public boolean hasTaskActivitiesCacheWithTaskId(String taskId) {
+        return mTaskActivityesCache.get(taskId) != null;
+    }
+    private void removeLoadingTaskActivitiesAsyncTaskFromHashMap(String taskId) {
+        if (loadingTaskActivitiesAsyncTaskHashMap.containsKey(taskId)) {
+            synchronized (ActivityDataStore.class) {
+                if (loadingTaskActivitiesAsyncTaskHashMap.containsKey(taskId)) {
+                    loadingTaskActivitiesAsyncTaskHashMap.remove(taskId);
+                }
+            }
+        }
+    }
+    private void putTaskActivityDataArrayListToCache(String taskId, ArrayList<BaseData> activityDataArrayList) {
+        synchronized (ActivityDataStore.class) {
+            if (mTaskActivityesCache.containsKey(taskId)) {
+                mTaskActivityesCache.remove(taskId);
+            }
+            mTaskActivityesCache.put(taskId, activityDataArrayList);
         }
     }
 
@@ -120,19 +142,27 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
     public void onFinishLoadingData(String id, ILoadingActivitiesStrategy.ActivityCategory activityCategory, JSONArray activities) {
         switch (activityCategory) {
             case WORKER:
-                LoadingActivitiesAsyncTask loadingWorkerActivitiesTask = loadingWorkerActivitiesAsyncTaskHashMap.get(id);
-                if (loadingWorkerActivitiesTask != null) {
-                    if (activities != null) {
-                        ArrayList<BaseData> recordDataArrayList = parseWorkerActivityJSONArray(activities);
-                        if (recordDataArrayList != null) {
-                            putActivityDataArrayListToCache(id, recordDataArrayList);
-                            notifyDataObservers();
-                        }
+                removeLoadingWorkerActivitiesAsyncTaskFromHashMap(id);
+                if (activities != null) {
+                    ArrayList<BaseData> activityDataArrayList = parseWorkerActivityJSONArray(activities);
+                    if (activityDataArrayList != null) {
+                        putWorkerActivityDataArrayListToCache(id, activityDataArrayList);
+                        notifyDataObservers();
                     }
-                    removeLoadingWorkerActivitiesAsyncTaskFromHashMap(id);
+                }
+                break;
+            case TASK:
+                removeLoadingTaskActivitiesAsyncTaskFromHashMap(id);
+                if (activities != null) {
+                    ArrayList<BaseData> activityDataArrayList = parseTaskActivityJSONArray(activities);
+                    if (activityDataArrayList != null) {
+                        putTaskActivityDataArrayListToCache(id, activityDataArrayList);
+                        notifyDataObservers();
+                    }
                 }
                 break;
         }
+
     }
     @Override
     public void onFailLoadingData(boolean isFailCausedByInternet) {
@@ -166,6 +196,25 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
 
 
     private ArrayList<BaseData> parseWorkerActivityJSONArray(JSONArray activities) {
+        ArrayList<BaseData> parsedActivities = new ArrayList<>();
+
+        int length = activities.length();
+
+        try {
+            for (int i = 0; i < length; i++) {
+                JSONObject activity = activities.getJSONObject(i);
+                BaseData activityData = ActivityDataFactory.genData(activity, mContext);
+                if (activityData != null) {
+                    parsedActivities.add(activityData);
+                }
+            }
+            return parsedActivities;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private ArrayList<BaseData> parseTaskActivityJSONArray(JSONArray activities) {
         ArrayList<BaseData> parsedActivities = new ArrayList<>();
 
         int length = activities.length();
