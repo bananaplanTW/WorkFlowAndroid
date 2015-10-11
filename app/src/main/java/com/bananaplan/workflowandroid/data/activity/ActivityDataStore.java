@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.dataobserver.DataSubject;
-import com.bananaplan.workflowandroid.data.loading.LoadingWorkerActivitiesAsyncTask;
+import com.bananaplan.workflowandroid.data.loading.LoadingActivitiesAsyncTask;
+import com.bananaplan.workflowandroid.data.loading.loadingactivities.ILoadingActivitiesStrategy;
+import com.bananaplan.workflowandroid.data.loading.loadingactivities.LoadingWorkerActivitiesStrategy;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.ActivityDataFactory;
 
@@ -19,10 +21,11 @@ import java.util.List;
 /**
  * Created by daz on 10/9/15.
  */
-public class ActivityDataStore implements DataSubject, LoadingWorkerActivitiesAsyncTask.OnFinishLoadingDataListener {
+public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTask.OnFinishLoadingDataListener {
 
     private Context mContext;
-    private HashMap<String, LoadingWorkerActivitiesAsyncTask> loadingWorkerActivitiesAsyncTaskHashMap = new HashMap<>();
+    private HashMap<String, LoadingActivitiesAsyncTask> loadingWorkerActivitiesAsyncTaskHashMap = new HashMap<>();
+    private HashMap<String, LoadingActivitiesAsyncTask> loadingTaskActivitiesAsyncTaskHashMap = new HashMap<>();
 
     private List<DataObserver> mDataObservers = new ArrayList<>();
 
@@ -47,11 +50,17 @@ public class ActivityDataStore implements DataSubject, LoadingWorkerActivitiesAs
     }
 
 
+    /**
+     * Load worker activities
+     * @param workerId
+     * @param limit
+     */
     public void loadWorkerActivities(String workerId, int limit) {
         if (!loadingWorkerActivitiesAsyncTaskHashMap.containsKey(workerId)) {
             synchronized (ActivityDataStore.class) {
                 if (!loadingWorkerActivitiesAsyncTaskHashMap.containsKey(workerId)) {
-                    LoadingWorkerActivitiesAsyncTask loadingWorkerActivitiesTask = new LoadingWorkerActivitiesAsyncTask(mContext, workerId, limit, this);
+                    LoadingWorkerActivitiesStrategy loadingWorkerActivitiesStrategy = new LoadingWorkerActivitiesStrategy(workerId, 15);
+                    LoadingActivitiesAsyncTask loadingWorkerActivitiesTask = new LoadingActivitiesAsyncTask(mContext, workerId, this, loadingWorkerActivitiesStrategy);
                     loadingWorkerActivitiesTask.execute();
                     loadingWorkerActivitiesAsyncTaskHashMap.put(workerId, loadingWorkerActivitiesTask);
                 }
@@ -64,6 +73,25 @@ public class ActivityDataStore implements DataSubject, LoadingWorkerActivitiesAs
     public boolean hasWorkerActivitiesCacheWithWorkerId(String workerId) {
         return mWorkerActivitiesCache.get(workerId) != null;
     }
+
+
+//    public void loadTaskActivities(String taskId, int limit) {
+//        if (!loadingWorkerActivitiesAsyncTaskHashMap.containsKey(taskId)) {
+//            synchronized (ActivityDataStore.class) {
+//                if (!loadingWorkerActivitiesAsyncTaskHashMap.containsKey(taskId)) {
+//                    LoadingActivitiesAsyncTask loadingWorkerActivitiesTask = new LoadingActivitiesAsyncTask(mContext, workerId, limit, this);
+//                    loadingWorkerActivitiesTask.execute();
+//                    loadingWorkerActivitiesAsyncTaskHashMap.put(taskId, loadingWorkerActivitiesTask);
+//                }
+//            }
+//        }
+//    }
+//    public ArrayList<BaseData> getTaskActivities(String taskId) {
+//        return mWorkerActivitiesCache.get(taskId);
+//    }
+//    public boolean hasTaskActivitiesCacheWithTaskId(String taskId) {
+//        return mWorkerActivitiesCache.get(taskId) != null;
+//    }
 
 
     private void removeLoadingWorkerActivitiesAsyncTaskFromHashMap(String workerId) {
@@ -89,18 +117,21 @@ public class ActivityDataStore implements DataSubject, LoadingWorkerActivitiesAs
      * LoadingWorkerActivitiesAsyncTask.OnFinishLoadingData Callbacks
      */
     @Override
-    public void onFinishLoadingData(String workerId) {
-        LoadingWorkerActivitiesAsyncTask loadingWorkerActivitiesTask = loadingWorkerActivitiesAsyncTaskHashMap.get(workerId);
-        if (loadingWorkerActivitiesTask != null) {
-            JSONArray recordJSONArray = loadingWorkerActivitiesTask.getResult();
-            if (recordJSONArray != null) {
-                ArrayList<BaseData> recordDataArrayList = parseWorkerActivityJSONArray(recordJSONArray);
-                if (recordDataArrayList != null) {
-                    putActivityDataArrayListToCache(workerId, recordDataArrayList);
-                    notifyDataObservers();
+    public void onFinishLoadingData(String id, ILoadingActivitiesStrategy.ActivityCategory activityCategory, JSONArray activities) {
+        switch (activityCategory) {
+            case WORKER:
+                LoadingActivitiesAsyncTask loadingWorkerActivitiesTask = loadingWorkerActivitiesAsyncTaskHashMap.get(id);
+                if (loadingWorkerActivitiesTask != null) {
+                    if (activities != null) {
+                        ArrayList<BaseData> recordDataArrayList = parseWorkerActivityJSONArray(activities);
+                        if (recordDataArrayList != null) {
+                            putActivityDataArrayListToCache(id, recordDataArrayList);
+                            notifyDataObservers();
+                        }
+                    }
+                    removeLoadingWorkerActivitiesAsyncTaskFromHashMap(id);
                 }
-            }
-            removeLoadingWorkerActivitiesAsyncTaskFromHashMap(workerId);
+                break;
         }
     }
     @Override

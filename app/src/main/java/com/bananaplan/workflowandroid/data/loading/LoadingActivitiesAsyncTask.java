@@ -3,31 +3,34 @@ package com.bananaplan.workflowandroid.data.loading;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.bananaplan.workflowandroid.data.loading.loadingactivities.ILoadingActivitiesStrategy;
 import com.bananaplan.workflowandroid.main.MainApplication;
 
 import org.json.JSONArray;
 
+import java.util.concurrent.Callable;
+
 /**
  * Created by daz on 10/10/15.
  */
-public class LoadingWorkerActivitiesAsyncTask extends AsyncTask<Void, Void, JSONArray> {
+public class LoadingActivitiesAsyncTask extends AsyncTask<Void, Void, JSONArray> {
 
     public interface OnFinishLoadingDataListener {
-        void onFinishLoadingData(String workerId);
+        void onFinishLoadingData(String id, ILoadingActivitiesStrategy.ActivityCategory category, JSONArray activities);
         void onFailLoadingData(boolean isFailCausedByInternet);
     }
 
+    private ILoadingActivitiesStrategy mLoadingActivitiesStrategy;
     private OnFinishLoadingDataListener mOnFinishLoadingDataListener;
     private Context mContext;
     private String mWorkerId;
-    private int activityLimit;
     private JSONArray result = new JSONArray();
 
-    public LoadingWorkerActivitiesAsyncTask(Context context, String workerId, int limit, OnFinishLoadingDataListener listener) {
+    public LoadingActivitiesAsyncTask(Context context, String workerId, OnFinishLoadingDataListener listener, ILoadingActivitiesStrategy loadingActivitiesStrategy) {
         mContext = context;
         mOnFinishLoadingDataListener = listener;
         mWorkerId = workerId;
-        activityLimit = limit;
+        mLoadingActivitiesStrategy = loadingActivitiesStrategy;
     }
 
 
@@ -40,7 +43,7 @@ public class LoadingWorkerActivitiesAsyncTask extends AsyncTask<Void, Void, JSON
     protected JSONArray doInBackground(Void... voids) {
         if (!MainApplication.sUseTestData) {
             if (RestfulUtils.isConnectToInternet(mContext)) {
-                return LoadingDataUtils.LoadActivitiesByWorker(mWorkerId, activityLimit);
+                return mLoadingActivitiesStrategy.load();
             } else {
                 cancel(true);
             }
@@ -55,7 +58,6 @@ public class LoadingWorkerActivitiesAsyncTask extends AsyncTask<Void, Void, JSON
     @Override
     protected void onPostExecute(JSONArray jsonArray) {
         super.onPostExecute(jsonArray);
-        result = jsonArray;
-        mOnFinishLoadingDataListener.onFinishLoadingData(mWorkerId);
+        mOnFinishLoadingDataListener.onFinishLoadingData(mWorkerId, mLoadingActivitiesStrategy.getCategory(), jsonArray);
     }
 }
