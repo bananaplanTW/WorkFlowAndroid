@@ -185,23 +185,6 @@ public class LoadingDataUtils {
             e.printStackTrace();
         }
     }
-    public static JSONArray LoadActivitiesByWorker(String workerId, int limit) {
-        try {
-            HashMap<String, String> queries = new HashMap<>();
-            queries.put("employeeId", workerId);
-            queries.put("limit", "" + limit);
-            String urlString = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.WORKER_ACTIVITIES, queries);
-            String responseJSONString = RestfulUtils.getJsonStringFromUrl(urlString);
-            JSONObject responseJSON = new JSONObject(responseJSONString);
-            if (responseJSON.getString("status").equals("success")) {
-                return responseJSON.getJSONArray("result");
-            }
-        } catch (JSONException e) {
-            Log.e(TAG, "Exception in LoadActivitiesByWorker()");
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 
     private static void addCaseToWorkingData(Context context, JSONObject caseJson) {
