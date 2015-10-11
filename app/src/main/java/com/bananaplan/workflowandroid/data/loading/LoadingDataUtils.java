@@ -53,9 +53,11 @@ public class LoadingDataUtils {
         public static final String TIME_CARD_BY_CASE = BASE_URL + "/api/case/task-timecards?caseId=%s&startDate=%d&endDate=%d";
         public static final String TIME_CARD_BY_WORKER = BASE_URL + "/api/employee/timecards?employeeId=%s&startDate=%d&endDate=%d";
 
+        public static final String DEBUG_BASE_URL = "http://192.168.1.104:3000";
         public static final class EndPoints {
             public static final String WORKER_ACTIVITIES = "/api/employee/activities";
             public static final String TASK_ACTIVITIES = "/api/task/activities";
+            public static final String DISPATCH = "/api/dispatch";
         }
     }
 

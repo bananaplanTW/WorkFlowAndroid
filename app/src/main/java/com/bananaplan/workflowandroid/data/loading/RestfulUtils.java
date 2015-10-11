@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.HashMap;
 
 
 public class RestfulUtils {
@@ -67,101 +68,50 @@ public class RestfulUtils {
         return result;
     }
 
-    public static class PostRequest extends AsyncTask<String, Integer, String> {
+    /**
+     * post request
+     * @param urlString
+     * @param bodyPair
+     * @return
+     */
+    public static String restfulPostRequest (String urlString, HashMap<String, String> bodyPair) {
 
-        private String body;
-        public PostRequest (String b) {
-            body = b;
-        }
-        @Override
-        protected String doInBackground(String... urlStrings) {
-            OutputStream outputStream = null;
-            InputStream inputStream = null;
-            String result = null;
-            HttpURLConnection conn = null;
-            if (urlStrings[0] != null) {
-                try {
-                    URL url = new URL(urlStrings[0]);
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestProperty("Content-Type", "application/json");
-                    conn.setReadTimeout(15000);
-                    conn.setConnectTimeout(15000);
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
+        InputStream inputStream;
+        String result = null;
+        HttpURLConnection conn = null;
+        String bodyParamsString = URLUtils.buildQueryString(bodyPair);
+        if (urlString != null) {
+            try {
+                // [TODO] should login
+                URL url = new URL(urlString);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setRequestProperty("x-user-id", "qY7FdM7wnjevqmfws");
+                conn.setRequestProperty("x-auth-token", "el1UPAsSmVf8F1LEKf8tRb8Ny5jAgOdK2qLNHztb7Cj");
+                conn.setReadTimeout(3000);
+                conn.setConnectTimeout(3000);
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.getOutputStream().write(bodyParamsString.getBytes("UTF-8"));
 
-                    Log.d("Restful api", "Calling: " + urlStrings[0]);
-                    outputStream = conn.getOutputStream();
-                    outputStream.write(body.getBytes("UTF-8"));
+                Log.d("Restful api", "Connecting url " + urlString);
+                conn.connect();
+                Log.d("Restful api", "Response Code is : " + conn.getResponseCode());
+                inputStream = conn.getInputStream();
 
-                    conn.connect();
-                    int responseCode = conn.getResponseCode();
-                    Log.d("Restful api", "Response Code is : " + responseCode);
-                    inputStream = conn.getInputStream();
-
-                    result = getStringFromInputStream(inputStream);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    conn.disconnect();
-                }
+                result = getStringFromInputStream(inputStream);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                conn.disconnect();
             }
-            return result;
         }
+        return result;
     }
-
-
-    //extract response content
-//    public static String getStatusCode(HttpResponse response){
-//        if(response == null)
-//            return null;
-//        StringBuilder sb = new StringBuilder();
-//        String line = "";
-//        try{
-//            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-//            while ((line = rd.readLine()) != null) {
-//                sb.append(line);
-//            }
-//        } catch (IOException io){
-//
-//        }
-//        return sb.toString();
-//    }
-
-//    public static HttpResponse restfulPostRequest(String endpoint, List<NameValuePair> pairs) {
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//        final HttpParams httpParams = new BasicHttpParams();
-//        HttpConnectionParams.setConnectionTimeout(httpParams, 10000);
-//        HttpConnectionParams.setSoTimeout(httpParams, 3000);
-//        HttpClient client = new DefaultHttpClient(httpParams);
-//        HttpPost post;
-//        if (BuildConfig.DEBUG) {
-//            post = new HttpPost(Constant.AWS_HOST_DEBUG + endpoint);
-//        } else {
-//            post = new HttpPost(Constant.AWS_HOST + endpoint);
-//        }
-//
-//
-//        HttpResponse response = null;
-//        try {
-//            post.setEntity(new UrlEncodedFormEntity(pairs));
-//            response = client.execute(post);
-//
-//        } catch (ConnectTimeoutException cte) {
-//            Log.e("connection timeout ", "time out !!!!");
-//        } catch (UnsupportedEncodingException uee) {
-//
-//        } catch (ClientProtocolException cpe) {
-//            //ignore this exception for now
-//        } catch (IOException ioe) {
-//            //ignore this exception for now
-//        }
-//        return response;
-//    }
 
     public static InputStream restfulGetRequest (String urlString) {
         InputStream inputStream;
