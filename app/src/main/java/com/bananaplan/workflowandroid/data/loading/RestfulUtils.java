@@ -38,6 +38,7 @@ public class RestfulUtils {
      * @return The JsonObject from this url
      */
     public static String getJsonStringFromUrl(String urlString) {
+        // [TODO] should we close input stream ?
         InputStream inputStream = null;
         String result = null;
         if (urlString != null) {

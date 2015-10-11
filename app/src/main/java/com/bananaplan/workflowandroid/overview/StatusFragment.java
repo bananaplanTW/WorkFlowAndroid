@@ -15,6 +15,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,10 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Manager;
+import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
 import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
@@ -407,9 +410,9 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
 
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
         ArrayList<BaseData> records = new ArrayList<>();
+        ActivityDataStore instance = ActivityDataStore.getInstance(getContext());;
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
-                ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
                 if (instance.hasWorkerActivitiesCacheWithWorkerId(worker.id)) {
                     records = instance.getWorkerActivities(worker.id);
                 } else {
@@ -419,7 +422,13 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 break;
             case CONTENT_SHOW.TASK_STATUS:
                 if (worker.getWipTask() != null) {
-                    records = new ArrayList<>(worker.getWipTask().records);
+                    Task task = worker.getWipTask();
+                    if (instance.hasTaskActivitiesCacheWithTaskId(task.id)) {
+                        records = instance.getTaskActivities(task.id);
+                    } else {
+                        instance.loadTaskActivities(task.id, 15);
+                        instance.registerDataObserver(this);
+                    }
                 } else {
                     records = new ArrayList<>();
                 }
@@ -453,7 +462,20 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
         instance.removeDataObserver(this);
 
-        ArrayList<BaseData> records = instance.getWorkerActivities(mWorker.id);
+        ArrayList<BaseData> records = null;
+        switch (mContentShow) {
+            case CONTENT_SHOW.WORKER_STATUS:
+                records = instance.getWorkerActivities(mWorker.id);
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                if (mWorker.getWipTask() != null) {
+                    Task task = mWorker.getWipTask();
+                    if (instance.hasTaskActivitiesCacheWithTaskId(task.id)) {
+                        records = instance.getTaskActivities(task.id);
+                    }
+                }
+                break;
+        }
         if (records == null) {
             return;
         }
@@ -534,7 +556,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             BaseData data = getItem(position);
             Worker worker;
             Manager manager;
-            String description;
+            String description = "";
             int nameVisibility = View.GONE;
             int descriptionVisibility = View.GONE;
             int statusVisibility = View.GONE;
@@ -599,11 +621,19 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 case HISTORY:
                     if (data instanceof HistoryData) {
                         HistoryData historyData = (HistoryData) data;
-                        worker = WorkingData.getInstance(getActivity()).getWorkerById(historyData.workerId);
-                        // [TODO] should use String resource to perform multiple languages.
-                        description = EmployeeActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
-                        holder.avatar.setImageDrawable(worker.getAvator());
-                        holder.name.setText(worker.name);
+                        if (data.category == BaseData.CATEGORY.WORKER) {
+                            worker = WorkingData.getInstance(getActivity()).getWorkerById(historyData.workerId);
+                            holder.avatar.setImageDrawable(worker.getAvator());
+                            holder.name.setText(worker.name);
+                            // [TODO] should use String resource to perform multiple languages.
+                            description = EmployeeActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
+                        } else if (data.category == BaseData.CATEGORY.TASK) {
+                            manager = WorkingData.getInstance(getActivity()).getManagerById(historyData.workerId);
+                            holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
+                            holder.name.setText(manager.name);
+                            // [TODO] should use String resource to perform multiple languages.
+                            description = TaskActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
+                        }
                         holder.description.setText(description);
                         nameVisibility = View.VISIBLE;
                         descriptionVisibility = View.VISIBLE;
