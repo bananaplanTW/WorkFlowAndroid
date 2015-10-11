@@ -47,23 +47,5 @@
             android:textColor="@android:color/black"
             android:layout_marginLeft="2dp"/>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/vg_idle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:src="@drawable/statistics_idle_hours_indicator"
-            android:layout_gravity="center_vertical"/>
-        <TextView
-            android:id="@+id/idle_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:textColor="@android:color/black"
-            android:layout_marginLeft="2dp"/>
-    </LinearLayout>
 
 </LinearLayout>

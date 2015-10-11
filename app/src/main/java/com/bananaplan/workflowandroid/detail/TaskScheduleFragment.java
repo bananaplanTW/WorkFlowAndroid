@@ -22,6 +22,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -83,7 +84,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         mController = buildController(mListView);
         mListView.setFloatViewManager(mController);
         mListView.setOnTouchListener(mController);
-        mListView.setDragEnabled(true);
+        mListView.setDragEnabled(!mAdapter.isDivEnable());
     }
 
     private DragSortController buildController(DragSortListView dslv) {
@@ -111,6 +112,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
 
         private List<Task> mData;
         private int mDivPos;
+        private boolean mDivEnable = true;
 
         public TaskAdapter(ArrayList<Task> items) {
             super(getActivity(), 0, items);
@@ -119,7 +121,26 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         }
 
         private void calDivPos() {
-            mDivPos = mData.size() / 2; // TODO
+            if (mWorker.hasWipTask()) {
+                mDivPos = 0;
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, mWorker.isOvertime ? WorkingData.getInstance(getActivity()).hourOvertime : WorkingData.getInstance(getActivity()).hourWorkingOff);
+                calendar.set(Calendar.MINUTE, mWorker.isOvertime ? WorkingData.getInstance(getActivity()).minOvertime : WorkingData.getInstance(getActivity()).minWorkingOff);
+                long availableTime = calendar.getTimeInMillis() - System.currentTimeMillis();
+                if (mWorker.getWipTask().expectedTime - mWorker.getWipTask().getWorkingTime() > availableTime) {
+                    return;
+                } else {
+                    for (int i = 0; i < mData.size(); i++) {
+                        Task task = mData.get(i);
+                        availableTime -= (task.expectedTime - task.getWorkingTime());
+                        if (availableTime >= 0) {
+                            mDivPos = (i + 1);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         @Override
@@ -150,30 +171,35 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
 
         @Override
         public boolean areAllItemsEnabled() {
-            return false;
+            if (!mDivEnable) return true;
+             else return false;
         }
 
         @Override
         public int getViewTypeCount() {
-            return 2;
+            if (!mDivEnable) return 1;
+            else return 2;
         }
 
         @Override
         public int getCount() {
-            return mData.size() > 0 ? mData.size() + 1 : 0;
+            return mData.size() > 0 ? (mDivEnable ? mData.size() + 1 : mData.size()) : 0;
         }
 
         @Override
         public boolean isEnabled(int position) {
-            return position != mDivPos;
+            if (!mDivEnable) return true;
+            else return position != mDivPos;
         }
 
         public int getDivPosition() {
+            if (!mDivEnable) return -1;
             return mDivPos;
         }
 
         @Override
         public Task getItem(int position) {
+            if (!mDivEnable) return mData.get(dataPosition(position));
             if (position != mDivPos) {
                 return mData.get(dataPosition(position));
             }
@@ -181,11 +207,16 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         }
 
         private int dataPosition(int position) {
-            return position > mDivPos ? position - 1 : position;
+            if (mDivEnable) {
+                return position > mDivPos ? position - 1 : position;
+            } else {
+                return position;
+            }
         }
 
         @Override
         public int getItemViewType(int position) {
+            if (!mDivEnable) return SECTION_DATA;
             if (position == mDivPos) {
                 return SECTION_DIV;
             } else {
@@ -196,32 +227,34 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         @Override
         public void drop(int from, int to) {
             if (from != to) {
-                if (to != mDivPos) {
-                    Task task = mData.remove(dataPosition(from));
-                    mData.add(dataPosition(to), task);
-                    mWorker.clearScheduleTasks();
-                    mWorker.addAllScheduleTasks(mData);
-                }
-                if (from < mDivPos && to > mDivPos) {
-                    mDivPos--;
-                } else if (from > mDivPos && to < mDivPos) {
-                    mDivPos++;
-                } else if (mDivPos == to) {
-                    mDivPos = from;
-                }
+                Task task = mData.remove(dataPosition(from));
+                mData.add(dataPosition(to), task);
+                mWorker.clearScheduleTasks();
+                mWorker.addAllScheduleTasks(mData);
+                calDivPos();
                 notifyDataSetChanged();
             }
+        }
+
+        public void setDivEnable(boolean enable) {
+            if (mDivEnable == enable) return;
+            mDivEnable = enable;
+            notifyDataSetChanged();
+        }
+
+        public boolean isDivEnable() {
+            return mDivEnable;
         }
     }
 
     private void setListViewItemContent(ViewHolder holder, Task task) {
+        if (task == null) return;
         holder.cas.setText(WorkingData.getInstance(getActivity()).getCaseById(task.caseId).name);
         holder.task.setText(task.name);
         holder.expectedTime.setText(Utils.millisecondsToTimeString(task.expectedTime));
         holder.workTime.setText(Utils.millisecondsToTimeString(task.getWorkingTime()));
         holder.equipment.setText(WorkingData.getInstance(getActivity()).hasEquipment(task.equipmentId) ?
                 WorkingData.getInstance(getActivity()).getEquipmentById(task.equipmentId).name : "");
-//        holder.expectedCompleteTime.setText(task.getExpectedFinishedTime());
         holder.errorCnt.setText(String.valueOf(task.errorCount));
         Utils.setTaskItemWarningTextView(getActivity(), task, holder.warnings, true);
     }
@@ -242,7 +275,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         TextView expectedTime;
         TextView workTime;
         TextView equipment;
-        TextView expectedCompleteTime;
         TextView errorCnt;
         TextView warnings;
         LinearLayout idRoot;
@@ -257,7 +289,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
             expectedTime = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_expected_time);
             workTime = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_spent_time);
             equipment = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_equipment);
-            expectedCompleteTime = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_expected_completed_time);
             errorCnt = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_error);
             warnings = (TextView) root.findViewById(R.id.listview_task_warning);
             taskRoot = (LinearLayout) root.findViewById(R.id.task_item_root);
@@ -284,8 +315,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                 workTime.setTextAppearance(getActivity(), R.style.DetailedWorkerTaskSchedule_Header);
                 equipment.setText(getString(R.string.detailed_worker_task_schedule_header_equipment));
                 equipment.setTextAppearance(getActivity(), R.style.DetailedWorkerTaskSchedule_Header);
-                expectedCompleteTime.setText(getString(R.string.detailed_worker_task_schedule_header_expected_completed_time));
-                expectedCompleteTime.setTextAppearance(getActivity(), R.style.DetailedWorkerTaskSchedule_Header);
                 errorCnt.setText(getString(R.string.detailed_worker_task_schedule_header_error));
                 errorCnt.setTextAppearance(getActivity(), R.style.DetailedWorkerTaskSchedule_Header);
                 warnings.setText(getString(R.string.detailed_worker_task_schedule_header_warnings));
@@ -313,6 +342,9 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
             case R.id.manage_warning_button:
                 break;
             case R.id.manage_tasks_button:
+                if (mAdapter == null) return;
+                mAdapter.setDivEnable(!mAdapter.isDivEnable());
+                mListView.setDragEnabled(!mAdapter.isDivEnable());
                 break;
         }
     }

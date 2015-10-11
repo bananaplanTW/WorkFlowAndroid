@@ -9,6 +9,7 @@ import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,7 +44,6 @@ public class Task extends IdData {
 
     public Status status = Task.Status.UNCLAIMED;
     public ArrayList<BaseData> records = new ArrayList<>();
-
 
     public Task() {
 
@@ -117,10 +117,6 @@ public class Task extends IdData {
 
     public long getWorkingTime() {
         return System.currentTimeMillis() - startTime + spentTime;
-    }
-
-    public long getExpectedFinishedTime() {
-        return 0;
     }
 
     public static Status convertStringToStatus(String status) {

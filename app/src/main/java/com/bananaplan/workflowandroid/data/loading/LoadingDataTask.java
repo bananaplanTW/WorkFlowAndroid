@@ -13,6 +13,7 @@ import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.main.MainApplication;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -134,5 +135,18 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
                 }
             }
         }
+    }
+
+    public static void loadTimeCardsByWorker(Context context, String workerId) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        long start = cal.getTimeInMillis();
+        cal.add(Calendar.WEEK_OF_YEAR, 1);
+        long end = cal.getTimeInMillis();
+        LoadingDataUtils.loadTimeCardsByWorker(context, workerId, start, end);
     }
 }

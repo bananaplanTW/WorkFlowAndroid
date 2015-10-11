@@ -1,5 +1,9 @@
 package com.bananaplan.workflowandroid.overview;
 
+import android.app.DatePickerDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,7 +28,10 @@ import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.loading.LoadingDataTask;
+import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
+import com.bananaplan.workflowandroid.main.MainApplication;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -31,8 +39,11 @@ import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.data.BarChartData;
+import com.bananaplan.workflowandroid.utility.view.AsyncDialog;
+import com.bananaplan.workflowandroid.utility.view.DatePickerDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import it.sephiroth.android.library.widget.HListView;
 
@@ -49,13 +60,14 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
     private LinearLayout mBarChartContainer;
     private TextView mTvWorkingHours;
     private TextView mTvOvertimeHours;
-    private TextView mTvIdleHours;
     private ListView mTaskItemListView;
     private HListView mWorkerListView;
+    private AsyncDialog mAsyncDialog;
 
     private TaskItemListViewAdapter mTaskItemListViewAdapter;
     private WorkerItemListViewAdapter mWorkerItemListViewAdapter;
     private int mTaskItemListViewHeaderHeight = 0;
+    private long mChartStartDate;
 
     @Nullable
     @Override
@@ -73,15 +85,15 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         mBarChartContainer = (LinearLayout) getActivity().findViewById(R.id.ov_statistics_chart_container);
         mTvWorkingHours = (TextView) getActivity().findViewById(R.id.ov_statistics_working_hour_tv);
         mTvOvertimeHours = (TextView) getActivity().findViewById(R.id.ov_statistics_overtime_hour_tv);
-        mTvIdleHours = (TextView) getActivity().findViewById(R.id.ov_statistics_idle_hour_tv);
         getActivity().findViewById(R.id.edit_task).setOnClickListener(this);
         getActivity().findViewById(R.id.ov_statistics_week_chooser).setOnClickListener(this);
+        updateChartStartDate(Calendar.getInstance());
+        updateWeekPickerTextView();
         mTaskItemListView = (ListView) getActivity().findViewById(R.id.tasks);
         mTaskItemListView.setOnItemClickListener(this);
         mTaskItemListView.addHeaderView(getTaskItemListViewHeader(), null, false);
         if (mFrom.equals(EquipmentOverviewFragment.class.getSimpleName())) {
             getActivity().findViewById(R.id.ov_statistics_overtime_hour_vg).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.ov_statistics_idle_hour_vg).setVisibility(View.GONE);
             getActivity().findViewById(R.id.edit_task).setVisibility(View.GONE);
             getActivity().findViewById(R.id.workers_list_vg).setVisibility(View.GONE);
             ((LinearLayout.LayoutParams) mBarChartContainer.getLayoutParams()).topMargin =
@@ -89,14 +101,12 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             onItemSelected(getSelectedEquipment());
         } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())) {
             getActivity().findViewById(R.id.ov_statistics_overtime_hour_vg).setVisibility(View.VISIBLE);
-            getActivity().findViewById(R.id.ov_statistics_idle_hour_vg).setVisibility(View.VISIBLE);
             getActivity().findViewById(R.id.workers_list_vg).setVisibility(View.GONE);
             ((LinearLayout.LayoutParams) mBarChartContainer.getLayoutParams()).topMargin =
                     getResources().getDimensionPixelOffset(R.dimen.worker_ov_statistics_margin_top);
             onItemSelected(getSelectedWorker());
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             getActivity().findViewById(R.id.ov_statistics_overtime_hour_vg).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.ov_statistics_idle_hour_vg).setVisibility(View.GONE);
             getActivity().findViewById(R.id.edit_task).setVisibility(View.GONE);
             getActivity().findViewById(R.id.workers_list_vg).setVisibility(View.VISIBLE);
             mWorkerListView = (HListView) getActivity().findViewById(R.id.workers);
@@ -111,6 +121,41 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             getActivity().findViewById(R.id.current_task_items).setVisibility(View.VISIBLE);
             onItemSelected(getSelectedWorker());
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mAsyncDialog != null) {
+            mAsyncDialog.clearPendingProgressDialog();
+        }
+    }
+
+    AsyncDialog getAsyncDialog() {
+        if (mAsyncDialog == null) {
+            mAsyncDialog = new AsyncDialog(getActivity());
+        }
+        return mAsyncDialog;
+    }
+
+    private void updateChartStartDate(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        cal.add(Calendar.DAY_OF_WEEK, (cal.get(Calendar.DAY_OF_WEEK) + 5) % 7 * (-1));
+        mChartStartDate = cal.getTimeInMillis();
+    }
+
+    private void updateWeekPickerTextView() {
+        TextView tv = (TextView) getActivity().findViewById(R.id.ov_statistics_week_chooser_date);
+        if (tv == null) return;
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(mChartStartDate);
+        String date = cal.get(Calendar.YEAR) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.DAY_OF_MONTH) + " - ";
+        cal.setTimeInMillis(cal.getTimeInMillis() + 86400000 * 7 - 1);
+        date += cal.get(Calendar.YEAR) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.DAY_OF_MONTH);
+        tv.setText(date);
     }
 
     private int getItemViewLayoutId() {
@@ -142,7 +187,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 public void onGlobalLayout() {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     mTaskItemListViewHeaderHeight = view.getHeight();
-                    if (mTaskItemListViewAdapter != null && mTaskItemListViewAdapter.getCount() > 0) {
+                    if (mTaskItemListViewAdapter != null) {
                         ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
                         params.height = (int) (mTaskItemListViewAdapter.getCount()
                                 * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
@@ -324,12 +369,42 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ov_statistics_week_chooser:
-                Toast.makeText(getActivity(), "Choose date", Toast.LENGTH_SHORT).show();
+                showDatePicker();
                 break;
             case R.id.edit_task:
                 Toast.makeText(getActivity(), "Edit item", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private void showDatePicker() {
+        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment prevDatePickerDialog = fm.findFragmentByTag("date_picker");
+        if (prevDatePickerDialog != null) {
+            ft.remove(prevDatePickerDialog);
+        }
+
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(mChartStartDate);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialogFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar chosenCal = Calendar.getInstance();
+                chosenCal.set(Calendar.YEAR, year);
+                chosenCal.set(Calendar.MONTH, monthOfYear);
+                chosenCal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateChartStartDate(chosenCal);
+                updateWeekPickerTextView();
+                updateStatisticsView();
+            }
+
+        }, year, month, day).show(ft, "date_picker");
     }
 
     @Override
@@ -348,7 +423,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
             onCaseSelected((Case) item);
         }
-        if (mTaskItemListViewAdapter != null && mTaskItemListViewAdapter.getCount() > 0) {
+        if (mTaskItemListViewAdapter != null) {
             ViewGroup.LayoutParams params = mTaskItemListView.getLayoutParams();
             params.height = (int) (mTaskItemListViewAdapter.getCount()
                     * getResources().getDimension(R.dimen.ov_taskitem_listview_item_height))
@@ -359,9 +434,9 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
 
     private void onCaseSelected(Case aCase) {
         // update statistics
-        updateStatisticsView(1, R.string.overview_finish_hours);
+        updateStatisticsView(aCase, R.string.overview_finish_hours);
 
-        // update task item listview
+        // update task item listView
         ArrayList<Task> items = new ArrayList<>(aCase.tasks);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
@@ -385,13 +460,13 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
     private void onWorkerSelected(Worker worker) {
         // update statistics
         if (!mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
-            updateStatisticsView(3, R.string.overview_working_hours);
+            updateStatisticsView(worker, R.string.overview_working_hours);
         }
 
-        // update task item listview
-        ArrayList<Task> items = (ArrayList<Task>) worker.getScheduledTasks();
+        // update task item listView
+        ArrayList<Task> items = new ArrayList<>(worker.getScheduledTasks());
         if (worker.getWipTask() != null) {
-            items.add(worker.getWipTask());
+            items.add(0, worker.getWipTask());
         }
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
@@ -404,9 +479,9 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
 
     private void onEquipmentSelected(Equipment equipment) {
         // update statistics
-        updateStatisticsView(1, R.string.overview_used_hours);
+        updateStatisticsView(equipment, R.string.overview_used_hours);
 
-        // update task item listview
+        // update task item listView
         ArrayList<Task> items = WorkingData.getInstance(getActivity()).getTasksByEquipment(equipment);
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
@@ -430,17 +505,71 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         return workers;
     }
 
-    private void updateStatisticsView(int dataCount, int resId) {
-        BarChartData data = new BarChartData(mFrom);
-        data.genRandomData(getActivity(), dataCount);
-        mBarChartContainer.removeAllViews();
-        mBarChartContainer.addView(Utils.genBarChart(getActivity(), data),
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-        mTvWorkingHours.setText(getResources().getString(resId, data.getWorkingHours()));
-        mTvOvertimeHours.setText(getResources().getString(R.string.overview_overtime_hours, data.getOvertimeHours()));
-        mTvIdleHours.setText(getResources().getString(R.string.overview_idle_hours, data.getIdleHours()));
+    private void updateStatisticsView() {
+        Object obj = null;
+        int resId = -1;
+        if (mFrom.equals(EquipmentOverviewFragment.class.getSimpleName())) {
+            obj = getSelectedEquipment();
+            resId = R.string.overview_used_hours;
+        } else if (mFrom.equals(WorkerOverviewFragment.class.getSimpleName())
+                || mFrom.equals(DetailedWorkerActivity.class.getSimpleName())) {
+            obj = getSelectedWorker();
+            resId = R.string.overview_working_hours;
+        } else if (mFrom.equals(CaseOverviewFragment.class.getSimpleName())) {
+            obj = getSelectedTaskCase();
+            resId = R.string.overview_finish_hours;
+        }
+        updateStatisticsView(obj, resId);
+    }
+
+    private void updateStatisticsView(final Object obj, final int resId) {
+        getAsyncDialog().runAsync(new Runnable() {
+            @Override
+            public void run() {
+                if (MainApplication.sUseTestData) return;
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.clear(Calendar.MINUTE);
+                cal.clear(Calendar.SECOND);
+                cal.clear(Calendar.MILLISECOND);
+                cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+                long start = cal.getTimeInMillis();
+                cal.add(Calendar.WEEK_OF_YEAR, 1);
+                long end = cal.getTimeInMillis();
+                if (obj instanceof Case) {
+                    LoadingDataUtils.loadTimeCardsByCase(getActivity(), ((Case) obj).id, start, end);
+                } else if (obj instanceof Worker) {
+                    LoadingDataUtils.loadTimeCardsByWorker(getActivity(), ((Worker) obj).id, start, end);
+                } else if (obj instanceof Equipment) {
+                    // TODO
+                }
+            }
+        }, new Runnable() {
+            @Override
+            public void run() {
+                BarChartData data = new BarChartData(mFrom);
+                long start = mChartStartDate;
+                long end = mChartStartDate + 86400000 * 7;
+                if (obj instanceof Case) {
+                    data.setData(((Case) obj).getBarChartData(start, end));
+                } else if (obj instanceof Worker) {
+                    data.setData(((Worker) obj).getBarChartData(getActivity(), start, end));
+                } else if (obj instanceof Equipment) {
+                    // TODO
+                }
+                data.setStartDate(getActivity(), start);
+                mBarChartContainer.removeAllViews();
+                View barChartView = Utils.genBarChart(getActivity(), data);
+                if (barChartView != null) {
+                    mBarChartContainer.addView(barChartView,
+                            new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT));
+                }
+                mTvWorkingHours.setText(getResources().getString(resId, data.getWorkingHours()));
+                mTvOvertimeHours.setText(getResources().getString(R.string.overview_overtime_hours, data.getOvertimeHours()));
+            }
+        }, R.string.processing);
     }
 
     private class WorkerItemListViewAdapter extends ArrayAdapter<Worker> {

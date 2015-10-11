@@ -8,6 +8,9 @@ import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -56,6 +59,7 @@ public class Worker extends IdData {
 
     public ArrayList<BaseData> records = new ArrayList<>();
     public ArrayList<LeaveData> leaveDatas = new ArrayList<>();
+    public HashMap<String, WorkerTimeCard> timeCards = new HashMap<>();
     public boolean isOvertime = false;
 
     private Drawable avatar;
@@ -235,5 +239,49 @@ public class Worker extends IdData {
         }
 
         return statusString;
+    }
+
+    public long[][] getBarChartData(Context context, long start, long end) {
+        long[][] data = new long[2][7];
+        Arrays.fill(data[0], 0);
+        Arrays.fill(data[1], 0);
+        for (WorkerTimeCard timeCard : timeCards.values()) {
+            if (timeCard.startDate > start && timeCard.endDate < end) {
+                Calendar startCal = Calendar.getInstance();
+                startCal.setTimeInMillis(timeCard.startDate);
+                Calendar endCal = Calendar.getInstance();
+                endCal.setTimeInMillis(timeCard.endDate);
+                Calendar workOffCal = Calendar.getInstance();
+                workOffCal.setTimeInMillis(timeCard.endDate);
+                workOffCal.set(Calendar.HOUR_OF_DAY, WorkingData.getInstance(context).hourWorkingOff);
+                workOffCal.set(Calendar.MINUTE, WorkingData.getInstance(context).minWorkingOff);
+                workOffCal.clear(Calendar.SECOND);
+                workOffCal.clear(Calendar.MILLISECOND);
+                int idx = (startCal.get(Calendar.DAY_OF_WEEK) - 1 + 6) % 7;
+                long value;
+                if (timeCard.status == CaseTimeCard.STATUS.CLOSE) {
+                    value = timeCard.endDate - timeCard.startDate;
+                } else {
+                    value = System.currentTimeMillis() - timeCard.startDate;
+                }
+                data[0][idx] += value;
+                if (endCal.after(workOffCal)) {
+                    if (timeCard.status == CaseTimeCard.STATUS.CLOSE) {
+                        if (startCal.after(workOffCal)) {
+                            data[1][idx] += (endCal.getTimeInMillis() - startCal.getTimeInMillis());
+                        } else {
+                            data[1][idx] += (endCal.getTimeInMillis() - workOffCal.getTimeInMillis());
+                        }
+                    } else {
+                        if (startCal.after(workOffCal)) {
+                            data[1][idx] += (System.currentTimeMillis() - startCal.getTimeInMillis());
+                        } else {
+                            data[1][idx] += (System.currentTimeMillis() - workOffCal.getTimeInMillis());
+                        }
+                    }
+                }
+            }
+        }
+        return data;
     }
 }

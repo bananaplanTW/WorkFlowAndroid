@@ -63,6 +63,12 @@ public final class WorkingData implements DataSubject {
     private HashMap<String, Tag> mTagsMap = new HashMap<>();
     private HashMap<String, Warning> mWarningsMap = new HashMap<>();
 
+    public int hourWorkingOn = 8;
+    public int minWorkingOn = 0;
+    public int hourWorkingOff = 17;
+    public int minWorkingOff = 30;
+    public int hourOvertime = 20;
+    public int minOvertime = 0;
 
     public static WorkingData getInstance(Context context) {
         if (sWorkingData == null) {
@@ -214,18 +220,6 @@ public final class WorkingData implements DataSubject {
         return new ArrayList<>(mEquipmentsMap.values());
     }
 
-
-    public ArrayList<Task> getTasksByWorker(Worker worker) {
-        ArrayList<Task> tmp = new ArrayList<>();
-        if (worker == null) return tmp;
-        ArrayList<Task> orig = new ArrayList<>(mTasksMap.values());
-        for (Task item : orig) {
-            if (Utils.isSameId(item.workerId, worker.id)) {
-                tmp.add(item);
-            }
-        }
-        return tmp;
-    }
     public ArrayList<Task> getTasksByEquipment(Equipment equipment) {
         ArrayList<Task> tmp = new ArrayList<>();
         if (equipment == null) return tmp;
@@ -237,7 +231,6 @@ public final class WorkingData implements DataSubject {
         }
         return tmp;
     }
-
 
     public Manager getManagerById(String managerId) {
         return mManagersMap.get(managerId);

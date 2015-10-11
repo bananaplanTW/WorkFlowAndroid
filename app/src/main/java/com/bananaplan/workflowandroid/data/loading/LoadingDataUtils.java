@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.data.loading;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.Case;
@@ -9,9 +10,11 @@ import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Tag;
 import com.bananaplan.workflowandroid.data.Task;
+import com.bananaplan.workflowandroid.data.CaseTimeCard;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.Worker;
+import com.bananaplan.workflowandroid.data.WorkerTimeCard;
 import com.bananaplan.workflowandroid.data.WorkingData;
 
 import org.json.JSONArray;
@@ -40,14 +43,16 @@ public class LoadingDataUtils {
 //        public static final String TASKS_BY_CASE = "http://bp-workflow.cloudapp.net:3000/api/tasks?caseId=";
 //        public static final String TASKS_BY_WORKER = "http://bp-workflow.cloudapp.net:3000/api/employee/tasks?employeeId=";
 //        public static final String WORKERS_BY_FACTORY = "http://bp-workflow.cloudapp.net:3000/api/group/employees?groupId=";
-        public static final String WORKERS = "http://128.199.198.169:3000/api/employees";
-        public static final String CASES = "http://128.199.198.169:3000/api/cases";
-        public static final String FACTORIES = "http://128.199.198.169:3000/api/groups";
-        public static final String TASKS_BY_CASE = "http://128.199.198.169:3000/api/tasks?caseId=";
-        public static final String TASKS_BY_WORKER = "http://128.199.198.169:3000/api/employee/tasks?employeeId=";
-        public static final String WORKERS_BY_FACTORY = "http://128.199.198.169:3000/api/group/employees?groupId=";
-
         public static final String BASE_URL = "http://128.199.198.169:3000";
+        public static final String WORKERS = BASE_URL + "/api/employees";
+        public static final String CASES = BASE_URL + "/api/cases";
+        public static final String FACTORIES = BASE_URL + "/api/groups";
+        public static final String TASKS_BY_CASE = BASE_URL + "/api/tasks?caseId=";
+        public static final String TASKS_BY_WORKER = BASE_URL + "/api/employee/tasks?employeeId=";
+        public static final String WORKERS_BY_FACTORY = BASE_URL + "/api/group/employees?groupId=";
+        public static final String TIME_CARD_BY_CASE = BASE_URL + "/api/case/task-timecards?caseId=%s&startDate=%d&endDate=%d";
+        public static final String TIME_CARD_BY_WORKER = BASE_URL + "/api/employee/timecards?employeeId=%s&startDate=%d&endDate=%d";
+
         public static final class EndPoints {
             public static final String WORKER_ACTIVITIES = "/api/employee/activities";
             public static final String TASK_ACTIVITIES = "/api/task/activities";
@@ -769,6 +774,17 @@ public class LoadingDataUtils {
     private static String getWorkersByFactoryUrl(String factoryId) {
         return WorkingDataUrl.WORKERS_BY_FACTORY + factoryId;
     }
+    private static String getCaseTimeCardUrl(String caseId, long startDate, long endDate) {
+        String url = String.format(WorkingDataUrl.TIME_CARD_BY_CASE, caseId, startDate, endDate);
+        Log.d(TAG, "getCaseTimeCardUrl url = " + url);
+        return url;
+    }
+
+    private static String getWorkerTimeCardUrl(String workerId, long startDate, long endDate) {
+        String url = String.format(WorkingDataUrl.TIME_CARD_BY_WORKER, workerId, startDate, endDate);
+        Log.d(TAG, "getWorkerTimeCardUrl url = " + url);
+        return url;
+    }
 
 
     private static Date getDateFromJson(JSONObject jsonObject, String key) throws JSONException {
@@ -782,5 +798,110 @@ public class LoadingDataUtils {
     }
     private static JSONObject getJsonObjectFromJson(JSONObject jsonObject, String key) throws JSONException {
         return jsonObject.has(key) ? jsonObject.getJSONObject(key) : null;
+    }
+
+    public static void loadTimeCardsByCase(Context context, String caseId, long startDate, long endDate) {
+        if (TextUtils.isEmpty(caseId) || startDate < 0 || endDate < 0 || endDate < startDate)
+            throw new IllegalArgumentException("loadTimeCardsByCase invalid parameter" +
+                    ", caseId: " + caseId +
+                    ", startDate: " + startDate +
+                    ", endDate: " + endDate);
+        if (!WorkingData.getInstance(context).hasCase(caseId)) return;
+
+        try {
+            String jsonString = RestfulUtils.getJsonStringFromUrl(getCaseTimeCardUrl(caseId, startDate, endDate));
+            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
+            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
+            Case aCase = WorkingData.getInstance(context).getCaseById(caseId);
+            if (aCase == null) return;
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                CaseTimeCard timeCard = null;
+                try {
+                    timeCard = new CaseTimeCard(
+                            jsonObj.getString("_id"),
+                            jsonObj.getString("caseId"),
+                            jsonObj.getString("taskId"),
+                            jsonObj.getString("employeeId"),
+                            jsonObj.getLong("startDate"),
+                            jsonObj.getLong("endDate"),
+                            jsonObj.getString("status").equals("close") ?
+                                    CaseTimeCard.STATUS.CLOSE :
+                                    CaseTimeCard.STATUS.OPEN,
+                            jsonObj.getLong("createdAt"),
+                            jsonObj.getLong("updatedAt"));
+                } catch (Exception e) {
+                    Log.e(TAG, "loadTimeCardsByCase parse json string fail.");
+                }
+                if (timeCard == null || !timeCard.caseId.equals(caseId)) continue;
+                synchronized (aCase) {
+                    if (aCase.timeCards.containsKey(timeCard.id)) {
+                        if (aCase.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
+                            aCase.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
+                            aCase.timeCards.get(timeCard.id).endDate = timeCard.endDate;
+                            aCase.timeCards.get(timeCard.id).status = timeCard.status;
+                        } else {
+                            // ignore
+                        }
+                    } else {
+                        aCase.timeCards.put(timeCard.id, timeCard);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadTimeCardsByWorker(Context context, String workerId, long startDate, long endDate) {
+        if (TextUtils.isEmpty(workerId) || startDate < 0 || endDate < 0 || endDate < startDate)
+            throw new IllegalArgumentException("loadTimeCardsByWorker invalid parameter" +
+                    ", workerId: " + workerId +
+                    ", startDate: " + startDate +
+                    ", endDate: " + endDate);
+        if (!WorkingData.getInstance(context).hasWorker(workerId)) return;
+
+        try {
+            String jsonString = RestfulUtils.getJsonStringFromUrl(getWorkerTimeCardUrl(workerId, startDate, endDate));
+            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
+            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                Worker worker = WorkingData.getInstance(context).getWorkerById(jsonObj.getString("employeeId"));
+                if (worker == null) continue;
+                WorkerTimeCard timeCard = null;
+                try {
+                    timeCard = new WorkerTimeCard(
+                            jsonObj.getString("_id"),
+                            jsonObj.getString("employeeId"),
+                            jsonObj.getLong("startDate"),
+                            jsonObj.getLong("endDate"),
+                            jsonObj.getString("status").equals("close") ?
+                                    CaseTimeCard.STATUS.CLOSE :
+                                    CaseTimeCard.STATUS.OPEN,
+                            jsonObj.getLong("createdAt"),
+                            jsonObj.getLong("updatedAt"));
+                } catch (Exception e) {
+                    Log.e(TAG, "loadTimeCardsByCase parse json string fail.");
+                }
+                if (timeCard == null) continue;
+                if (!timeCard.employeeId.equals(worker.id)) continue;
+                synchronized (worker) {
+                    if (worker.timeCards.containsKey(timeCard.id)) {
+                        if (worker.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
+                            worker.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
+                            worker.timeCards.get(timeCard.id).endDate = timeCard.endDate;
+                            worker.timeCards.get(timeCard.id).status = timeCard.status;
+                        } else {
+                            // ignore
+                        }
+                    } else {
+                        worker.timeCards.put(timeCard.id, timeCard);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

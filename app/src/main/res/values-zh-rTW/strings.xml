@@ -5,6 +5,7 @@
     <string name="cancel">取消</string>
     <string name="no_internet_connection">請檢查您的連線狀態，然後再試一次。</string>
     <string name="retry">重試</string>
+    <string name="processing">處理中</string>
 
     <!-- Task status -->
     <string name="task_status_unclaimed">尚未開始</string>

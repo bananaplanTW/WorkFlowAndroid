@@ -1,7 +1,12 @@
 package com.bananaplan.workflowandroid.data;
 
+import com.bananaplan.workflowandroid.utility.Utils;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -58,6 +63,7 @@ public class Case extends IdData {
     public List<Tag> tags = new ArrayList<>();
 
     public List<Task> tasks = new ArrayList<>();
+    public HashMap<String, CaseTimeCard> timeCards = new HashMap<>();
 
 
     public Case() {
@@ -151,9 +157,12 @@ public class Case extends IdData {
         return tasks.size() <= 0 ? 100 : getFinishItemsCount() * 100 / tasks.size();
     }
 
-    // TODO: Calculate by taskitems
     public String getHoursExpected() {
-        return "01 : 12"; // TODO
+        long time = 0L;
+        for (Task task : tasks) {
+            time += task.expectedTime;
+        }
+        return Utils.millisecondsToTimeString(time);
     }
 
     public int getFinishItemsCount() {
@@ -169,5 +178,25 @@ public class Case extends IdData {
     public String getSize() {
         if (this.movableMoldSize == null) return "0 x 0 x 0";
         return this.movableMoldSize.length + " x " + this.movableMoldSize.width + " x " + this.movableMoldSize.height;
+    }
+
+    public long[][] getBarChartData(long start, long end) {
+        long[][] data = new long[1][7];
+        Arrays.fill(data[0], 0);
+        for (CaseTimeCard timeCard : timeCards.values()) {
+            if (timeCard.startDate >= start && timeCard.endDate < end) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(timeCard.startDate);
+                int idx = (cal.get(Calendar.DAY_OF_WEEK) - 1 + 6) % 7;
+                long value;
+                if (timeCard.status == CaseTimeCard.STATUS.CLOSE) {
+                    value = timeCard.endDate - timeCard.startDate;
+                } else {
+                    value = System.currentTimeMillis() - timeCard.startDate;
+                }
+                data[0][idx] += value;
+            }
+        }
+        return data;
     }
 }

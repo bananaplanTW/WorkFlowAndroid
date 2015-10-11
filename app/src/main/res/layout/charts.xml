@@ -92,30 +92,6 @@
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/ov_statistics_idle_hour_vg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:visibility="gone">
-            <ImageView
-                android:id="@+id/ov_statistics_idle_hour_iv"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/statistics_idle_hours_indicator"/>
-            <TextView
-                android:id="@+id/ov_statistics_idle_hour_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black1"
-                android:textSize="14sp"
-                android:singleLine="true"
-                android:layout_toRightOf="@id/ov_statistics_idle_hour_iv"
-                android:layout_marginLeft="8dp"
-                android:layout_centerVertical="true"/>
-        </RelativeLayout>
-
     </LinearLayout>
 
 </LinearLayout>

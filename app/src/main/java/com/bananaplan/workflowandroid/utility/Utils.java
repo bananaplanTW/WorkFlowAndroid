@@ -59,6 +59,7 @@ public class Utils {
 
 
     public static View genBarChart(final Activity activity, final BarChartData data) {
+        if (data == null || data.getData() == null) return null;
         Resources resources = activity.getResources();
         final String[] axis_x_string = resources.getStringArray(R.array.week);
         final XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
@@ -100,7 +101,7 @@ public class Utils {
             renderer.addXTextLabel(0, "");
             for (int j = 0; j < data.getData()[i].length; j++) {
                 renderer.addXTextLabel(j + 1, axis_x_string[j]);
-                series.add(j + 1, data.getData()[i][j]);
+                series.add(j + 1, ((float) data.getData()[i][j]) / 3600000);
             }
             series.add(data.getData()[i].length + 1, 0);
             renderer.addXTextLabel(data.getData()[i].length + 1, "");
@@ -134,31 +135,35 @@ public class Utils {
                 if (selection == null) return;
                 int idx = selection.getPointIndex() - 1;
                 View popupView = activity.getLayoutInflater().inflate(R.layout.bar_chart_popup, null);
-                if (data.from.equals(CaseOverviewFragment.class.getSimpleName()) || data.from.equals(EquipmentOverviewFragment.class.getSimpleName())) {
-                    ((TextView) popupView.findViewById(R.id.date)).setText(data.getDates()[idx]);
-                    if (data.getData()[0][idx] != 0) {
-                        ((TextView) popupView.findViewById(R.id.working_time)).setText(activity.getResources().getString(R.string.statistics_popup_time_finish) + " " + data.getData()[0][idx] + " : 00");
+                if (data.from.equals(CaseOverviewFragment.class.getSimpleName()) ||
+                        data.from.equals(EquipmentOverviewFragment.class.getSimpleName())) {
+                    ((TextView) popupView.findViewById(R.id.date)).setText(data.getDate()[idx]);
+                    if (data.getData()[0][idx] >= 0) {
+                        int hour = (int) data.getData()[0][idx] / 3600000;
+                        int min = (int) ((data.getData()[0][idx] % 3600000)) / 60000;
+                        ((TextView) popupView.findViewById(R.id.working_time)).setText(
+                                activity.getResources().getString(R.string.statistics_popup_time_finish) + " " + (hour < 10 ? ("0" + hour) : hour) + " : " + (min < 10 ? ("0" + min) : min));
                     } else {
                         popupView.findViewById(R.id.vg_working_time).setVisibility(View.GONE);
                     }
                     popupView.findViewById(R.id.vg_overtime).setVisibility(View.GONE);
-                    popupView.findViewById(R.id.vg_idle).setVisibility(View.GONE);
                 } else if (data.from.equals(WorkerOverviewFragment.class.getSimpleName())) {
-                    ((TextView) popupView.findViewById(R.id.date)).setText(data.getDates()[idx]);
-                    if (data.getData()[0][idx] != 0) {
-                        ((TextView) popupView.findViewById(R.id.working_time)).setText(activity.getResources().getString(R.string.statistics_popup_time_work) + " " + data.getData()[0][idx] + " : 00");
+                    ((TextView) popupView.findViewById(R.id.date)).setText(data.getDate()[idx]);
+                    if (data.getData()[0][idx] >= 0) {
+                        int hour = (int) data.getData()[0][idx] / 3600000;
+                        int min = (int) ((data.getData()[0][idx] % 3600000)) / 60000;
+                        ((TextView) popupView.findViewById(R.id.working_time)).setText(
+                                activity.getResources().getString(R.string.statistics_popup_time_work) + " " + (hour < 10 ? ("0" + hour) : hour) + " : " + (min < 10 ? ("0" + min) : min));
                     } else {
                         popupView.findViewById(R.id.vg_working_time).setVisibility(View.GONE);
                     }
-                    if (data.getData()[1][idx] > 0) {
-                        ((TextView) popupView.findViewById(R.id.overtime)).setText(activity.getResources().getString(R.string.statistics_popup_time_overtime) + " " + data.getData()[1][idx] + " : 00");
+                    if (data.getData()[1][idx] >= 0) {
+                        int hour = (int) data.getData()[1][idx] / 3600000;
+                        int min = (int) ((data.getData()[1][idx] % 3600000)) / 60000;
+                        ((TextView) popupView.findViewById(R.id.overtime)).setText(
+                                activity.getResources().getString(R.string.statistics_popup_time_overtime) + " " + (hour < 10 ? ("0" + hour) : hour) + " : " + (min < 10 ? ("0" + min) : min));
                     } else {
                         popupView.findViewById(R.id.vg_overtime).setVisibility(View.GONE);
-                    }
-                    if (data.getData()[2][idx] > 0) {
-                        ((TextView) popupView.findViewById(R.id.idle_time)).setText(activity.getResources().getString(R.string.statistics_popup_time_idle) + " " + data.getData()[2][idx] + " : 00");
-                    } else {
-                        popupView.findViewById(R.id.vg_idle).setVisibility(View.GONE);
                     }
                 }
                 final PopupWindow popup = new PopupWindow(popupView,

@@ -72,15 +72,6 @@
             layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
         <TextView
-            android:id="@+id/detailed_worker_task_schedule_expected_completed_time"
-            style="@style/DetailedWorkerTaskSchedule.Item"
-            android:layout_weight="@integer/detailed_worker_task_schedule_expected_complected_time_weight" />
-
-        <include
-            android:id="@+id/divider"
-            layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
-
-        <TextView
             android:id="@+id/detailed_worker_task_schedule_error"
             style="@style/DetailedWorkerTaskSchedule.Item"
             android:layout_weight="@integer/detailed_worker_task_schedule_error_weight" />
