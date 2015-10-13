@@ -1,19 +1,22 @@
 package com.bananaplan.workflowandroid.data.network;
 
-import android.os.AsyncTask;
-import android.os.RecoverySystem;
+import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.loading.RestfulUtils;
 import com.bananaplan.workflowandroid.data.loading.URLUtils;
 
-import java.io.File;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
  * Created by daz on 10/13/15.
  */
 public class UploadingImageStrategy implements IPostRequestStrategy {
+
+    private static final String TAG = UploadingImageStrategy.class.toString();
 
     private String mFilePath;
     private String mWorkerId;
@@ -24,51 +27,23 @@ public class UploadingImageStrategy implements IPostRequestStrategy {
     }
 
     @Override
-    public String upload() {
-        String responseString = null;
-
-        HttpClient httpclient = new DefaultHttpClient();
-        String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.DEBUG_BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_IMAGE_ACTIVITY, null);
-        String responseJSONString = RestfulUtils.restfulPostRequest(urlString, null);
-
+    public JSONObject post() {
         try {
-            AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
-                    new RecoverySystem.ProgressListener() {
-
-                        @Override
-                        public void transferred(long num) {
-                            publishProgress((int) ((num / (float) totalSize) * 100));
-                        }
-                    });
-
-            File sourceFile = new File(filePath);
-
-            // Adding file data to http body
-            entity.addPart("image", new FileBody(sourceFile));
-
-            // Extra parameters if you want to pass to server
-            totalSize = entity.getContentLength();
-            httppost.setEntity(entity);
-
-            // Making server call
-            HttpResponse response = httpclient.execute(httppost);
-            HttpEntity r_entity = response.getEntity();
-
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == 200) {
-                // Server response
-                responseString = EntityUtils.toString(r_entity);
-            } else {
-                responseString = "Error occurred! Http Status Code: "
-                        + statusCode;
+            HashMap<String, String> queries = new HashMap<>();
+            queries.put("workerId", mWorkerId);
+            String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.DEBUG_BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_IMAGE_ACTIVITY, null);
+            Log.d("DAZZZZ", "going to post image");
+            String responseString = RestfulUtils.restfulPostFileRequest(urlString, queries, mFilePath);
+            JSONObject jsonObject = new JSONObject(responseString);
+            if (jsonObject.getString("status") == "success") {
+                return jsonObject.getJSONObject("result");
             }
-
-        } catch (ClientProtocolException e) {
-            responseString = e.toString();
-        } catch (IOException e) {
-            responseString = e.toString();
+        }  catch (JSONException e) {
+            Log.e(TAG, "Exception in LoadingWorkerActivitiesStrategy()");
+            e.printStackTrace();
         }
 
-        return responseString;
+
+        return null;
     }
 }

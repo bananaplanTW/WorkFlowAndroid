@@ -2,48 +2,51 @@ package com.bananaplan.workflowandroid.data.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.loading.RestfulUtils;
-import com.bananaplan.workflowandroid.data.loading.URLUtils;
 import com.bananaplan.workflowandroid.main.MainApplication;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 /**
  * Created by daz on 10/11/15.
  */
-public class PostRequestAsyncTask extends AsyncTask<Void, Void, Void> {
+public class PostRequestAsyncTask extends AsyncTask<Void, Void, JSONObject> {
+
+    public interface OnFinishPostingDataListener {
+        void onFinishPostingData();
+        void onFailPostingData(boolean isFailCausedByInternet);
+    }
 
     private Context mContext;
+    private IPostRequestStrategy mPostRequestStrategy;
+    private OnFinishPostingDataListener mOnFinishPostingDataListener;
 
-    public PostRequestAsyncTask(Context context) {
+    public PostRequestAsyncTask(Context context, IPostRequestStrategy postRequestStrategy, OnFinishPostingDataListener onFinishPostingDataListener) {
         mContext = context;
+        mPostRequestStrategy = postRequestStrategy;
+        mOnFinishPostingDataListener = onFinishPostingDataListener;
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected JSONObject doInBackground(Void... voids) {
         if (!MainApplication.sUseTestData) {
             if (RestfulUtils.isConnectToInternet(mContext)) {
-                // should use strategy pattern to outsource the algo of post request
-                String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.DEBUG_BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.DISPATCH, null);
-                String responseJSONString = RestfulUtils.restfulPostRequest(urlString, null);
-                Log.d("DAZZZZ", "responseJSONString : " + responseJSONString);
-//                JSONObject responseJSON = null;
-//                try {
-//                    responseJSON = new JSONObject(responseJSONString);
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                mPostRequestStrategy.post();
             } else {
                 cancel(true);
             }
         }
         return null;
+    }
+    @Override
+    protected void onCancelled(JSONObject jsonObject) {
+        super.onCancelled(jsonObject);
+        mOnFinishPostingDataListener.onFailPostingData(true);
+    }
+    @Override
+    protected void onPostExecute(JSONObject jsonObject) {
+        super.onPostExecute(jsonObject);
+        mOnFinishPostingDataListener.onFinishPostingData();
     }
 }
