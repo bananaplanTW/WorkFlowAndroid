@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.data.task;
+package com.bananaplan.workflowandroid.data.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -29,6 +29,7 @@ public class PostRequestAsyncTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         if (!MainApplication.sUseTestData) {
             if (RestfulUtils.isConnectToInternet(mContext)) {
+                // should use strategy pattern to outsource the algo of post request
                 String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.DEBUG_BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.DISPATCH, null);
                 String responseJSONString = RestfulUtils.restfulPostRequest(urlString, null);
                 Log.d("DAZZZZ", "responseJSONString : " + responseJSONString);
