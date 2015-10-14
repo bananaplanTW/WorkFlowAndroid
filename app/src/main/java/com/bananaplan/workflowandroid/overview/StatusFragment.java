@@ -34,12 +34,13 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
 import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
-import com.bananaplan.workflowandroid.data.network.UploadingImageStrategy;
+import com.bananaplan.workflowandroid.data.activity.actions.UploadingImageStrategy;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -325,17 +326,19 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             e.printStackTrace();
         }
         if (TextUtils.isEmpty(path)) return;
-        FileData file = (FileData) DataFactory.genData(getSelectedWorker().id, BaseData.TYPE.FILE);
+
+        // [TODO] should let user login
+        String ownerId = WorkingData.getInstance(getActivity()).getManagers().get(0).id;
+        FileData file = (FileData) DataFactory.genData(ownerId, BaseData.TYPE.FILE);
+
         file.uploader = WorkingData.getInstance(getActivity()).getLoginWorkerId();
         file.time = Calendar.getInstance().getTime();
         file.fileName = path.substring(path.lastIndexOf('/') + 1);
         file.filePath = uri;
-
-        // [TODO] should implement file upload
-//        mCurrentFilePath = path;
-//        uploadFileActivity();
-
         addRecord(getSelectedWorker(), file);
+
+        mCurrentFilePath = path;
+        syncingFileActivity();
         onItemSelected(getSelectedWorker()); // force notify adapter data changed
     }
 
@@ -401,22 +404,14 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         leaveAPhotoCommentToWorkerCommand.execute();
         mCurrentPhotoPath = null;
     }
-    private void uploadFileActivity() {
-        String realPath = mCurrentFilePath;//.substring(mCurrentPhotoPath.indexOf(':') + 1);
-        UploadingImageStrategy uploadingImageStrategy = new UploadingImageStrategy(realPath, mWorker.id);
-        PostRequestAsyncTask postRequestAsyncTask = new PostRequestAsyncTask(getContext(), uploadingImageStrategy, new PostRequestAsyncTask.OnFinishPostingDataListener() {
-            @Override
-            public void onFinishPostingData() {
-                Log.d("DAZZZZ", "post finish");
-            }
-
-            @Override
-            public void onFailPostingData(boolean isFailCausedByInternet) {
-
-            }
-        });
-        postRequestAsyncTask.execute();
-
+    private void syncingFileActivity() {
+        if (Utils.isImage(mCurrentFilePath)) {
+            LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
+            leaveAPhotoCommentToWorkerCommand.execute();
+        } else {
+            LeaveAFileCommentToWorkerCommand leaveAFileCommentToWorkerCommand = new LeaveAFileCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
+            leaveAFileCommentToWorkerCommand.execute();
+        }
         mCurrentFilePath = null;
     }
 

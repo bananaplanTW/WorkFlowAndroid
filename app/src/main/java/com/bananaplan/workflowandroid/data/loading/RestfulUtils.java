@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 
+import com.bananaplan.workflowandroid.utility.Utils;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
@@ -143,12 +144,14 @@ public class RestfulUtils {
     private static final String IMGUR_CLIENT_ID = "...";
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private static final OkHttpClient client = new OkHttpClient();
-    public static String restfulPostFileRequest(String urlString, HashMap<String, String> bodyPair, String filePath, String fileType) {
+    public static String restfulPostFileRequest(String urlString, HashMap<String, String> bodyPair, String filePath) {
         String responseString = "";
 
+        String mimeType = Utils.getMimeType(filePath);
+Log.d(TAG, "uploading file mimeType : " + mimeType);
         File f = new File(filePath);
         Request.Builder builder = new Request.Builder();
-        builder.header("Content-Type", fileType)
+        builder.header("Content-Type", mimeType)
                 .header("s", "" + f.length())
                 .header("fn", f.getName());
         if (bodyPair != null) {
@@ -159,7 +162,7 @@ public class RestfulUtils {
             }
         }
         Request request = builder.url(urlString)
-                .post(RequestBody.create(MediaType.parse("image/png"), new File(filePath)))
+                .post(RequestBody.create(MediaType.parse(mimeType), new File(filePath)))
                 .build();
 
         try {

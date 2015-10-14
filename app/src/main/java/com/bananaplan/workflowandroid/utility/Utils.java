@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.utility;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -42,6 +44,7 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
@@ -387,6 +390,11 @@ public class Utils {
                 final String selection = "_id=?";
                 final String[] selectionArgs = new String[] { split[1] };
                 return getDataColumn(context, contentUri, selection, selectionArgs);
+            } else if (isDownloadedDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                return getDataColumn(context, contentUri, null, null);
             }
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
             if (isGooglePhotosUri(uri)) {
@@ -424,6 +432,10 @@ public class Utils {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
+    public static boolean isDownloadedDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
@@ -449,5 +461,28 @@ public class Utils {
 
         mainView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+    }
+
+    public static String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
+    }
+
+    private static final String[] okFileExtensions =  new String[] {"jpg", "png", "gif","jpeg"};
+    public static boolean isImage (String filePath) {
+        File file = new File(filePath);
+
+        for (String extension : okFileExtensions)
+        {
+            if (file.getName().toLowerCase().endsWith(extension))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
