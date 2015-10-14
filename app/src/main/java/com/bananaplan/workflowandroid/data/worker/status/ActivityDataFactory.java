@@ -1,23 +1,14 @@
 package com.bananaplan.workflowandroid.data.worker.status;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
-import com.bananaplan.workflowandroid.data.loading.LoadingDrawableAsyncTask;
 import com.bananaplan.workflowandroid.data.loading.LoadingPhotoDataCommand;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 
 /**

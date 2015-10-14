@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,6 +38,8 @@ import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
 import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
+import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
+import com.bananaplan.workflowandroid.data.network.UploadingImageStrategy;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -91,6 +94,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private DataAdapter mAdapter;
 
     private String mCurrentPhotoPath = null;
+    private String mCurrentFilePath = null;
     private int mContentShow;
 
     static {
@@ -326,6 +330,11 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         file.time = Calendar.getInstance().getTime();
         file.fileName = path.substring(path.lastIndexOf('/') + 1);
         file.filePath = uri;
+
+        // [TODO] should implement file upload
+//        mCurrentFilePath = path;
+//        uploadFileActivity();
+
         addRecord(getSelectedWorker(), file);
         onItemSelected(getSelectedWorker()); // force notify adapter data changed
     }
@@ -354,6 +363,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         photo.filePath = Uri.parse(mCurrentPhotoPath);
         addRecord(getSelectedWorker(), photo);
         scanPhotoToGallery();
+        uploadPhotoActivity();
         onItemSelected(getSelectedWorker()); // force notify adapter data changed
     }
 
@@ -374,8 +384,62 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             Uri contentUri = Uri.fromFile(f);
             mediaScanIntent.setData(contentUri);
             getActivity().sendBroadcast(mediaScanIntent);
-            mCurrentPhotoPath = null;
         }
+    }
+
+    private void uploadPhotoActivity() {
+        // [TODO] move calling logic to data layer
+        String realPath = mCurrentPhotoPath.substring(mCurrentPhotoPath.indexOf(':') + 1);
+        UploadingImageStrategy uploadingImageStrategy = new UploadingImageStrategy(realPath, mWorker.id);
+        PostRequestAsyncTask postRequestAsyncTask = new PostRequestAsyncTask(getContext(), uploadingImageStrategy, new PostRequestAsyncTask.OnFinishPostingDataListener() {
+            @Override
+            public void onFinishPostingData() {
+                // reload worker activities
+                //ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
+                //instance.loadWorkerActivities(mWorker.id, 15);
+            }
+
+            @Override
+            public void onFailPostingData(boolean isFailCausedByInternet) {
+
+            }
+        });
+        postRequestAsyncTask.execute();
+
+
+        File f = new File(realPath);
+        // [TODO] should use logged in user data
+        String ownerId = WorkingData.getInstance(getActivity()).getManagers().get(0).id;
+
+        PhotoData photoData = (PhotoData) DataFactory.genData(ownerId, BaseData.TYPE.PHOTO);
+        photoData.tag = "attachment";
+        photoData.time = new Date();
+        photoData.fileName = f.getName();
+        photoData.filePath = Uri.fromFile(f);
+        photoData.photo = Drawable.createFromPath(realPath);
+
+        ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
+        instance.addWorkerActivity(mWorker.id, photoData);
+
+        mCurrentPhotoPath = null;
+    }
+    private void uploadFileActivity() {
+        String realPath = mCurrentFilePath;//.substring(mCurrentPhotoPath.indexOf(':') + 1);
+        UploadingImageStrategy uploadingImageStrategy = new UploadingImageStrategy(realPath, mWorker.id);
+        PostRequestAsyncTask postRequestAsyncTask = new PostRequestAsyncTask(getContext(), uploadingImageStrategy, new PostRequestAsyncTask.OnFinishPostingDataListener() {
+            @Override
+            public void onFinishPostingData() {
+                Log.d("DAZZZZ", "post finish");
+            }
+
+            @Override
+            public void onFailPostingData(boolean isFailCausedByInternet) {
+
+            }
+        });
+        postRequestAsyncTask.execute();
+
+        mCurrentFilePath = null;
     }
 
     private void scoreWorker(boolean plus) {

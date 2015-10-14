@@ -22,6 +22,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 
@@ -194,6 +195,11 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         task.workerId = worker.id;
         worker.addScheduledTask(task);
         task.status = Task.Status.PENDING;
+
+        // [TODO] should dispatch task to worker
+//        Log.d("DAZZ", "assign task, " + task.id + " " + worker.name);
+//        PostRequestAsyncTask postRequestAsyncTask = new PostRequestAsyncTask(mContext);
+//        postRequestAsyncTask.execute();
     }
 
     private void removeTaskFromCurrentWorker(Task dropTask) {

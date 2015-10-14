@@ -2,7 +2,6 @@ package com.bananaplan.workflowandroid.data.worker.status;
 
 import android.graphics.drawable.Drawable;
 
-import com.bananaplan.workflowandroid.data.loading.loadingactivities.ILoadingActivitiesStrategy;
 
 import java.util.Date;
 
