@@ -8,7 +8,7 @@ import android.app.Application;
  */
 public class MainApplication extends Application {
 
-    public static boolean sUseTestData = true;
+    public static boolean sUseTestData = false;
 
 
     @Override

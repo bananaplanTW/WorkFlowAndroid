@@ -21,7 +21,7 @@ public class UploadingImageStrategy implements IPostRequestStrategy {
     private String mFilePath;
     private String mWorkerId;
 
-    public UploadingImageStrategy(String filePath, String workerId) {
+    public UploadingImageStrategy(String workerId, String filePath) {
         mFilePath = filePath;
         mWorkerId = workerId;
     }
