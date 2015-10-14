@@ -74,6 +74,16 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
     public boolean hasWorkerActivitiesCacheWithWorkerId(String workerId) {
         return mWorkerActivitiesCache.get(workerId) != null;
     }
+    public void addWorkerActivity (String workerId, BaseData activity) {
+        ArrayList<BaseData> workerActivities = mWorkerActivitiesCache.get(workerId);
+        if (workerActivities != null) {
+            synchronized (ActivityDataStore.class) {
+                if (workerActivities != null) {
+                    workerActivities.add(0, activity);
+                }
+            }
+        }
+    }
     private void removeLoadingWorkerActivitiesAsyncTaskFromHashMap(String workerId) {
         if (loadingWorkerActivitiesAsyncTaskHashMap.containsKey(workerId)) {
             synchronized (ActivityDataStore.class) {

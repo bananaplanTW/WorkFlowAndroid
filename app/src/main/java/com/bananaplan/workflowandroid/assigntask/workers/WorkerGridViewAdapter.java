@@ -197,9 +197,9 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         task.status = Task.Status.PENDING;
 
         // [TODO] should dispatch task to worker
-        Log.d("DAZZ", "assign task, " + task.id + " " + worker.name);
-        PostRequestAsyncTask postRequestAsyncTask = new PostRequestAsyncTask(mContext);
-        postRequestAsyncTask.execute();
+//        Log.d("DAZZ", "assign task, " + task.id + " " + worker.name);
+//        PostRequestAsyncTask postRequestAsyncTask = new PostRequestAsyncTask(mContext);
+//        postRequestAsyncTask.execute();
     }
 
     private void removeTaskFromCurrentWorker(Task dropTask) {

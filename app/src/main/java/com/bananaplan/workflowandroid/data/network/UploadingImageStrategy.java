@@ -30,10 +30,13 @@ public class UploadingImageStrategy implements IPostRequestStrategy {
     public JSONObject post() {
         try {
             HashMap<String, String> queries = new HashMap<>();
-            queries.put("workerId", mWorkerId);
-            String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.DEBUG_BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_IMAGE_ACTIVITY, null);
-            Log.d("DAZZZZ", "going to post image");
-            String responseString = RestfulUtils.restfulPostFileRequest(urlString, queries, mFilePath);
+            queries.put("ed", mWorkerId);
+            // [TODO] should login with user
+            queries.put("ud", "qY7FdM7wnjevqmfws");
+            queries.put("t", "el1UPAsSmVf8F1LEKf8tRb8Ny5jAgOdK2qLNHztb7Cj");
+
+            String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_IMAGE_ACTIVITY, null);
+            String responseString = RestfulUtils.restfulPostFileRequest(urlString, queries, mFilePath, "image/png");
             JSONObject jsonObject = new JSONObject(responseString);
             if (jsonObject.getString("status") == "success") {
                 return jsonObject.getJSONObject("result");
