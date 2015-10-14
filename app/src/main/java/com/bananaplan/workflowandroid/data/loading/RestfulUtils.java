@@ -145,10 +145,6 @@ public class RestfulUtils {
     private static final OkHttpClient client = new OkHttpClient();
     public static String restfulPostFileRequest(String urlString, HashMap<String, String> bodyPair, String filePath, String fileType) {
         String responseString = "";
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-//        String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
 
         File f = new File(filePath);
         Request.Builder builder = new Request.Builder();

@@ -38,14 +38,13 @@ public class UploadingImageStrategy implements IPostRequestStrategy {
             String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_IMAGE_ACTIVITY, null);
             String responseString = RestfulUtils.restfulPostFileRequest(urlString, queries, mFilePath, "image/png");
             JSONObject jsonObject = new JSONObject(responseString);
-            if (jsonObject.getString("status") == "success") {
+            if (jsonObject.getString("status").equals("success")) {
                 return jsonObject.getJSONObject("result");
             }
         }  catch (JSONException e) {
             Log.e(TAG, "Exception in LoadingWorkerActivitiesStrategy()");
             e.printStackTrace();
         }
-
 
         return null;
     }

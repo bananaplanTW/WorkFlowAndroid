@@ -18,6 +18,7 @@ public class PostRequestAsyncTask extends AsyncTask<Void, Void, JSONObject> {
         void onFailPostingData(boolean isFailCausedByInternet);
     }
 
+    private JSONObject mResult;
     private Context mContext;
     private IPostRequestStrategy mPostRequestStrategy;
     private OnFinishPostingDataListener mOnFinishPostingDataListener;
@@ -28,11 +29,17 @@ public class PostRequestAsyncTask extends AsyncTask<Void, Void, JSONObject> {
         mOnFinishPostingDataListener = onFinishPostingDataListener;
     }
 
+
+    public JSONObject getResult () {
+        return mResult;
+    }
+
+
     @Override
     protected JSONObject doInBackground(Void... voids) {
         if (!MainApplication.sUseTestData) {
             if (RestfulUtils.isConnectToInternet(mContext)) {
-                mPostRequestStrategy.post();
+                return mPostRequestStrategy.post();
             } else {
                 cancel(true);
             }
@@ -47,6 +54,7 @@ public class PostRequestAsyncTask extends AsyncTask<Void, Void, JSONObject> {
     @Override
     protected void onPostExecute(JSONObject jsonObject) {
         super.onPostExecute(jsonObject);
+        mResult = jsonObject;
         mOnFinishPostingDataListener.onFinishPostingData();
     }
 }
