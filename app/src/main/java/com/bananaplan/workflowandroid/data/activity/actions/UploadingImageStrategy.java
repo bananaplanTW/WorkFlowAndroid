@@ -1,10 +1,11 @@
-package com.bananaplan.workflowandroid.data.network;
+package com.bananaplan.workflowandroid.data.activity.actions;
 
 import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.loading.RestfulUtils;
 import com.bananaplan.workflowandroid.data.loading.URLUtils;
+import com.bananaplan.workflowandroid.data.network.IPostRequestStrategy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +22,7 @@ public class UploadingImageStrategy implements IPostRequestStrategy {
     private String mFilePath;
     private String mWorkerId;
 
-    public UploadingImageStrategy(String filePath, String workerId) {
+    public UploadingImageStrategy(String workerId, String filePath) {
         mFilePath = filePath;
         mWorkerId = workerId;
     }
@@ -36,16 +37,15 @@ public class UploadingImageStrategy implements IPostRequestStrategy {
             queries.put("t", "el1UPAsSmVf8F1LEKf8tRb8Ny5jAgOdK2qLNHztb7Cj");
 
             String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_IMAGE_ACTIVITY, null);
-            String responseString = RestfulUtils.restfulPostFileRequest(urlString, queries, mFilePath, "image/png");
+            String responseString = RestfulUtils.restfulPostFileRequest(urlString, queries, mFilePath);
             JSONObject jsonObject = new JSONObject(responseString);
-            if (jsonObject.getString("status") == "success") {
+            if (jsonObject.getString("status").equals("success")) {
                 return jsonObject.getJSONObject("result");
             }
         }  catch (JSONException e) {
             Log.e(TAG, "Exception in LoadingWorkerActivitiesStrategy()");
             e.printStackTrace();
         }
-
 
         return null;
     }
