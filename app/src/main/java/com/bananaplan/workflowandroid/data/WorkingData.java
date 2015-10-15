@@ -232,6 +232,12 @@ public final class WorkingData implements DataSubject {
         return tmp;
     }
 
+    public IdData getUserById (String userId) {
+        if (mManagersMap.containsKey(userId)) {
+            return mManagersMap.get(userId);
+        }
+        return mWorkersMap.get(userId);
+    }
     public Manager getManagerById(String managerId) {
         return mManagersMap.get(managerId);
     }

@@ -49,8 +49,9 @@ public class ActivityDataFactory {
                 task.description = recordJSON.getString("taskName");
                 return task;
             case "comment":
-                RecordData comment = (RecordData) DataFactory.genData(recordJSON.getString("ownerId"), BaseData.TYPE.RECORD);
+                RecordData comment = (RecordData) DataFactory.genData(recordJSON.getString("receiverId"), BaseData.TYPE.RECORD);
                 comment.tag = type;
+                comment.reporter = recordJSON.getString("ownerId");
                 comment.time = new Date(recordJSON.getLong("createdAt"));
                 comment.description = recordJSON.getString("content");
                 return comment;
