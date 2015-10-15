@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.IdData;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
@@ -607,8 +608,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 holder = (ViewHolder) convertView.getTag();
             }
             BaseData data = getItem(position);
-            Worker worker;
-            Manager manager;
+            IdData user;
             String description = "";
             int nameVisibility = View.GONE;
             int descriptionVisibility = View.GONE;
@@ -619,10 +619,10 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 case RECORD:
                     if (data instanceof RecordData) {
                         RecordData recordData = (RecordData) data;
-                        manager = WorkingData.getInstance(getActivity()).getManagerById(recordData.reporter);
+                        user = WorkingData.getInstance(getActivity()).getUserById(recordData.reporter);
                         // [TODO] should use manager's avatar
                         holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
-                        holder.name.setText(manager.name);
+                        holder.name.setText(user.name);
                         holder.description.setText(recordData.description);
                         nameVisibility = View.VISIBLE;
                         descriptionVisibility = View.VISIBLE;
@@ -630,8 +630,8 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                     break;
                 case FILE:
                     if (data instanceof FileData) {
-                        worker = WorkingData.getInstance(getActivity()).getWorkerById(((FileData) data).uploader);
-                        String statusTxt = (worker != null ? worker.name + " " : "") +
+                        user = WorkingData.getInstance(getActivity()).getUserById(((FileData) data).uploader);
+                        String statusTxt = (user != null ? user.name + " " : "") +
                                 getResources().getString(R.string.worker_ov_tab_status_upload) +
                                 (TextUtils.isEmpty(((FileData) data).fileName) ? "" : " " + ((FileData) data).fileName);
                         holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_insert_drive_file, null));
@@ -649,8 +649,8 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 case PHOTO:
                     if (data instanceof PhotoData) {
                         final PhotoData photoData = (PhotoData) data;
-                        worker = WorkingData.getInstance(getActivity()).getWorkerById(photoData.uploader);
-                        holder.status.setText((worker != null ? worker.name + " " : "") +
+                        user = WorkingData.getInstance(getActivity()).getWorkerById(photoData.uploader);
+                        holder.status.setText((user != null ? user.name + " " : "") +
                                 getResources().getString(R.string.worker_ov_tab_status_capture) +
                                 (TextUtils.isEmpty(photoData.fileName) ? "" : " " + photoData.fileName));
                         holder.photo.setImageDrawable(photoData.photo);
@@ -675,15 +675,17 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                     if (data instanceof HistoryData) {
                         HistoryData historyData = (HistoryData) data;
                         if (data.category == BaseData.CATEGORY.WORKER) {
-                            worker = WorkingData.getInstance(getActivity()).getWorkerById(historyData.workerId);
-                            holder.avatar.setImageDrawable(worker.getAvator());
-                            holder.name.setText(worker.name);
+                            user = WorkingData.getInstance(getActivity()).getUserById(historyData.workerId);
+                            // [TODO] should let user to have avatar
+                            holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
+                            holder.name.setText(user.name);
                             // [TODO] should use String resource to perform multiple languages.
                             description = EmployeeActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
                         } else if (data.category == BaseData.CATEGORY.TASK) {
-                            manager = WorkingData.getInstance(getActivity()).getManagerById(historyData.workerId);
+                            user = WorkingData.getInstance(getActivity()).getUserById(historyData.workerId);
+                            // [TODO] should let user to have avatar
                             holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
-                            holder.name.setText(manager.name);
+                            holder.name.setText(user.name);
                             // [TODO] should use String resource to perform multiple languages.
                             description = TaskActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
                         }
