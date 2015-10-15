@@ -98,30 +98,35 @@ public class RestfulUtils {
 
     /**
      * post request
+     *
      * @param urlString
      * @param bodyPair
      * @return
      */
-    public static String restfulPostRequest (String urlString, HashMap<String, String> bodyPair) {
-
-        InputStream inputStream;
+    public static String restfulPostRequest(String urlString, HashMap<String, String> headers, HashMap<String, String> bodyPair) {
         String result = null;
         HttpURLConnection conn = null;
-        String bodyParamsString = URLUtils.buildQueryString(bodyPair);
+        InputStream inputStream;
         if (urlString != null) {
             try {
-                // [TODO] should login
                 URL url = new URL(urlString);
+                String bodyParamsString = URLUtils.buildQueryString(bodyPair);
+
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                conn.setRequestProperty("x-user-id", "qY7FdM7wnjevqmfws");
-                conn.setRequestProperty("x-auth-token", "el1UPAsSmVf8F1LEKf8tRb8Ny5jAgOdK2qLNHztb7Cj");
+                if (headers != null) {
+                    Iterator iter = headers.entrySet().iterator();
+                    while (iter.hasNext()) {
+                        Map.Entry entry = (Map.Entry) iter.next();
+                        conn.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
+                    }
+                }
+                conn.setRequestMethod("POST");
                 conn.setReadTimeout(3000);
                 conn.setConnectTimeout(3000);
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 conn.getOutputStream().write(bodyParamsString.getBytes("UTF-8"));
-
                 Log.d("Restful api", "Connecting url " + urlString);
                 conn.connect();
                 Log.d("Restful api", "Response Code is : " + conn.getResponseCode());

@@ -36,6 +36,7 @@ import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToWorkerCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
 import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
@@ -96,6 +97,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
 
     private String mCurrentPhotoPath = null;
     private String mCurrentFilePath = null;
+    private String mCommentText = null;
     private int mContentShow;
 
     static {
@@ -248,9 +250,14 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         if (TextUtils.isEmpty(mRecordEditText.getText())) return;
         RecordData record = (RecordData) DataFactory.genData(getSelectedWorker().id, BaseData.TYPE.RECORD);
         record.time = Calendar.getInstance().getTime();
-        record.reporter = WorkingData.getInstance(getActivity()).getLoginWorkerId();
+        // [TODO] should use logged in user
+        record.reporter = WorkingData.getInstance(getActivity()).getManagers().get(0).id;//.getLoginWorkerId();
         record.description = mRecordEditText.getText().toString();
         addRecord(getSelectedWorker(), record);
+
+        mCommentText = mRecordEditText.getText().toString();
+        syncingTextActivity();
+
         onItemSelected(getSelectedWorker()); // force notify adapter data changed
         mRecordEditText.setText("");
     }
@@ -405,6 +412,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         mCurrentPhotoPath = null;
     }
     private void syncingFileActivity() {
+        // [TODO] should have a service locator
         if (Utils.isImage(mCurrentFilePath)) {
             LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
             leaveAPhotoCommentToWorkerCommand.execute();
@@ -413,6 +421,12 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             leaveAFileCommentToWorkerCommand.execute();
         }
         mCurrentFilePath = null;
+    }
+    private void syncingTextActivity() {
+        // [TODO] should have a service locator
+        LeaveATextCommentToWorkerCommand leaveATextCommentToWorkerCommand = new LeaveATextCommentToWorkerCommand(getContext(), mWorker.id, mCommentText);
+        leaveATextCommentToWorkerCommand.execute();
+        mCommentText = null;
     }
 
 
@@ -605,7 +619,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 case RECORD:
                     if (data instanceof RecordData) {
                         RecordData recordData = (RecordData) data;
-                        manager = WorkingData.getInstance(getActivity()).getManagerById(recordData.workerId);
+                        manager = WorkingData.getInstance(getActivity()).getManagerById(recordData.reporter);
                         // [TODO] should use manager's avatar
                         holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
                         holder.name.setText(manager.name);
