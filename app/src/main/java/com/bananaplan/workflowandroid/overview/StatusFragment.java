@@ -102,11 +102,11 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private int mContentShow;
 
     static {
-        //mTabInfos.add(new TabInfo(BaseData.TYPE.ALL.ordinal(), TAB_TAG.ALL, R.id.tab_all, R.id.worker_status_list));
-        mTabInfos.add(new TabInfo(BaseData.TYPE.RECORD.ordinal(), TAB_TAG.RECORD, R.id.tab_record, R.id.worker_status_list));
-        mTabInfos.add(new TabInfo(BaseData.TYPE.FILE.ordinal(), TAB_TAG.FILE, R.id.tab_file, R.id.worker_status_list));
-        mTabInfos.add(new TabInfo(BaseData.TYPE.PHOTO.ordinal(), TAB_TAG.PHOTO, R.id.tab_photo, R.id.worker_status_list));
-        mTabInfos.add(new TabInfo(BaseData.TYPE.HISTORY.ordinal(), TAB_TAG.HISTORY, R.id.tab_history, R.id.worker_status_list));
+        mTabInfos.add(new TabInfo(0, TAB_TAG.ALL, R.id.tab_all, R.id.worker_status_list));
+        mTabInfos.add(new TabInfo(1, TAB_TAG.RECORD, R.id.tab_record, R.id.worker_status_list));
+        mTabInfos.add(new TabInfo(2, TAB_TAG.FILE, R.id.tab_file, R.id.worker_status_list));
+        mTabInfos.add(new TabInfo(3, TAB_TAG.PHOTO, R.id.tab_photo, R.id.worker_status_list));
+        mTabInfos.add(new TabInfo(4, TAB_TAG.HISTORY, R.id.tab_history, R.id.worker_status_list));
     }
 
     private static final class TabInfo {
@@ -715,7 +715,8 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 FilterResults result = new FilterResults();
                 ArrayList<BaseData> filterResult = new ArrayList<>();
                 for (BaseData data : mOrigData) {
-                    if (mTabHost.getCurrentTab() == data.type.ordinal()) {
+                    if (mTabHost.getCurrentTab() == 0 ||
+                            (mTabHost.getCurrentTab() - 1) == data.type.ordinal()) {
                         filterResult.add(data);
                     }
                 }
