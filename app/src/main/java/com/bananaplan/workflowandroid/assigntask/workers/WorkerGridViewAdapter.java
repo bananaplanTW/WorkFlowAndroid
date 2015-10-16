@@ -23,6 +23,7 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
+import com.bananaplan.workflowandroid.data.worker.actions.AssignTaskToWorkerCommand;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 
@@ -196,10 +197,9 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         worker.addScheduledTask(task);
         task.status = Task.Status.PENDING;
 
-        // [TODO] should dispatch task to worker
-//        Log.d("DAZZ", "assign task, " + task.id + " " + worker.name);
-//        PostRequestAsyncTask postRequestAsyncTask = new PostRequestAsyncTask(mContext);
-//        postRequestAsyncTask.execute();
+        // [TODO] should have service provider to decouple the dependency
+        AssignTaskToWorkerCommand assignTaskToWorkerCommand = new AssignTaskToWorkerCommand(mContext, worker.id, task.id);
+        assignTaskToWorkerCommand.execute();
     }
 
     private void removeTaskFromCurrentWorker(Task dropTask) {
