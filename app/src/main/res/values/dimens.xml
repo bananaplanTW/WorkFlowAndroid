@@ -175,8 +175,8 @@
     <dimen name="add_case_expected_devices_container_margin_top">40dp</dimen>
 
     <!-- Worker ov -->
-    <dimen name="photo_thumbnail_max_width">170dp</dimen>
-    <dimen name="photo_thumbnail_max_height">110dp</dimen>
+    <dimen name="photo_thumbnail_max_width">300dp</dimen>
+    <dimen name="photo_thumbnail_max_height">300dp</dimen>
     <dimen name="worker_ov_right_pane_worker_personal_info_padding_top">16dp</dimen>
     <dimen name="worker_ov_right_pane_worker_personal_info_padding_bottom">34dp</dimen>
     <dimen name="worker_ov_right_pane_worker_avatar_width">72dp</dimen>

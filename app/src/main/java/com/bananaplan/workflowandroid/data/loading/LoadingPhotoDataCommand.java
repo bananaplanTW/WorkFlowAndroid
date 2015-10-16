@@ -3,8 +3,12 @@ package com.bananaplan.workflowandroid.data.loading;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 
 import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Created by daz on 10/10/15.
@@ -24,7 +28,7 @@ public class LoadingPhotoDataCommand implements LoadingDrawableAsyncTask.OnFinis
 
     public void execute () {
         mLoadingDrawableAsyncTask = new LoadingDrawableAsyncTask(mContext, mUri, this);
-        mLoadingDrawableAsyncTask.execute();
+        mLoadingDrawableAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 

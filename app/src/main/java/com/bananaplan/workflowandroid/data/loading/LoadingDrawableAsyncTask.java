@@ -1,14 +1,20 @@
 package com.bananaplan.workflowandroid.data.loading;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.bananaplan.workflowandroid.main.MainApplication;
+import com.bananaplan.workflowandroid.utility.Utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -46,7 +52,23 @@ public class LoadingDrawableAsyncTask extends AsyncTask<Void, Void, Drawable> {
                     InputStream inputStream = null;
                     try {
                         inputStream = new URL(mUri.toString()).openStream();
-                        return Drawable.createFromStream(inputStream, mUri.toString());
+                        // write image data to storage first to scale bitmap
+                        // TODO: NEED to tune performance
+                        String fileName = mUri.toString().substring(mUri.toString().lastIndexOf('/') + 1, mUri.toString().indexOf('%'));
+                        File file = new File(mContext.getCacheDir(), fileName);
+                        OutputStream output = new FileOutputStream(file);
+                        try {
+                            byte[] buffer = new byte[8 * 1024];
+                            int read;
+                            while ((read = inputStream.read(buffer)) != -1) {
+                                output.write(buffer, 0, read);
+                            }
+                            output.flush();
+                        } finally {
+                            output.close();
+                        }
+                        Bitmap bitmap = Utils.scaleBitmap(mContext, file.getAbsolutePath());
+                        return new BitmapDrawable(mContext.getResources(), bitmap);
                     } catch (MalformedURLException e) {
                         cancel(true);
                         e.printStackTrace();

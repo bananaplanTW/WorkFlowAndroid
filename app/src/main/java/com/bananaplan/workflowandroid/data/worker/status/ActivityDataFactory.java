@@ -65,6 +65,7 @@ public class ActivityDataFactory {
                     Uri.Builder thumbBuilder = Uri.parse(LoadingDataUtils.WorkingDataUrl.BASE_URL).buildUpon();
                     thumbBuilder.path(recordJSON.getString("thumbUrl"));
                     Uri thumbUri = thumbBuilder.build();
+                    // TODO: DO NOT load all thumbnails into memory to avoid OOM
                     LoadingPhotoDataCommand loadingPhotoDataCommand = new LoadingPhotoDataCommand(context, thumbUri, photoData);
                     loadingPhotoDataCommand.execute();
 

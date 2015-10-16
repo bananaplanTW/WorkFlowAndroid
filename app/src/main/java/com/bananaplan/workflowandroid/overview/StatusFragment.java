@@ -3,7 +3,6 @@ package com.bananaplan.workflowandroid.overview;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -15,7 +14,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +28,6 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.IdData;
-import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
@@ -41,8 +38,6 @@ import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToW
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
 import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
-import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
-import com.bananaplan.workflowandroid.data.activity.actions.UploadingImageStrategy;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -301,7 +296,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
-        File image = new File(storageDir + "/" + timeStamp + ".png");
+        File image = new File(storageDir + "/" + timeStamp + ".jpg");
         if (!image.createNewFile()) throw new IOException();
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
@@ -353,18 +348,8 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private void onPhotoCaptured() {
         // compress photo
         File photoFile = new File(mCurrentPhotoPath.replace("file:", ""));
-        int targetW = (int) getResources().getDimension(R.dimen.photo_thumbnail_max_width);
-        int targetH = (int) getResources().getDimension(R.dimen.photo_thumbnail_max_height);
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor < 1 ? 1 : scaleFactor;
-        bmOptions.inPurgeable = true;
-        Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
+        Bitmap bitmap = Utils.scaleBitmap(getActivity(), photoFile.getAbsolutePath());
+        if (bitmap == null) return;
 
         // [TODO] should let user login
         String ownerId = WorkingData.getInstance(getActivity()).getManagers().get(0).id;
@@ -403,7 +388,6 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         }
     }
 
-
     private void syncingPhotoActivity() {
         String realPath = mCurrentPhotoPath.substring(mCurrentPhotoPath.indexOf(':') + 1);
 
@@ -412,6 +396,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         leaveAPhotoCommentToWorkerCommand.execute();
         mCurrentPhotoPath = null;
     }
+
     private void syncingFileActivity() {
         // [TODO] should have a service locator
         if (Utils.isImage(mCurrentFilePath)) {
@@ -423,13 +408,13 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         }
         mCurrentFilePath = null;
     }
+
     private void syncingTextActivity() {
         // [TODO] should have a service locator
         LeaveATextCommentToWorkerCommand leaveATextCommentToWorkerCommand = new LeaveATextCommentToWorkerCommand(getContext(), mWorker.id, mCommentText);
         leaveATextCommentToWorkerCommand.execute();
         mCommentText = null;
     }
-
 
     private void scoreWorker(boolean plus) {
         final Worker worker = getSelectedWorker();
@@ -440,7 +425,6 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         }
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
     }
-
 
     private void onTabSelected(int id) {
         for (int i = 0; i < mTabInfos.size(); i++) {
