@@ -43,11 +43,18 @@ public class LoadingDrawableAsyncTask extends AsyncTask<Void, Void, Drawable> {
         if (!MainApplication.sUseTestData) {
             if (RestfulUtils.isConnectToInternet(mContext)) {
                 try {
-                    InputStream inputStream = new URL(mUri.toString()).openStream();
-                    return Drawable.createFromStream(inputStream, mUri.toString());
-                } catch (MalformedURLException e) {
-                    cancel(true);
-                    e.printStackTrace();
+                    InputStream inputStream = null;
+                    try {
+                        inputStream = new URL(mUri.toString()).openStream();
+                        return Drawable.createFromStream(inputStream, mUri.toString());
+                    } catch (MalformedURLException e) {
+                        cancel(true);
+                        e.printStackTrace();
+                    } finally {
+                        if (inputStream != null) {
+                            inputStream.close();
+                        }
+                    }
                 } catch (IOException e) {
                     cancel(true);
                     e.printStackTrace();
