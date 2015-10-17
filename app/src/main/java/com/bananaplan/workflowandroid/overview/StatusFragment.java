@@ -391,9 +391,20 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private void syncingPhotoActivity() {
         String realPath = mCurrentPhotoPath.substring(mCurrentPhotoPath.indexOf(':') + 1);
 
-        // [TODO] should have a service locator
-        LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, realPath);
-        leaveAPhotoCommentToWorkerCommand.execute();
+        switch (mContentShow) {
+            case CONTENT_SHOW.WORKER_STATUS:
+                // [TODO] should have a service locator
+                LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, realPath);
+                leaveAPhotoCommentToWorkerCommand.execute();
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                // [TODO] should have a service locator
+                //LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, realPath);
+                //leaveAPhotoCommentToWorkerCommand.execute();
+                break;
+            default:
+                break;
+        }
         mCurrentPhotoPath = null;
     }
 
