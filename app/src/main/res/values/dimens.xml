@@ -102,6 +102,7 @@
     <dimen name="case_ov_right_top_pane_padding_top">16dp</dimen>
     <dimen name="case_ov_right_top_pane_margin_bottom">24dp</dimen>
     <dimen name="case_ov_right_top_pane_tv_case_margin_left">16dp</dimen>
+    <dimen name="case_ov_right_top_pane_tv_case_max_width">107dp</dimen>
     <dimen name="case_ov_right_top_pane_tv_case_text_size">18dp</dimen>
     <dimen name="case_ov_right_top_pane_tv_progress_string_margin_left">123dp</dimen>
     <dimen name="case_ov_right_top_pane_tv_progress_string_text_size">14dp</dimen>
