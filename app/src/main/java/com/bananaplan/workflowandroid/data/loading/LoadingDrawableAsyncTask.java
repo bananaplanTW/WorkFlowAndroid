@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.bananaplan.workflowandroid.main.MainApplication;
 import com.bananaplan.workflowandroid.utility.Utils;
@@ -48,24 +49,31 @@ public class LoadingDrawableAsyncTask extends AsyncTask<Void, Void, Drawable> {
     protected Drawable doInBackground(Void... voids) {
         if (!MainApplication.sUseTestData) {
             if (RestfulUtils.isConnectToInternet(mContext)) {
+                String fileName = Utils.SHA1(mUri.toString());
+                if (TextUtils.isEmpty(fileName)) {
+                    // fallback
+                    fileName = mUri.toString().substring(
+                            mUri.toString().lastIndexOf('/') + 1, mUri.toString().indexOf('%'));
+                }
+                File file = new File(mContext.getCacheDir(), fileName);
                 try {
                     InputStream inputStream = null;
                     try {
-                        inputStream = new URL(mUri.toString()).openStream();
-                        // write image data to storage first to scale bitmap
-                        // TODO: NEED to tune performance
-                        String fileName = mUri.toString().substring(mUri.toString().lastIndexOf('/') + 1, mUri.toString().indexOf('%'));
-                        File file = new File(mContext.getCacheDir(), fileName);
-                        OutputStream output = new FileOutputStream(file);
-                        try {
-                            byte[] buffer = new byte[8 * 1024];
-                            int read;
-                            while ((read = inputStream.read(buffer)) != -1) {
-                                output.write(buffer, 0, read);
+                        if (!file.exists()) {
+                            inputStream = new URL(mUri.toString()).openStream();
+                            // write image data to storage first to scale bitmap
+                            // TODO: NEED to tune performance, IO-bound
+                            OutputStream output = new FileOutputStream(file);
+                            try {
+                                byte[] buffer = new byte[8 * 1024];
+                                int read;
+                                while ((read = inputStream.read(buffer)) != -1) {
+                                    output.write(buffer, 0, read);
+                                }
+                                output.flush();
+                            } finally {
+                                output.close();
                             }
-                            output.flush();
-                        } finally {
-                            output.close();
                         }
                         Bitmap bitmap = Utils.scaleBitmap(mContext, file.getAbsolutePath());
                         return new BitmapDrawable(mContext.getResources(), bitmap);
