@@ -33,6 +33,7 @@ import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToWorkerCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
@@ -373,7 +374,10 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             instance.addWorkerActivity(mWorker.id, data);
         } else {
             if (worker.getWipTask() != null) {
-                WorkingData.getInstance(getActivity()).addRecordToTask(worker.getWipTask(), data);
+                // [TODO] should add photo activity to task
+                Task task = worker.getWipTask();
+                ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
+                instance.addTaskActivity(task.id, data);
             }
         }
     }
@@ -399,8 +403,11 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 break;
             case CONTENT_SHOW.TASK_STATUS:
                 // [TODO] should have a service locator
-                //LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, realPath);
-                //leaveAPhotoCommentToWorkerCommand.execute();
+                if (mWorker.getWipTask() != null) {
+                    Task task = mWorker.getWipTask();
+                    LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand = new LeaveAPhotoCommentToTaskCommand(getContext(), task.id, realPath);
+                    leaveAPhotoCommentToTaskCommand.execute();
+                }
                 break;
             default:
                 break;
