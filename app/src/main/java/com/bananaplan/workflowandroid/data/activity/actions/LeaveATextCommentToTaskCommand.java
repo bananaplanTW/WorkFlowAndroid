@@ -5,23 +5,21 @@ import android.content.Context;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 
 /**
- * Created by daz on 10/15/15.
+ * Created by daz on 10/18/15.
  */
-public class LeaveATextCommentToWorkerCommand implements ICreateActivityCommand, PostRequestAsyncTask.OnFinishPostingDataListener {
+public class LeaveATextCommentToTaskCommand implements ICreateActivityCommand, PostRequestAsyncTask.OnFinishPostingDataListener {
 
     private PostRequestAsyncTask mPostRequestAsyncTask;
     private Context mContext;
-    private String mWorkerId;
+    private String mTaskId;
     private String mComment;
 
-    public LeaveATextCommentToWorkerCommand(Context context, String workerId, String comment) {
+    public LeaveATextCommentToTaskCommand(Context context, String taskId, String comment) {
         mContext = context;
-        mWorkerId = workerId;
+        mTaskId = taskId;
         mComment = comment;
     }
 
@@ -34,10 +32,10 @@ public class LeaveATextCommentToWorkerCommand implements ICreateActivityCommand,
         headers.put("x-auth-token", "el1UPAsSmVf8F1LEKf8tRb8Ny5jAgOdK2qLNHztb7Cj");
 
         HashMap<String, String> bodies = new HashMap<>();
-        bodies.put("ed", mWorkerId);
+        bodies.put("td", mTaskId);
         bodies.put("msg", mComment);
 
-        PostRequestStrategy uploadingCommentStrategy = new PostRequestStrategy(LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_TEXT_ACTIVITY, headers, bodies);
+        PostRequestStrategy uploadingCommentStrategy = new PostRequestStrategy(LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_TEXT_ACTIVITY_TO_TASK, headers, bodies);
         mPostRequestAsyncTask = new PostRequestAsyncTask(mContext, uploadingCommentStrategy, this);
         mPostRequestAsyncTask.execute();
     }
@@ -45,7 +43,7 @@ public class LeaveATextCommentToWorkerCommand implements ICreateActivityCommand,
 
     @Override
     public void onFinishPostingData() {
-        JSONObject result = mPostRequestAsyncTask.getResult();
+
     }
     @Override
     public void onFailPostingData(boolean isFailCausedByInternet) {
