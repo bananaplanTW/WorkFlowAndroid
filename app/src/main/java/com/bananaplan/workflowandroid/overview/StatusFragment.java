@@ -32,8 +32,11 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToWorkerCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToWorkerCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
@@ -373,7 +376,10 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             instance.addWorkerActivity(mWorker.id, data);
         } else {
             if (worker.getWipTask() != null) {
-                WorkingData.getInstance(getActivity()).addRecordToTask(worker.getWipTask(), data);
+                // [TODO] should add photo activity to task
+                Task task = worker.getWipTask();
+                ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
+                instance.addTaskActivity(task.id, data);
             }
         }
     }
@@ -391,28 +397,75 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private void syncingPhotoActivity() {
         String realPath = mCurrentPhotoPath.substring(mCurrentPhotoPath.indexOf(':') + 1);
 
-        // [TODO] should have a service locator
-        LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, realPath);
-        leaveAPhotoCommentToWorkerCommand.execute();
+        switch (mContentShow) {
+            case CONTENT_SHOW.WORKER_STATUS:
+                // [TODO] should have a service locator
+                LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, realPath);
+                leaveAPhotoCommentToWorkerCommand.execute();
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                // [TODO] should have a service locator
+                if (mWorker.getWipTask() != null) {
+                    Task task = mWorker.getWipTask();
+                    LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand = new LeaveAPhotoCommentToTaskCommand(getContext(), task.id, realPath);
+                    leaveAPhotoCommentToTaskCommand.execute();
+                }
+                break;
+            default:
+                break;
+        }
         mCurrentPhotoPath = null;
     }
 
     private void syncingFileActivity() {
-        // [TODO] should have a service locator
-        if (Utils.isImage(mCurrentFilePath)) {
-            LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
-            leaveAPhotoCommentToWorkerCommand.execute();
-        } else {
-            LeaveAFileCommentToWorkerCommand leaveAFileCommentToWorkerCommand = new LeaveAFileCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
-            leaveAFileCommentToWorkerCommand.execute();
+        switch (mContentShow) {
+            case CONTENT_SHOW.WORKER_STATUS:
+                // [TODO] should have a service locator
+                if (Utils.isImage(mCurrentFilePath)) {
+                    LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
+                    leaveAPhotoCommentToWorkerCommand.execute();
+                } else {
+                    LeaveAFileCommentToWorkerCommand leaveAFileCommentToWorkerCommand = new LeaveAFileCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
+                    leaveAFileCommentToWorkerCommand.execute();
+                }
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                // [TODO] should have a service locator
+                if (mWorker.getWipTask() != null) {
+                    Task task = mWorker.getWipTask();
+                    if (Utils.isImage(mCurrentFilePath)) {
+                        LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand = new LeaveAPhotoCommentToTaskCommand(getContext(), task.id, mCurrentFilePath);
+                        leaveAPhotoCommentToTaskCommand.execute();
+                    } else {
+                        LeaveAFileCommentToTaskCommand leaveAFileCommentToTaskCommand = new LeaveAFileCommentToTaskCommand(getContext(), task.id, mCurrentFilePath);
+                        leaveAFileCommentToTaskCommand.execute();
+                    }
+                }
+                break;
+            default:
+                break;
         }
         mCurrentFilePath = null;
     }
 
     private void syncingTextActivity() {
-        // [TODO] should have a service locator
-        LeaveATextCommentToWorkerCommand leaveATextCommentToWorkerCommand = new LeaveATextCommentToWorkerCommand(getContext(), mWorker.id, mCommentText);
-        leaveATextCommentToWorkerCommand.execute();
+        switch (mContentShow) {
+            case CONTENT_SHOW.WORKER_STATUS:
+                // [TODO] should have a service locator
+                LeaveATextCommentToWorkerCommand leaveATextCommentToWorkerCommand = new LeaveATextCommentToWorkerCommand(getContext(), mWorker.id, mCommentText);
+                leaveATextCommentToWorkerCommand.execute();
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                // [TODO] should have a service locator
+                if (mWorker.getWipTask() != null) {
+                    Task task = mWorker.getWipTask();
+                    LeaveATextCommentToTaskCommand leaveATextCommentToTaskCommand = new LeaveATextCommentToTaskCommand(getContext(), task.id, mCommentText);
+                    leaveATextCommentToTaskCommand.execute();
+                }
+                break;
+            default:
+                break;
+        }
         mCommentText = null;
     }
 
