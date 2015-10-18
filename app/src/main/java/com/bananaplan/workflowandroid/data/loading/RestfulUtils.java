@@ -67,7 +67,6 @@ public class RestfulUtils {
      * @return The JsonObject from this url
      */
     public static String getJsonStringFromUrl(String urlString) {
-        // [TODO] should we close input stream ?
         InputStream inputStream = null;
         String result = null;
         if (urlString != null) {
@@ -91,6 +90,14 @@ public class RestfulUtils {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         return result;
@@ -106,7 +113,7 @@ public class RestfulUtils {
     public static String restfulPostRequest(String urlString, HashMap<String, String> headerPairs, HashMap<String, String> bodyPairs) {
         String result = null;
         HttpURLConnection conn = null;
-        InputStream inputStream;
+        InputStream inputStream = null;
         if (urlString != null) {
             try {
                 URL url = new URL(urlString);
@@ -140,6 +147,13 @@ public class RestfulUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 conn.disconnect();
             }
         }
