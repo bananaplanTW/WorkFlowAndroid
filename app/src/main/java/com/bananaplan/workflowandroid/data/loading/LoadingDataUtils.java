@@ -64,6 +64,7 @@ public class LoadingDataUtils {
 
             public static final String COMMENT_IMAGE_ACTIVITY_TO_TASK = "/api/add-task-activity/image";
             public static final String COMMENT_FILE_ACTIVITY_TO_TASK = "/api/add-task-activity/file";
+            public static final String COMMENT_TEXT_ACTIVITY_TO_TASK = "/api/add-task-activity/text";
         }
     }
 

@@ -100,22 +100,22 @@ public class RestfulUtils {
      * post request
      *
      * @param urlString
-     * @param bodyPair
+     * @param bodyPairs
      * @return
      */
-    public static String restfulPostRequest(String urlString, HashMap<String, String> headers, HashMap<String, String> bodyPair) {
+    public static String restfulPostRequest(String urlString, HashMap<String, String> headerPairs, HashMap<String, String> bodyPairs) {
         String result = null;
         HttpURLConnection conn = null;
         InputStream inputStream;
         if (urlString != null) {
             try {
                 URL url = new URL(urlString);
-                String bodyParamsString = URLUtils.buildQueryString(bodyPair);
+                String bodyParamsString = URLUtils.buildQueryString(bodyPairs);
 
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                if (headers != null) {
-                    Iterator iter = headers.entrySet().iterator();
+                if (headerPairs != null) {
+                    Iterator iter = headerPairs.entrySet().iterator();
                     while (iter.hasNext()) {
                         Map.Entry entry = (Map.Entry) iter.next();
                         conn.setRequestProperty((String) entry.getKey(), (String) entry.getValue());

@@ -36,6 +36,7 @@ import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToT
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToWorkerCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToWorkerCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
@@ -448,9 +449,23 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     }
 
     private void syncingTextActivity() {
-        // [TODO] should have a service locator
-        LeaveATextCommentToWorkerCommand leaveATextCommentToWorkerCommand = new LeaveATextCommentToWorkerCommand(getContext(), mWorker.id, mCommentText);
-        leaveATextCommentToWorkerCommand.execute();
+        switch (mContentShow) {
+            case CONTENT_SHOW.WORKER_STATUS:
+                // [TODO] should have a service locator
+                LeaveATextCommentToWorkerCommand leaveATextCommentToWorkerCommand = new LeaveATextCommentToWorkerCommand(getContext(), mWorker.id, mCommentText);
+                leaveATextCommentToWorkerCommand.execute();
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                // [TODO] should have a service locator
+                if (mWorker.getWipTask() != null) {
+                    Task task = mWorker.getWipTask();
+                    LeaveATextCommentToTaskCommand leaveATextCommentToTaskCommand = new LeaveATextCommentToTaskCommand(getContext(), task.id, mCommentText);
+                    leaveATextCommentToTaskCommand.execute();
+                }
+                break;
+            default:
+                break;
+        }
         mCommentText = null;
     }
 
