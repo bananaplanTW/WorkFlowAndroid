@@ -118,4 +118,20 @@
     <color name="detailed_worker_task_schedule_item_text_color">@android:color/black</color>
     <color name="detailed_worker_task_schedule_item_divider_color">#FFE1E1E1</color>
 
+    <!-- InfoFragment -->
+    <color name="info_frag_title_text_color">#222222</color>
+    <color name="info_frag_left_pane_bg">#666666</color>
+    <color name="info_frag_worker_on_title">#48c9a9</color>
+    <color name="info_frag_worker_on_content">#30a487</color>
+    <color name="info_frag_worker_overtime_title">#649ae1</color>
+    <color name="info_frag_worker_overtime_content">#3078d7</color>
+    <color name="info_frag_warning_title">#ec6f5a</color>
+    <color name="info_frag_warning_content">#e63f24</color>
+    <color name="info_frag_cost_title">#55badf</color>
+    <color name="info_frag_cost_content">#27a2cf</color>
+    <color name="info_frag_list_delay">#f5b025</color>
+    <color name="info_frag_list_warning">#ec6f5a</color>
+    <color name="info_frag_list_checked">#48c9a9</color>
+    <color name="info_frag_list_leave_workers">#55badf</color>
+
 </resources>

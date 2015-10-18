@@ -216,4 +216,17 @@
     <string name="status_string_worker">員工 %s 的紀錄</string>
     <string name="status_string_task">工作項目 %s 的記錄</string>
 
+    <!-- InfoFragment -->
+    <string name="info_frag_menu">Menu</string>
+    <string name="info_frag_title">儀表板</string>
+    <string name="info_frag_noti">通知</string>
+    <string name="info_frag_cnt_worker_on">上班人數</string>
+    <string name="info_frag_cnt_worker_overtime">加班人數</string>
+    <string name="info_frag_cnt_warning">發生警訊</string>
+    <string name="info_frag_cost">成本</string>
+    <string name="info_frag_delay_items">延遲項目</string>
+    <string name="info_frag_warning_items">警訊項目</string>
+    <string name="info_frag_checked_items">等待審核</string>
+    <string name="info_frag_leave_workers">請假人員（七日內）</string>
+
 </resources>

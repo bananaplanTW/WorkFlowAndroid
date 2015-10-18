@@ -227,4 +227,17 @@
     <string name="status_string_worker">Worker %s records</string>
     <string name="status_string_task">Task %s records</string>
 
+    <!-- InfoFragment -->
+    <string name="info_frag_menu">Menu</string>
+    <string name="info_frag_title">DashBoard</string>
+    <string name="info_frag_noti">Notifications</string>
+    <string name="info_frag_cnt_worker_on">Working workers</string>
+    <string name="info_frag_cnt_worker_overtime">Overtime workers</string>
+    <string name="info_frag_cnt_warning">Warnings</string>
+    <string name="info_frag_cost">Costs</string>
+    <string name="info_frag_delay_items">Delay items</string>
+    <string name="info_frag_warning_items">Warning items</string>
+    <string name="info_frag_checked_items">Checked items</string>
+    <string name="info_frag_leave_workers">Leaving workers (in 7 days)</string>
+
 </resources>

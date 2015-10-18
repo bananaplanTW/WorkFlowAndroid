@@ -28,4 +28,8 @@
     <integer name="detailed_worker_task_schedule_error_weight">58</integer>
     <integer name="detailed_worker_task_schedule_warnings_weight">228</integer>
 
+    <!-- InfoFragment -->
+    <integer name="info_frag_list_left_weight">660</integer>
+    <integer name="info_frag_list_right_weight">412</integer>
+
 </resources>
