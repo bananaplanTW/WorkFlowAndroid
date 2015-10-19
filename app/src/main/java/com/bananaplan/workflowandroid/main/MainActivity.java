@@ -71,4 +71,10 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    public void openNavigationDrawer() {
+        if (mUIController != null) {
+            mUIController.openDrawer();
+        }
+    }
 }

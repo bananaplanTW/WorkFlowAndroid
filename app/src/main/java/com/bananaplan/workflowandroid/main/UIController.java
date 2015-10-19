@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -152,6 +153,8 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
         initActionbar();
         initDrawer();
         initFragments();
+        mDrawerItemId = R.id.drawer_info;
+        mActionBar.hide();
     }
 
     private void findViews() {
@@ -218,12 +221,14 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
     }
 
     private void replaceContent() {
+        boolean showActionBar = true;
         switch (mDrawerItemId) {
             case R.id.drawer_setting_button:
                 Toast.makeText(mMainActivity, "Setting", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.drawer_info:
+                showActionBar = false;
                 if (mCurrentFragment instanceof InfoFragment) break;
                 replaceTo(InfoFragment.class, FragmentTag.INFO_FRAGMENT, true);
                 break;
@@ -263,6 +268,13 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
                 replaceTo(AddEquipmentFragment.class, FragmentTag.ADD_EQUIPMENT_FRAGMENT, true);
                 break;
         }
+        if (showActionBar) {
+            if (!mActionBar.isShowing()) {
+                mActionBar.show();
+            }
+        } else {
+            mActionBar.hide();
+        }
     }
 
     private void replaceTo(Class<?> fragmentClass, String fragmentTag, boolean useAnimation) {
@@ -296,5 +308,11 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
     @Override
     public void onFailLoadingData(boolean isFailCausedByInternet) {
 
+    }
+
+    public void openDrawer() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
     }
 }
