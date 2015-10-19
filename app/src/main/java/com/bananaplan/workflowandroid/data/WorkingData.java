@@ -63,12 +63,14 @@ public final class WorkingData implements DataSubject {
     private HashMap<String, Tag> mTagsMap = new HashMap<>();
     private HashMap<String, Warning> mWarningsMap = new HashMap<>();
 
+    // TODO: retrieve data from server
     public int hourWorkingOn = 8;
     public int minWorkingOn = 0;
     public int hourWorkingOff = 17;
     public int minWorkingOff = 30;
     public int hourOvertime = 20;
     public int minOvertime = 0;
+    public long cost;
 
     public static WorkingData getInstance(Context context) {
         if (sWorkingData == null) {

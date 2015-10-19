@@ -25,6 +25,7 @@
     <color name="gray4">#f7f7f7</color>
     <color name="gray5">#979797</color>
     <color name="gray6">#d8d8d8</color>
+    <color name="gray7">#777777</color>
     <color name="black1">#4a4a4a</color>
     <color name="black2">#303030</color>
     <color name="blue1">#428bca</color>
@@ -120,7 +121,6 @@
 
     <!-- InfoFragment -->
     <color name="info_frag_title_text_color">#222222</color>
-    <color name="info_frag_left_pane_bg">#666666</color>
     <color name="info_frag_worker_on_title">#48c9a9</color>
     <color name="info_frag_worker_on_content">#30a487</color>
     <color name="info_frag_worker_overtime_title">#649ae1</color>

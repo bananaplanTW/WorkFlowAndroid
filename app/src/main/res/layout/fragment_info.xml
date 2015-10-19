@@ -1,390 +1,373 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/menu_vg"
-        android:layout_width="@dimen/info_frag_left_pane_width"
-        android:layout_height="match_parent"
-        android:background="@color/info_frag_left_pane_bg"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/navi_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/info_frag_navi_menu_margin_top"
-            android:background="@null"
-            android:src="@drawable/ic_menu_white" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/info_frag_navi_menu_tv_margin_top"
-            android:text="@string/info_frag_menu"
-            android:textColor="@android:color/white"
-            android:textSize="30dp" />
-    </LinearLayout>
-
-    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="@dimen/info_frag_right_pane_title_vg_height"
+            android:background="@android:color/white">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/info_frag_right_pane_title_vg_height"
-                android:background="@android:color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/info_frag_right_pane_title_tv_margin_left"
+                android:text="@string/info_frag_title"
+                android:textColor="@color/info_frag_title_text_color"
+                android:textSize="36dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/info_frag_right_pane_title_tv_margin_left"
-                    android:text="@string/info_frag_title"
-                    android:textColor="@color/info_frag_title_text_color"
-                    android:textSize="36dp" />
-
+            <LinearLayout
+                android:id="@+id/noti_cnt_vg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/border_viewgroup_bg_gray3"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/info_frag_right_pane_noti_margin_right"
+                android:gravity="center_vertical">
                 <TextView
                     style="@style/ButtonStyle.Gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/info_frag_right_pane_noti_margin_right"
-                    android:background="@drawable/border_textview_bg_gray"
                     android:drawableLeft="@drawable/ic_notifications"
                     android:text="@string/info_frag_noti"
                     android:textColor="@color/gray2"
-                    android:textSize="14dp" />
-            </RelativeLayout>
+                    android:textSize="14dp"
+                    android:background="@android:color/transparent"/>
+                <TextView
+                    android:id="@+id/noti_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="14dp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray3"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/info_frag_right_pane_cnt_vg_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/info_frag_right_pane_cnt_vg_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/info_frag_right_pane_cnt_sub_vg_height"
+                    android:layout_marginLeft="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
+                    android:layout_marginRight="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/info_frag_worker_on_title"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:text="@string/info_frag_cnt_worker_on"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+
+                    <TextView
+                        android:id="@+id/cnt_worker_on"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/info_frag_worker_on_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/info_frag_right_pane_cnt_sub_vg_height"
+                    android:layout_marginLeft="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
+                    android:layout_marginRight="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/info_frag_worker_overtime_title"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:text="@string/info_frag_cnt_worker_overtime"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+
+                    <TextView
+                        android:id="@+id/cnt_worker_overtime"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/info_frag_worker_overtime_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/info_frag_right_pane_cnt_sub_vg_height"
+                    android:layout_marginLeft="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
+                    android:layout_marginRight="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/info_frag_warning_title"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:text="@string/info_frag_cnt_warning"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+
+                    <TextView
+                        android:id="@+id/cnt_warnings"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/info_frag_warning_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/info_frag_right_pane_cnt_sub_vg_height"
+                    android:layout_marginLeft="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
+                    android:layout_marginRight="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/info_frag_cost_title"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:text="@string/info_frag_cost"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+
+                    <TextView
+                        android:id="@+id/cost"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/info_frag_cost_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/gray3"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/info_frag_right_pane_list_vg_padding_left"
+                android:paddingRight="@dimen/info_frag_right_pane_list_vg_padding_right">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/info_frag_right_pane_cnt_vg_height"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/info_frag_right_pane_cnt_vg_padding">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/info_frag_list_left_weight"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/info_frag_right_pane_cnt_sub_vg_height"
-                        android:layout_marginLeft="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
-                        android:layout_marginRight="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="@color/info_frag_worker_on_title"
-                            android:gravity="center"
-                            android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:text="@string/info_frag_cnt_worker_on"
-                            android:textColor="@android:color/white"
-                            android:textSize="36dp" />
+                            android:layout_height="@dimen/info_frag_right_pane_list_title_height"
+                            android:background="@color/info_frag_list_delay"
+                            android:gravity="center_vertical">
 
-                        <TextView
-                            android:id="@+id/cnt_worker_on"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/info_frag_right_pane_list_title_margin_left"
+                                android:text="@string/info_frag_delay_items"
+                                android:textColor="@android:color/white"
+                                android:textSize="18dp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="@dimen/info_frag_right_pane_list_refresh_margin_right"
+                                android:src="@drawable/ic_refresh_white" />
+                        </RelativeLayout>
+
+                        <ListView
+                            android:id="@+id/list_delay"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="@color/info_frag_worker_on_content"
-                            android:gravity="center"
-                            android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:textColor="@android:color/white"
-                            android:textSize="36dp" />
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:divider="@color/gray3"
+                            android:dividerHeight="@dimen/divider_height" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/info_frag_right_pane_cnt_sub_vg_height"
-                        android:layout_marginLeft="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
-                        android:layout_marginRight="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/info_frag_right_pane_list_margin_top"
                         android:orientation="vertical">
 
-                        <TextView
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="@color/info_frag_worker_overtime_title"
-                            android:gravity="center"
-                            android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:text="@string/info_frag_cnt_worker_overtime"
-                            android:textColor="@android:color/white"
-                            android:textSize="36dp" />
+                            android:layout_height="@dimen/info_frag_right_pane_list_title_height"
+                            android:background="@color/info_frag_list_checked"
+                            android:gravity="center_vertical">
 
-                        <TextView
-                            android:id="@+id/cnt_worker_overtime"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/info_frag_right_pane_list_title_margin_left"
+                                android:text="@string/info_frag_checked_items"
+                                android:textColor="@android:color/white"
+                                android:textSize="18dp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="@dimen/info_frag_right_pane_list_refresh_margin_right"
+                                android:src="@drawable/ic_refresh_white" />
+                        </RelativeLayout>
+
+                        <ListView
+                            android:id="@+id/list_checked"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="@color/info_frag_worker_overtime_content"
-                            android:gravity="center"
-                            android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:textColor="@android:color/white"
-                            android:textSize="36dp" />
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:divider="@color/gray3"
+                            android:dividerHeight="@dimen/divider_height" />
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/info_frag_right_pane_cnt_sub_vg_height"
-                        android:layout_marginLeft="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
-                        android:layout_marginRight="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="@color/info_frag_warning_title"
-                            android:gravity="center"
-                            android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:text="@string/info_frag_cnt_warning"
-                            android:textColor="@android:color/white"
-                            android:textSize="36dp" />
-
-                        <TextView
-                            android:id="@+id/cnt_warnings"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="@color/info_frag_warning_content"
-                            android:gravity="center"
-                            android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:textColor="@android:color/white"
-                            android:textSize="36dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/info_frag_right_pane_cnt_sub_vg_height"
-                        android:layout_marginLeft="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
-                        android:layout_marginRight="@dimen/info_frag_right_pane_cnt_sub_vg_horizontal_margin"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="@color/info_frag_cost_title"
-                            android:gravity="center"
-                            android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:text="@string/info_frag_cost"
-                            android:textColor="@android:color/white"
-                            android:textSize="36dp" />
-
-                        <TextView
-                            android:id="@+id/cost"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="@color/info_frag_cost_content"
-                            android:gravity="center"
-                            android:paddingBottom="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:paddingTop="@dimen/info_frag_right_pane_cnt_tv_padding_vertical"
-                            android:textColor="@android:color/white"
-                            android:textSize="36dp" />
-                    </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/info_frag_right_pane_list_vg_padding_left"
-                    android:paddingRight="@dimen/info_frag_right_pane_list_vg_padding_right">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/info_frag_right_pane_list_margin_left"
+                    android:layout_weight="@integer/info_frag_list_right_weight"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="@integer/info_frag_list_left_weight"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/info_frag_right_pane_list_title_height"
+                            android:background="@color/info_frag_list_warning"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/info_frag_right_pane_list_title_margin_left"
+                                android:text="@string/info_frag_warning_items"
+                                android:textColor="@android:color/white"
+                                android:textSize="18dp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="@dimen/info_frag_right_pane_list_refresh_margin_right"
+                                android:src="@drawable/ic_refresh_white" />
+                        </RelativeLayout>
+
+                        <ListView
+                            android:id="@+id/list_warning"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/info_frag_right_pane_list_title_height"
-                                android:background="@color/info_frag_list_delay"
-                                android:gravity="center_vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/info_frag_right_pane_list_title_margin_left"
-                                    android:text="@string/info_frag_delay_items"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="18dp" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginRight="@dimen/info_frag_right_pane_list_refresh_margin_right"
-                                    android:src="@drawable/ic_refresh_white" />
-                            </RelativeLayout>
-
-                            <ListView
-                                android:id="@+id/list_delay"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/white"
-                                android:divider="@color/gray3"
-                                android:dividerHeight="@dimen/divider_height" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/info_frag_right_pane_list_margin_top"
-                            android:orientation="vertical">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/info_frag_right_pane_list_title_height"
-                                android:background="@color/info_frag_list_checked"
-                                android:gravity="center_vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/info_frag_right_pane_list_title_margin_left"
-                                    android:text="@string/info_frag_checked_items"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="18dp" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginRight="@dimen/info_frag_right_pane_list_refresh_margin_right"
-                                    android:src="@drawable/ic_refresh_white" />
-                            </RelativeLayout>
-
-                            <ListView
-                                android:id="@+id/list_checked"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/white"
-                                android:divider="@color/gray3"
-                                android:dividerHeight="@dimen/divider_height" />
-                        </LinearLayout>
+                            android:background="@android:color/white"
+                            android:divider="@color/gray3"
+                            android:dividerHeight="@dimen/divider_height" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/info_frag_right_pane_list_margin_left"
-                        android:layout_weight="@integer/info_frag_list_right_weight"
+                        android:layout_marginTop="@dimen/info_frag_right_pane_list_margin_top"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/info_frag_right_pane_list_title_height"
+                            android:background="@color/info_frag_list_leave_workers"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/info_frag_right_pane_list_title_margin_left"
+                                android:text="@string/info_frag_leave_workers"
+                                android:textColor="@android:color/white"
+                                android:textSize="18dp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="@dimen/info_frag_right_pane_list_refresh_margin_right"
+                                android:src="@drawable/ic_refresh_white" />
+                        </RelativeLayout>
+
+                        <ListView
+                            android:id="@+id/list_leave_workers"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/info_frag_right_pane_list_title_height"
-                                android:background="@color/info_frag_list_warning"
-                                android:gravity="center_vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/info_frag_right_pane_list_title_margin_left"
-                                    android:text="@string/info_frag_warning_items"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="18dp" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginRight="@dimen/info_frag_right_pane_list_refresh_margin_right"
-                                    android:src="@drawable/ic_refresh_white" />
-                            </RelativeLayout>
-
-                            <ListView
-                                android:id="@+id/list_warning"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/white"
-                                android:divider="@color/gray3"
-                                android:dividerHeight="@dimen/divider_height" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/info_frag_right_pane_list_margin_top"
-                            android:orientation="vertical">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/info_frag_right_pane_list_title_height"
-                                android:background="@color/info_frag_list_leave_workers"
-                                android:gravity="center_vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/info_frag_right_pane_list_title_margin_left"
-                                    android:text="@string/info_frag_leave_workers"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="18dp" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginRight="@dimen/info_frag_right_pane_list_refresh_margin_right"
-                                    android:src="@drawable/ic_refresh_white" />
-                            </RelativeLayout>
-
-                            <ListView
-                                android:id="@+id/list_leave_workers"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/white"
-                                android:divider="@color/gray3"
-                                android:dividerHeight="@dimen/divider_height" />
-                        </LinearLayout>
+                            android:background="@android:color/white"
+                            android:divider="@color/gray3"
+                            android:dividerHeight="@dimen/divider_height" />
                     </LinearLayout>
-
                 </LinearLayout>
 
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
 
-</LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
