@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:textSize="12dp"
             android:textColor="@color/gray7"
-            android:text="@string/info_frag_list_delay_time"/>
+            android:text="@string/main_information_list_delay_time"/>
     </LinearLayout>
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:textSize="12dp"
             android:textColor="@color/gray7"
-            android:text="@string/info_frag_list_case_name"/>
+            android:text="@string/main_information_list_case_name"/>
     </LinearLayout>
 
     <LinearLayout
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:textSize="12dp"
             android:textColor="@color/gray7"
-            android:text="@string/info_frag_list_worker"/>
+            android:text="@string/main_information_list_worker"/>
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:textSize="12dp"
             android:textColor="@color/gray7"
-            android:text="@string/info_frag_list_delay_time_next"/>
+            android:text="@string/main_information_list_delay_time_next"/>
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:textSize="12dp"
             android:textColor="@color/gray7"
-            android:text="@string/info_frag_list_delay_time_add"/>
+            android:text="@string/main_information_list_delay_time_add"/>
     </LinearLayout>
 
 </LinearLayout>

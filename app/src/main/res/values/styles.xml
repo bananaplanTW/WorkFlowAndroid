@@ -226,4 +226,20 @@
         <item name="android:textSize">24dp</item>
     </style>
 
+    <style name="MainInformationBoardText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/main_information_board_text_size</item>
+        <item name="android:textColor">@color/main_information_board_text_color</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="MainInformationBoardText.Title">
+        <item name="android:padding">@dimen/main_information_board_title_padding</item>
+    </style>
+
+    <style name="MainInformationBoardText.Content">
+        <item name="android:padding">@dimen/main_information_board_content_padding</item>
+    </style>
+
 </resources>

@@ -1,0 +1,151 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/main_information_padding"
+    android:background="@color/main_information_background_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/MainInformationBoardText.Title"
+                android:text="@string/main_information_worker_on"
+                android:background="@color/main_information_worker_on_title_background"/>
+
+            <TextView
+                android:id="@+id/main_information_worker_on_count"
+                style="@style/MainInformationBoardText.Content"
+                android:text="@string/main_information_board_0"
+                android:background="@color/main_information_worker_on_content_background"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/main_information_divider_size"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/MainInformationBoardText.Title"
+                android:text="@string/main_information_worker_overtime"
+                android:background="@color/main_information_worker_overtime_title_background"/>
+
+            <TextView
+                android:id="@+id/main_information_worker_overtime_count"
+                style="@style/MainInformationBoardText.Content"
+                android:text="@string/main_information_board_0"
+                android:background="@color/main_information_worker_overtime_content_background"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/main_information_divider_size"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/MainInformationBoardText.Title"
+                android:text="@string/main_information_warning"
+                android:background="@color/main_information_warning_title_background"/>
+
+            <TextView
+                android:id="@+id/main_information_warning_count"
+                style="@style/MainInformationBoardText.Content"
+                android:text="@string/main_information_board_0"
+                android:background="@color/main_information_warning_content_background"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/main_information_divider_size"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/MainInformationBoardText.Title"
+                android:text="@string/main_information_cost"
+                android:background="@color/main_information_cost_title_background"/>
+
+            <TextView
+                android:id="@+id/main_information_costs"
+                style="@style/MainInformationBoardText.Content"
+                android:text="@string/main_information_board_0"
+                android:background="@color/main_information_cost_content_background"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/main_information_divider_size"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="@integer/main_information_list_group_top_weight"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_information_list_delay"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/main_information_list_group_left_weight"
+                android:background="@android:color/holo_blue_dark"/>
+
+            <ListView
+                android:id="@+id/main_information_list_warning"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/main_information_list_group_right_weight"
+                android:layout_marginLeft="@dimen/main_information_divider_size"
+                android:background="@android:color/white"
+                android:divider="@color/gray3"
+                android:dividerHeight="@dimen/divider_height" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="@integer/main_information_list_group_bottom_weight"
+            android:layout_marginTop="@dimen/main_information_divider_size"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_information_list_review"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/main_information_list_group_left_weight"
+                android:background="@android:color/holo_green_dark"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_information_list_leave"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/main_information_list_group_right_weight"
+                android:layout_marginLeft="@dimen/main_information_divider_size"
+                android:background="@android:color/holo_blue_dark"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

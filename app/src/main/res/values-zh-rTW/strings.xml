@@ -217,26 +217,23 @@
     <string name="status_string_task">工作項目 %s 的記錄</string>
 
     <!-- InfoFragment -->
-    <string name="info_frag_menu">Menu</string>
-    <string name="info_frag_title">儀表板</string>
-    <string name="info_frag_noti">通知</string>
-    <string name="info_frag_cnt_worker_on">上班人數</string>
-    <string name="info_frag_cnt_worker_overtime">加班人數</string>
-    <string name="info_frag_cnt_warning">發生警訊</string>
-    <string name="info_frag_cost">成本</string>
-    <string name="info_frag_delay_items">延遲項目</string>
-    <string name="info_frag_warning_items">警訊項目</string>
-    <string name="info_frag_checked_items">等待審核</string>
-    <string name="info_frag_leave_workers">請假人員（七日內）</string>
-    <string name="info_frag_list_delay_time">延遲時間</string>
-    <string name="info_frag_list_case_name">案件名稱</string>
-    <string name="info_frag_list_worker">負責人</string>
-    <string name="info_frag_list_delay_time_next">下次通知時間</string>
-    <string name="info_frag_list_delay_time_add">增加通知時間</string>
-    <string name="info_frag_list_warning_title">警訊名稱</string>
-    <string name="info_frag_list_checked_action">審核</string>
-    <string name="info_frag_list_leave_workers_type">假別</string>
-    <string name="info_frag_list_leave_workers_worker">請假人員</string>
-    <string name="info_frag_list_leave_workers_date">日期</string>
+    <string name="main_information_worker_on">上班人數</string>
+    <string name="main_information_worker_overtime">加班人數</string>
+    <string name="main_information_warning">發生警訊</string>
+    <string name="main_information_cost">成本</string>
+    <string name="main_information_delay_list_title">延遲項目</string>
+    <string name="main_information_warning_list_title">警訊項目</string>
+    <string name="main_information_waiting_review_list_title">等待審核</string>
+    <string name="main_information_leave_workers_list_title">請假人員（七日內）</string>
+    <string name="main_information_list_delay_time">延遲時間</string>
+    <string name="main_information_list_case_name">案件名稱</string>
+    <string name="main_information_list_worker">負責人</string>
+    <string name="main_information_list_delay_time_next">下次通知時間</string>
+    <string name="main_information_list_delay_time_add">增加通知時間</string>
+    <string name="main_information_list_warning_title">警訊名稱</string>
+    <string name="main_information_list_checked_action">審核</string>
+    <string name="main_information_list_leave_workers_type">假別</string>
+    <string name="main_information_list_leave_workers_worker">請假人員</string>
+    <string name="main_information_list_leave_workers_date">日期</string>
 
 </resources>

@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +31,7 @@ import com.bananaplan.workflowandroid.drawermenu.DrawerFragment;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.drawermenu.OnClickDrawerItemListener;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
-import com.bananaplan.workflowandroid.info.InfoFragment;
+import com.bananaplan.workflowandroid.info.MainInfoFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 
 
@@ -194,13 +193,13 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
         mDrawerFragment.setOnClickDrawerItemListener(this);
 
         // Default fragment when launch app
-        InfoFragment infoFragment = (InfoFragment) mFragmentManager.findFragmentByTag(FragmentTag.INFO_FRAGMENT);
-        if (infoFragment == null) {
-            infoFragment = new InfoFragment();
-            fragmentTransaction.add(R.id.content_container, infoFragment, FragmentTag.INFO_FRAGMENT);
+        MainInfoFragment mainInfoFragment = (MainInfoFragment) mFragmentManager.findFragmentByTag(FragmentTag.INFO_FRAGMENT);
+        if (mainInfoFragment == null) {
+            mainInfoFragment = new MainInfoFragment();
+            fragmentTransaction.add(R.id.content_container, mainInfoFragment, FragmentTag.INFO_FRAGMENT);
         }
 
-        mCurrentFragment = infoFragment;
+        mCurrentFragment = mainInfoFragment;
         fragmentTransaction.commit();
     }
 
@@ -225,8 +224,8 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
                 break;
 
             case R.id.drawer_info:
-                if (mCurrentFragment instanceof InfoFragment) break;
-                replaceTo(InfoFragment.class, FragmentTag.INFO_FRAGMENT, true);
+                if (mCurrentFragment instanceof MainInfoFragment) break;
+                replaceTo(MainInfoFragment.class, FragmentTag.INFO_FRAGMENT, true);
                 break;
 
             case R.id.drawer_assign_task:

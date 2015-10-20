@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="@dimen/info_frag_list_view_title_height">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_information_list_title_height"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_information_list_title_height"
+        android:padding="10dp"
+        android:background="@color/main_information_list_warning_background"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_information_warning_list_title"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
                 android:textColor="@color/gray7"
-                android:text="@string/info_frag_list_warning_title"/>
+                android:text="@string/main_information_list_warning_title"/>
         </LinearLayout>
 
         <LinearLayout
@@ -30,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
                 android:textColor="@color/gray7"
-                android:text="@string/info_frag_list_case_name"/>
+                android:text="@string/main_information_list_case_name"/>
         </LinearLayout>
 
         <LinearLayout
@@ -43,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
                 android:textColor="@color/gray7"
-                android:text="@string/info_frag_list_worker"/>
+                android:text="@string/main_information_list_worker"/>
         </LinearLayout>
     </LinearLayout>
 
