@@ -13,7 +13,7 @@ import com.bananaplan.workflowandroid.data.loading.LoadingDataTask;
 import com.bananaplan.workflowandroid.login.CheckLoggedInStatusCommand;
 
 
-public class PreloadActivity extends AppCompatActivity implements LoadingDataTask.OnFinishLoadingDataListener, CheckLoggedInStatusCommand.OnFinishCheckingLoggedInStatusListener {
+public class PreloadActivity extends AppCompatActivity implements LoadingDataTask.OnFinishLoadingDataListener {
 
     private static final String TAG = "PreloadActivity";
 
@@ -52,13 +52,6 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
                 startLoadingData();
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        CheckLoggedInStatusCommand checkLoggedInStatusCommand = new CheckLoggedInStatusCommand(this, this);
-        checkLoggedInStatusCommand.execute();
     }
 
     @Override
@@ -104,15 +97,5 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
             mNICProgressBar.setVisibility(View.GONE);
             mLoadingDataTask = null;
         }
-    }
-
-
-    @Override
-    public void onLoggedIn() {
-        //startLoadingData();
-    }
-    @Override
-    public void onLoggedOut() {
-        //cancelLoadingData();
     }
 }
