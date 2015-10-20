@@ -3,15 +3,17 @@ package com.bananaplan.workflowandroid.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataTask;
+import com.bananaplan.workflowandroid.login.CheckLoggedInStatusCommand;
 
 
-public class PreloadActivity extends AppCompatActivity implements LoadingDataTask.OnFinishLoadingDataListener {
+public class PreloadActivity extends AppCompatActivity implements LoadingDataTask.OnFinishLoadingDataListener, CheckLoggedInStatusCommand.OnFinishCheckingLoggedInStatusListener {
 
     private static final String TAG = "PreloadActivity";
 
@@ -50,6 +52,13 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
                 startLoadingData();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        CheckLoggedInStatusCommand checkLoggedInStatusCommand = new CheckLoggedInStatusCommand(this, this);
+        checkLoggedInStatusCommand.execute();
     }
 
     @Override
@@ -95,5 +104,15 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
             mNICProgressBar.setVisibility(View.GONE);
             mLoadingDataTask = null;
         }
+    }
+
+
+    @Override
+    public void onLoggedIn() {
+        //startLoadingData();
+    }
+    @Override
+    public void onLoggedOut() {
+        //cancelLoadingData();
     }
 }

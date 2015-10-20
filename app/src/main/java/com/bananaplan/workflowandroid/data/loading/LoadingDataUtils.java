@@ -43,7 +43,7 @@ public class LoadingDataUtils {
 //        public static final String TASKS_BY_CASE = "http://bp-workflow.cloudapp.net:3000/api/tasks?caseId=";
 //        public static final String TASKS_BY_WORKER = "http://bp-workflow.cloudapp.net:3000/api/employee/tasks?employeeId=";
 //        public static final String WORKERS_BY_FACTORY = "http://bp-workflow.cloudapp.net:3000/api/group/employees?groupId=";
-        public static final String BASE_URL = "http://128.199.198.169:3000";
+        public static final String BASE_URL = "http://10.1.1.51:3000";
         public static final String WORKERS = BASE_URL + "/api/employees";
         public static final String CASES = BASE_URL + "/api/cases";
         public static final String FACTORIES = BASE_URL + "/api/groups";
@@ -53,7 +53,7 @@ public class LoadingDataUtils {
         public static final String TIME_CARD_BY_CASE = BASE_URL + "/api/case/task-timecards?caseId=%s&startDate=%d&endDate=%d";
         public static final String TIME_CARD_BY_WORKER = BASE_URL + "/api/employee/timecards?employeeId=%s&startDate=%d&endDate=%d";
 
-        public static final String DEBUG_BASE_URL = "http://10.1.1.19:3000";
+        public static final String DEBUG_BASE_URL = "http://128.199.198.169:3000";
         public static final class EndPoints {
             public static final String WORKER_ACTIVITIES = "/api/employee/activities";
             public static final String TASK_ACTIVITIES = "/api/task/activities";
@@ -65,6 +65,8 @@ public class LoadingDataUtils {
             public static final String COMMENT_IMAGE_ACTIVITY_TO_TASK = "/api/add-task-activity/image";
             public static final String COMMENT_FILE_ACTIVITY_TO_TASK = "/api/add-task-activity/file";
             public static final String COMMENT_TEXT_ACTIVITY_TO_TASK = "/api/add-task-activity/text";
+
+            public static final String LOGGIN_STATUS = "/api/login-status";
         }
     }
 
