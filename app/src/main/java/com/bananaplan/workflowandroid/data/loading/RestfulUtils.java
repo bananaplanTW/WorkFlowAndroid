@@ -137,8 +137,11 @@ public class RestfulUtils {
                 Log.d("Restful api", "Connecting url " + urlString);
                 conn.connect();
                 Log.d("Restful api", "Response Code is : " + conn.getResponseCode());
-                inputStream = conn.getInputStream();
-
+                if (conn.getResponseCode() == 200) {
+                    inputStream = conn.getInputStream();
+                } else {
+                    inputStream = conn.getErrorStream();
+                }
                 result = getStringFromInputStream(inputStream);
             } catch (MalformedURLException e) {
                 e.printStackTrace();

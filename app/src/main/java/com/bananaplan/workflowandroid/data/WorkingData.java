@@ -35,7 +35,7 @@ public final class WorkingData implements DataSubject {
 
     public static final String SHARED_PREFERENCE_KEY = "workflow";
     public static final String USER_ID = "userId";
-    public static final String USER_TOKEN = "userToken";
+    public static final String AUTH_TOKEN = "authToken";
 
     private static final String TAG = "WorkingData";
 
@@ -58,7 +58,7 @@ public final class WorkingData implements DataSubject {
     private List<DataObserver> mDataObservers = new ArrayList<>();
 
     private static String sUserId;
-    private static String sUserToken;
+    private static String sAuthToken;
 
     private HashMap<String, Manager> mManagersMap = new HashMap<>();
     private HashMap<String, Worker> mWorkersMap = new HashMap<>();
@@ -114,14 +114,14 @@ public final class WorkingData implements DataSubject {
     public static void setUserId(String userId) {
         sUserId = userId;
     }
-    public static void setUserToken(String userToken) {
-        sUserToken = userToken;
+    public static void setAuthToken(String authToken) {
+        sAuthToken = authToken;
     }
     public static String getUserId () {
         return sUserId;
     }
-    public static String getUserToken () {
-        return sUserToken;
+    public static String getAuthToken() {
+        return sAuthToken;
     }
 
     public void addCase(Case aCase) {

@@ -5,20 +5,23 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.login.CheckLoggedInStatusCommand;
+import com.bananaplan.workflowandroid.login.UserLoggingInCommand;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CheckLoggedInStatusCommand.OnFinishCheckingLoggedInStatusListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
+        CheckLoggedInStatusCommand.OnFinishCheckingLoggedInStatusListener,
+        UserLoggingInCommand.OnFinishLoggedInListener {
 
+    private SharedPreferences mSharedPreferences;
     private EditText mAccountEditText;
-    private EditText mPassowrdEditText;
+    private EditText mPasswordEditText;
     private Button mLoginButton;
 
 
@@ -31,6 +34,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void initialize() {
+        mSharedPreferences = getSharedPreferences(WorkingData.SHARED_PREFERENCE_KEY, 0);
+
         findViews();
         setupViews();
 
@@ -38,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void findViews () {
         mAccountEditText = (EditText) findViewById(R.id.login_account_edit_text);
-        mPassowrdEditText = (EditText) findViewById(R.id.login_password_edit_text);
+        mPasswordEditText = (EditText) findViewById(R.id.login_password_edit_text);
         mLoginButton = (Button) findViewById(R.id.login_button);
     }
     private void setupViews () {
@@ -46,12 +51,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void hideAllViews () {
         mAccountEditText.setVisibility(View.GONE);
-        mPassowrdEditText.setVisibility(View.GONE);
+        mPasswordEditText.setVisibility(View.GONE);
         mLoginButton.setVisibility(View.GONE);
     }
     private void showAllViews () {
         mAccountEditText.setVisibility(View.VISIBLE);
-        mPassowrdEditText.setVisibility(View.VISIBLE);
+        mPasswordEditText.setVisibility(View.VISIBLE);
         mLoginButton.setVisibility(View.VISIBLE);
     }
 
@@ -59,10 +64,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences sharedPreferences = getSharedPreferences(WorkingData.SHARED_PREFERENCE_KEY, 0);
 
-        WorkingData.setUserId(sharedPreferences.getString(WorkingData.USER_ID, ""));
-        WorkingData.setUserToken(sharedPreferences.getString(WorkingData.USER_TOKEN, ""));
+        WorkingData.setUserId(mSharedPreferences.getString(WorkingData.USER_ID, ""));
+        WorkingData.setAuthToken(mSharedPreferences.getString(WorkingData.AUTH_TOKEN, ""));
 
         CheckLoggedInStatusCommand checkLoggedInStatusCommand = new CheckLoggedInStatusCommand(this, this);
         checkLoggedInStatusCommand.execute();
@@ -73,9 +77,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_button:
-                String account = mAccountEditText.getText().toString();
-                String password = mPassowrdEditText.getText().toString();
-                Log.d("DAZZZZ", "要登入摟 " + account + "/" + password);
+                String username = mAccountEditText.getText().toString();
+                String password = mPasswordEditText.getText().toString();
+                UserLoggingInCommand userLoggingInCommand = new UserLoggingInCommand(this, username, password, this);
+                userLoggingInCommand.execute();
                 break;
             default:
                 // no ops
@@ -92,5 +97,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onLoggedOut() {
         showAllViews();
+    }
+
+
+    @Override
+    public void onLoggedInSucceed(String userId, String authToken) {
+        mSharedPreferences.edit().putString(WorkingData.USER_ID, userId).putString(WorkingData.AUTH_TOKEN, authToken).commit();
+        WorkingData.setUserId(userId);
+        WorkingData.setAuthToken(authToken);
+
+        startActivity(new Intent(LoginActivity.this, PreloadActivity.class));
+        finish();
+    }
+    @Override
+    public void onLoggedInFailed() {
+        Toast.makeText(this, "帳號或密碼錯誤", Toast.LENGTH_SHORT).show();
     }
 }
