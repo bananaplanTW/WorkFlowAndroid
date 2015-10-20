@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.login;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.network.GetRequestAsyncTask;
 import com.bananaplan.workflowandroid.data.worker.actions.IWorkerActionCommand;

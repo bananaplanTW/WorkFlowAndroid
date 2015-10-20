@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.login;
 
 import android.util.Log;
 
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.loading.RestfulUtils;
 import com.bananaplan.workflowandroid.data.loading.URLUtils;
@@ -23,8 +24,8 @@ public class CheckLoggedInStatusStrategy implements IGetRequestStrategy {
     public JSONObject get() {
         try {
             HashMap<String, String> headers = new HashMap<>();
-            headers.put("x-user-id", "rKnXo6brrSYqrMCEg");
-            headers.put("x-auth-token", "Z1-asN_Z4qBb3vs0dUL7ojYQAPahikDccX25HjJ-oen");
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getUserToken());
 
             String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.LOGGIN_STATUS, null);
             String responseJSONString = RestfulUtils.restfulGetRequest(urlString, headers);

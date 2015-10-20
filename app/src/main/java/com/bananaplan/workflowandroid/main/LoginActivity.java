@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.login.CheckLoggedInStatusCommand;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CheckLoggedInStatusCommand.OnFinishCheckingLoggedInStatusListener {
@@ -57,6 +59,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
+        SharedPreferences sharedPreferences = getSharedPreferences(WorkingData.SHARED_PREFERENCE_KEY, 0);
+
+        WorkingData.setUserId(sharedPreferences.getString(WorkingData.USER_ID, ""));
+        WorkingData.setUserToken(sharedPreferences.getString(WorkingData.USER_TOKEN, ""));
+
         CheckLoggedInStatusCommand checkLoggedInStatusCommand = new CheckLoggedInStatusCommand(this, this);
         checkLoggedInStatusCommand.execute();
     }
@@ -66,7 +73,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_button:
-                Log.d("DAZZZZ", "要登入摟");
+                String account = mAccountEditText.getText().toString();
+                String password = mPassowrdEditText.getText().toString();
+                Log.d("DAZZZZ", "要登入摟 " + account + "/" + password);
                 break;
             default:
                 // no ops

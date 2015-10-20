@@ -30,7 +30,7 @@
                 android:id="@+id/login_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="密碼M"/>
+                android:hint="密碼"/>
         </android.support.design.widget.TextInputLayout>
         <Button
             android:id="@+id/login_button"
