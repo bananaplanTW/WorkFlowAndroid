@@ -137,8 +137,11 @@ public class RestfulUtils {
                 Log.d("Restful api", "Connecting url " + urlString);
                 conn.connect();
                 Log.d("Restful api", "Response Code is : " + conn.getResponseCode());
-                inputStream = conn.getInputStream();
-
+                if (conn.getResponseCode() == 200) {
+                    inputStream = conn.getInputStream();
+                } else {
+                    inputStream = conn.getErrorStream();
+                }
                 result = getStringFromInputStream(inputStream);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -197,12 +200,19 @@ Log.d(TAG, "uploading file mimeType : " + mimeType);
     }
 
 
-    public static InputStream restfulGetRequest (String urlString) {
-        InputStream inputStream;
+    public static String restfulGetRequest (String urlString, HashMap<String, String> headerPairs) {
+        InputStream inputStream = null;
 
         try {
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            if (headerPairs != null) {
+                Iterator iter = headerPairs.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    conn.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
+                }
+            }
             conn.setReadTimeout(3000);
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("GET");
@@ -211,14 +221,26 @@ Log.d(TAG, "uploading file mimeType : " + mimeType);
             conn.connect();
             int responseCode = conn.getResponseCode();
             Log.d("Restful api", "Response Code is : " + responseCode);
-            inputStream = conn.getInputStream();
-            return inputStream;
+            if (responseCode == 200) {
+                inputStream = conn.getInputStream();
+            } else {
+                inputStream = conn.getErrorStream();
+            }
+            return getStringFromInputStream(inputStream);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
