@@ -21,19 +21,19 @@ public class UploadingFileStrategy implements IPostRequestStrategy {
 
     private String mFilePath;
     private String mEndPoint;
-    private HashMap<String, String> mQueries;
+    private HashMap<String, String> mHeaders;
 
-    public UploadingFileStrategy(String filePath, String endPoint, HashMap<String, String> queries) {
+    public UploadingFileStrategy(String filePath, String endPoint, HashMap<String, String> headers) {
         mFilePath = filePath;
         mEndPoint = endPoint;
-        mQueries = queries;
+        mHeaders = headers;
     }
 
     @Override
     public JSONObject post() {
         try {
             String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, mEndPoint, null);
-            String responseString = RestfulUtils.restfulPostFileRequest(urlString, mQueries, mFilePath);
+            String responseString = RestfulUtils.restfulPostFileRequest(urlString, mHeaders, mFilePath);
             JSONObject jsonObject = new JSONObject(responseString);
             if (jsonObject.getString("status").equals("success")) {
                 return jsonObject.getJSONObject("result");

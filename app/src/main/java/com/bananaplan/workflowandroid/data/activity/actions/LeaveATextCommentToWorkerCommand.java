@@ -30,7 +30,6 @@ public class LeaveATextCommentToWorkerCommand implements ICreateActivityCommand,
     @Override
     public void execute() {
         HashMap<String, String> headers = new HashMap<>();
-        // [TODO] should login with user
         headers.put("x-user-id", WorkingData.getUserId());
         headers.put("x-auth-token", WorkingData.getAuthToken());
 

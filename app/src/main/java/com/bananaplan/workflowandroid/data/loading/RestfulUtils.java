@@ -166,7 +166,7 @@ public class RestfulUtils {
     private static final String IMGUR_CLIENT_ID = "...";
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private static final OkHttpClient client = new OkHttpClient();
-    public static String restfulPostFileRequest(String urlString, HashMap<String, String> bodyPair, String filePath) {
+    public static String restfulPostFileRequest(String urlString, HashMap<String, String> headerPairs, String filePath) {
         String responseString = "";
 
         String mimeType = Utils.getMimeType(filePath);
@@ -176,8 +176,8 @@ Log.d(TAG, "uploading file mimeType : " + mimeType);
         builder.header("Content-Type", mimeType)
                 .header("s", "" + f.length())
                 .header("fn", f.getName());
-        if (bodyPair != null) {
-            Iterator iter = bodyPair.entrySet().iterator();
+        if (headerPairs != null) {
+            Iterator iter = headerPairs.entrySet().iterator();
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
                 builder.header((String) entry.getKey(), (String) entry.getValue());
