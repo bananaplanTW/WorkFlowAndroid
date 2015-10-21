@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.data.activity.actions;
 
 import android.content.Context;
 
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
 
@@ -28,8 +29,8 @@ public class LeaveATextCommentToTaskCommand implements ICreateActivityCommand, P
     public void execute() {
         HashMap<String, String> headers = new HashMap<>();
         // [TODO] should login with user
-        headers.put("x-user-id", "qY7FdM7wnjevqmfws");
-        headers.put("x-auth-token", "el1UPAsSmVf8F1LEKf8tRb8Ny5jAgOdK2qLNHztb7Cj");
+        headers.put("x-user-id", WorkingData.getUserId());
+        headers.put("x-auth-token", WorkingData.getAuthToken());
 
         HashMap<String, String> bodies = new HashMap<>();
         bodies.put("td", mTaskId);

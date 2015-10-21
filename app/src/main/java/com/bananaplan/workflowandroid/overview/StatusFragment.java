@@ -249,8 +249,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         if (TextUtils.isEmpty(mRecordEditText.getText())) return;
         RecordData record = (RecordData) DataFactory.genData(getSelectedWorker().id, BaseData.TYPE.RECORD);
         record.time = Calendar.getInstance().getTime();
-        // [TODO] should use logged in user
-        record.reporter = WorkingData.getInstance(getActivity()).getManagers().get(0).id;//.getLoginWorkerId();
+        record.reporter = WorkingData.getUserId();
         record.description = mRecordEditText.getText().toString();
         addRecord(getSelectedWorker(), record);
 
@@ -333,11 +332,10 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         }
         if (TextUtils.isEmpty(path)) return;
 
-        // [TODO] should let user login
-        String ownerId = WorkingData.getInstance(getActivity()).getManagers().get(0).id;
+        String ownerId = WorkingData.getUserId();
         FileData file = (FileData) DataFactory.genData(ownerId, BaseData.TYPE.FILE);
 
-        file.uploader = WorkingData.getInstance(getActivity()).getLoginWorkerId();
+        file.uploader = ownerId;
         file.time = Calendar.getInstance().getTime();
         file.fileName = path.substring(path.lastIndexOf('/') + 1);
         file.filePath = uri;
@@ -354,12 +352,11 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         Bitmap bitmap = Utils.scaleBitmap(getActivity(), photoFile.getAbsolutePath());
         if (bitmap == null) return;
 
-        // [TODO] should let user login
-        String ownerId = WorkingData.getInstance(getActivity()).getManagers().get(0).id;
+        String ownerId = WorkingData.getUserId();
         PhotoData photo = (PhotoData) DataFactory.genData(ownerId, BaseData.TYPE.PHOTO);
 
         photo.time = Calendar.getInstance().getTime();
-        photo.uploader = WorkingData.getInstance(getActivity()).getLoginWorkerId();
+        photo.uploader = ownerId;
         photo.fileName = mCurrentPhotoPath.substring(mCurrentPhotoPath.lastIndexOf('/') + 1);
         photo.photo = new BitmapDrawable(getResources(), bitmap);
         photo.filePath = Uri.parse(mCurrentPhotoPath);
@@ -376,7 +373,6 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             instance.addWorkerActivity(mWorker.id, data);
         } else {
             if (worker.getWipTask() != null) {
-                // [TODO] should add photo activity to task
                 Task task = worker.getWipTask();
                 ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
                 instance.addTaskActivity(task.id, data);
@@ -686,7 +682,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 case PHOTO:
                     if (data instanceof PhotoData) {
                         final PhotoData photoData = (PhotoData) data;
-                        user = WorkingData.getInstance(getActivity()).getWorkerById(photoData.uploader);
+                        user = WorkingData.getInstance(getActivity()).getUserById(photoData.uploader);
                         holder.status.setText((user != null ? user.name + " " : "") +
                                 getResources().getString(R.string.worker_ov_tab_status_capture) +
                                 (TextUtils.isEmpty(photoData.fileName) ? "" : " " + photoData.fileName));
@@ -703,6 +699,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                                 }
                             });
                         }
+                        holder.name.setText(user.name);
                         holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_photo, null));
                         statusVisibility = View.VISIBLE;
                         photoVisibility = View.VISIBLE;
