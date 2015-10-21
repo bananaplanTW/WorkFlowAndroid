@@ -235,8 +235,8 @@
     <string name="main_information_cost">Costs</string>
     <string name="main_information_delay_list_title">Delay items</string>
     <string name="main_information_warning_list_title">Warning items</string>
-    <string name="main_information_waiting_review_list_title">Checked items</string>
-    <string name="main_information_leave_workers_list_title">Leaving workers (in 7 days)</string>
+    <string name="main_information_review_list_title">Checked items</string>
+    <string name="main_information_leave_list_title">Leaving workers (in 7 days)</string>
     <string name="main_information_list_delay_time">Delay time</string>
     <string name="main_information_list_case_name">Case name</string>
     <string name="main_information_list_worker">Worker</string>

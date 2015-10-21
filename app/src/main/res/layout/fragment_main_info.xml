@@ -103,12 +103,22 @@
             android:layout_weight="@integer/main_information_list_group_top_weight"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_information_list_delay"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="@integer/main_information_list_group_left_weight"
-                android:background="@android:color/holo_blue_dark"/>
+                android:background="@color/main_information_list_content_background_color"
+                android:orientation="vertical">
+
+                <include layout="@layout/main_information_list_delay_header" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/main_information_list_delay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical" />
+
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/main_information_list_warning"
@@ -129,20 +139,40 @@
             android:layout_marginTop="@dimen/main_information_divider_size"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_information_list_review"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="@integer/main_information_list_group_left_weight"
-                android:background="@android:color/holo_green_dark"/>
+                android:background="@color/main_information_list_content_background_color"
+                android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_information_list_leave"
+                <include layout="@layout/main_information_list_review_header" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/main_information_list_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="@integer/main_information_list_group_right_weight"
                 android:layout_marginLeft="@dimen/main_information_divider_size"
-                android:background="@android:color/holo_blue_dark"/>
+                android:background="@color/main_information_list_content_background_color"
+                android:orientation="vertical">
+
+                <include layout="@layout/main_information_list_leave_header" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/main_information_list_leave"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

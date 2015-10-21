@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/main_information_list_title_height"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/main_information_list_title_height"
-        android:padding="10dp"
-        android:background="@color/main_information_list_warning_background"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/main_information_warning_list_title"
-            android:textColor="@android:color/white"
-            android:textSize="18dp" />
-
-    </RelativeLayout>
+    <TextView
+        style="@style/MainInformationListHeader"
+        android:background="@color/main_information_list_header_warning_background"
+        android:text="@string/main_information_warning_list_title" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -130,9 +130,13 @@
     <color name="main_information_warning_content_background">#e63f24</color>
     <color name="main_information_cost_title_background">#55badf</color>
     <color name="main_information_cost_content_background">#27a2cf</color>
-    <color name="main_information_list_delay">#f5b025</color>
-    <color name="main_information_list_warning_background">#ec6f5a</color>
-    <color name="main_information_list_checked">#48c9a9</color>
-    <color name="main_information_list_leave_workers">#55badf</color>
+    <color name="main_information_list_header_delay_background">#FFF5B025</color>
+    <color name="main_information_list_header_warning_background">#ec6f5a</color>
+    <color name="main_information_list_header_review_background">#48c9a9</color>
+    <color name="main_information_list_header_leave_background">#55badf</color>
+    <color name="main_information_list_header_text_color">@android:color/white</color>
+    <color name="main_information_list_title_text_color">#FF777777</color>
+    <color name="main_information_list_content_background_color">@android:color/white</color>
+    <color name="main_information_list_divider_color">#FFE1E1E1</color>
 
 </resources>

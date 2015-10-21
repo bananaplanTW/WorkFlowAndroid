@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/MainInformationListHeader"
+        android:background="@color/main_information_list_header_leave_background"
+        android:text="@string/main_information_leave_list_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/MainInformationListTitle"
+            android:text="@string/main_information_list_leave_workers_type" />
+
+        <TextView
+            style="@style/MainInformationListTitle"
+            android:text="@string/main_information_list_leave_workers_worker" />
+
+
+        <TextView
+            style="@style/MainInformationListTitle"
+            android:text="@string/main_information_list_leave_workers_date" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/main_information_list_divider_color"/>
+
+</LinearLayout>

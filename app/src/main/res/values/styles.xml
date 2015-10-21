@@ -242,4 +242,22 @@
         <item name="android:padding">@dimen/main_information_board_content_padding</item>
     </style>
 
+    <style name="MainInformationListHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/main_information_list_header_height</item>
+        <item name="android:padding">@dimen/main_information_list_header_padding</item>
+        <item name="android:textSize">@dimen/main_information_list_header_text_size</item>
+        <item name="android:textColor">@color/main_information_list_header_text_color</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="MainInformationListTitle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/main_information_list_title_text_size</item>
+        <item name="android:textColor">@color/main_information_list_title_text_color</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

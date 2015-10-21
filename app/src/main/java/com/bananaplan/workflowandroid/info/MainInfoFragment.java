@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,8 @@ public class MainInfoFragment extends Fragment implements View.OnClickListener {
     private TextView mCosts;
 
     private RecyclerView mDelayList;
+    private DelayListAdapter mDelayListAdapter;
+
     private RecyclerView mReviewList;
     private RecyclerView mLeaveList;
 
@@ -95,6 +98,7 @@ public class MainInfoFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         findViews();
+        setupDelayList();
         setupWarningList();
         setDatas();
     }
@@ -108,6 +112,10 @@ public class MainInfoFragment extends Fragment implements View.OnClickListener {
         mReviewList = (RecyclerView) getView().findViewById(R.id.main_information_list_review);
         mLeaveList = (RecyclerView) getView().findViewById(R.id.main_information_list_leave);
         mWarningTasks = (ListView) getView().findViewById(R.id.main_information_list_warning);
+    }
+
+    private void setupDelayList() {
+        mDelayList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void setupWarningList() {
@@ -151,7 +159,10 @@ public class MainInfoFragment extends Fragment implements View.OnClickListener {
                         }
                     }
                 }
+
+                mDelayListAdapter = new DelayListAdapter(getActivity(), new ArrayList<String>());
                 mWarningAdapter = new WarningListViewAdapter(warnings);
+
                 return null;
             }
 
@@ -163,8 +174,10 @@ public class MainInfoFragment extends Fragment implements View.OnClickListener {
                 mWarningCount.setText(Integer.toString(warningCount));
                 mCosts.setText("$" + Long.toString(data.cost));
 
+                mDelayList.setAdapter(mDelayListAdapter);
                 mWarningTasks.setAdapter(mWarningAdapter);
             }
+
         }.execute();
     }
 
