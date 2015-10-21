@@ -111,6 +111,10 @@ public final class WorkingData implements DataSubject {
         //Log.d(TAG, "Unregister MinuteReceiver");
     }
 
+    public static void resetAccount () {
+        sUserId = "";
+        sAuthToken = "";
+    }
     public static void setUserId(String userId) {
         sUserId = userId;
     }
