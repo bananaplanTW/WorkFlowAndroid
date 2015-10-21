@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.view.ExpandableLayout;
 import com.bananaplan.workflowandroid.utility.view.ExpandableLayout.OnExpandCollapseListener;
 
@@ -32,6 +33,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private ExpandableLayout mLastExpandedGroup = null;
     private View mLastSelectedItem = null;
     private View mLastSelectedGroupHeaderItem = null;
+
+    private String mManagerName;
 
     private OnExpandCollapseListener mOnExpandCollapseListener = new OnExpandCollapseListener() {
         @Override
@@ -111,6 +114,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public DrawerAdapter(Context context, OnClickDrawerItemListener listener) {
         mContext = context;
         mOnClickDrawerItemListener = listener;
+        mManagerName = WorkingData.getInstance(mContext).getManagerById(WorkingData.getUserId()).name;
         setupDrawerItemDatas();
     }
 
@@ -120,7 +124,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             switch (i) {
                 case DrawerItemIndex.SETTING:
-                    item = DrawerItem.generateSettingItem(null, "Danny");
+                    item = DrawerItem.generateSettingItem(null, mManagerName);
                     break;
 
                 case DrawerItemIndex.INFO:
