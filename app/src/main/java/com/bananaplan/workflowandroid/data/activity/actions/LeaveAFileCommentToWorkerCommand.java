@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.data.activity.actions;
 
 import android.content.Context;
 
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
 
@@ -28,13 +29,12 @@ public class LeaveAFileCommentToWorkerCommand implements ICreateActivityCommand,
 
     @Override
     public void execute() {
-        HashMap<String, String> queries = new HashMap<>();
-        queries.put("ed", mWorkerId);
-        // [TODO] should login with user
-        queries.put("ud", "qY7FdM7wnjevqmfws");
-        queries.put("t", "el1UPAsSmVf8F1LEKf8tRb8Ny5jAgOdK2qLNHztb7Cj");
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("ed", mWorkerId);
+        headers.put("x-user-id", WorkingData.getUserId());
+        headers.put("x-auth-token", WorkingData.getAuthToken());
 
-        UploadingFileStrategy uploadingFileStrategy = new UploadingFileStrategy(mFilePath, LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_FILE_ACTIVITY, queries);
+        UploadingFileStrategy uploadingFileStrategy = new UploadingFileStrategy(mFilePath, LoadingDataUtils.WorkingDataUrl.EndPoints.COMMENT_FILE_ACTIVITY, headers);
         mPostRequestAsyncTask = new PostRequestAsyncTask(mContext, uploadingFileStrategy, this);
         mPostRequestAsyncTask.execute();
     }

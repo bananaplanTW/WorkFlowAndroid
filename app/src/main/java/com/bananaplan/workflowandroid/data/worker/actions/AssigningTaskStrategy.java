@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.data.worker.actions;
 
 import android.util.Log;
 
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.loading.RestfulUtils;
 import com.bananaplan.workflowandroid.data.loading.URLUtils;
@@ -31,16 +32,15 @@ public class AssigningTaskStrategy implements IPostRequestStrategy {
     public JSONObject post() {
         try {
             HashMap<String, String> headers = new HashMap<>();
-            // [TODO] should login with user
-            headers.put("x-user-id", "qY7FdM7wnjevqmfws");
-            headers.put("x-auth-token", "el1UPAsSmVf8F1LEKf8tRb8Ny5jAgOdK2qLNHztb7Cj");
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
 
-            HashMap<String, String> queries = new HashMap<>();
-            queries.put("ed", mWorkerId);
-            queries.put("td", mTaskId);
+            HashMap<String, String> bodies = new HashMap<>();
+            bodies.put("ed", mWorkerId);
+            bodies.put("td", mTaskId);
 
             String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.DISPATCH, null);
-            String responseString = RestfulUtils.restfulPostRequest(urlString, headers, queries);
+            String responseString = RestfulUtils.restfulPostRequest(urlString, headers, bodies);
 
             if (responseString != null) {
                 JSONObject jsonObject = new JSONObject(responseString);
