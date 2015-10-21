@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
@@ -20,6 +22,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         UserLoggingInCommand.OnFinishLoggedInListener {
 
     private SharedPreferences mSharedPreferences;
+    private LinearLayout mLoginContainerLinearLayout;
     private EditText mAccountEditText;
     private EditText mPasswordEditText;
     private Button mLoginButton;
@@ -42,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         hideAllViews();
     }
     private void findViews () {
+        mLoginContainerLinearLayout = (LinearLayout) findViewById(R.id.login_container);
         mAccountEditText = (EditText) findViewById(R.id.login_account_edit_text);
         mPasswordEditText = (EditText) findViewById(R.id.login_password_edit_text);
         mLoginButton = (Button) findViewById(R.id.login_button);
@@ -50,14 +54,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLoginButton.setOnClickListener(this);
     }
     private void hideAllViews () {
-        mAccountEditText.setVisibility(View.GONE);
-        mPasswordEditText.setVisibility(View.GONE);
-        mLoginButton.setVisibility(View.GONE);
+        mLoginContainerLinearLayout.setVisibility(View.GONE);
     }
     private void showAllViews () {
-        mAccountEditText.setVisibility(View.VISIBLE);
-        mPasswordEditText.setVisibility(View.VISIBLE);
-        mLoginButton.setVisibility(View.VISIBLE);
+        mLoginContainerLinearLayout.setVisibility(View.VISIBLE);
     }
 
 
