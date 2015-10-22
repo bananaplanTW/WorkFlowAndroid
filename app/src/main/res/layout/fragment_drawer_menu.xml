@@ -9,8 +9,11 @@
         android:background="@color/drawer_background_color"/>
 
     <Button
-        android:id="@+id/logout_button"
+        android:id="@+id/drawer_log_out"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="登出"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/drawer_log_out"
+        android:textSize="@dimen/drawer_item_text_size"/>
+
 </RelativeLayout>

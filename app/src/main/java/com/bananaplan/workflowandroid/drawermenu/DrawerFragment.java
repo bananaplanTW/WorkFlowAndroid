@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.main.LoginActivity;
-import com.bananaplan.workflowandroid.main.PreloadActivity;
 import com.bananaplan.workflowandroid.utility.view.DividerItemDecoration;
 
 
@@ -71,7 +69,7 @@ public class DrawerFragment extends Fragment {
     private void findViews() {
         mFragmentView = getView();
         mDrawerMenu = (RecyclerView) mFragmentView.findViewById(R.id.drawer_menu_listview);
-        mLogoutButton = (Button) mFragmentView.findViewById(R.id.logout_button);
+        mLogoutButton = (Button) mFragmentView.findViewById(R.id.drawer_log_out);
     }
 
     private void setupDrawerMenu() {
