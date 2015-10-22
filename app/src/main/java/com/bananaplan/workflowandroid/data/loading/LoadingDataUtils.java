@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Equipment;
+import com.bananaplan.workflowandroid.data.EquipmentTimeCard;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Tag;
@@ -69,6 +70,8 @@ public class LoadingDataUtils {
 
             public static final String LOGIN_STATUS = "/api/login-status";
             public static final String LOGIN = "/api/login";
+
+            public static final String TIME_CARD_BY_RESOURCE = "/api/resource/timecards";
         }
     }
 
@@ -801,6 +804,15 @@ public class LoadingDataUtils {
         Log.d(TAG, "getWorkerTimeCardUrl url = " + url);
         return url;
     }
+    private static String getEquipmentTimeCardUrl(String equipmentId, long startDate, long endDate) {
+        HashMap<String, String> queries = new HashMap<>();
+        queries.put("resourceId", equipmentId);
+        queries.put("startDate", "" + startDate);
+        queries.put("endDate", "" + endDate);
+        String url = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.TIME_CARD_BY_RESOURCE, queries);
+        Log.d(TAG, "getEquipmentTimeCardUrl url = " + url);
+        return url;
+    }
 
 
     private static Date getDateFromJson(JSONObject jsonObject, String key) throws JSONException {
@@ -913,6 +925,57 @@ public class LoadingDataUtils {
                         }
                     } else {
                         worker.timeCards.put(timeCard.id, timeCard);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void loadTimeCardsByEquipment(Context context, String equipmentId, long startDate, long endDate) {
+        if (TextUtils.isEmpty(equipmentId) || startDate < 0 || endDate < 0 || endDate < startDate)
+            throw new IllegalArgumentException("loadTimeCardsByEquipment invalid parameter" +
+                    ", equipmentId: " + equipmentId +
+                    ", startDate: " + startDate +
+                    ", endDate: " + endDate);
+        if (!WorkingData.getInstance(context).hasEquipment(equipmentId)) return;
+
+        try {
+            String jsonString = RestfulUtils.getJsonStringFromUrl(getEquipmentTimeCardUrl(equipmentId, startDate, endDate));
+            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
+            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                Equipment equipment = WorkingData.getInstance(context).getEquipmentById(jsonObj.getString("resourceId"));
+                if (equipment == null) continue;
+                EquipmentTimeCard timeCard = null;
+                try {
+                    timeCard = new EquipmentTimeCard(
+                            jsonObj.getString("_id"),
+                            jsonObj.getString("resourceId"),
+                            jsonObj.getLong("startDate"),
+                            jsonObj.getLong("endDate"),
+                            jsonObj.getString("status").equals("close") ?
+                                    CaseTimeCard.STATUS.CLOSE :
+                                    CaseTimeCard.STATUS.OPEN,
+                            jsonObj.getLong("createdAt"),
+                            jsonObj.getLong("updatedAt"));
+                } catch (Exception e) {
+                    Log.e(TAG, "loadTimeCardsByEquipment parse json string fail.");
+                }
+                if (timeCard == null) continue;
+                if (!timeCard.equipmentId.equals(equipment.id)) continue;
+                synchronized (equipment) {
+                    if (equipment.timeCards.containsKey(timeCard.id)) {
+                        if (equipment.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
+                            equipment.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
+                            equipment.timeCards.get(timeCard.id).endDate = timeCard.endDate;
+                            equipment.timeCards.get(timeCard.id).status = timeCard.status;
+                        } else {
+                            // ignore
+                        }
+                    } else {
+                        equipment.timeCards.put(timeCard.id, timeCard);
                     }
                 }
             }

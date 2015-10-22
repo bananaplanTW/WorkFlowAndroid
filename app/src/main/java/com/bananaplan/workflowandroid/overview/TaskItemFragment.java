@@ -541,7 +541,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 } else if (obj instanceof Worker) {
                     LoadingDataUtils.loadTimeCardsByWorker(getActivity(), ((Worker) obj).id, start, end);
                 } else if (obj instanceof Equipment) {
-                    // TODO
+                    LoadingDataUtils.loadTimeCardsByEquipment(getActivity(), ((Equipment) obj).id, start, end);
                 }
             }
         }, new Runnable() {
@@ -555,7 +555,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 } else if (obj instanceof Worker) {
                     data.setData(((Worker) obj).getBarChartData(getActivity(), start, end));
                 } else if (obj instanceof Equipment) {
-                    // TODO
+                    data.setData(((Equipment) obj).getBarChartData(start, end));
                 }
                 data.setStartDate(getActivity(), start);
                 mBarChartContainer.removeAllViews();
