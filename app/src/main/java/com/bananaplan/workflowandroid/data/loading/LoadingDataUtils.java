@@ -223,6 +223,162 @@ public class LoadingDataUtils {
     }
 
 
+    public static void loadTimeCardsByCase(Context context, String caseId, long startDate, long endDate) {
+        if (TextUtils.isEmpty(caseId) || startDate < 0 || endDate < 0 || endDate < startDate)
+            throw new IllegalArgumentException("loadTimeCardsByCase invalid parameter" +
+                    ", caseId: " + caseId +
+                    ", startDate: " + startDate +
+                    ", endDate: " + endDate);
+        if (!WorkingData.getInstance(context).hasCase(caseId)) return;
+
+        try {
+            String jsonString = RestfulUtils.getJsonStringFromUrl(getCaseTimeCardUrl(caseId, startDate, endDate));
+            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
+            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
+            Case aCase = WorkingData.getInstance(context).getCaseById(caseId);
+            if (aCase == null) return;
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                CaseTimeCard timeCard = null;
+                try {
+                    timeCard = new CaseTimeCard(
+                            jsonObj.getString("_id"),
+                            jsonObj.getString("caseId"),
+                            jsonObj.getString("taskId"),
+                            jsonObj.getString("employeeId"),
+                            jsonObj.getLong("startDate"),
+                            jsonObj.getLong("endDate"),
+                            jsonObj.getString("status").equals("close") ?
+                                    CaseTimeCard.STATUS.CLOSE :
+                                    CaseTimeCard.STATUS.OPEN,
+                            jsonObj.getLong("createdAt"),
+                            jsonObj.getLong("updatedAt"));
+                } catch (Exception e) {
+                    Log.e(TAG, "loadTimeCardsByCase parse json string fail.");
+                }
+                if (timeCard == null || !timeCard.caseId.equals(caseId)) continue;
+                synchronized (aCase) {
+                    if (aCase.timeCards.containsKey(timeCard.id)) {
+                        if (aCase.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
+                            aCase.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
+                            aCase.timeCards.get(timeCard.id).endDate = timeCard.endDate;
+                            aCase.timeCards.get(timeCard.id).status = timeCard.status;
+                        } else {
+                            // ignore
+                        }
+                    } else {
+                        aCase.timeCards.put(timeCard.id, timeCard);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void loadTimeCardsByWorker(Context context, String workerId, long startDate, long endDate) {
+        if (TextUtils.isEmpty(workerId) || startDate < 0 || endDate < 0 || endDate < startDate)
+            throw new IllegalArgumentException("loadTimeCardsByWorker invalid parameter" +
+                    ", workerId: " + workerId +
+                    ", startDate: " + startDate +
+                    ", endDate: " + endDate);
+        if (!WorkingData.getInstance(context).hasWorker(workerId)) return;
+
+        try {
+            String jsonString = RestfulUtils.getJsonStringFromUrl(getWorkerTimeCardUrl(workerId, startDate, endDate));
+            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
+            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                Worker worker = WorkingData.getInstance(context).getWorkerById(jsonObj.getString("employeeId"));
+                if (worker == null) continue;
+                WorkerTimeCard timeCard = null;
+                try {
+                    timeCard = new WorkerTimeCard(
+                            jsonObj.getString("_id"),
+                            jsonObj.getString("employeeId"),
+                            jsonObj.getLong("startDate"),
+                            jsonObj.getLong("endDate"),
+                            jsonObj.getString("status").equals("close") ?
+                                    CaseTimeCard.STATUS.CLOSE :
+                                    CaseTimeCard.STATUS.OPEN,
+                            jsonObj.getLong("createdAt"),
+                            jsonObj.getLong("updatedAt"));
+                } catch (Exception e) {
+                    Log.e(TAG, "loadTimeCardsByCase parse json string fail.");
+                }
+                if (timeCard == null) continue;
+                if (!timeCard.employeeId.equals(worker.id)) continue;
+                synchronized (worker) {
+                    if (worker.timeCards.containsKey(timeCard.id)) {
+                        if (worker.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
+                            worker.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
+                            worker.timeCards.get(timeCard.id).endDate = timeCard.endDate;
+                            worker.timeCards.get(timeCard.id).status = timeCard.status;
+                        } else {
+                            // ignore
+                        }
+                    } else {
+                        worker.timeCards.put(timeCard.id, timeCard);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void loadTimeCardsByEquipment(Context context, String equipmentId, long startDate, long endDate) {
+        if (TextUtils.isEmpty(equipmentId) || startDate < 0 || endDate < 0 || endDate < startDate)
+            throw new IllegalArgumentException("loadTimeCardsByEquipment invalid parameter" +
+                    ", equipmentId: " + equipmentId +
+                    ", startDate: " + startDate +
+                    ", endDate: " + endDate);
+        if (!WorkingData.getInstance(context).hasEquipment(equipmentId)) return;
+
+        try {
+            String jsonString = RestfulUtils.getJsonStringFromUrl(getEquipmentTimeCardUrl(equipmentId, startDate, endDate));
+            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
+            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                Equipment equipment = WorkingData.getInstance(context).getEquipmentById(jsonObj.getString("resourceId"));
+                if (equipment == null) continue;
+                EquipmentTimeCard timeCard = null;
+                try {
+                    timeCard = new EquipmentTimeCard(
+                            jsonObj.getString("_id"),
+                            jsonObj.getString("resourceId"),
+                            jsonObj.getLong("startDate"),
+                            jsonObj.getLong("endDate"),
+                            jsonObj.getString("status").equals("close") ?
+                                    CaseTimeCard.STATUS.CLOSE :
+                                    CaseTimeCard.STATUS.OPEN,
+                            jsonObj.getLong("createdAt"),
+                            jsonObj.getLong("updatedAt"));
+                } catch (Exception e) {
+                    Log.e(TAG, "loadTimeCardsByEquipment parse json string fail.");
+                }
+                if (timeCard == null) continue;
+                if (!timeCard.equipmentId.equals(equipment.id)) continue;
+                synchronized (equipment) {
+                    if (equipment.timeCards.containsKey(timeCard.id)) {
+                        if (equipment.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
+                            equipment.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
+                            equipment.timeCards.get(timeCard.id).endDate = timeCard.endDate;
+                            equipment.timeCards.get(timeCard.id).status = timeCard.status;
+                        } else {
+                            // ignore
+                        }
+                    } else {
+                        equipment.timeCards.put(timeCard.id, timeCard);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private static void addCaseToWorkingData(Context context, JSONObject caseJson) {
         try {
             String caseId = caseJson.getString("_id");
@@ -648,6 +804,8 @@ public class LoadingDataUtils {
                 warnings.add(WorkingData.getInstance(context).getWarningById(warningId));
             }
 
+            boolean isDelayed = getBooleanFromJson(taskJson, "delay");
+
             // TODO: Sub task
 
             return new Task(
@@ -664,7 +822,8 @@ public class LoadingDataUtils {
                     expectedTime,
                     startTime,
                     spentTime,
-                    lastUpdatedTime);
+                    lastUpdatedTime,
+                    isDelayed);
 
         } catch (JSONException e) {
             Log.e(TAG, "Exception in retrieveTaskFromJson()");
@@ -824,163 +983,10 @@ public class LoadingDataUtils {
     private static long getLongFromJson(JSONObject jsonObject, String key) throws JSONException {
         return jsonObject.has(key) ? jsonObject.getLong(key) : 0L;
     }
+    private static boolean getBooleanFromJson(JSONObject jsonObject, String key) throws JSONException {
+        return jsonObject.has(key) ? jsonObject.getBoolean(key) : false;
+    }
     private static JSONObject getJsonObjectFromJson(JSONObject jsonObject, String key) throws JSONException {
         return jsonObject.has(key) ? jsonObject.getJSONObject(key) : null;
-    }
-
-    public static void loadTimeCardsByCase(Context context, String caseId, long startDate, long endDate) {
-        if (TextUtils.isEmpty(caseId) || startDate < 0 || endDate < 0 || endDate < startDate)
-            throw new IllegalArgumentException("loadTimeCardsByCase invalid parameter" +
-                    ", caseId: " + caseId +
-                    ", startDate: " + startDate +
-                    ", endDate: " + endDate);
-        if (!WorkingData.getInstance(context).hasCase(caseId)) return;
-
-        try {
-            String jsonString = RestfulUtils.getJsonStringFromUrl(getCaseTimeCardUrl(caseId, startDate, endDate));
-            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
-            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
-            Case aCase = WorkingData.getInstance(context).getCaseById(caseId);
-            if (aCase == null) return;
-            for (int i = 0 ; i < jsonArray.length() ; i++) {
-                JSONObject jsonObj = jsonArray.getJSONObject(i);
-                CaseTimeCard timeCard = null;
-                try {
-                    timeCard = new CaseTimeCard(
-                            jsonObj.getString("_id"),
-                            jsonObj.getString("caseId"),
-                            jsonObj.getString("taskId"),
-                            jsonObj.getString("employeeId"),
-                            jsonObj.getLong("startDate"),
-                            jsonObj.getLong("endDate"),
-                            jsonObj.getString("status").equals("close") ?
-                                    CaseTimeCard.STATUS.CLOSE :
-                                    CaseTimeCard.STATUS.OPEN,
-                            jsonObj.getLong("createdAt"),
-                            jsonObj.getLong("updatedAt"));
-                } catch (Exception e) {
-                    Log.e(TAG, "loadTimeCardsByCase parse json string fail.");
-                }
-                if (timeCard == null || !timeCard.caseId.equals(caseId)) continue;
-                synchronized (aCase) {
-                    if (aCase.timeCards.containsKey(timeCard.id)) {
-                        if (aCase.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
-                            aCase.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
-                            aCase.timeCards.get(timeCard.id).endDate = timeCard.endDate;
-                            aCase.timeCards.get(timeCard.id).status = timeCard.status;
-                        } else {
-                            // ignore
-                        }
-                    } else {
-                        aCase.timeCards.put(timeCard.id, timeCard);
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void loadTimeCardsByWorker(Context context, String workerId, long startDate, long endDate) {
-        if (TextUtils.isEmpty(workerId) || startDate < 0 || endDate < 0 || endDate < startDate)
-            throw new IllegalArgumentException("loadTimeCardsByWorker invalid parameter" +
-                    ", workerId: " + workerId +
-                    ", startDate: " + startDate +
-                    ", endDate: " + endDate);
-        if (!WorkingData.getInstance(context).hasWorker(workerId)) return;
-
-        try {
-            String jsonString = RestfulUtils.getJsonStringFromUrl(getWorkerTimeCardUrl(workerId, startDate, endDate));
-            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
-            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
-            for (int i = 0 ; i < jsonArray.length() ; i++) {
-                JSONObject jsonObj = jsonArray.getJSONObject(i);
-                Worker worker = WorkingData.getInstance(context).getWorkerById(jsonObj.getString("employeeId"));
-                if (worker == null) continue;
-                WorkerTimeCard timeCard = null;
-                try {
-                    timeCard = new WorkerTimeCard(
-                            jsonObj.getString("_id"),
-                            jsonObj.getString("employeeId"),
-                            jsonObj.getLong("startDate"),
-                            jsonObj.getLong("endDate"),
-                            jsonObj.getString("status").equals("close") ?
-                                    CaseTimeCard.STATUS.CLOSE :
-                                    CaseTimeCard.STATUS.OPEN,
-                            jsonObj.getLong("createdAt"),
-                            jsonObj.getLong("updatedAt"));
-                } catch (Exception e) {
-                    Log.e(TAG, "loadTimeCardsByCase parse json string fail.");
-                }
-                if (timeCard == null) continue;
-                if (!timeCard.employeeId.equals(worker.id)) continue;
-                synchronized (worker) {
-                    if (worker.timeCards.containsKey(timeCard.id)) {
-                        if (worker.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
-                            worker.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
-                            worker.timeCards.get(timeCard.id).endDate = timeCard.endDate;
-                            worker.timeCards.get(timeCard.id).status = timeCard.status;
-                        } else {
-                            // ignore
-                        }
-                    } else {
-                        worker.timeCards.put(timeCard.id, timeCard);
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    public static void loadTimeCardsByEquipment(Context context, String equipmentId, long startDate, long endDate) {
-        if (TextUtils.isEmpty(equipmentId) || startDate < 0 || endDate < 0 || endDate < startDate)
-            throw new IllegalArgumentException("loadTimeCardsByEquipment invalid parameter" +
-                    ", equipmentId: " + equipmentId +
-                    ", startDate: " + startDate +
-                    ", endDate: " + endDate);
-        if (!WorkingData.getInstance(context).hasEquipment(equipmentId)) return;
-
-        try {
-            String jsonString = RestfulUtils.getJsonStringFromUrl(getEquipmentTimeCardUrl(equipmentId, startDate, endDate));
-            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
-            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
-            for (int i = 0 ; i < jsonArray.length() ; i++) {
-                JSONObject jsonObj = jsonArray.getJSONObject(i);
-                Equipment equipment = WorkingData.getInstance(context).getEquipmentById(jsonObj.getString("resourceId"));
-                if (equipment == null) continue;
-                EquipmentTimeCard timeCard = null;
-                try {
-                    timeCard = new EquipmentTimeCard(
-                            jsonObj.getString("_id"),
-                            jsonObj.getString("resourceId"),
-                            jsonObj.getLong("startDate"),
-                            jsonObj.getLong("endDate"),
-                            jsonObj.getString("status").equals("close") ?
-                                    CaseTimeCard.STATUS.CLOSE :
-                                    CaseTimeCard.STATUS.OPEN,
-                            jsonObj.getLong("createdAt"),
-                            jsonObj.getLong("updatedAt"));
-                } catch (Exception e) {
-                    Log.e(TAG, "loadTimeCardsByEquipment parse json string fail.");
-                }
-                if (timeCard == null) continue;
-                if (!timeCard.equipmentId.equals(equipment.id)) continue;
-                synchronized (equipment) {
-                    if (equipment.timeCards.containsKey(timeCard.id)) {
-                        if (equipment.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
-                            equipment.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
-                            equipment.timeCards.get(timeCard.id).endDate = timeCard.endDate;
-                            equipment.timeCards.get(timeCard.id).status = timeCard.status;
-                        } else {
-                            // ignore
-                        }
-                    } else {
-                        equipment.timeCards.put(timeCard.id, timeCard);
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }

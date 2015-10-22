@@ -1,6 +1,6 @@
 package com.bananaplan.workflowandroid.info;
 
-import android.os.AsyncTask;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,18 +23,21 @@ import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * @author Danny Lin
  * @since 2015/8/22.
  */
-public class MainInfoFragment extends Fragment implements View.OnClickListener {
+public class MainInfoFragment extends Fragment {
 
-    private TextView mWorkerOnCount;
-    private TextView mWorkerOvertimeCount;
-    private TextView mWarningCount;
-    private TextView mCosts;
+    private Context mContext;
+
+    private TextView mWorkerOnCountText;
+    private TextView mWorkerOvertimeCountText;
+    private TextView mWarningCountText;
+    private TextView mCostsText;
 
     private RecyclerView mDelayList;
     private DelayListAdapter mDelayListAdapter;
@@ -45,10 +48,19 @@ public class MainInfoFragment extends Fragment implements View.OnClickListener {
     private ListView mWarningTasks;
     private WarningListViewAdapter mWarningAdapter;
 
+    private int mWorkerOnCount = 0;
+    private int mWorkerOvertimeCount = 0;
+    private int mWarningCount = 0;
+
+    private List<Task> mDelayTasks = new ArrayList<>();
+    private List<Warning> mWarnings = new ArrayList<>();
+    private List<Task> mReviewTasks = new ArrayList<>();
+    private List<Worker> mLeaveWorkers = new ArrayList<>();
+
 
     private class WarningListViewAdapter extends ArrayAdapter<Warning> {
 
-        public WarningListViewAdapter(ArrayList<Warning> warnings) {
+        public WarningListViewAdapter(List<Warning> warnings) {
             super(getActivity(), 0, warnings);
         }
 
@@ -97,92 +109,78 @@ public class MainInfoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mContext = getActivity();
         findViews();
+        retrieveDatas();
+        setupBoards();
         setupDelayList();
         setupWarningList();
-        setDatas();
     }
 
     private void findViews() {
-        mWorkerOnCount = (TextView) getView().findViewById(R.id.main_information_worker_on_count);
-        mWorkerOvertimeCount = (TextView) getView().findViewById(R.id.main_information_worker_overtime_count);
-        mWarningCount = (TextView) getView().findViewById(R.id.main_information_warning_count);
-        mCosts = (TextView) getView().findViewById(R.id.main_information_costs);
+        mWorkerOnCountText = (TextView) getView().findViewById(R.id.main_information_worker_on_count);
+        mWorkerOvertimeCountText = (TextView) getView().findViewById(R.id.main_information_worker_overtime_count);
+        mWarningCountText = (TextView) getView().findViewById(R.id.main_information_warning_count);
+        mCostsText = (TextView) getView().findViewById(R.id.main_information_costs);
         mDelayList = (RecyclerView) getView().findViewById(R.id.main_information_list_delay);
         mReviewList = (RecyclerView) getView().findViewById(R.id.main_information_list_review);
         mLeaveList = (RecyclerView) getView().findViewById(R.id.main_information_list_leave);
         mWarningTasks = (ListView) getView().findViewById(R.id.main_information_list_warning);
     }
 
+    private void retrieveDatas() {
+        for (Task task : WorkingData.getInstance(mContext).getTasks()) {
+            if (task.isDelayed && !Task.Status.IN_REVIEW.equals(task.status) && !Task.Status.DONE.equals(task.status)) {
+                mDelayTasks.add(task);
+            }
+            if (Task.Status.IN_REVIEW.equals(task.status)) {
+                mReviewTasks.add(task);
+            }
+
+            for (Warning warning : task.warnings) {
+                if (warning.status == Warning.Status.OPEN) {
+                    mWarningCount++;
+                }
+            }
+        }
+
+        for (Worker worker : WorkingData.getInstance(mContext).getWorkers()) {
+            if (worker.isOvertime) {
+                mWorkerOvertimeCount++;
+            }
+        }
+
+        for (Vendor vendor : WorkingData.getInstance(mContext).getVendors()) {
+            for (Case _case : vendor.getCases()) {
+                for (Task task : _case.tasks) {
+                    for (Warning warning : task.warnings) {
+                        if (warning.status == Warning.Status.OPEN) {
+                            mWarnings.add(warning);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void setupBoards() {
+        mWorkerOnCountText.setText(String.valueOf(mWorkerOnCount));
+        mWorkerOvertimeCountText.setText(String.valueOf(mWorkerOvertimeCount));
+        mWarningCountText.setText(String.valueOf(mWarningCount));
+        mCostsText.setText(String.format(getString(R.string.main_information_$), WorkingData.getInstance(mContext).getCosts()));
+    }
+
     private void setupDelayList() {
+        mDelayListAdapter = new DelayListAdapter(getActivity(), mDelayTasks);
         mDelayList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mDelayList.setAdapter(mDelayListAdapter);
     }
 
     private void setupWarningList() {
+        mWarningAdapter = new WarningListViewAdapter(mWarnings);
         mWarningTasks.setHeaderDividersEnabled(true);
         mWarningTasks.addHeaderView(LayoutInflater.from(getActivity())
                 .inflate(R.layout.main_information_list_warning_title, null), null, false);
-    }
-
-    private void setDatas() {
-        final WorkingData data = WorkingData.getInstance(getActivity());
-
-        new AsyncTask<Void, Void, Void>() {
-            int workerOnCount = 0;
-            int workerOvertimeCount = 0;
-            int warningCount = 0;
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                // TODO: count workers on
-                for (Worker worker : data.getWorkers()) {
-                    if (worker.isOvertime) {
-                        workerOvertimeCount++;
-                    }
-                }
-                for (Task task : data.getTasks()) {
-                    for (Warning warning : task.warnings) {
-                        if (warning.status == Warning.Status.OPEN) {
-                            warningCount++;
-                        }
-                    }
-                }
-                ArrayList<Warning> warnings = new ArrayList<>();
-                for (Vendor vendor : data.getVendors()) {
-                    for (Case _case : vendor.getCases()) {
-                        for (Task task : _case.tasks) {
-                            for (Warning warning : task.warnings) {
-                                if (warning.status == Warning.Status.OPEN) {
-                                    warnings.add(warning);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                mDelayListAdapter = new DelayListAdapter(getActivity(), new ArrayList<String>());
-                mWarningAdapter = new WarningListViewAdapter(warnings);
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                mWorkerOnCount.setText(Integer.toString(workerOnCount));
-                mWorkerOvertimeCount.setText(Integer.toString(workerOvertimeCount));
-                mWarningCount.setText(Integer.toString(warningCount));
-                mCosts.setText("$" + Long.toString(data.cost));
-
-                mDelayList.setAdapter(mDelayListAdapter);
-                mWarningTasks.setAdapter(mWarningAdapter);
-            }
-
-        }.execute();
-    }
-
-    @Override
-    public void onClick(View v) {
-
+        mWarningTasks.setAdapter(mWarningAdapter);
     }
 }

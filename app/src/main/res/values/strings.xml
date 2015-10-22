@@ -248,6 +248,7 @@
     <string name="main_information_list_leave_workers_type">Type</string>
     <string name="main_information_list_leave_workers_worker">Worker</string>
     <string name="main_information_list_leave_workers_date">Date</string>
+    <string name="main_information_$">"$%1$d</string>
 
     <!-- Login Activity -->
     <string name="login_account">Account</string>

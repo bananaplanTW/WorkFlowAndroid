@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.Task;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<String> mData;
+    private List<Task> mData;
 
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -35,7 +36,7 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public DelayListAdapter(Context context, List<String> data) {
+    public DelayListAdapter(Context context, List<Task> data) {
         mContext = context;
         mData = data;
     }

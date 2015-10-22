@@ -42,6 +42,8 @@ public class Task extends IdData {
 
     public int errorCount;
 
+    public boolean isDelayed = false;
+
     public Status status = Task.Status.UNCLAIMED;
     public ArrayList<BaseData> records = new ArrayList<>();
 
@@ -62,7 +64,8 @@ public class Task extends IdData {
                 long expectedTime,
                 long startTime,
                 long spentTime,
-                long lastUpdatedTime) {
+                long lastUpdatedTime,
+                boolean isDelayed) {
         this.id = id;
         this.name = name;
         this.caseId = caseId;
@@ -77,6 +80,7 @@ public class Task extends IdData {
         this.endDate = endDate;
         this.warnings = warnings;
         this.lastUpdatedTime = lastUpdatedTime;
+        this.isDelayed = isDelayed;
 
         if (this.warnings == null) {
             this.warnings = new ArrayList<>();
@@ -113,6 +117,7 @@ public class Task extends IdData {
         this.endDate = task.endDate;
         this.warnings = task.warnings;
         this.lastUpdatedTime = task.lastUpdatedTime;
+        this.isDelayed = task.isDelayed;
     }
 
     public long getWorkingTime() {

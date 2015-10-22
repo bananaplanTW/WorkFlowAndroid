@@ -59,6 +59,7 @@ public final class WorkingData implements DataSubject {
 
     private static String sUserId;
     private static String sAuthToken;
+    private static int sCosts = 0;
 
     private HashMap<String, Manager> mManagersMap = new HashMap<>();
     private HashMap<String, Worker> mWorkersMap = new HashMap<>();
@@ -77,7 +78,7 @@ public final class WorkingData implements DataSubject {
     public int minWorkingOff = 30;
     public int hourOvertime = 20;
     public int minOvertime = 0;
-    public long cost;
+
 
     public static WorkingData getInstance(Context context) {
         if (sWorkingData == null) {
@@ -127,6 +128,15 @@ public final class WorkingData implements DataSubject {
     public static String getAuthToken() {
         return sAuthToken;
     }
+
+
+    public void setCosts(int costs) {
+        sCosts = costs;
+    }
+    public int getCosts() {
+        return sCosts;
+    }
+
 
     public void addCase(Case aCase) {
         if (aCase == null) return;
@@ -246,6 +256,7 @@ public final class WorkingData implements DataSubject {
         return new ArrayList<>(mEquipmentsMap.values());
     }
 
+
     public ArrayList<Task> getTasksByEquipment(Equipment equipment) {
         ArrayList<Task> tmp = new ArrayList<>();
         if (equipment == null) return tmp;
@@ -257,6 +268,7 @@ public final class WorkingData implements DataSubject {
         }
         return tmp;
     }
+
 
     public IdData getUserById (String userId) {
         if (mManagersMap.containsKey(userId)) {
