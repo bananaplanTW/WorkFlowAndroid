@@ -47,6 +47,7 @@ public class LoadingDataUtils {
         public static final String WORKERS = BASE_URL + "/api/employees";
         public static final String CASES = BASE_URL + "/api/cases";
         public static final String FACTORIES = BASE_URL + "/api/groups";
+        public static final String EQUIPMENTS = BASE_URL + "/api/resources";
         public static final String TASKS_BY_CASE = BASE_URL + "/api/tasks?caseId=";
         public static final String TASKS_BY_WORKER = BASE_URL + "/api/employee/tasks?employeeId=";
         public static final String WORKERS_BY_FACTORY = BASE_URL + "/api/group/employees?groupId=";
@@ -107,6 +108,26 @@ public class LoadingDataUtils {
             for (int i = 0 ; i < factoryJsonList.length() ; i++) {
                 JSONObject factoryJson = factoryJsonList.getJSONObject(i);
                 addFactoryToWorkingData(context, factoryJson);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in loadFactories()");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Load all equipments data from server, not include workers data.
+     *
+     * @param context
+     */
+    public static void loadEquipments(Context context) {
+        try {
+            String resourceJsonListString = RestfulUtils.getJsonStringFromUrl(WorkingDataUrl.EQUIPMENTS);
+            JSONArray equipmentJsonList = new JSONObject(resourceJsonListString).getJSONArray("result");
+
+            for (int i = 0 ; i < equipmentJsonList.length() ; i++) {
+                JSONObject equipmentJson = equipmentJsonList.getJSONObject(i);
+                addEquipmentToWorkingData(context, equipmentJson);
             }
         } catch (JSONException e) {
             Log.e(TAG, "Exception in loadFactories()");
@@ -274,7 +295,7 @@ public class LoadingDataUtils {
             }
 
             if (workingDataHasWorker) {
-                WorkingData.getInstance(context).getWorkerById(workerId).update(retrieveWorkerFromJson(context, workerJson));
+                WorkingData.getInstance(context).updateWorker(workerId, retrieveWorkerFromJson(context, workerJson));
             } else {
                 WorkingData.getInstance(context).addWorker(retrieveWorkerFromJson(context, workerJson));
             }
