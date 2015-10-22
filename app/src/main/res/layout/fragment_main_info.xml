@@ -123,7 +123,7 @@
             <ListView
                 android:id="@+id/main_information_list_warning"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="@integer/main_information_list_group_right_weight"
                 android:layout_marginLeft="@dimen/main_information_divider_size"
                 android:background="@android:color/white"
