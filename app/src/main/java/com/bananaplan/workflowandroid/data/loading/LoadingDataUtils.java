@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Equipment;
+import com.bananaplan.workflowandroid.data.EquipmentTimeCard;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Tag;
@@ -47,6 +48,7 @@ public class LoadingDataUtils {
         public static final String WORKERS = BASE_URL + "/api/employees";
         public static final String CASES = BASE_URL + "/api/cases";
         public static final String FACTORIES = BASE_URL + "/api/groups";
+        public static final String EQUIPMENTS = BASE_URL + "/api/resources";
         public static final String TASKS_BY_CASE = BASE_URL + "/api/tasks?caseId=";
         public static final String TASKS_BY_WORKER = BASE_URL + "/api/employee/tasks?employeeId=";
         public static final String WORKERS_BY_FACTORY = BASE_URL + "/api/group/employees?groupId=";
@@ -68,6 +70,8 @@ public class LoadingDataUtils {
 
             public static final String LOGIN_STATUS = "/api/login-status";
             public static final String LOGIN = "/api/login";
+
+            public static final String TIME_CARD_BY_RESOURCE = "/api/resource/timecards";
         }
     }
 
@@ -107,6 +111,26 @@ public class LoadingDataUtils {
             for (int i = 0 ; i < factoryJsonList.length() ; i++) {
                 JSONObject factoryJson = factoryJsonList.getJSONObject(i);
                 addFactoryToWorkingData(context, factoryJson);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in loadFactories()");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Load all equipments data from server, not include workers data.
+     *
+     * @param context
+     */
+    public static void loadEquipments(Context context) {
+        try {
+            String resourceJsonListString = RestfulUtils.getJsonStringFromUrl(WorkingDataUrl.EQUIPMENTS);
+            JSONArray equipmentJsonList = new JSONObject(resourceJsonListString).getJSONArray("result");
+
+            for (int i = 0 ; i < equipmentJsonList.length() ; i++) {
+                JSONObject equipmentJson = equipmentJsonList.getJSONObject(i);
+                addEquipmentToWorkingData(context, equipmentJson);
             }
         } catch (JSONException e) {
             Log.e(TAG, "Exception in loadFactories()");
@@ -274,7 +298,7 @@ public class LoadingDataUtils {
             }
 
             if (workingDataHasWorker) {
-                WorkingData.getInstance(context).getWorkerById(workerId).update(retrieveWorkerFromJson(context, workerJson));
+                WorkingData.getInstance(context).updateWorker(workerId, retrieveWorkerFromJson(context, workerJson));
             } else {
                 WorkingData.getInstance(context).addWorker(retrieveWorkerFromJson(context, workerJson));
             }
@@ -780,6 +804,15 @@ public class LoadingDataUtils {
         Log.d(TAG, "getWorkerTimeCardUrl url = " + url);
         return url;
     }
+    private static String getEquipmentTimeCardUrl(String equipmentId, long startDate, long endDate) {
+        HashMap<String, String> queries = new HashMap<>();
+        queries.put("resourceId", equipmentId);
+        queries.put("startDate", "" + startDate);
+        queries.put("endDate", "" + endDate);
+        String url = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.TIME_CARD_BY_RESOURCE, queries);
+        Log.d(TAG, "getEquipmentTimeCardUrl url = " + url);
+        return url;
+    }
 
 
     private static Date getDateFromJson(JSONObject jsonObject, String key) throws JSONException {
@@ -892,6 +925,57 @@ public class LoadingDataUtils {
                         }
                     } else {
                         worker.timeCards.put(timeCard.id, timeCard);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void loadTimeCardsByEquipment(Context context, String equipmentId, long startDate, long endDate) {
+        if (TextUtils.isEmpty(equipmentId) || startDate < 0 || endDate < 0 || endDate < startDate)
+            throw new IllegalArgumentException("loadTimeCardsByEquipment invalid parameter" +
+                    ", equipmentId: " + equipmentId +
+                    ", startDate: " + startDate +
+                    ", endDate: " + endDate);
+        if (!WorkingData.getInstance(context).hasEquipment(equipmentId)) return;
+
+        try {
+            String jsonString = RestfulUtils.getJsonStringFromUrl(getEquipmentTimeCardUrl(equipmentId, startDate, endDate));
+            if (!new JSONObject(jsonString).getString("status").equals("success")) return;
+            JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                Equipment equipment = WorkingData.getInstance(context).getEquipmentById(jsonObj.getString("resourceId"));
+                if (equipment == null) continue;
+                EquipmentTimeCard timeCard = null;
+                try {
+                    timeCard = new EquipmentTimeCard(
+                            jsonObj.getString("_id"),
+                            jsonObj.getString("resourceId"),
+                            jsonObj.getLong("startDate"),
+                            jsonObj.getLong("endDate"),
+                            jsonObj.getString("status").equals("close") ?
+                                    CaseTimeCard.STATUS.CLOSE :
+                                    CaseTimeCard.STATUS.OPEN,
+                            jsonObj.getLong("createdAt"),
+                            jsonObj.getLong("updatedAt"));
+                } catch (Exception e) {
+                    Log.e(TAG, "loadTimeCardsByEquipment parse json string fail.");
+                }
+                if (timeCard == null) continue;
+                if (!timeCard.equipmentId.equals(equipment.id)) continue;
+                synchronized (equipment) {
+                    if (equipment.timeCards.containsKey(timeCard.id)) {
+                        if (equipment.timeCards.get(timeCard.id).updatedDate < timeCard.updatedDate) {
+                            equipment.timeCards.get(timeCard.id).updatedDate = timeCard.updatedDate;
+                            equipment.timeCards.get(timeCard.id).endDate = timeCard.endDate;
+                            equipment.timeCards.get(timeCard.id).status = timeCard.status;
+                        } else {
+                            // ignore
+                        }
+                    } else {
+                        equipment.timeCards.put(timeCard.id, timeCard);
                     }
                 }
             }

@@ -3,7 +3,10 @@ package com.bananaplan.workflowandroid.data;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by Ben on 2015/7/23.
@@ -22,6 +25,7 @@ public class Equipment extends IdData {
     public Date purchasedDate;
     public Date lastMaintenanceDate;
 
+    public HashMap<String, EquipmentTimeCard> timeCards = new HashMap<>();
     public ArrayList<MaintenanceRecord> records = new ArrayList<>();
 
 
@@ -89,5 +93,25 @@ public class Equipment extends IdData {
         }
 
         return result;
+    }
+
+    public long[][] getBarChartData(long start, long end) {
+        long[][] data = new long[1][7];
+        Arrays.fill(data[0], 0);
+        for (EquipmentTimeCard timeCard : timeCards.values()) {
+            if (timeCard.startDate >= start && timeCard.endDate < end) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(timeCard.startDate);
+                int idx = (cal.get(Calendar.DAY_OF_WEEK) - 1 + 6) % 7;
+                long value;
+                if (timeCard.status == CaseTimeCard.STATUS.CLOSE) {
+                    value = timeCard.endDate - timeCard.startDate;
+                } else {
+                    value = System.currentTimeMillis() - timeCard.startDate;
+                }
+                data[0][idx] += value;
+            }
+        }
+        return data;
     }
 }

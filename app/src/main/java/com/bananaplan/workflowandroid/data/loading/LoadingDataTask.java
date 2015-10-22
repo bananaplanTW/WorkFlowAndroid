@@ -3,8 +3,10 @@ package com.bananaplan.workflowandroid.data.loading;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.Case;
+import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Vendor;
@@ -47,6 +49,7 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
             if (RestfulUtils.isConnectToInternet(mContext)) {
                 loadCases();
                 loadFactories();
+                loadEquipments();
                 putWorkerIdsIntoCases();
                 putTasksIntoWorkers();
                 putCasesIntoVendors();
@@ -89,6 +92,13 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
         for (Factory factory : WorkingData.getInstance(mContext).getFactories()) {
             LoadingDataUtils.loadWorkersByFactory(mContext, factory.id);
         }
+    }
+
+    /**
+     * Load all equipments
+     */
+    private void loadEquipments () {
+        LoadingDataUtils.loadEquipments(mContext);
     }
 
     /**
