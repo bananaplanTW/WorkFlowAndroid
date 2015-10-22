@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -67,7 +68,8 @@ import java.util.Date;
  * Created by Ben on 2015/8/14.
  */
 public class StatusFragment extends OvTabFragmentBase implements View.OnClickListener,
-        OvTabFragmentBase.OvCallBack, DataObserver {
+        OvTabFragmentBase.OvCallBack, DataObserver,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private static final ArrayList<TabInfo> mTabInfos = new ArrayList<>(5);
 
@@ -93,6 +95,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private EditText mRecordEditText;
     private TabHost mTabHost;
     private TextView mScore;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView mListView;
     private DataAdapter mAdapter;
 
@@ -174,6 +177,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         }
     }
 
+
     private void setupTabHost() {
         mTabHost.setup();
         getActivity().getLayoutInflater().inflate(R.layout.fragment_worker_ov_status_tabs_container, mTabHost.getTabContentView(), true);
@@ -182,6 +186,15 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             updateTabIndicatorView(info.tag, info.tabResId);
         }
         mListView = (ListView) getActivity().findViewById(R.id.worker_status_list);
+
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.worker_status_list_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
     }
 
     private void updateTabIndicatorView(final String tag, final int rootId) {
@@ -245,6 +258,26 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 onTabSelected(v.getId());
                 break;
             default:
+                break;
+        }
+    }
+
+
+    @Override
+    public void onRefresh() {
+        ArrayList<BaseData> records = new ArrayList<>();
+        ActivityDataStore instance = ActivityDataStore.getInstance(mContext);;
+        switch (mContentShow) {
+            case CONTENT_SHOW.WORKER_STATUS:
+                instance.loadWorkerActivities(mWorker.id, 15);
+                instance.registerDataObserver(this);
+                break;
+            case CONTENT_SHOW.TASK_STATUS:
+                if (mWorker.getWipTask() != null) {
+                    Task task = mWorker.getWipTask();
+                    instance.loadTaskActivities(task.id, 15);
+                    instance.registerDataObserver(this);
+                }
                 break;
         }
     }
@@ -504,16 +537,16 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         ActivityDataStore instance = ActivityDataStore.getInstance(mContext);;
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
-                if (instance.hasWorkerActivitiesCacheWithWorkerId(worker.id)) {
-                    records = instance.getWorkerActivities(worker.id);
+                if (instance.hasWorkerActivitiesCacheWithWorkerId(mWorker.id)) {
+                    records = instance.getWorkerActivities(mWorker.id);
                 } else {
-                    instance.loadWorkerActivities(worker.id, 15);
+                    instance.loadWorkerActivities(mWorker.id, 15);
                     instance.registerDataObserver(this);
                 }
                 break;
             case CONTENT_SHOW.TASK_STATUS:
-                if (worker.getWipTask() != null) {
-                    Task task = worker.getWipTask();
+                if (mWorker.getWipTask() != null) {
+                    Task task = mWorker.getWipTask();
                     if (instance.hasTaskActivitiesCacheWithTaskId(task.id)) {
                         records = instance.getTaskActivities(task.id);
                     } else {
@@ -531,18 +564,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 return rhs.time.compareTo(lhs.time);
             }
         });
-        if (mAdapter == null) {
-            mAdapter = new DataAdapter(records);
-            mListView.setAdapter(mAdapter);
-            if (mListView.getVisibility() != View.VISIBLE) {
-                mListView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            mAdapter.clear();
-            mAdapter.addAll(records);
-        }
-        mAdapter.notifyDataSetChanged();
-        onTabSelected(R.id.tab_all);
+        updateListData(records);
     }
 
     /**
@@ -571,7 +593,13 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             return;
         }
 
-        // [TODO] should move into a single function
+        updateListData(records);
+        mSwipeRefreshLayout.setRefreshing(false);
+        onTabSelected(R.id.tab_all);
+    }
+
+
+    private void updateListData (ArrayList<BaseData> records) {
         if (mAdapter == null) {
             mAdapter = new DataAdapter(records);
             mListView.setAdapter(mAdapter);
@@ -583,7 +611,6 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             mAdapter.addAll(records);
         }
         mAdapter.notifyDataSetChanged();
-        onTabSelected(R.id.tab_all);
     }
 
 
