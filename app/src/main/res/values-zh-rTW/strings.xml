@@ -8,7 +8,7 @@
     <string name="processing">處理中</string>
 
     <!-- Task status -->
-    <string name="task_status_unclaimed">尚未開始</string>
+    <string name="task_status_unclaimed">尚無排程</string>
     <string name="task_status_pending">已排程</string>
     <string name="task_status_wip">正常工作中</string>
     <string name="task_status_pause">暫停</string>

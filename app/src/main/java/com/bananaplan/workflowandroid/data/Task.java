@@ -182,7 +182,7 @@ public class Task extends IdData {
                 r += resources.getString(R.string.task_status_finished);
                 break;
             case IN_REVIEW:
-                r = resources.getString(R.string.task_status_wip);
+                r = resources.getString(R.string.task_status_in_review);
                 break;
             case WARNING:
                 r = resources.getString(R.string.task_status_warning);

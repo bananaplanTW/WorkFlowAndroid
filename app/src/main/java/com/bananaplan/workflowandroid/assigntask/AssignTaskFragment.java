@@ -78,7 +78,7 @@ public class AssignTaskFragment extends Fragment implements
     private ViewGroup mWorkerPagerIndicatorContainer;
 
     private RecyclerView mCaseView;
-    private GridLayoutManager mGridLayoutManager;
+    private LinearLayoutManager mCaseLayoutManager;
     private CaseAdapter mCaseAdapter;
     private CaseOnTouchListener mCaseOnTouchListener;
 
@@ -291,15 +291,10 @@ public class AssignTaskFragment extends Fragment implements
     private void initCaseView() {
         mCaseAdapter = new CaseAdapter(mContext, WorkingData.getInstance(mContext).getCases().get(0));
         mCaseOnTouchListener = new CaseOnTouchListener(mCaseView);
+        mCaseLayoutManager = new LinearLayoutManager(mContext);
 
-        int caseSpanCount = mContext.getResources().getInteger(R.integer.task_case_column_count);
-        mGridLayoutManager =
-                new GridLayoutManager(mContext, caseSpanCount);
-        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mGridLayoutManager.setSpanSizeLookup(new GridSpanSizeLookup(mGridLayoutManager));
-
-        mCaseView.setLayoutManager(mGridLayoutManager);
-        mCaseView.addItemDecoration(new CaseCardDecoration(mContext, caseSpanCount));
+        mCaseView.setLayoutManager(mCaseLayoutManager);
+        mCaseView.addItemDecoration(new CaseCardDecoration(mContext));
         mCaseView.setOnTouchListener(mCaseOnTouchListener);
         mCaseView.setAdapter(mCaseAdapter);
     }

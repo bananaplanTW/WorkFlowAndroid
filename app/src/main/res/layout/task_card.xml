@@ -1,115 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_height="@dimen/task_card_height"
+    android:orientation="horizontal"
     android:background="@drawable/task_card_background">
 
+    <TextView
+        android:id="@+id/task_card_index"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textSize="@dimen/task_card_index_text_size"
+        android:textColor="@color/task_card_index_text_color"
+        android:gravity="center"
+        android:background="@drawable/task_card_index_background"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/task_card_divider_color" />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/task_card_part1_height"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/task_card_title"
-            style="@style/TaskItemTextStyle"
-            android:textColor="@color/task_case_text_color"
-            android:textSize="@dimen/task_card_title_text_size"/>
-
-        <include
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/warning_textview_layout"
-            android:layout_marginLeft="@dimen/task_card_padding"
-            android:layout_marginBottom="5dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/task_card_middle_part_padding_left_right"
+            android:paddingRight="@dimen/task_card_middle_part_padding_left_right"
+            android:drawableLeft="@drawable/ic_task_card_task"
+            android:drawablePadding="@dimen/task_card_drawable_padding"
+            android:gravity="center_vertical"
+            android:textColor="@color/task_case_text_color"
+            android:textSize="@dimen/task_card_title_text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/task_card_divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/task_card_middle_part_padding_left_right"
+            android:paddingRight="@dimen/task_card_middle_part_padding_left_right"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/task_card_worker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:drawableLeft="@drawable/ic_task_card_worker"
+                android:drawablePadding="@dimen/task_card_drawable_padding"
+                android:textColor="@color/task_case_text_color"
+                android:textSize="@dimen/task_card_content_text_size" />
+
+            <TextView
+                android:id="@+id/task_card_equipment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:drawableLeft="@drawable/ic_task_card_equipment"
+                android:drawablePadding="@dimen/task_card_drawable_padding"
+                android:textColor="@color/task_case_text_color"
+                android:textSize="@dimen/task_card_content_text_size" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
         android:background="@color/task_card_divider_color" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/task_card_part2_height"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
-            style="@style/TaskItemTextStyle"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_task_card_working_time"/>
-
-            <TextView
-                android:id="@+id/task_card_current_task_working_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/task_card_icon_text_margin_left"
-                android:textColor="@color/task_case_text_color"
-                android:textSize="@dimen/task_card_content_text_size"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/TaskItemTextStyle"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_task_card_equipment"/>
-
-            <TextView
-                android:id="@+id/task_card_equipment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/task_card_icon_text_margin_left"
-                android:textColor="@color/task_case_text_color"
-                android:textSize="@dimen/task_card_content_text_size"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/TaskItemTextStyle"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_task_card_worker"/>
-
-            <TextView
-                android:id="@+id/task_card_worker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/task_card_icon_text_margin_left"
-                android:textColor="@color/task_case_text_color"
-                android:textSize="@dimen/task_card_content_text_size"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/TaskItemTextStyle"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_task_card_status"/>
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/task_card_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/task_card_icon_text_margin_left"
-                android:textColor="@color/task_case_text_color"
+                android:paddingTop="@dimen/task_card_status_padding_top_bottom"
+                android:paddingBottom="@dimen/task_card_status_padding_top_bottom"
+                android:paddingLeft="@dimen/task_card_status_padding_left_right"
+                android:paddingRight="@dimen/task_card_status_padding_left_right"
+                android:textColor="@color/task_card_status_done_text_color"
                 android:textSize="@dimen/task_card_content_text_size"/>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/task_card_current_task_working_time"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/task_case_text_color"
+            android:textSize="@dimen/task_card_wip_task_working_time_text_size"
+            android:gravity="center"/>
 
     </LinearLayout>
 

@@ -44,7 +44,16 @@
     <color name="task_case_edit_button_text_color">#FF428BCA</color>
     <color name="task_card_background_color">@android:color/white</color>
     <color name="task_card_background_stroke_color">#FF979797</color>
+    <color name="task_card_index_text_color">@android:color/white</color>
+    <color name="task_card_index_background_color">#FF737373</color>
     <color name="task_card_divider_color">#FFE1E1E1</color>
+    <color name="task_card_status_done_text_color">#FF4A4A4A</color>
+    <color name="task_card_status_text_color">@android:color/white</color>
+    <color name="task_card_status_in_review_color">#FF42AFD8</color>
+    <color name="task_card_status_wip_color">#FF73C868</color>
+    <color name="task_card_status_pending_color">#FF3DB495</color>
+    <color name="task_card_status_warning_color">#FFE05643</color>
+    <color name="task_card_status_unclaimed_color">#FF9B9B9B</color>
     <color name="task_item_warning_text_color">@android:color/white</color>
 
     <!-- Assign task: Workers part -->

@@ -18,9 +18,8 @@ public class CaseCardDecoration extends RecyclerView.ItemDecoration {
     private int mSpanCount;
 
 
-    public CaseCardDecoration(Context context, int spanCount) {
+    public CaseCardDecoration(Context context) {
         mContext = context;
-        mSpanCount = spanCount;
     }
 
     @Override
@@ -36,10 +35,10 @@ public class CaseCardDecoration extends RecyclerView.ItemDecoration {
         if (position == 0) return;
 
         // Top and bottom
-        if (position < mSpanCount + 1) {
+        if (position == 1) {
             outRect.top = boundaryMargin;
             outRect.bottom = normalMargin;
-        } else if (position > itemCount - mSpanCount + 1) {
+        } else if (position == itemCount - 1) {
             outRect.top = normalMargin;
             outRect.bottom = boundaryMargin;
         } else {
@@ -48,12 +47,7 @@ public class CaseCardDecoration extends RecyclerView.ItemDecoration {
         }
 
         // Left and right
-        if (position % 2 == 0) {
-            outRect.left = normalMargin;
-            outRect.right = boundaryMargin;
-        } else {
-            outRect.left = boundaryMargin;
-            outRect.right = normalMargin;
-        }
+        outRect.left = boundaryMargin;
+        outRect.right = boundaryMargin;
     }
 }

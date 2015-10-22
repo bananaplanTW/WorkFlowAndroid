@@ -1,6 +1,5 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -71,18 +70,18 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     public class TaskCardViewHolder extends RecyclerView.ViewHolder {
 
         public View view;
+        public TextView index;
         public TextView name;
         public TextView workingTime;
         public TextView equipment;
         public TextView worker;
         public TextView status;
-        public TextView warning;
 
         public TaskCardViewHolder(View v) {
             super(v);
             view = v;
+            index = (TextView) v.findViewById(R.id.task_card_index);
             name = (TextView) v.findViewById(R.id.task_card_title);
-            warning = (TextView) v.findViewById(R.id.listview_task_warning);
             workingTime = (TextView) v.findViewById(R.id.task_card_current_task_working_time);
             equipment = (TextView) v.findViewById(R.id.task_card_equipment);
             worker = (TextView) v.findViewById(R.id.task_card_worker);
@@ -170,11 +169,11 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         TaskCardViewHolder holder = (TaskCardViewHolder) vh;
         Task task = getItem(position);
 
+        // Index
+        holder.index.setText(String.valueOf(position));
+
         // Name
         holder.name.setText(task.name);
-
-        // Warning
-        Utils.setTaskItemWarningTextView((Activity) mContext, task, holder.warning, false);
 
         // Task expected time
         holder.workingTime.setText(Utils.millisecondsToTimeString(task.expectedTime));
@@ -190,7 +189,38 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
                 mContext.getString(R.string.task_card_no_worker) : worker.name);
 
         // Status
-        holder.status.setText(Task.getTaskStatusString(mContext, task));
+        setTaskStatus(holder.status, task);
+    }
+
+    private void setTaskStatus(TextView status, Task task) {
+        status.setText(Task.getTaskStatusString(mContext, task));
+
+        switch (task.status) {
+            case IN_REVIEW:
+                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_in_review_background);
+                break;
+
+            case WIP:
+                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_wip_background);
+                break;
+
+            case PENDING:
+                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_pending_background);
+                break;
+
+            case UNCLAIMED:
+                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_unclaimed_background);
+                break;
+
+            case WARNING:
+                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_warning_background);
+                break;
+        }
     }
 
     public Task getItem(int position) {
