@@ -297,5 +297,6 @@
     <dimen name="main_information_list_header_padding">10dp</dimen>
     <dimen name="main_information_list_header_text_size">18dp</dimen>
     <dimen name="main_information_list_title_text_size">12dp</dimen>
+    <dimen name="main_information_list_content_small_text_size">12dp</dimen>
 
 </resources>

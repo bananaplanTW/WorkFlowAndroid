@@ -21,6 +21,7 @@ import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.Utils;
+import com.bananaplan.workflowandroid.utility.view.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +116,8 @@ public class MainInfoFragment extends Fragment {
         setupBoards();
         setupDelayList();
         setupWarningList();
+        setupReviewList();
+        setupLeaveList();
     }
 
     private void findViews() {
@@ -173,6 +176,8 @@ public class MainInfoFragment extends Fragment {
     private void setupDelayList() {
         mDelayListAdapter = new DelayListAdapter(getActivity(), mDelayTasks);
         mDelayList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mDelayList.addItemDecoration(new DividerItemDecoration(mContext.getResources().
+                getDrawable(R.drawable.drawer_divider), false, true));
         mDelayList.setAdapter(mDelayListAdapter);
     }
 
@@ -182,5 +187,13 @@ public class MainInfoFragment extends Fragment {
         mWarningTasks.addHeaderView(LayoutInflater.from(getActivity())
                 .inflate(R.layout.main_information_list_warning_title, null), null, false);
         mWarningTasks.setAdapter(mWarningAdapter);
+    }
+
+    private void setupReviewList() {
+        mReviewList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void setupLeaveList() {
+        mLeaveList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 }

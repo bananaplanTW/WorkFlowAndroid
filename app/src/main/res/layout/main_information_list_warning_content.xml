@@ -31,13 +31,12 @@
             android:id="@+id/case_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10dp"
+            android:textSize="@dimen/main_information_list_content_small_text_size"
             android:textColor="@color/gray7"/>
         <TextView
             android:id="@+id/task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
             android:textColor="@color/gray7"/>
     </LinearLayout>
 
