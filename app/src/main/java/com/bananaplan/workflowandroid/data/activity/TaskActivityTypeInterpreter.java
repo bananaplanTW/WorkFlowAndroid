@@ -1,31 +1,35 @@
 package com.bananaplan.workflowandroid.data.activity;
 
+import android.content.Context;
+
+import com.bananaplan.workflowandroid.R;
+
 /**
  * Created by daz on 10/11/15.
  */
 public class TaskActivityTypeInterpreter {
-    public static String getTranslation(String type) {
+    public static String getTranslation(Context context, String type) {
         switch (type) {
             case "start":
-                return "更新工作狀態：開始";
+                return context.getString(R.string.task_start);
             case "suspend":
-                return "更新工作狀態：中斷";
+                return context.getString(R.string.task_suspend);
             case "complete":
-                return "更新工作狀態：完成";
+                return context.getString(R.string.task_complete);
             case "pause":
-                return "更新工作狀態：暫停";
+                return context.getString(R.string.task_pause);
             case "resume":
-                return "更新工作狀態：復原";
+                return context.getString(R.string.task_resume);
             case "pass":
-                return "通過檢驗";
+                return context.getString(R.string.task_pass);
             case "fail":
-                return "沒通過檢驗";
+                return context.getString(R.string.task_fail);
             case "create_exception":
-                return "新增工作警訊：";
+                return context.getString(R.string.task_create_exception);
             case "complete_exception":
-                return "解除工作警訊：";
+                return context.getString(R.string.task_complete_exception);
             case "dispatch":
-                return "把工作發派給：";
+                return context.getString(R.string.task_dispatch);
 
             default:
                 return type;

@@ -276,4 +276,16 @@
     <string name="worker_create_task_exception">Exception happened: </string>
     <string name="worker_complete_task_exception">Exception solved: </string>
 
+    <!-- Task Activity Translations -->
+    <string name="task_start">Task status: Started</string>
+    <string name="task_suspend">Task status: Suspended</string>
+    <string name="task_complete">Task status: Completed</string>
+    <string name="task_pause">Task status: Paused</string>
+    <string name="task_resume">Task status: Resumed</string>
+    <string name="task_pass">Passed review</string>
+    <string name="task_fail">Failed review</string>
+    <string name="task_create_exception">Exception happened: </string>
+    <string name="task_complete_exception">Exception solved: </string>
+    <string name="task_dispatch">Dispatched to: </string>
+
 </resources>

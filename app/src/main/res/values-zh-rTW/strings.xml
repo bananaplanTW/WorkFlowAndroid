@@ -264,4 +264,16 @@
     <string name="worker_create_task_exception">工作發生警訊：</string>
     <string name="worker_complete_task_exception">工作解除警訊：</string>
 
+    <!-- Task Activity Translations -->
+    <string name="task_start">更新工作狀態：開始</string>
+    <string name="task_suspend">更新工作狀態：中斷</string>
+    <string name="task_complete">更新工作狀態：完成</string>
+    <string name="task_pause">更新工作狀態：暫停</string>
+    <string name="task_resume">更新工作狀態：復原</string>
+    <string name="task_pass">通過檢驗</string>
+    <string name="task_fail">沒通過檢驗</string>
+    <string name="task_create_exception">新增工作警訊：</string>
+    <string name="task_complete_exception">解除工作警訊：</string>
+    <string name="task_dispatch">把工作發派給：</string>
+
 </resources>
