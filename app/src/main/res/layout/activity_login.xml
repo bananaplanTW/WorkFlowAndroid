@@ -10,6 +10,14 @@
     tools:context="com.bananaplan.workflowandroid.main.LoginActivity"
     android:background="@color/blue1">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nicloud"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_above="@+id/login_container"/>
     <LinearLayout
         android:id="@+id/login_container"
         android:layout_width="300dp"
@@ -19,13 +27,6 @@
         android:background="@color/button_white_text_color"
         android:padding="10dp"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="24dp"
-            android:text="nicloud 雲工廠"
-            android:gravity="center"
-            android:textColor="@color/blue1"/>
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -34,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="textEmailAddress"
-                android:hint="帳號"/>
+                android:hint="@string/login_account"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -45,13 +46,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="textPassword"
-                android:hint="密碼"/>
+                android:hint="@string/login_password"/>
         </android.support.design.widget.TextInputLayout>
         <Button
             android:id="@+id/login_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="登入"/>
+            android:text="@string/login"/>
     </LinearLayout>
 
 </RelativeLayout>

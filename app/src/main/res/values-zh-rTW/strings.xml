@@ -237,4 +237,43 @@
     <string name="main_information_list_leave_workers_worker">請假人員</string>
     <string name="main_information_list_leave_workers_date">日期</string>
 
+    <!-- Login Activity -->
+    <string name="login_account">帳號</string>
+    <string name="login_password">密碼</string>
+    <string name="login">登入</string>
+    <string name="logout">登出</string>
+
+
+    <!-- Employee Activity Translations -->
+    <string name="worker_check_in">打卡上班</string>
+    <string name="worker_check_out">打卡下班</string>
+    <string name="worker_become_wip">忙碌中</string>
+    <string name="worker_become_pause">休息中</string>
+    <string name="worker_become_resume">復工</string>
+    <string name="worker_become_overwork">加班中</string>
+    <string name="worker_become_stop">下班</string>
+    <string name="worker_become_pending">閒置中</string>
+    <string name="worker_become_off">休假</string>
+    <string name="worker_dispatch_task">分派這項工作：</string>
+    <string name="worker_start_task">開始這項工作：</string>
+    <string name="worker_suspend_task">中斷這項工作：</string>
+    <string name="worker_complete_task">完成這項工作：</string>
+    <string name="worker_unload_task">解除這項工作：</string>
+    <string name="worker_pass_review_task">工作通過檢驗：</string>
+    <string name="worker_fail_review_task">工作沒通過檢驗：</string>
+    <string name="worker_create_task_exception">工作發生警訊：</string>
+    <string name="worker_complete_task_exception">工作解除警訊：</string>
+
+    <!-- Task Activity Translations -->
+    <string name="task_start">更新工作狀態：開始</string>
+    <string name="task_suspend">更新工作狀態：中斷</string>
+    <string name="task_complete">更新工作狀態：完成</string>
+    <string name="task_pause">更新工作狀態：暫停</string>
+    <string name="task_resume">更新工作狀態：復原</string>
+    <string name="task_pass">通過檢驗</string>
+    <string name="task_fail">沒通過檢驗</string>
+    <string name="task_create_exception">新增工作警訊：</string>
+    <string name="task_complete_exception">解除工作警訊：</string>
+    <string name="task_dispatch">把工作發派給：</string>
+
 </resources>

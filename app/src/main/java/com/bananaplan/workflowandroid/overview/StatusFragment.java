@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.overview;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -87,6 +88,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private static final int REQUEST_IMAGE_CAPTURE = 10001;
     private static final int REQUEST_PICK_FILE = 10002;
 
+    private Context mContext;
     private Worker mWorker;
     private EditText mRecordEditText;
     private TabHost mTabHost;
@@ -131,6 +133,8 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String from = getArguments() != null ? getArguments().getString(FROM) : "";
+
+        mContext = getContext();
 
         if (from.equals(WorkerOverviewFragment.class.getSimpleName())) {
             mContentShow = CONTENT_SHOW.WORKER_STATUS;
@@ -369,12 +373,12 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
 
     private void addRecord(Worker worker, BaseData data) {
         if (mContentShow == CONTENT_SHOW.WORKER_STATUS) {
-            ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
+            ActivityDataStore instance = ActivityDataStore.getInstance(mContext);
             instance.addWorkerActivity(mWorker.id, data);
         } else {
             if (worker.getWipTask() != null) {
                 Task task = worker.getWipTask();
-                ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
+                ActivityDataStore instance = ActivityDataStore.getInstance(mContext);
                 instance.addTaskActivity(task.id, data);
             }
         }
@@ -396,14 +400,14 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
                 // [TODO] should have a service locator
-                LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, realPath);
+                LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(mContext, mWorker.id, realPath);
                 leaveAPhotoCommentToWorkerCommand.execute();
                 break;
             case CONTENT_SHOW.TASK_STATUS:
                 // [TODO] should have a service locator
                 if (mWorker.getWipTask() != null) {
                     Task task = mWorker.getWipTask();
-                    LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand = new LeaveAPhotoCommentToTaskCommand(getContext(), task.id, realPath);
+                    LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand = new LeaveAPhotoCommentToTaskCommand(mContext, task.id, realPath);
                     leaveAPhotoCommentToTaskCommand.execute();
                 }
                 break;
@@ -418,10 +422,10 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             case CONTENT_SHOW.WORKER_STATUS:
                 // [TODO] should have a service locator
                 if (Utils.isImage(mCurrentFilePath)) {
-                    LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
+                    LeaveAPhotoCommentToWorkerCommand leaveAPhotoCommentToWorkerCommand = new LeaveAPhotoCommentToWorkerCommand(mContext, mWorker.id, mCurrentFilePath);
                     leaveAPhotoCommentToWorkerCommand.execute();
                 } else {
-                    LeaveAFileCommentToWorkerCommand leaveAFileCommentToWorkerCommand = new LeaveAFileCommentToWorkerCommand(getContext(), mWorker.id, mCurrentFilePath);
+                    LeaveAFileCommentToWorkerCommand leaveAFileCommentToWorkerCommand = new LeaveAFileCommentToWorkerCommand(mContext, mWorker.id, mCurrentFilePath);
                     leaveAFileCommentToWorkerCommand.execute();
                 }
                 break;
@@ -430,10 +434,10 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 if (mWorker.getWipTask() != null) {
                     Task task = mWorker.getWipTask();
                     if (Utils.isImage(mCurrentFilePath)) {
-                        LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand = new LeaveAPhotoCommentToTaskCommand(getContext(), task.id, mCurrentFilePath);
+                        LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand = new LeaveAPhotoCommentToTaskCommand(mContext, task.id, mCurrentFilePath);
                         leaveAPhotoCommentToTaskCommand.execute();
                     } else {
-                        LeaveAFileCommentToTaskCommand leaveAFileCommentToTaskCommand = new LeaveAFileCommentToTaskCommand(getContext(), task.id, mCurrentFilePath);
+                        LeaveAFileCommentToTaskCommand leaveAFileCommentToTaskCommand = new LeaveAFileCommentToTaskCommand(mContext, task.id, mCurrentFilePath);
                         leaveAFileCommentToTaskCommand.execute();
                     }
                 }
@@ -448,14 +452,14 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
                 // [TODO] should have a service locator
-                LeaveATextCommentToWorkerCommand leaveATextCommentToWorkerCommand = new LeaveATextCommentToWorkerCommand(getContext(), mWorker.id, mCommentText);
+                LeaveATextCommentToWorkerCommand leaveATextCommentToWorkerCommand = new LeaveATextCommentToWorkerCommand(mContext, mWorker.id, mCommentText);
                 leaveATextCommentToWorkerCommand.execute();
                 break;
             case CONTENT_SHOW.TASK_STATUS:
                 // [TODO] should have a service locator
                 if (mWorker.getWipTask() != null) {
                     Task task = mWorker.getWipTask();
-                    LeaveATextCommentToTaskCommand leaveATextCommentToTaskCommand = new LeaveATextCommentToTaskCommand(getContext(), task.id, mCommentText);
+                    LeaveATextCommentToTaskCommand leaveATextCommentToTaskCommand = new LeaveATextCommentToTaskCommand(mContext, task.id, mCommentText);
                     leaveATextCommentToTaskCommand.execute();
                 }
                 break;
@@ -497,7 +501,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
 
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
         ArrayList<BaseData> records = new ArrayList<>();
-        ActivityDataStore instance = ActivityDataStore.getInstance(getContext());;
+        ActivityDataStore instance = ActivityDataStore.getInstance(mContext);;
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
                 if (instance.hasWorkerActivitiesCacheWithWorkerId(worker.id)) {
@@ -546,7 +550,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
      */
     @Override
     public void updateData() {
-        ActivityDataStore instance = ActivityDataStore.getInstance(getContext());
+        ActivityDataStore instance = ActivityDataStore.getInstance(mContext);
         instance.removeDataObserver(this);
 
         ArrayList<BaseData> records = null;
@@ -714,14 +718,14 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                             holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
                             holder.name.setText(user.name);
                             // [TODO] should use String resource to perform multiple languages.
-                            description = EmployeeActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
+                            description = EmployeeActivityTypeInterpreter.getTranslation(mContext, historyData.tag) + historyData.description;
                         } else if (data.category == BaseData.CATEGORY.TASK) {
                             user = WorkingData.getInstance(getActivity()).getUserById(historyData.workerId);
                             // [TODO] should let user to have avatar
                             holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
                             holder.name.setText(user.name);
                             // [TODO] should use String resource to perform multiple languages.
-                            description = TaskActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
+                            description = TaskActivityTypeInterpreter.getTranslation(mContext, historyData.tag) + historyData.description;
                         }
                         holder.description.setText(description);
                         nameVisibility = View.VISIBLE;
