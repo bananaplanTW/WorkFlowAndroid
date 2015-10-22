@@ -17,6 +17,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.worker.actions.CompleteTaskForWorkerCommand;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
@@ -33,6 +34,8 @@ import java.util.List;
  * @since 2015/9/21.
  */
 public class TaskScheduleFragment extends Fragment implements View.OnClickListener {
+
+    private Context mContext;
 
     private Worker mWorker;
     private DragSortListView mListView;
@@ -59,9 +62,11 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     }
 
     private void initialize() {
+        mContext = getContext();
         mWorker = WorkingData.getInstance(getActivity()).getWorkerById(getArguments()
                 .getString(DetailedWorkerActivity.EXTRA_WORKER_ID));
         findViews();
+        setupCurrentTaskHeader();
         setupCurrentTask();
     }
 
@@ -118,6 +123,11 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
             super(getActivity(), 0, items);
             mData = items;
             calDivPos();
+        }
+
+        public void updateData (List<Task> data) {
+            mData = data;
+            notifyDataSetChanged();
         }
 
         private void calDivPos() {
@@ -258,13 +268,27 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         holder.errorCnt.setText(String.valueOf(task.errorCount));
         Utils.setTaskItemWarningTextView(getActivity(), task, holder.warnings, true);
     }
+    private void resetListViewItemContent (ViewHolder holder) {
+        holder.cas.setText("");
+        holder.task.setText("");
+        holder.expectedTime.setText("");
+        holder.workTime.setText("");
+        holder.equipment.setText("");
+        holder.errorCnt.setText("");
+        holder.warnings.setText("");
+    }
 
-    private void setupCurrentTask() {
+    private void setupCurrentTaskHeader() {
         new ViewHolder(getActivity().findViewById(R.id.header), true, true);
-
+    }
+    private void setupCurrentTask() {
         ViewHolder holder = new ViewHolder(getActivity().findViewById(R.id.detailed_worker_current_task), false, true);
-        if (!mWorker.hasWipTask()) return;
-        setListViewItemContent(holder, mWorker.getWipTask());
+        if (mWorker.hasWipTask()) {
+            setListViewItemContent(holder, mWorker.getWipTask());
+        } else {
+            resetListViewItemContent(holder);
+            holder.view.setBackgroundColor(Color.GRAY);
+        }
     }
 
     private class ViewHolder {
@@ -336,6 +360,22 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.complete_task_button:
+                if (mWorker.hasWipTask()) {
+                    String taskId = mWorker.getWipTask().id;
+                    CompleteTaskForWorkerCommand completeTaskForWorkerCommand = new CompleteTaskForWorkerCommand(mContext, mWorker.id, taskId);
+                    completeTaskForWorkerCommand.execute();
+
+                    if (mWorker.hasScheduledTasks()) {
+                        Task task = mWorker.getScheduledTasks().get(0);
+                        mWorker.setWipTask(task);
+                        mWorker.removeScheduleTask(task);
+                    } else {
+                        mWorker.status = Worker.Status.PENDING;
+                        mWorker.setWipTask(null);
+                    }
+                    setupCurrentTask();
+                    mAdapter.updateData((mWorker.getScheduledTasks()));
+                }
                 break;
             case R.id.add_warning_button:
                 break;

@@ -179,6 +179,7 @@ public class AssignTaskFragment extends Fragment implements
     public void onStart() {
         super.onStart();
         WorkingData.getInstance(mContext).registerDataObserver(this);
+        updateData();
     }
 
     @Override
