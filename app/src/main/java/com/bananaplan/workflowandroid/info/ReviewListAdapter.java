@@ -19,9 +19,7 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015/10/21.
  */
-public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private static final int ADD_NOTIFY_TIME = 30;
+public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<Task> mData;
@@ -29,12 +27,10 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView delayTime;
         public TextView caseName;
         public TextView taskName;
         public TextView pic;
-        public TextView nextNotifyTime;
-        public TextView addNotifyTimeButton;
+
 
         public ItemViewHolder(View view) {
             super(view);
@@ -43,28 +39,23 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         private void findViews(View view) {
-            delayTime = (TextView) view.findViewById(R.id.main_information_list_title_delay_time);
             caseName = (TextView) view.findViewById(R.id.main_information_list_title_case_name);
             taskName = (TextView) view.findViewById(R.id.main_information_list_title_task_name);
             pic = (TextView) view.findViewById(R.id.main_information_list_title_pic);
-            nextNotifyTime = (TextView) view.findViewById(R.id.main_information_list_title_next_notify_time);
-            addNotifyTimeButton = (TextView) view.findViewById(R.id.main_information_list_title_add_notify_time_button);
         }
 
         private void setupButtons() {
-            addNotifyTimeButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.main_information_list_title_add_notify_time_button:
-                    break;
+
             }
         }
     }
 
-    public DelayListAdapter(Context context, List<Task> data) {
+    public ReviewListAdapter(Context context, List<Task> data) {
         mContext = context;
         mData = data;
     }
@@ -72,19 +63,16 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ItemViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.main_information_list_delay_item, parent, false));
+                .inflate(R.layout.main_information_list_review_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder itemVH = (ItemViewHolder) holder;
 
-        itemVH.delayTime.setText("");
         itemVH.caseName.setText(WorkingData.getInstance(mContext).getCaseById(mData.get(position).caseId).name);
         itemVH.taskName.setText(mData.get(position).name);
         itemVH.pic.setText(WorkingData.getInstance(mContext).getWorkerById(mData.get(position).workerId).name);
-        itemVH.addNotifyTimeButton.setText(
-                String.format(mContext.getString(R.string.main_information_add_notify_time_button), ADD_NOTIFY_TIME));
     }
 
     @Override

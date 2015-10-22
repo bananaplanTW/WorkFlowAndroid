@@ -44,6 +44,8 @@ public class MainInfoFragment extends Fragment {
     private DelayListAdapter mDelayListAdapter;
 
     private RecyclerView mReviewList;
+    private ReviewListAdapter mReviewListAdapter;
+
     private RecyclerView mLeaveList;
 
     private ListView mWarningTasks;
@@ -190,7 +192,11 @@ public class MainInfoFragment extends Fragment {
     }
 
     private void setupReviewList() {
+        mReviewListAdapter = new ReviewListAdapter(getActivity(), mReviewTasks);
         mReviewList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mReviewList.addItemDecoration(new DividerItemDecoration(mContext.getResources().
+                getDrawable(R.drawable.drawer_divider), false, true));
+        mReviewList.setAdapter(mReviewListAdapter);
     }
 
     private void setupLeaveList() {
