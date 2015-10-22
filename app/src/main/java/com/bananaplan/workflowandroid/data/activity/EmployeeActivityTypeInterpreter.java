@@ -1,49 +1,53 @@
 package com.bananaplan.workflowandroid.data.activity;
 
+import android.content.Context;
+
+import com.bananaplan.workflowandroid.R;
+
 /**
  * Created by daz on 10/10/15.
  */
 public class EmployeeActivityTypeInterpreter {
-    public static String getTranslation(String type) {
+    public static String getTranslation(Context context, String type) {
         switch (type) {
             case "checkIn":
-                return "打卡上班";
+                return context.getString(R.string.worker_check_in);
             case "checkOut":
-                return "打卡下班";
+                return context.getString(R.string.worker_check_in);
             case "becomeWIP":
-                return "忙碌中";
+                return context.getString(R.string.worker_become_wip);
             case "becomePause":
-                return "休息中";
+                return context.getString(R.string.worker_become_pause);
             case "becomeResume":
-                return "復工";
+                return context.getString(R.string.worker_become_resume);
             case "becomeOverwork":
-                return "加班中";
+                return context.getString(R.string.worker_become_overwork);
             case "becomeStop":
-                return "下班";
+                return context.getString(R.string.worker_become_stop);
             case "becomePending":
-                return "閒置中";
+                return context.getString(R.string.worker_become_pending);
             case "becomeOff":
-                return "休假";
+                return context.getString(R.string.worker_become_off);
 
 
             case "dispatchTask":
-                return "分派這項工作：";
+                return context.getString(R.string.worker_dispatch_task);
             case "startTask":
-                return "開始這項工作：";
+                return context.getString(R.string.worker_start_task);
             case "suspendTask":
-                return "中斷這項工作：";
+                return context.getString(R.string.worker_suspend_task);
             case "completeTask":
-                return "完成這項工作：";
+                return context.getString(R.string.worker_complete_task);
             case "unloadTask":
-                return "解除這項工作：";
+                return context.getString(R.string.worker_unload_task);
             case "passReviewTask":
-                return "工作通過檢驗：";
+                return context.getString(R.string.worker_pass_review_task);
             case "failReviewTask":
-                return "工作沒通過檢驗：";
+                return context.getString(R.string.worker_fail_review_task);
             case "createTaskException":
-                return "工作發生警訊：";
+                return context.getString(R.string.worker_create_task_exception);
             case "completeTaskException":
-                return "工作解除警訊：";
+                return context.getString(R.string.worker_complete_task_exception);
 
 
             default:

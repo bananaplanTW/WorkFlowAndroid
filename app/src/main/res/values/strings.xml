@@ -249,4 +249,31 @@
     <string name="main_information_list_leave_workers_worker">Worker</string>
     <string name="main_information_list_leave_workers_date">Date</string>
 
+    <!-- Login Activity -->
+    <string name="login_account">Account</string>
+    <string name="login_password">Password</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+
+
+    <!-- Employee Activity Translations -->
+    <string name="worker_check_in">Check In</string>
+    <string name="worker_check_out">Check Out</string>
+    <string name="worker_become_wip">WIP</string>
+    <string name="worker_become_pause">Pause Work</string>
+    <string name="worker_become_resume">Resume Work</string>
+    <string name="worker_become_overwork">Overwork</string>
+    <string name="worker_become_stop">Stop</string>
+    <string name="worker_become_pending">Pending</string>
+    <string name="worker_become_off">Off</string>
+    <string name="worker_dispatch_task">Dispatched this task: </string>
+    <string name="worker_start_task">Started working on this task: </string>
+    <string name="worker_suspend_task">Suspended this task: </string>
+    <string name="worker_complete_task">Completed this task: </string>
+    <string name="worker_unload_task">Unloaded this task: </string>
+    <string name="worker_pass_review_task">Task has passed review: </string>
+    <string name="worker_fail_review_task">Task has failed review: </string>
+    <string name="worker_create_task_exception">Exception happened: </string>
+    <string name="worker_complete_task_exception">Exception solved: </string>
+
 </resources>

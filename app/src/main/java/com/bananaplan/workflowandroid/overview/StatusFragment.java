@@ -714,7 +714,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                             holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_person, null));
                             holder.name.setText(user.name);
                             // [TODO] should use String resource to perform multiple languages.
-                            description = EmployeeActivityTypeInterpreter.getTranslation(historyData.tag) + historyData.description;
+                            description = EmployeeActivityTypeInterpreter.getTranslation(getContext(), historyData.tag) + historyData.description;
                         } else if (data.category == BaseData.CATEGORY.TASK) {
                             user = WorkingData.getInstance(getActivity()).getUserById(historyData.workerId);
                             // [TODO] should let user to have avatar
