@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.List;
 
@@ -78,11 +79,12 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder itemVH = (ItemViewHolder) holder;
+        Task task = mData.get(position);
 
-        itemVH.delayTime.setText("");
-        itemVH.caseName.setText(WorkingData.getInstance(mContext).getCaseById(mData.get(position).caseId).name);
-        itemVH.taskName.setText(mData.get(position).name);
-        itemVH.pic.setText(WorkingData.getInstance(mContext).getWorkerById(mData.get(position).workerId).name);
+        itemVH.delayTime.setText(Utils.millisecondsToTimeString(task.getWorkingTime()-task.expectedTime));
+        itemVH.caseName.setText(WorkingData.getInstance(mContext).getCaseById(task.caseId).name);
+        itemVH.taskName.setText(task.name);
+        itemVH.pic.setText(WorkingData.getInstance(mContext).getWorkerById(task.workerId).name);
         itemVH.addNotifyTimeButton.setText(
                 String.format(mContext.getString(R.string.main_information_add_notify_time_button), ADD_NOTIFY_TIME));
     }

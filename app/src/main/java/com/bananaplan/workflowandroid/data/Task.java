@@ -9,7 +9,6 @@ import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -121,7 +120,7 @@ public class Task extends IdData {
     }
 
     public long getWorkingTime() {
-        return System.currentTimeMillis() - startTime + spentTime;
+        return Status.WIP.equals(status) ? System.currentTimeMillis()-startTime+spentTime : spentTime;
     }
 
     public static Status convertStringToStatus(String status) {

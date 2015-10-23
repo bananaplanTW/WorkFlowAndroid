@@ -147,5 +147,6 @@
     <color name="main_information_list_title_text_color">#FF777777</color>
     <color name="main_information_list_content_background_color">@android:color/white</color>
     <color name="main_information_list_divider_color">#FFE1E1E1</color>
+    <color name="main_information_list_delay_time_text_color">#FFE9573F</color>
 
 </resources>

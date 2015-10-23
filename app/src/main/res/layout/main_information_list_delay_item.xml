@@ -10,6 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textSize="@dimen/main_information_list_delay_time_text_size"
+        android:textColor="@color/main_information_list_delay_time_text_color"
         android:gravity="center"/>
 
     <LinearLayout
