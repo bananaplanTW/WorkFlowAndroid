@@ -20,6 +20,7 @@ import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.DividerItemDecoration;
 
@@ -31,7 +32,7 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015/8/22.
  */
-public class MainInfoFragment extends Fragment {
+public class MainInfoFragment extends Fragment implements DataObserver {
 
     private Context mContext;
 
@@ -65,6 +66,12 @@ public class MainInfoFragment extends Fragment {
 
         public WarningListViewAdapter(List<Warning> warnings) {
             super(getActivity(), 0, warnings);
+        }
+
+        public void updateData(List<Warning> data) {
+            clear();
+            addAll(data);
+            notifyDataSetChanged();
         }
 
         @Override
@@ -120,6 +127,18 @@ public class MainInfoFragment extends Fragment {
         setupWarningList();
         setupReviewList();
         setupLeaveList();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        WorkingData.getInstance(mContext).registerDataObserver(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        WorkingData.getInstance(mContext).removeDataObserver(this);
     }
 
     private void findViews() {
@@ -205,5 +224,26 @@ public class MainInfoFragment extends Fragment {
 
     private void setupLeaveList() {
         mLeaveList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void updateData() {
+        resetDatas();
+        retrieveDatas();
+
+        setupBoards();
+        mDelayListAdapter.notifyDataSetChanged();
+        mWarningAdapter.notifyDataSetChanged();
+        mReviewListAdapter.notifyDataSetChanged();
+    }
+
+    private void resetDatas() {
+        mWorkerOnCount = 0;
+        mWorkerOvertimeCount = 0;
+        mWarningCount = 0;
+        mDelayTasks.clear();
+        mWarnings.clear();
+        mReviewTasks.clear();
+        mLeaveWorkers.clear();
     }
 }
