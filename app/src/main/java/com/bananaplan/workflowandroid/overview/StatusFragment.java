@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -43,6 +44,8 @@ import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToW
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
 import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
+import com.bananaplan.workflowandroid.data.loading.UpdatableScheduledExecution;
+import com.bananaplan.workflowandroid.data.worker.actions.UpdateEmployeeScoreCommand;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -69,7 +72,8 @@ import java.util.Date;
  */
 public class StatusFragment extends OvTabFragmentBase implements View.OnClickListener,
         OvTabFragmentBase.OvCallBack, DataObserver,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        UpdatableScheduledExecution.OnFinishCountingListener {
 
     private static final ArrayList<TabInfo> mTabInfos = new ArrayList<>(5);
 
@@ -94,6 +98,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private Worker mWorker;
     private EditText mRecordEditText;
     private TabHost mTabHost;
+    private LinearLayout mScorerContainer;
     private TextView mScore;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView mListView;
@@ -153,14 +158,17 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         getActivity().findViewById(R.id.score_minus).setOnClickListener(this);
         mTabHost = (TabHost) getActivity().findViewById(R.id.worker_ov_right_pane_status_tab_host);
         setupTabHost();
+        mScorerContainer = (LinearLayout) getActivity().findViewById(R.id.scorer_container);
         mScore = (TextView) getActivity().findViewById(R.id.score);
         onItemSelected(getSelectedWorker());
         String temp = null;
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
+                mScorerContainer.setVisibility(View.VISIBLE);
                 temp = getString(R.string.status_string_worker, getSelectedWorker().name);
                 break;
             case CONTENT_SHOW.TASK_STATUS:
+                mScorerContainer.setVisibility(View.GONE);
                 temp = getString(R.string.status_string_task,
                         getSelectedWorker().getWipTask() != null ? getSelectedWorker().getWipTask().name: "");
                 break;
@@ -502,6 +510,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         mCommentText = null;
     }
 
+    private UpdatableScheduledExecution updatableScheduledExecution = null;
     private void scoreWorker(boolean plus) {
         final Worker worker = getSelectedWorker();
         if (plus) {
@@ -510,6 +519,14 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             WorkingData.getInstance(getActivity()).getWorkerById(getSelectedWorker().id).score--;
         }
         mScore.setText(String.valueOf(WorkingData.getInstance(getActivity()).getWorkerById(worker.id).score));
+
+        if (updatableScheduledExecution == null) {
+            updatableScheduledExecution = new UpdatableScheduledExecution(2000, this);
+            updatableScheduledExecution.execute();
+        } else {
+            updatableScheduledExecution.updatePeriod(2000);
+        }
+
     }
 
     private void onTabSelected(int id) {
@@ -798,5 +815,13 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void onFinishCounting() {
+        updatableScheduledExecution = null;
+        UpdateEmployeeScoreCommand updateEmployeeScoreCommand = new UpdateEmployeeScoreCommand(mContext, mWorker.id, mWorker.score);
+        updateEmployeeScoreCommand.execute();
+
     }
 }
