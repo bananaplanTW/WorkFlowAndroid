@@ -150,6 +150,10 @@ public class MainInfoFragment extends Fragment {
         }
 
         for (Worker worker : WorkingData.getInstance(mContext).getWorkers()) {
+            if (!Worker.Status.OFF.equals(worker.status) && !Worker.Status.STOP.equals(worker.status)) {
+                mWorkerOnCount++;
+            }
+
             if (worker.isOvertime) {
                 mWorkerOvertimeCount++;
             }
