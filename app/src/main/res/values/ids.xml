@@ -10,5 +10,6 @@
     <item name="drawer_add_worker" type="id"/>
     <item name="drawer_equipment_overview" type="id"/>
     <item name="drawer_add_equipment" type="id"/>
+    <item name="drawer_warning" type="id"/>
 
 </resources>

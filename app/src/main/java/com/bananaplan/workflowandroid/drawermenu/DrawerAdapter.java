@@ -55,13 +55,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     };
 
     private static final class DrawerItemIndex {
-        public static final int SIZE = 6;
+        public static final int SIZE = 7;
         public static final int SETTING = 0;
         public static final int INFO = 1;
         public static final int ASSIGN_TASK = 2;
         public static final int CASE = 3;
         public static final int WORKER = 4;
         public static final int EQUIPMENT = 5;
+        public static final int WARNING = 6;
     }
 
     private class BaseViewHolder extends RecyclerView.ViewHolder {
@@ -153,6 +154,11 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     item = DrawerItem.generateGroupItem(mContext.getString(R.string.drawer_equipment),
                                                         mContext.getDrawable(R.drawable.selector_drawer_equipment_icon),
                                                         generateDrawerSubItems(i));
+                    break;
+
+                case DrawerItemIndex.WARNING:
+                    item = DrawerItem.generateNormalItem(R.id.drawer_warning,
+                            mContext.getString(R.string.drawer_warning), null);
                     break;
             }
 
@@ -320,12 +326,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onClick(View v) {
         int id = v.getId();
         if (id != R.id.drawer_setting_button) {
-            if (id == R.id.drawer_info || id == R.id.drawer_assign_task) {
+            if (id == R.id.drawer_info || id == R.id.drawer_assign_task || id == R.id.drawer_warning) {
                 setSelectedItem(v, false);
             } else {
                 setSelectedItem(v, true);
             }
         }
+
         mOnClickDrawerItemListener.onClickDrawerItem(id);
     }
 

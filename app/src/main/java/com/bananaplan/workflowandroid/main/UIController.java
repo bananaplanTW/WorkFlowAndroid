@@ -33,6 +33,7 @@ import com.bananaplan.workflowandroid.drawermenu.OnClickDrawerItemListener;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.info.MainInfoFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
+import com.bananaplan.workflowandroid.warning.WarningFragment;
 
 
 /**
@@ -54,6 +55,7 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
         public static final String ADD_WORKER_FRAGMENT = "add_worker_fragment";
         public static final String EQUIPMENT_OVERVIEW_FRAGMENT = "equipment_overview_fragment";
         public static final String ADD_EQUIPMENT_FRAGMENT = "add_equipment_fragment";
+        public static final String WARNING_FRAGMENT = "warning_fragment";
     }
 
     private AppCompatActivity mMainActivity;
@@ -220,7 +222,7 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
     private void replaceContent() {
         switch (mDrawerItemId) {
             case R.id.drawer_setting_button:
-                Toast.makeText(mMainActivity, "Setting", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mMainActivity, "Setting", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.drawer_info:
@@ -261,6 +263,11 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
             case R.id.drawer_add_equipment:
                 if (mCurrentFragment instanceof AddEquipmentFragment) break;
                 replaceTo(AddEquipmentFragment.class, FragmentTag.ADD_EQUIPMENT_FRAGMENT, true);
+                break;
+
+            case R.id.drawer_warning:
+                if (mCurrentFragment instanceof WarningFragment) break;
+                replaceTo(WarningFragment.class, FragmentTag.WARNING_FRAGMENT, true);
                 break;
         }
     }

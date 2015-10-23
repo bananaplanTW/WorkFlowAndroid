@@ -138,6 +138,7 @@
     <string name="drawer_equipment">設備資訊</string>
     <string name="drawer_equipment_overview">設備概況</string>
     <string name="drawer_add_equipment">新增新設備</string>
+    <string name="drawer_warning">警訊</string>
     <string name="drawer_log_out">登出</string>
 
     <!-- Equipment Overview fragment -->
