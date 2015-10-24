@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.view.ExpandableLayout;
 import com.bananaplan.workflowandroid.utility.view.ExpandableLayout.OnExpandCollapseListener;
@@ -115,7 +116,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public DrawerAdapter(Context context, OnClickDrawerItemListener listener) {
         mContext = context;
         mOnClickDrawerItemListener = listener;
-        mManagerName = WorkingData.getInstance(mContext).getManagerById(WorkingData.getUserId()).name;
+        Manager manager = WorkingData.getInstance(mContext).getManagerById(WorkingData.getUserId());
+        if (manager != null) {
+            mManagerName = manager.name;
+        }
         setupDrawerItemDatas();
     }
 
