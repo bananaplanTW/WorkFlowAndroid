@@ -199,4 +199,12 @@ public class Case extends IdData {
         }
         return data;
     }
+
+    public int getUnSolvedWarningCount() {
+        int count = 0;
+        for (Task task : tasks) {
+            count += task.getUnSolvedWarningCount();
+        }
+        return count;
+    }
 }

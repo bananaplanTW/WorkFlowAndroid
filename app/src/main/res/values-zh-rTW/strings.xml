@@ -278,4 +278,8 @@
     <string name="task_complete_exception">解除工作警訊：</string>
     <string name="task_dispatch">把工作發派給：</string>
 
+    <!-- Warning fragment -->
+    <string name="manage_warning">管理警訊</string>
+    <string name="all_warnings">"全部"</string>
+
 </resources>

@@ -251,4 +251,14 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="WarningLinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingLeft">@dimen/warning_frag_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/warning_frag_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/warning_frag_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/warning_frag_vertical_padding</item>
+    </style>
+
 </resources>

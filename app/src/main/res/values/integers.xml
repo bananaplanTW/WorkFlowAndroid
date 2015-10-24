@@ -34,4 +34,7 @@
     <integer name="main_information_list_group_left_weight">3</integer>
     <integer name="main_information_list_group_right_weight">2</integer>
 
+    <!-- Warning fragment -->
+    <integer name="warning_frag_gridview_column_count">3</integer>
+
 </resources>

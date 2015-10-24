@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/ov_listview_item_height">
+
+    <include layout="@layout/ov_left_pane_listview_top_divider" />
+
+    <TextView
+        android:id="@+id/warning_count"
+        android:layout_width="@dimen/case_ov_listview_tv_progress_width"
+        android:layout_height="@dimen/case_ov_listview_tv_progress_height"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/case_ov_listview_tv_progress_margin_left"
+        android:layout_marginRight="@dimen/case_ov_listview_tv_progress_margin_right"
+        android:gravity="center"
+        android:padding="@dimen/case_ov_listview_tv_progress_padding"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/case_ov_listview_tv_progress_text_size"
+        android:background="@drawable/bg_solid_textview_bg_red"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/warning_count"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/case_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/black1"
+            android:textSize="@dimen/case_ov_listview_tv_case_text_size" />
+
+        <TextView
+            android:id="@+id/vendor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/case_name"
+            android:layout_marginTop="@dimen/case_ov_listview_tv_vendor_margin_top"
+            android:singleLine="true"
+            android:textColor="@color/gray1"
+            android:textSize="@dimen/case_ov_listview_tv_vendor_text_size" />
+
+    </RelativeLayout>
+</RelativeLayout>

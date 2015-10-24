@@ -11,10 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -28,6 +25,7 @@ import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.main.MainActivity;
+import com.bananaplan.workflowandroid.overview.CaseAdapter;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 import com.bananaplan.workflowandroid.overview.VendorSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.OverviewScrollView;
@@ -257,27 +255,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
         }
     }
 
-    private class CaseListViewAdapter extends ArrayAdapter<Case> implements Filterable {
-        private ArrayList<Case> mOrigCases;
-        private ArrayList<Case> mFilteredCases;
-        private CustomFilter mFilter;
-        private int mPositionSelected;
-
+    private class CaseListViewAdapter extends CaseAdapter {
         public CaseListViewAdapter(Context context, ArrayList<Case> cases) {
-            super(context, 0, cases);
-            mOrigCases = cases;
-            mFilteredCases = new ArrayList<>(cases);
-            mFilter = new CustomFilter();
-        }
-
-        @Override
-        public Case getItem(int position) {
-            return mFilteredCases.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFilteredCases.size();
+            super(context, cases);
         }
 
         @Override
@@ -327,15 +307,6 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
             return convertView;
         }
 
-        @Override
-        public Filter getFilter() {
-            return mFilter;
-        }
-
-        public void setPositionSelected(int position) {
-            mPositionSelected = position;
-        }
-
         private class ViewHolder {
             RelativeLayout mRoot;
             TextView mTvStatus;
@@ -350,35 +321,9 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
             }
         }
 
-        private class CustomFilter extends Filter {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                constraint = constraint.toString().toLowerCase();
-                FilterResults result = new FilterResults();
-                ArrayList<Case> filterResult = new ArrayList<>();
-
-                Vendor selectedVendor = (Vendor) mVendorsSpinner.getSelectedItem();
-                for (Case aCase : mOrigCases) {
-                    if ((TextUtils.isEmpty(constraint)
-                            || aCase.name.toLowerCase().contains(constraint))
-                            && TextUtils.isEmpty(selectedVendor.id)
-                            || Utils.isSameId(aCase.vendorId, selectedVendor.id)) {
-                        filterResult.add(aCase);
-                    }
-                }
-
-                result.values = filterResult;
-                result.count = filterResult.size();
-                return result;
-            }
-
-            @SuppressWarnings("unchecked")
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                mFilteredCases.clear();
-                mFilteredCases.addAll((ArrayList<Case>) results.values);
-                notifyDataSetChanged();
-            }
+        @Override
+        public Vendor getSelectedVendor() {
+            return (Vendor) mVendorsSpinner.getSelectedItem();
         }
     }
 

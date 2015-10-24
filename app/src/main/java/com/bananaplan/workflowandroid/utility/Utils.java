@@ -219,6 +219,12 @@ public class Utils {
         return r;
     }
 
+    public static String milliSeconds2MinsSecs(long millis) {
+        int minutes = (int) ((millis / (1000 * 60)) % 60);
+        int hours   = (int) ((millis / (1000 * 60 * 60)) % 24);
+        return Integer.toString(hours) + " : " + Integer.toString(minutes);
+    }
+
     public static void setTaskItemWarningTextView(final Activity activity, final Task item,
                                                   final TextView v, boolean hasClickListener) {
         if (item.warnings.size() == 0) {

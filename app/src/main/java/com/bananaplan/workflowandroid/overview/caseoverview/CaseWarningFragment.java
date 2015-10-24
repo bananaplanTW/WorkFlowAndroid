@@ -96,7 +96,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
             } else {
                 holder.handleMgrName.setText("");
             }
-            holder.time.setText(Utils.timestamp2Date(new Date(warning.spentTime), Utils.DATE_FORMAT_MD));
+            holder.time.setText(Utils.milliSeconds2MinsSecs(warning.spentTime));
             holder.description.setText(TextUtils.isEmpty(warning.description) ? "" : warning.description);
             return convertView;
         }

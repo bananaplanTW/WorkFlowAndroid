@@ -290,4 +290,8 @@
     <string name="task_complete_exception">Exception solved: </string>
     <string name="task_dispatch">Dispatched to: </string>
 
+    <!-- Warning fragment -->
+    <string name="manage_warning">Manage warning</string>
+    <string name="all_warnings">All</string>
+
 </resources>
