@@ -85,7 +85,15 @@ public class AssignTaskFragment extends Fragment implements
 
     private class CaseSpinnerAdapter extends IconSpinnerAdapter<String> {
         public CaseSpinnerAdapter(Context context, int resource, List<String> datas) {
-            super(context, resource, datas);
+            super(context, resource, datas, new OnItemSelectedCallback() {
+                @Override
+                public int getSelectedPos() {
+                    if (mCaseSpinner != null) {
+                        return mCaseSpinner.getSelectedItemPosition();
+                    }
+                    return 0;
+                }
+            });
         }
 
         @Override
@@ -96,11 +104,6 @@ public class AssignTaskFragment extends Fragment implements
         @Override
         public int getSpinnerIconResourceId() {
             return R.drawable.case_spinner_icon;
-        }
-
-        @Override
-        public boolean isDropdownSelectedIconVisible(int position) {
-            return mSelectedCasePosition == position;
         }
 
         @Override
@@ -111,7 +114,15 @@ public class AssignTaskFragment extends Fragment implements
 
     private class FactorySpinnerAdapter extends IconSpinnerAdapter<String> {
         public FactorySpinnerAdapter(Context context, int resource, List<String> datas) {
-            super(context, resource, datas);
+            super(context, resource, datas, new OnItemSelectedCallback() {
+                @Override
+                public int getSelectedPos() {
+                    if (mFactorySpinner != null) {
+                        return mFactorySpinner.getSelectedItemPosition();
+                    }
+                    return 0;
+                }
+            });
         }
 
         @Override
@@ -127,11 +138,6 @@ public class AssignTaskFragment extends Fragment implements
         @Override
         public String getDropdownSpinnerViewDisplayString(int position) {
             return (String) getItem(position);
-        }
-
-        @Override
-        public boolean isDropdownSelectedIconVisible(int position) {
-            return mFactorySpinner.getSelectedItemPosition() == position;
         }
     }
 

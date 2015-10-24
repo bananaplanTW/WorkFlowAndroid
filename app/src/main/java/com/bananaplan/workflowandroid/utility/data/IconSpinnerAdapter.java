@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,10 +27,14 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
     public abstract String getSpinnerViewDisplayString(int position);
     public abstract int getSpinnerIconResourceId();
     public abstract String getDropdownSpinnerViewDisplayString(int position);
-    public abstract boolean isDropdownSelectedIconVisible(int position);
+
+    public interface OnItemSelectedCallback {
+        int getSelectedPos();
+    }
+
+    private OnItemSelectedCallback mCallback;
 
     private LayoutInflater mLayoutInflater;
-
 
     private class ItemViewHolder {
 
@@ -56,13 +59,14 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
     }
 
     public IconSpinnerAdapter(Context context, int resource, List<T> objects) {
-        super(context, resource, objects);
-        mLayoutInflater = LayoutInflater.from(context);
+        this(context, resource, objects, null);
     }
 
-    public IconSpinnerAdapter(Context context, int resource, T[] objects) {
+    public IconSpinnerAdapter(Context context, int resource, List<T> objects,
+                              OnItemSelectedCallback callback) {
         super(context, resource, objects);
         mLayoutInflater = LayoutInflater.from(context);
+        mCallback = callback;
     }
 
     @Override
@@ -94,7 +98,10 @@ public abstract class IconSpinnerAdapter<T> extends ArrayAdapter {
             holder = (SpinnerDropdownViewHolder) convertView.getTag();
         }
         holder.tvDropdownSpinnerText.setText(getDropdownSpinnerViewDisplayString(position));
-        holder.ivDropdownSpinnerSelected.setVisibility(isDropdownSelectedIconVisible(position) ? View.VISIBLE : View.GONE);
+        if (mCallback != null) {
+            holder.ivDropdownSpinnerSelected.setVisibility(mCallback.getSelectedPos() == position ?
+                    View.VISIBLE : View.GONE);
+        }
         return convertView;
     }
 

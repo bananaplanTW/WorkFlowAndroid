@@ -29,6 +29,7 @@ import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
+import com.bananaplan.workflowandroid.overview.VendorSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.TabManager;
@@ -89,7 +90,16 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
         mCaseListView = (ListView) getActivity().findViewById(R.id.ov_leftpane_listview);
 
         mEtCaseSearch.addTextChangedListener(this);
-        mVendorSpinnerAdapter = new VendorSpinnerAdapter(getActivity(), getSpinnerVendorData());
+        mVendorSpinnerAdapter = new VendorSpinnerAdapter(getActivity(), getSpinnerVendorData(),
+                new IconSpinnerAdapter.OnItemSelectedCallback() {
+            @Override
+            public int getSelectedPos() {
+                if (mVendorsSpinner != null) {
+                    return mVendorsSpinner.getSelectedItemPosition();
+                }
+                return 0;
+            }
+        });
         mVendorsSpinner.setAdapter(mVendorSpinnerAdapter);
         mVendorsSpinner.setOnItemSelectedListener(this);
 
@@ -244,38 +254,6 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
                 mCaseListViewAdapter.setPositionSelected(position);
                 mCaseListViewAdapter.notifyDataSetChanged();
                 break;
-        }
-    }
-
-    private class VendorSpinnerAdapter extends IconSpinnerAdapter<Vendor> {
-
-        public VendorSpinnerAdapter(Context context, ArrayList<Vendor> objects) {
-            super(context, 0, objects);
-        }
-
-        @Override
-        public Vendor getItem(int position) {
-            return (Vendor) super.getItem(position);
-        }
-
-        @Override
-        public String getSpinnerViewDisplayString(int position) {
-            return getItem(position).name;
-        }
-
-        @Override
-        public int getSpinnerIconResourceId() {
-            return R.drawable.ic_work_black;
-        }
-
-        @Override
-        public String getDropdownSpinnerViewDisplayString(int position) {
-            return getItem(position).name;
-        }
-
-        @Override
-        public boolean isDropdownSelectedIconVisible(int position) {
-            return mVendorsSpinner.getSelectedItemPosition() == position;
         }
     }
 

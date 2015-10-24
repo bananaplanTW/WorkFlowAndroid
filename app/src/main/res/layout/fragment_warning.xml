@@ -2,11 +2,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
+    <include
+        android:id="@+id/left_pane"
+        layout="@layout/overview_left_pane" />
+
+    <include
+        android:id="@+id/vertical_divider"
+        layout="@layout/v_divider"
+        android:layout_width="@dimen/ov_divider_width"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="This is WarningFragment"
-        android:textSize="30dp"/>
+        android:layout_toRightOf="@id/left_pane" />
 
 </RelativeLayout>

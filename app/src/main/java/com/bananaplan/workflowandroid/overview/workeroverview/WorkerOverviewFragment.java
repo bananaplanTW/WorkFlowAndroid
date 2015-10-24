@@ -158,7 +158,15 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     private class FactorySpinnerAdapter extends IconSpinnerAdapter<Factory> {
 
         public FactorySpinnerAdapter(ArrayList<Factory> objects) {
-            super(getActivity(), -1, objects);
+            super(getActivity(), -1, objects, new OnItemSelectedCallback() {
+                @Override
+                public int getSelectedPos() {
+                    if (mFactoriesSpinner != null) {
+                        return mFactoriesSpinner.getSelectedItemPosition();
+                    }
+                    return 0;
+                }
+            });
         }
 
         @Override
@@ -174,11 +182,6 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         @Override
         public String getSpinnerViewDisplayString(int position) {
             return getItem(position).name;
-        }
-
-        @Override
-        public boolean isDropdownSelectedIconVisible(int position) {
-            return position == mFactoriesSpinner.getSelectedItemPosition();
         }
 
         @Override

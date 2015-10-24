@@ -15,11 +15,12 @@ import java.util.ArrayList;
  */
 public class FactorySpinnerAdapter extends IconSpinnerAdapter<Factory> {
 
-    private Spinner mSpinner;
-
-    public FactorySpinnerAdapter(Context context, ArrayList<Factory> objects, Spinner spinner) {
+    public FactorySpinnerAdapter(Context context, ArrayList<Factory> objects) {
         super(context, 0, objects);
-        mSpinner = spinner;
+    }
+
+    public FactorySpinnerAdapter(Context context, ArrayList<Factory> objects, OnItemSelectedCallback callback) {
+        super(context, 0, objects, callback);
     }
 
     @Override
@@ -35,11 +36,6 @@ public class FactorySpinnerAdapter extends IconSpinnerAdapter<Factory> {
     @Override
     public String getSpinnerViewDisplayString(int position) {
         return getItem(position).name;
-    }
-
-    @Override
-    public boolean isDropdownSelectedIconVisible(int position) {
-        return position == mSpinner.getSelectedItemPosition();
     }
 
     @Override

@@ -45,7 +45,15 @@ public class AddCaseFragment extends Fragment {
         private Context mContext;
 
         public ModuleSpinnerAdapter(Context context, int resource, ArrayList<String> datas) {
-            super(context, resource, datas);
+            super(context, resource, datas, new OnItemSelectedCallback() {
+                @Override
+                public int getSelectedPos() {
+                    if (mModuleSpinner != null) {
+                        return mModuleSpinner.getSelectedItemPosition();
+                    }
+                    return 0;
+                }
+            });
             mContext = context;
         }
 
@@ -62,11 +70,6 @@ public class AddCaseFragment extends Fragment {
         @Override
         public String getDropdownSpinnerViewDisplayString(int position) {
             return (String) getItem(position);
-        }
-
-        @Override
-        public boolean isDropdownSelectedIconVisible(int position) {
-            return false;
         }
     }
 

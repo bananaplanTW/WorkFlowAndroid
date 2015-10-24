@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.overview.equipmentoverview;
 
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.utility.TabManager;
 import com.bananaplan.workflowandroid.utility.Utils;
+import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.view.FactorySpinnerAdapter;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 
@@ -42,7 +44,8 @@ import java.util.Collection;
  * @since 2015/8/22.
  */
 public class EquipmentOverviewFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener, TextWatcher, AdapterView.OnItemClickListener, View.OnClickListener {
+        AdapterView.OnItemSelectedListener, TextWatcher, AdapterView.OnItemClickListener,
+        View.OnClickListener {
 
     public static class TAB_TAG {
         private static final String TASK_ITEMS              = "tab_tag_task_items";
@@ -73,7 +76,15 @@ public class EquipmentOverviewFragment extends Fragment implements
         mSpinner = (Spinner) getActivity().findViewById(R.id.ov_leftpane_spinner);
         mSpinner.setOnItemSelectedListener(this);
         mSpinnerAdapter = new FactorySpinnerAdapter(getActivity(),
-                new ArrayList<Factory>(), mSpinner);
+                new ArrayList<Factory>(), new IconSpinnerAdapter.OnItemSelectedCallback() {
+            @Override
+            public int getSelectedPos() {
+                if (mSpinner != null) {
+                    return mSpinner.getSelectedItemPosition();
+                }
+                return 0;
+            }
+        });
         mSpinner.setAdapter(mSpinnerAdapter);
         mListView = (ListView) getActivity().findViewById(R.id.ov_leftpane_listview);
         mEditText = (EditText) getActivity().findViewById(R.id.ov_leftpane_search_edittext);
