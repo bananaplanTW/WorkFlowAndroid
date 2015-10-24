@@ -62,6 +62,7 @@ public class LoadingDataUtils {
             public static final String DISPATCH = "/api/dispatch";
             public static final String COMPLETE_TASK = "/api/complete-task";
             public static final String SCORE_EMPLOYEE = "/api/score/employee";
+            public static final String INCREMENT_TASK_ALERT = "/api/increment-task-alert";
 
             public static final String COMMENT_IMAGE_ACTIVITY = "/api/add-activity/image";
             public static final String COMMENT_FILE_ACTIVITY = "/api/add-activity/file";

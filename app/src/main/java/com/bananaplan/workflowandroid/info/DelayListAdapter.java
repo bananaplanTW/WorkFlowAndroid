@@ -11,8 +11,11 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.task.actions.IncrementTaskAlertScheduleCommand;
 import com.bananaplan.workflowandroid.utility.Utils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -60,6 +63,12 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.main_information_list_title_add_notify_time_button:
+                    // [TODO] should user current notification time, if not, use current time
+                    Calendar c = Calendar.getInstance();
+                    c.setTimeInMillis(System.currentTimeMillis() + 1800000);
+                    String taskId = mData.get(getAdapterPosition()).id;
+                    IncrementTaskAlertScheduleCommand incrementTaskAlertScheduleCommand = new IncrementTaskAlertScheduleCommand(mContext, taskId, c.getTimeInMillis(), "+30分鐘");
+                    incrementTaskAlertScheduleCommand.execute();
                     break;
             }
         }
