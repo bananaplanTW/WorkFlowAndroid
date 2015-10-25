@@ -59,7 +59,7 @@ public class Case extends IdData {
     public Size supportBlockMoldSize;
     ////////
 
-    public List<String> workerIds = new ArrayList<>();
+    public List<String> involvedWorkerIds = new ArrayList<>();
     public List<Tag> tags = new ArrayList<>();
 
     public List<Task> tasks = new ArrayList<>();
@@ -84,7 +84,7 @@ public class Case extends IdData {
                 int plateCount,
                 int supportBlockCount,
                 List<Tag> tags,
-                List<String> workerIds,
+                List<String> involvedWorkerIds,
                 long lastUpdatedTime) {
         this.id = id;
         this.name = name;
@@ -100,7 +100,7 @@ public class Case extends IdData {
         this.plateCount = plateCount;
         this.supportBlockCount = supportBlockCount;
         this.tags = tags;
-        this.workerIds = workerIds;
+        this.involvedWorkerIds = involvedWorkerIds;
         this.lastUpdatedTime = lastUpdatedTime;
 
         this.tasks = new ArrayList<>();
@@ -131,8 +131,13 @@ public class Case extends IdData {
         this.plateCount = aCase.plateCount;
         this.supportBlockCount = aCase.supportBlockCount;
         this.tags = aCase.tags;
-        this.workerIds = aCase.workerIds;
+        this.involvedWorkerIds = aCase.involvedWorkerIds;
         this.lastUpdatedTime = aCase.lastUpdatedTime;
+    }
+
+    public void addInvolvedWorkerId(String id) {
+        if (involvedWorkerIds.contains(id)) return;
+        involvedWorkerIds.add(id);
     }
 
     public long getSpentTime() {

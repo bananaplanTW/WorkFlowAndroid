@@ -657,7 +657,7 @@ public class LoadingDataUtils {
 //            Log.d(TAG, "Case plateCount = " + plateCount);
 //            Log.d(TAG, "Case supportBlockCount = " + supportBlockCount);
 //            Log.d(TAG, "Case tags = " + tags);
-//            Log.d(TAG, "Case workerIds = " + workerIds);
+//            Log.d(TAG, "Case involvedWorkerIds = " + involvedWorkerIds);
 //            Log.d(TAG, "Case lastUpdatedTime = " + lastUpdatedTime);
 
 

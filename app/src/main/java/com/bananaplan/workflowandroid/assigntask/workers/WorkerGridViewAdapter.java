@@ -22,7 +22,6 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
 import com.bananaplan.workflowandroid.data.worker.actions.AssignTaskToWorkerCommand;
 import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
@@ -193,6 +192,7 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void assignTaskToWorker(Task task, Worker worker) {
+        WorkingData.getInstance(mContext).getCaseById(task.caseId).addInvolvedWorkerId(worker.id);
         task.workerId = worker.id;
         worker.addScheduledTask(task);
         task.status = Task.Status.PENDING;

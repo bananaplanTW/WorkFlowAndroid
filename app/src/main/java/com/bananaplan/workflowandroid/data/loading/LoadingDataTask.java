@@ -3,10 +3,8 @@ package com.bananaplan.workflowandroid.data.loading;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.Case;
-import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Vendor;
@@ -130,7 +128,7 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
                 workerIdList.add(task.workerId);
             }
 
-            c.workerIds = workerIdList;
+            c.involvedWorkerIds = workerIdList;
         }
     }
 

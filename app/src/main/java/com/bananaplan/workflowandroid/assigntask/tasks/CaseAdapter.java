@@ -139,12 +139,12 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         holder.participatedWorkerContainer.removeAllViews();
         int count = 0;
-        for (String workerId : mSelectedCase.workerIds) {
+        for (String workerId : mSelectedCase.involvedWorkerIds) {
             if (count == avatarCount) break;
 
             SquareAvatar avatar = null;
             if (count == avatarCount - 1) {
-                avatar = new SquareAvatar(mContext, null, "+" + String.valueOf(mSelectedCase.workerIds.size() - count));
+                avatar = new SquareAvatar(mContext, null, "+" + String.valueOf(mSelectedCase.involvedWorkerIds.size() - count));
             } else {
                 avatar = new SquareAvatar(mContext,
                                           WorkingData.getInstance(mContext).getWorkerById(workerId).getAvator(), null);
