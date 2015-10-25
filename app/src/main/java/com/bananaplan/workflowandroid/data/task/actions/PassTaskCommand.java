@@ -6,27 +6,23 @@ import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.activity.actions.PostRequestStrategy;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
-import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask.OnFinishPostingDataListener;
 
 import java.util.HashMap;
 
 /**
- * Created by daz on 10/24/15.
+ * Created by daz on 10/25/15.
  */
-public class IncrementTaskAlertScheduleCommand implements ITaskActionCommand, OnFinishPostingDataListener {
+public class PassTaskCommand implements ITaskActionCommand, PostRequestAsyncTask.OnFinishPostingDataListener {
 
     private PostRequestAsyncTask mPostRequestAsyncTask;
     private Context mContext;
     private String mTaskId;
-    private long mWillAlertAt;
-    private String mContent;
 
-    public IncrementTaskAlertScheduleCommand (Context context, String taskId, long willAlertAt, String content) {
+    public PassTaskCommand (Context context, String taskId) {
         mContext = context;
         mTaskId = taskId;
-        mWillAlertAt = willAlertAt;
-        mContent = content;
     }
+
 
     @Override
     public void execute() {
@@ -36,10 +32,8 @@ public class IncrementTaskAlertScheduleCommand implements ITaskActionCommand, On
 
         HashMap<String, String> bodies = new HashMap<>();
         bodies.put("td", mTaskId);
-        bodies.put("wat", "" + mWillAlertAt);
-        bodies.put("c", mContent);
 
-        PostRequestStrategy postRequestStrategy = new PostRequestStrategy(LoadingDataUtils.WorkingDataUrl.EndPoints.INCREMENT_TASK_ALERT, headers, bodies);
+        PostRequestStrategy postRequestStrategy = new PostRequestStrategy(LoadingDataUtils.WorkingDataUrl.EndPoints.PASS_TASK, headers, bodies);
         mPostRequestAsyncTask = new PostRequestAsyncTask(mContext, postRequestStrategy, this);
         mPostRequestAsyncTask.execute();
     }
