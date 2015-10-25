@@ -98,7 +98,7 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         mSelectedCase = firstDisplayedCase;
     }
 
-    public void swapCase(Case aCase) {
+    public void changeCase(Case aCase) {
         mSelectedCase = aCase;
         notifyDataSetChanged();
     }

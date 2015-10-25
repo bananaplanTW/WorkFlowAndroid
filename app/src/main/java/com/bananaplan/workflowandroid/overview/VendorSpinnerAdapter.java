@@ -7,13 +7,14 @@ import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ben on 2015/10/24.
  */
 public class VendorSpinnerAdapter extends IconSpinnerAdapter<Vendor> {
 
-    public VendorSpinnerAdapter(Context context, ArrayList<Vendor> objects,
+    public VendorSpinnerAdapter(Context context, List<Vendor> objects,
                                 IconSpinnerAdapter.OnItemSelectedCallback callback) {
         super(context, 0, objects, callback);
     }

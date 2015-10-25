@@ -22,6 +22,10 @@
             android:orientation="vertical">
 
             <Spinner
+                android:id="@+id/vendor_spinner"
+                style="@style/CommonSpinnerStyle"/>
+
+            <Spinner
                 android:id="@+id/case_spinner"
                 style="@style/CommonSpinnerStyle"/>
 
@@ -38,8 +42,6 @@
                 android:background="@drawable/common_block_background"/>
 
         </LinearLayout>
-
-
 
         <View
             android:layout_width="@dimen/assign_task_divider_width_height"
