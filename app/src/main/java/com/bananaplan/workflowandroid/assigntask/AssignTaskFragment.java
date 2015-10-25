@@ -242,14 +242,14 @@ public class AssignTaskFragment extends Fragment implements
     private void initVendorSpinner() {
         mVendorSpinnerAdapter = new VendorSpinnerAdapter(mContext, mVendorSpinnerData,
                 new IconSpinnerAdapter.OnItemSelectedCallback() {
-            @Override
-            public int getSelectedPos() {
-                if (mVendorSpinner != null) {
-                    return mVendorSpinner.getSelectedItemPosition();
-                }
-                return 0;
-            }
-        });
+                    @Override
+                    public int getSelectedPos() {
+                        if (mVendorSpinner != null) {
+                            return mVendorSpinner.getSelectedItemPosition();
+                        }
+                        return 0;
+                    }
+                });
         mVendorSpinner.setAdapter(mVendorSpinnerAdapter);
         mVendorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -331,6 +331,7 @@ public class AssignTaskFragment extends Fragment implements
         mVendorSpinnerData.clear();
         mVendorSpinnerData.add(new Vendor("", getResources().getString(R.string.case_spinner_all_vendors)));
         mVendorSpinnerData.addAll(WorkingData.getInstance(mContext).getVendors());
+
         mVendorSpinnerAdapter.notifyDataSetChanged();
     }
 
@@ -339,13 +340,16 @@ public class AssignTaskFragment extends Fragment implements
         for (Case aCase : cases) {
             mCaseSpinnerData.add(aCase);
         }
+
         mCaseSpinnerAdapter.notifyDataSetChanged();
     }
 
     private void setFactorySpinnerDatas() {
+        mFactorySpinnerData.clear();
         for (Factory factory : WorkingData.getInstance(mContext).getFactories()) {
             mFactorySpinnerData.add(factory);
         }
+
         mFactorySpinnerAdapter.notifyDataSetChanged();
     }
 
@@ -441,9 +445,15 @@ public class AssignTaskFragment extends Fragment implements
 
     @Override
     public void updateData() {
-        // TODO: Update spinner
-        mCaseAdapter.notifyDataSetChanged();
+        int vendorSpinnerSelectedPos = mVendorSpinner.getSelectedItemPosition();
 
+        setVendorSpinnerDatas();
+        setCaseSpinnerDatas(vendorSpinnerSelectedPos == Spinner.INVALID_POSITION || vendorSpinnerSelectedPos == 0 ?
+                        WorkingData.getInstance(mContext).getCases() :
+                        mVendorSpinnerData.get(mVendorSpinner.getSelectedItemPosition()).getCases());
+        setFactorySpinnerDatas();
+
+        mCaseAdapter.notifyDataSetChanged();
         for (WorkerFragment workerFragment : mWorkerPageList) {
             workerFragment.notifyDataSetChanged();
         }
