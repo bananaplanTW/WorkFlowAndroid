@@ -86,7 +86,7 @@ public class TabManager implements TabHost.OnTabChangeListener {
             }
             FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
             if (mLastTab != null) {
-                ft.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
+                //ft.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out);
                 if (mLastTab.fragment != null) {
                     ft.detach(mLastTab.fragment);
                 }

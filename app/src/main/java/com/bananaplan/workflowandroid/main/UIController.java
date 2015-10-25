@@ -227,47 +227,47 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
 
             case R.id.drawer_info:
                 if (mCurrentFragment instanceof MainInfoFragment) break;
-                replaceTo(MainInfoFragment.class, FragmentTag.INFO_FRAGMENT, true);
+                replaceTo(MainInfoFragment.class, FragmentTag.INFO_FRAGMENT, false);
                 break;
 
             case R.id.drawer_assign_task:
                 if (mCurrentFragment instanceof AssignTaskFragment) break;
-                replaceTo(AssignTaskFragment.class, FragmentTag.ASSIGN_TASK_FRAGMENT, true);
+                replaceTo(AssignTaskFragment.class, FragmentTag.ASSIGN_TASK_FRAGMENT, false);
                 break;
 
             case R.id.drawer_case_overview:
                 if (mCurrentFragment instanceof CaseOverviewFragment) break;
-                replaceTo(CaseOverviewFragment.class, FragmentTag.CASE_OVERVIEW_FRAGMENT, true);
+                replaceTo(CaseOverviewFragment.class, FragmentTag.CASE_OVERVIEW_FRAGMENT, false);
                 break;
 
             case R.id.drawer_add_case:
                 if (mCurrentFragment instanceof AddCaseFragment) break;
-                replaceTo(AddCaseFragment.class, FragmentTag.ADD_CASE_FRAGMENT, true);
+                replaceTo(AddCaseFragment.class, FragmentTag.ADD_CASE_FRAGMENT, false);
                 break;
 
             case R.id.drawer_worker_overview:
                 if (mCurrentFragment instanceof WorkerOverviewFragment) break;
-                replaceTo(WorkerOverviewFragment.class, FragmentTag.WORKER_OVERVIEW_FRAGMENT, true);
+                replaceTo(WorkerOverviewFragment.class, FragmentTag.WORKER_OVERVIEW_FRAGMENT, false);
                 break;
 
             case R.id.drawer_add_worker:
                 if (mCurrentFragment instanceof AddWorkerFragment) break;
-                replaceTo(AddWorkerFragment.class, FragmentTag.ADD_WORKER_FRAGMENT, true);
+                replaceTo(AddWorkerFragment.class, FragmentTag.ADD_WORKER_FRAGMENT, false);
                 break;
 
             case R.id.drawer_equipment_overview:
                 if (mCurrentFragment instanceof EquipmentOverviewFragment) break;
-                replaceTo(EquipmentOverviewFragment.class, FragmentTag.EQUIPMENT_OVERVIEW_FRAGMENT, true);
+                replaceTo(EquipmentOverviewFragment.class, FragmentTag.EQUIPMENT_OVERVIEW_FRAGMENT, false);
                 break;
 
             case R.id.drawer_add_equipment:
                 if (mCurrentFragment instanceof AddEquipmentFragment) break;
-                replaceTo(AddEquipmentFragment.class, FragmentTag.ADD_EQUIPMENT_FRAGMENT, true);
+                replaceTo(AddEquipmentFragment.class, FragmentTag.ADD_EQUIPMENT_FRAGMENT, false);
                 break;
 
             case R.id.drawer_warning:
                 if (mCurrentFragment instanceof WarningFragment) break;
-                replaceTo(WarningFragment.class, FragmentTag.WARNING_FRAGMENT, true);
+                replaceTo(WarningFragment.class, FragmentTag.WARNING_FRAGMENT, false);
                 break;
         }
     }
