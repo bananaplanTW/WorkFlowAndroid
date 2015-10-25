@@ -70,6 +70,7 @@ public final class WorkingData implements DataSubject {
     private HashMap<String, Factory> mFactoriesMap = new HashMap<>();
     private HashMap<String, Tag> mTagsMap = new HashMap<>();
     private HashMap<String, Warning> mWarningsMap = new HashMap<>();
+    private HashMap<String, Leave> mLeavesMap = new HashMap<>();
 
     // TODO: retrieve data from server
     public int hourWorkingOn = 8;
@@ -174,6 +175,10 @@ public final class WorkingData implements DataSubject {
         if (equipment == null) return;
         mEquipmentsMap.put(equipment.id, equipment);
     }
+    public void addLeave(Leave leave) {
+        if (leave == null) return;
+        mLeavesMap.put(leave.id, leave);
+    }
 
 
     public void updateCase(String caseId, Case updatedCase) {
@@ -202,6 +207,9 @@ public final class WorkingData implements DataSubject {
     }
     public void updateEquipment(String equipmentId, Equipment updatedEquipment) {
         getEquipmentById(equipmentId).update(updatedEquipment);
+    }
+    public void updateLeave(String leaveId, Leave updatedLeave) {
+        getLeaveById(leaveId).update(updatedLeave);
     }
 
 
@@ -232,6 +240,9 @@ public final class WorkingData implements DataSubject {
     public boolean hasEquipment(String equipmentId) {
         return mEquipmentsMap.containsKey(equipmentId);
     }
+    public boolean hasLeave(String leaveId) {
+        return mLeavesMap.containsKey(leaveId);
+    }
 
 
     public List<Task> getTasks() {
@@ -254,6 +265,9 @@ public final class WorkingData implements DataSubject {
     }
     public ArrayList<Equipment> getEquipments() {
         return new ArrayList<>(mEquipmentsMap.values());
+    }
+    public List<Leave> getLeaves() {
+        return new ArrayList<>(mLeavesMap.values());
     }
 
 
@@ -303,6 +317,10 @@ public final class WorkingData implements DataSubject {
     public Warning getWarningById(String warningId) {
         return mWarningsMap.get(warningId);
     }
+    public Leave getLeaveById(String leaveId) {
+        return mLeavesMap.get(leaveId);
+    }
+
     public String getLoginWorkerId() { // TODO
         return getRandomWorkerId();
     }

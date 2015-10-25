@@ -48,6 +48,7 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
                 loadCases();
                 loadFactories();
                 loadEquipments();
+                loadLeaveWorkersIn7Days();  // TODO: Need to load the data of leave workers separately.
                 putWorkerIdsIntoCases();
                 putTasksIntoWorkers();
                 putCasesIntoVendors();
@@ -97,6 +98,24 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
      */
     private void loadEquipments () {
         LoadingDataUtils.loadEquipments(mContext);
+    }
+
+    private void loadLeaveWorkersIn7Days() {
+        Calendar calendar = Calendar.getInstance();
+        long startData = 0L;
+        long endData = 0L;
+
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR));
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        startData = calendar.getTimeInMillis();
+
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+        endData = calendar.getTimeInMillis();
+
+        LoadingDataUtils.loadLeaveWorkers(mContext, startData, endData);
     }
 
     /**

@@ -8,6 +8,7 @@ import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.EquipmentTimeCard;
 import com.bananaplan.workflowandroid.data.Factory;
+import com.bananaplan.workflowandroid.data.Leave;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Tag;
 import com.bananaplan.workflowandroid.data.Task;
@@ -38,13 +39,10 @@ public class LoadingDataUtils {
 
     private static final String TAG = "LoadDataUtils";
     public static final class WorkingDataUrl {
-//        public static final String WORKERS = "http://bp-workflow.cloudapp.net:3000/api/employees";
-//        public static final String CASES = "http://bp-workflow.cloudapp.net:3000/api/cases";
-//        public static final String FACTORIES = "http://bp-workflow.cloudapp.net:3000/api/groups";
-//        public static final String TASKS_BY_CASE = "http://bp-workflow.cloudapp.net:3000/api/tasks?caseId=";
-//        public static final String TASKS_BY_WORKER = "http://bp-workflow.cloudapp.net:3000/api/employee/tasks?employeeId=";
-//        public static final String WORKERS_BY_FACTORY = "http://bp-workflow.cloudapp.net:3000/api/group/employees?groupId=";
+
         public static final String BASE_URL = "http://128.199.198.169:3000";
+        public static final String DEBUG_BASE_URL = "http://128.199.198.169:3000";
+
         public static final String WORKERS = BASE_URL + "/api/employees";
         public static final String CASES = BASE_URL + "/api/cases";
         public static final String FACTORIES = BASE_URL + "/api/groups";
@@ -54,8 +52,8 @@ public class LoadingDataUtils {
         public static final String WORKERS_BY_FACTORY = BASE_URL + "/api/group/employees?groupId=";
         public static final String TIME_CARD_BY_CASE = BASE_URL + "/api/case/task-timecards?caseId=%s&startDate=%d&endDate=%d";
         public static final String TIME_CARD_BY_WORKER = BASE_URL + "/api/employee/timecards?employeeId=%s&startDate=%d&endDate=%d";
+        public static final String LEAVE_WORKERS = BASE_URL + "/api/leaves?startDate=%s&endDate=%s";
 
-        public static final String DEBUG_BASE_URL = "http://128.199.198.169:3000";
         public static final class EndPoints {
             public static final String WORKER_ACTIVITIES = "/api/employee/activities";
             public static final String TASK_ACTIVITIES = "/api/task/activities";
@@ -102,7 +100,6 @@ public class LoadingDataUtils {
             e.printStackTrace();
         }
     }
-
     /**
      * Load all factories data from server, not include workers data.
      * We only load worker id of each worker in the factory.
@@ -123,7 +120,6 @@ public class LoadingDataUtils {
             e.printStackTrace();
         }
     }
-
     /**
      * Load all equipments data from server, not include workers data.
      *
@@ -140,6 +136,26 @@ public class LoadingDataUtils {
             }
         } catch (JSONException e) {
             Log.e(TAG, "Exception in loadFactories()");
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Load all leave workers data from server.
+     *
+     * @param context
+     */
+    public static void loadLeaveWorkers(Context context, long startDate, long endDate) {
+        try {
+            String leaveWorkerJsonListString =
+                    RestfulUtils.getJsonStringFromUrl(getLeaveWorkersUrl(startDate, endDate));
+            JSONArray leaveWorkerJsonList = new JSONObject(leaveWorkerJsonListString).getJSONArray("result");
+
+            for (int i = 0 ; i < leaveWorkerJsonList.length() ; i++) {
+                JSONObject leaveWorkerJson = leaveWorkerJsonList.getJSONObject(i);
+                addLeaveWorkerToWorkingData(context, leaveWorkerJson);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in loadLeaveWorkers()");
             e.printStackTrace();
         }
     }
@@ -575,6 +591,27 @@ public class LoadingDataUtils {
             e.printStackTrace();
         }
     }
+    private static void addLeaveWorkerToWorkingData(Context context, JSONObject leaveJson) {
+        try {
+            String leaveId = leaveJson.getString("_id");
+            long lastUpdatedTime = leaveJson.getLong("updatedAt");
+            boolean hasLeave = WorkingData.getInstance(context).hasLeave(leaveId);
+
+            if (hasLeave &&
+                    WorkingData.getInstance(context).getLeaveById(leaveId).lastUpdatedTime >= lastUpdatedTime) {
+                return;
+            }
+
+            if (hasLeave) {
+                WorkingData.getInstance(context).updateLeave(leaveId, retrieveLeaveFromJson(leaveJson));
+            } else {
+                WorkingData.getInstance(context).addLeave(retrieveLeaveFromJson(leaveJson));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in addLeaveWorkerToWorkingData()");
+            e.printStackTrace();
+        }
+    }
 
 
     private static Case retrieveCaseFromJson(Context context, JSONObject caseJson) {
@@ -947,6 +984,28 @@ public class LoadingDataUtils {
 
         return null;
     }
+    private static Leave retrieveLeaveFromJson(JSONObject leaveJson) {
+        try {
+            String id = leaveJson.getString("_id");
+            String workerId = leaveJson.getString("employeeId");
+            Leave.Type type = Leave.convertStringToType(leaveJson.getString("type"));
+            String description = getStringFromJson(leaveJson, "description");
+            long lastUpdatedTime = leaveJson.getLong("updatedAt");
+
+            return new Leave(
+                    id,
+                    workerId,
+                    type,
+                    description,
+                    lastUpdatedTime);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in retrieveLeaveFromJson()");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
     private static String getTasksByCaseUrl(String caseId) {
@@ -976,6 +1035,12 @@ public class LoadingDataUtils {
         queries.put("endDate", "" + endDate);
         String url = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.TIME_CARD_BY_RESOURCE, queries);
         Log.d(TAG, "getEquipmentTimeCardUrl url = " + url);
+        return url;
+    }
+
+    private static String getLeaveWorkersUrl(long startDate, long endDate) {
+        String url = String.format(WorkingDataUrl.LEAVE_WORKERS, startDate, endDate);
+        Log.d(TAG, "getLeaveWorkersUrl url = " + url);
         return url;
     }
 
