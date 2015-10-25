@@ -5,12 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.task.actions.FailTaskCommand;
+import com.bananaplan.workflowandroid.data.task.actions.PassTaskCommand;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TextView caseName;
         public TextView taskName;
         public TextView pic;
+        public TextView passButton;
+        public TextView failButton;
 
 
         public ItemViewHolder(View view) {
@@ -42,15 +45,26 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             caseName = (TextView) view.findViewById(R.id.main_information_list_title_case_name);
             taskName = (TextView) view.findViewById(R.id.main_information_list_title_task_name);
             pic = (TextView) view.findViewById(R.id.main_information_list_title_pic);
+            passButton = (TextView) view.findViewById(R.id.main_information_pass_button);
+            failButton = (TextView) view.findViewById(R.id.main_information_unpass_button);
         }
 
         private void setupButtons() {
+            passButton.setOnClickListener(this);
+            failButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-
+                case R.id.main_information_pass_button:
+                    PassTaskCommand passTaskCommand = new PassTaskCommand(mContext, mData.get(getAdapterPosition()).id);
+                    passTaskCommand.execute();
+                    break;
+                case R.id.main_information_unpass_button:
+                    FailTaskCommand failTaskCommand = new FailTaskCommand(mContext, mData.get(getAdapterPosition()).id);
+                    failTaskCommand.execute();
+                    break;
             }
         }
     }
