@@ -305,7 +305,9 @@
     <string name="task_dispatch">Dispatched to: </string>
 
     <!-- Warning fragment -->
-    <string name="manage_warning">Manage warning</string>
-    <string name="all_warnings">All</string>
+    <string name="warning_manage_warning">Manage warning</string>
+    <string name="warning_all_warnings">All</string>
+    <string name="warning_card_pic">PIC</string>
+    <string name="warning_card_warning">Warning</string>
 
 </resources>

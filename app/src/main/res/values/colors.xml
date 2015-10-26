@@ -155,6 +155,7 @@
     <color name="warning_card_stroke_color">#FFE1E1E1</color>
     <color name="warning_card_task_part_text_color">@android:color/white</color>
     <color name="warning_card_warning_part_text_color">@android:color/black</color>
+    <color name="warning_card_warning_text_color">#FFD9534F</color>
     <color name="warning_card_time_part_text_color">@android:color/black</color>
 
 

@@ -17,7 +17,6 @@ public class Warning extends IdData {
     public String managerId;
     public String description;
 
-
     public long spentTime;
 
     public Status status = Status.OPEN;

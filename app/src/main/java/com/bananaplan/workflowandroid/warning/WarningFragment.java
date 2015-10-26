@@ -58,6 +58,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
     private HashMap<String, Integer> mWarningGroups;
     private WarningCardsAdapter mWarningCardsAdapter;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,11 +74,11 @@ public class WarningFragment extends Fragment implements TextWatcher,
     }
 
     private void setupViews() {
-        mVendorSpinner = (Spinner) getActivity().findViewById(R.id.ov_leftpane_spinner);
-        mEtCaseSearch = (EditText) getActivity().findViewById(R.id.ov_leftpane_search_edittext);
-        mCaseListView = (ListView) getActivity().findViewById(R.id.ov_leftpane_listview);
-        mWarningGroupList = (HListView) getActivity().findViewById(R.id.warning_list);
-        mWarningCards = (GridView) getActivity().findViewById(R.id.warning_cards);
+        mVendorSpinner = (Spinner) getView().findViewById(R.id.ov_leftpane_spinner);
+        mEtCaseSearch = (EditText) getView().findViewById(R.id.ov_leftpane_search_edittext);
+        mCaseListView = (ListView) getView().findViewById(R.id.ov_leftpane_listview);
+        mWarningGroupList = (HListView) getView().findViewById(R.id.warning_list);
+        mWarningCards = (GridView) getView().findViewById(R.id.warning_cards);
 
         mEtCaseSearch.addTextChangedListener(this);
         mVendorSpinner.setOnItemSelectedListener(this);
@@ -204,9 +205,28 @@ public class WarningFragment extends Fragment implements TextWatcher,
     }
 
     private class WarningCardsAdapter extends ArrayAdapter<Warning> implements Filterable {
+
         private ArrayList<Warning> mOrigWarnings;
         private ArrayList<Warning> mFilteredWarnings;
         private CustomFilter mFilter;
+
+
+        private class ViewHolder {
+
+            TextView taskName;
+            TextView caseName;
+            TextView managerName;
+            TextView warningName;
+            TextView time;
+
+            public ViewHolder(View v) {
+                taskName = (TextView) v.findViewById(R.id.warning_card_task_name);
+                caseName = (TextView) v.findViewById(R.id.warning_card_case_name);
+                managerName = (TextView) v.findViewById(R.id.warning_card_manager);
+                warningName = (TextView) v.findViewById(R.id.warning_card_warning);
+                time = (TextView) v.findViewById(R.id.warning_card_time);
+            }
+        }
 
         public WarningCardsAdapter(List<Warning> data) {
             super(getActivity(), 0, data);
@@ -236,7 +256,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
                 FilterResults result = new FilterResults();
                 ArrayList<Warning> filterResult = new ArrayList<>();
                 for (Warning warning : mOrigWarnings) {
-                    if (constraint.equals(getResources().getString(R.string.all_warnings)) ||
+                    if (constraint.equals(getResources().getString(R.string.warning_all_warnings)) ||
                             warning.name.equals(constraint)) {
                         filterResult.add(warning);
                     }
@@ -266,28 +286,17 @@ public class WarningFragment extends Fragment implements TextWatcher,
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            WorkingData data = WorkingData.getInstance(getActivity());
+
             Warning warning = getItem(position);
-            Manager manager = data.getManagerById(warning.managerId);
-            holder.name.setText(warning.name);
-            holder.task.setText(data.getTaskById(warning.taskId).name);
-            holder.manager.setText(manager != null ? manager.name : "");
-            holder.time.setText(Utils.milliSeconds2MinsSecs(warning.spentTime));
+            Manager manager = WorkingData.getInstance(getActivity()).getManagerById(warning.managerId);
+
+            holder.taskName.setText(WorkingData.getInstance(getActivity()).getTaskById(warning.taskId).name);
+            holder.caseName.setText(WorkingData.getInstance(getActivity()).getCaseById(warning.caseId).name);
+            holder.managerName.setText(manager != null ? manager.name : "");
+            holder.warningName.setText(warning.name);
+            holder.time.setText(Utils.millisecondsToTimeString(warning.spentTime));
+
             return convertView;
-        }
-
-        private class ViewHolder {
-            TextView name;
-            TextView task;
-            TextView manager;
-            TextView time;
-
-            public ViewHolder(View v) {
-                name = (TextView) v.findViewById(R.id.warning_card_task_name);
-                task = (TextView) v.findViewById(R.id.warning_card_case_name);
-                manager = (TextView) v.findViewById(R.id.warning_card_manager);
-                time = (TextView) v.findViewById(R.id.warning_card_time);
-            }
         }
     }
 
@@ -399,10 +408,12 @@ public class WarningFragment extends Fragment implements TextWatcher,
     private void onCaseSelected() {
         int total = 0;
         List<Warning> warnings = new ArrayList<>();
+
         // clear map value
         for (String key : mWarningGroups.keySet()) {
             mWarningGroups.put(key, 0);
         }
+
         // update map value
         if (mSelectedCase != null) {
             for (Task task : mSelectedCase.tasks) {
@@ -415,12 +426,13 @@ public class WarningFragment extends Fragment implements TextWatcher,
                 }
             }
         }
+
         List<WarningGroup> groups = new ArrayList<>();
         for (String key : mWarningGroups.keySet()) {
             groups.add(new WarningGroup(key, mWarningGroups.get(key)));
             total += mWarningGroups.get(key);
         }
-        groups.add(0, new WarningGroup(getResources().getString(R.string.all_warnings), total));
+        groups.add(0, new WarningGroup(getResources().getString(R.string.warning_all_warnings), total));
         mWarningGroupList.setAdapter(new WarningGroupAdapter(groups));
         if (mWarningCardsAdapter == null) {
             mWarningCardsAdapter = new WarningCardsAdapter(warnings);
@@ -429,7 +441,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
             mWarningCardsAdapter.clear();
             mWarningCardsAdapter.addAll(warnings);
         }
-        filterWarningCards(getResources().getString(R.string.all_warnings));
+        filterWarningCards(getResources().getString(R.string.warning_all_warnings));
         mWarningCardsAdapter.notifyDataSetChanged();
         WarningGroupAdapter adapter = ((WarningGroupAdapter) mWarningGroupList.getAdapter());
         adapter.selectedPos = 0;

@@ -40,7 +40,8 @@ public class LoadingDataUtils {
     private static final String TAG = "LoadDataUtils";
     public static final class WorkingDataUrl {
 
-        public static final String BASE_URL = "http://128.199.198.169:3000";
+        //public static final String BASE_URL = "http://128.199.198.169:3000";
+        public static final String BASE_URL = "http://188.166.248.171:3000/";
         public static final String DEBUG_BASE_URL = "http://128.199.198.169:3000";
 
         public static final String WORKERS = BASE_URL + "/api/employees";

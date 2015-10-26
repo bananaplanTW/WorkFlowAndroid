@@ -325,5 +325,7 @@
     <dimen name="warning_frag_warning_card_stroke_width">2dp</dimen>
     <dimen name="warning_frag_warning_card_corner_radius">3dp</dimen>
     <dimen name="warning_frag_warning_card_time_text_size">20dp</dimen>
+    <dimen name="warning_frag_warning_card_warning_part_content_margin_left">10dp</dimen>
+    <dimen name="warning_frag_warning_card_warning_part_padding_vertical">8dp</dimen>
 
 </resources>
