@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +14,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.login.CheckLoggedInStatusCommand;
 import com.bananaplan.workflowandroid.login.UserLoggingInCommand;
+import com.parse.ParsePush;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
         CheckLoggedInStatusCommand.OnFinishCheckingLoggedInStatusListener,
@@ -111,6 +110,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mSharedPreferences.edit().putString(WorkingData.USER_ID, userId).putString(WorkingData.AUTH_TOKEN, authToken).commit();
         WorkingData.setUserId(userId);
         WorkingData.setAuthToken(authToken);
+
+        ParsePush.subscribeInBackground("user_" + userId);
 
         startActivity(new Intent(LoginActivity.this, PreloadActivity.class));
         finish();
