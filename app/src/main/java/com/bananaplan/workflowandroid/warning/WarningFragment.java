@@ -283,10 +283,10 @@ public class WarningFragment extends Fragment implements TextWatcher,
             TextView time;
 
             public ViewHolder(View v) {
-                name = (TextView) v.findViewById(R.id.name);
-                task = (TextView) v.findViewById(R.id.task);
-                manager = (TextView) v.findViewById(R.id.manager);
-                time = (TextView) v.findViewById(R.id.time);
+                name = (TextView) v.findViewById(R.id.warning_card_task_name);
+                task = (TextView) v.findViewById(R.id.warning_card_case_name);
+                manager = (TextView) v.findViewById(R.id.warning_card_manager);
+                time = (TextView) v.findViewById(R.id.warning_card_time);
             }
         }
     }
@@ -390,7 +390,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
             TextView count;
 
             public ViewHolder(View v) {
-                name = (TextView) v.findViewById(R.id.name);
+                name = (TextView) v.findViewById(R.id.warning_card_task_name);
                 count = (TextView) v.findViewById(R.id.count);
             }
         }

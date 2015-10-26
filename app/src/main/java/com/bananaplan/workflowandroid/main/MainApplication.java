@@ -11,7 +11,7 @@ import com.parse.ParseInstallation;
  */
 public class MainApplication extends Application {
 
-    public static boolean sUseTestData = false;
+    public static boolean sUseTestData = true;
 
 
     @Override

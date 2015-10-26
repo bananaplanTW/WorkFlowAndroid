@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/warning_frag_warning_card_height"
     android:padding="@dimen/warning_frag_warning_card_padding"
-    android:background="@drawable/warning_card_bg_white">
+    android:background="@drawable/warning_card_background"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/warning_card_bg_red"
-        android:orientation="vertical"
-        android:padding="@dimen/warning_frag_warning_card_padding">
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:padding="@dimen/warning_frag_warning_card_padding"
+        android:background="@drawable/warning_card_task_part_background"
+        android:orientation="vertical">
+
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/warning_card_task_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="14dp"/>
+            android:textColor="@color/warning_card_task_part_text_color"
+            android:textSize="@dimen/warning_frag_warning_card_text_size"/>
+
         <TextView
-            android:id="@+id/task"
+            android:id="@+id/warning_card_case_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="14dp" />
+            android:textColor="@color/warning_card_task_part_text_color"
+            android:textSize="@dimen/warning_frag_warning_card_text_size" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/manager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:layout_marginTop="@dimen/warning_frag_warning_card_vertical_margin"
-        android:layout_marginBottom="@dimen/warning_frag_warning_card_vertical_margin"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/warning_card_manager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/warning_frag_warning_card_text_size"
+            android:textColor="@color/warning_card_warning_part_text_color"
+            android:layout_marginTop="@dimen/warning_frag_warning_card_vertical_margin"
+            android:layout_marginBottom="@dimen/warning_frag_warning_card_vertical_margin"/>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -39,10 +52,12 @@
         android:background="@color/gray3"/>
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/warning_card_time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/warning_frag_warning_card_time_text_size"
+        android:textColor="@color/warning_card_time_part_text_color"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/warning_frag_warning_card_vertical_margin"/>
 
