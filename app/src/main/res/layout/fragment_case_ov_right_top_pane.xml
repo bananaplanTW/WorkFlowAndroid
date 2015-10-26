@@ -45,11 +45,10 @@
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/case_ov_right_pane_edit_case"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ButtonStyle.Blue"
             android:layout_alignParentRight="true"
             android:text="@string/case_overview_edit_case"
-            style="@style/ButtonStyle.Blue"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
