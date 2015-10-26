@@ -16,6 +16,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.main.LoginActivity;
 import com.bananaplan.workflowandroid.utility.view.DividerItemDecoration;
+import com.parse.ParsePush;
 
 
 /**
@@ -86,6 +87,8 @@ public class DrawerFragment extends Fragment {
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ParsePush.unsubscribeInBackground("user_" + WorkingData.getUserId());
+
                 WorkingData.resetAccount();
                 SharedPreferences sharedPreferences = mActivity.getSharedPreferences(WorkingData.SHARED_PREFERENCE_KEY, 0);
                 sharedPreferences.edit().remove(WorkingData.USER_ID).remove(WorkingData.AUTH_TOKEN).commit();
