@@ -143,21 +143,30 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     break;
 
                 case DrawerItemIndex.CASE:
-                    item = DrawerItem.generateGroupItem(mContext.getString(R.string.drawer_case),
-                                                        mContext.getDrawable(R.drawable.selector_drawer_case_icon),
-                                                        generateDrawerSubItems(i));
+                    item = DrawerItem.generateNormalItem(R.id.drawer_case_overview,
+                                                         mContext.getString(R.string.drawer_case_overview),
+                                                         mContext.getDrawable(R.drawable.selector_drawer_case_icon));
+//                    item = DrawerItem.generateGroupItem(mContext.getString(R.string.drawer_case),
+//                                                        mContext.getDrawable(R.drawable.selector_drawer_case_icon),
+//                                                        generateDrawerSubItems(i));
                     break;
 
                 case DrawerItemIndex.WORKER:
-                    item = DrawerItem.generateGroupItem(mContext.getString(R.string.drawer_worker),
-                                                        mContext.getDrawable(R.drawable.selector_drawer_worker_icon),
-                                                        generateDrawerSubItems(i));
+                    item = DrawerItem.generateNormalItem(R.id.drawer_worker_overview,
+                                                         mContext.getString(R.string.drawer_worker_overview),
+                                                         mContext.getDrawable(R.drawable.selector_drawer_worker_icon));
+//                    item = DrawerItem.generateGroupItem(mContext.getString(R.string.drawer_worker),
+//                                                        mContext.getDrawable(R.drawable.selector_drawer_worker_icon),
+//                                                        generateDrawerSubItems(i));
                     break;
 
                 case DrawerItemIndex.EQUIPMENT:
-                    item = DrawerItem.generateGroupItem(mContext.getString(R.string.drawer_equipment),
-                                                        mContext.getDrawable(R.drawable.selector_drawer_equipment_icon),
-                                                        generateDrawerSubItems(i));
+                    item = DrawerItem.generateNormalItem(R.id.drawer_equipment_overview,
+                                                         mContext.getString(R.string.drawer_equipment_overview),
+                                                         mContext.getDrawable(R.drawable.selector_drawer_equipment_icon));
+//                    item = DrawerItem.generateGroupItem(mContext.getString(R.string.drawer_equipment),
+//                                                        mContext.getDrawable(R.drawable.selector_drawer_equipment_icon),
+//                                                        generateDrawerSubItems(i));
                     break;
 
                 case DrawerItemIndex.WARNING:
@@ -330,11 +339,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onClick(View v) {
         int id = v.getId();
         if (id != R.id.drawer_setting_button) {
-            if (id == R.id.drawer_info || id == R.id.drawer_assign_task || id == R.id.drawer_warning) {
-                setSelectedItem(v, false);
-            } else {
-                setSelectedItem(v, true);
-            }
+            setSelectedItem(v, false);
+//            if (id == R.id.drawer_info || id == R.id.drawer_assign_task || id == R.id.drawer_warning) {
+//                setSelectedItem(v, false);
+//            } else {
+//                // For group item
+//                setSelectedItem(v, true);
+//            }
         }
 
         mOnClickDrawerItemListener.onClickDrawerItem(id);
