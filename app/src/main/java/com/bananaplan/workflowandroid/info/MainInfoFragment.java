@@ -209,8 +209,8 @@ public class MainInfoFragment extends Fragment implements DataObserver {
     private void setupWarningList() {
         mWarningAdapter = new WarningListViewAdapter(mWarnings);
         mWarningTasks.setHeaderDividersEnabled(true);
-        mWarningTasks.addHeaderView(LayoutInflater.from(getActivity())
-                .inflate(R.layout.main_information_list_warning_title, null), null, false);
+        //mWarningTasks.addHeaderView(LayoutInflater.from(getActivity())
+        //        .inflate(R.layout.main_information_list_warning_title, null), null, false);
         mWarningTasks.setAdapter(mWarningAdapter);
     }
 
