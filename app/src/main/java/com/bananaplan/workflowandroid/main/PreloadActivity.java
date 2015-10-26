@@ -3,14 +3,13 @@ package com.bananaplan.workflowandroid.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataTask;
-import com.bananaplan.workflowandroid.login.CheckLoggedInStatusCommand;
 
 
 public class PreloadActivity extends AppCompatActivity implements LoadingDataTask.OnFinishLoadingDataListener {
@@ -18,6 +17,8 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
     private static final String TAG = "PreloadActivity";
 
     private LoadingDataTask mLoadingDataTask;
+
+    private ImageView mNiCloud;
 
     // NIC = NoInternetConnection
     private View mNICContainer;
@@ -38,6 +39,7 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
     }
 
     private void findViews() {
+        mNiCloud = (ImageView) findViewById(R.id.ni_cloud);
         mNICContainer = findViewById(R.id.no_internet_connection_container);
         mNICRetryButton = (Button) findViewById(R.id.no_internet_connection_retry_button);
         mNICProgressBar = (ProgressBar) findViewById(R.id.no_internet_connection_progress_bar);
@@ -95,6 +97,7 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
         if (isFailCausedByInternet) {
             mNICContainer.setVisibility(View.VISIBLE);
             mNICProgressBar.setVisibility(View.GONE);
+            mNiCloud.setVisibility(View.GONE);
             mLoadingDataTask = null;
         }
     }

@@ -21,7 +21,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         UserLoggingInCommand.OnFinishLoggedInListener {
 
     private SharedPreferences mSharedPreferences;
+
     private LinearLayout mLoginContainerLinearLayout;
+
     private EditText mAccountEditText;
     private EditText mPasswordEditText;
     private Button mLoginButton;
@@ -55,16 +57,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPasswordEditText = (EditText) findViewById(R.id.login_password_edit_text);
         mLoginButton = (Button) findViewById(R.id.login_button);
     }
+
     private void setupViews () {
         mLoginButton.setOnClickListener(this);
     }
+
     private void hideAllViews () {
         mLoginContainerLinearLayout.setVisibility(View.GONE);
     }
+
     private void showAllViews () {
         mLoginContainerLinearLayout.setVisibility(View.VISIBLE);
     }
-
 
     @Override
     protected void onStart() {
@@ -77,6 +81,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         checkLoggedInStatusCommand.execute();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
 
     @Override
     public void onClick(View view) {
@@ -96,7 +105,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onLoggedIn() {
-        startActivity(new Intent(LoginActivity.this, PreloadActivity.class));
+        Intent intent = new Intent(LoginActivity.this, PreloadActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
         finish();
     }
     @Override

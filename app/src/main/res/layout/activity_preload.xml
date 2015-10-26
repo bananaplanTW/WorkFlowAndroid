@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:background="@color/blue1">
 
+    <ImageView
+        android:id="@+id/ni_cloud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/nicloud" />
+
     <include
         layout="@layout/no_internet_connection_view"
         android:layout_width="wrap_content"
