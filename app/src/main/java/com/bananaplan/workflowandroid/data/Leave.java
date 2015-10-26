@@ -1,7 +1,13 @@
 package com.bananaplan.workflowandroid.data;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.bananaplan.workflowandroid.R;
+
 /**
- * Created by logicmelody on 2015/9/22.
+ * @author Danny Lin
+ * @since 2015/9/22.
  */
 public class Leave extends IdData {
 
@@ -17,11 +23,16 @@ public class Leave extends IdData {
 
     public Type type;
 
+    public long from = 0L;
+    public long to = 0L;
 
-    public Leave(String id, String workerId, Type type, String description, long lastUpdatedTime) {
+
+    public Leave(String id, String workerId, Type type, long from, long to, String description, long lastUpdatedTime) {
         this.id = id;
         this.workerId = workerId;
         this.type = type;
+        this.from = from;
+        this.to = to;
         this.description = description;
         this.lastUpdatedTime = lastUpdatedTime;
     }
@@ -29,6 +40,8 @@ public class Leave extends IdData {
     public void update(Leave leave) {
         this.workerId = leave.workerId;
         this.type = leave.type;
+        this.from = leave.from;
+        this.to = leave.to;
         this.description = leave.description;
         this.lastUpdatedTime = leave.lastUpdatedTime;
     }
@@ -66,5 +79,55 @@ public class Leave extends IdData {
         }
 
         return result;
+    }
+
+    public static String getLeaveString(Context context, Leave leave) {
+        String r = "";
+        Resources resources = context.getResources();
+
+        switch (leave.type) {
+            case PERSONAL:
+                r = resources.getString(R.string.leave_type_personal);
+                break;
+
+            case MEDICAL:
+                r = resources.getString(R.string.leave_type_medical);
+                break;
+
+            case ANNUAL:
+                r = resources.getString(R.string.leave_type_annual);
+                break;
+
+            case OFFICIAL:
+                r = resources.getString(R.string.leave_type_official);
+                break;
+
+            case FUNERAL:
+                r = resources.getString(R.string.leave_type_funeral);
+                break;
+
+            case MATERNITY:
+                r = resources.getString(R.string.leave_type_maternity);
+                break;
+
+            case PATERNITY:
+                r = resources.getString(R.string.leave_type_paternity);
+                break;
+
+            case MENSTRUATION:
+                r = resources.getString(R.string.leave_type_menstruation);
+                break;
+
+            case COMPENSATORY:
+                r = resources.getString(R.string.leave_type_compensatory);
+                break;
+
+
+            default:
+                r = resources.getString(R.string.leave_type_default);
+                break;
+        }
+
+        return r;
     }
 }

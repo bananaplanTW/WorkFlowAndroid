@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/main_information_list_item_min_height"
     android:orientation="horizontal"
     android:gravity="center_vertical">
 
@@ -42,13 +43,13 @@
         <TextView
             android:id="@+id/main_information_pass_button"
             style="@style/ButtonStyle.Green"
-            android:text="通過" />
+            android:text="@string/main_information_list_pass_button" />
 
         <TextView
             android:id="@+id/main_information_unpass_button"
             style="@style/ButtonStyle.Gray"
             android:layout_marginLeft="10dp"
-            android:text="不通過" />
+            android:text="@string/main_information_list_reject_button" />
 
     </LinearLayout>
 

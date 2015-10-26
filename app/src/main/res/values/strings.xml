@@ -28,6 +28,18 @@
     <string name="worker_status_pending">Pending</string>
     <string name="worker_status_wip">WIP</string>
 
+    <!-- Leave type -->
+    <string name="leave_type_default">Default</string>
+    <string name="leave_type_personal">Personal</string>
+    <string name="leave_type_medical">Medical</string>
+    <string name="leave_type_annual">Annual</string>
+    <string name="leave_type_official">Official</string>
+    <string name="leave_type_funeral">Funeral</string>
+    <string name="leave_type_maternity">Maternity</string>
+    <string name="leave_type_paternity">Paternity</string>
+    <string name="leave_type_menstruation">Menstruation</string>
+    <string name="leave_type_compensatory">Compensatory</string>
+
     <!-- Assign task -->
     <string name="task_case_progress_text">Case Progress</string>
     <string name="task_case_participated_worker_text">Participated Worker</string>
@@ -250,7 +262,9 @@
     <string name="main_information_list_leave_workers_worker">Worker</string>
     <string name="main_information_list_leave_workers_date">Date</string>
     <string name="main_information_$">$%1$d</string>
-    <string name="main_information_add_notify_time_button">+%1$d mins</string>
+    <string name="main_information_list_add_notify_time_button">+%1$d mins</string>
+    <string name="main_information_list_pass_button">Pass</string>
+    <string name="main_information_list_reject_button">Reject</string>
 
     <!-- Login Activity -->
     <string name="login_account">Account</string>

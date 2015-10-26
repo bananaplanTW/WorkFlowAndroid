@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
@@ -15,7 +14,6 @@ import com.bananaplan.workflowandroid.data.task.actions.IncrementTaskAlertSchedu
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
@@ -95,7 +93,7 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         itemVH.taskName.setText(task.name);
         itemVH.pic.setText(WorkingData.getInstance(mContext).getWorkerById(task.workerId).name);
         itemVH.addNotifyTimeButton.setText(
-                String.format(mContext.getString(R.string.main_information_add_notify_time_button), ADD_NOTIFY_TIME));
+                String.format(mContext.getString(R.string.main_information_list_add_notify_time_button), ADD_NOTIFY_TIME));
     }
 
     @Override

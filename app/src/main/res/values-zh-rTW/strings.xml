@@ -25,6 +25,18 @@
     <string name="worker_status_pending">無工作</string>
     <string name="worker_status_wip">工作中</string>
 
+    <!-- Leave type -->
+    <string name="leave_type_default">無請假類別</string>
+    <string name="leave_type_personal">事假</string>
+    <string name="leave_type_medical">病假</string>
+    <string name="leave_type_annual">特休假</string>
+    <string name="leave_type_official">公假</string>
+    <string name="leave_type_funeral">喪假</string>
+    <string name="leave_type_maternity">產假</string>
+    <string name="leave_type_paternity">陪產假</string>
+    <string name="leave_type_menstruation">生理假</string>
+    <string name="leave_type_compensatory">補假</string>
+
     <!-- Assign task -->
     <string name="task_case_progress_text">案件進度</string>
     <string name="task_case_participated_worker_text">參與員工</string>
@@ -237,7 +249,9 @@
     <string name="main_information_list_leave_workers_type">假別</string>
     <string name="main_information_list_leave_workers_worker">請假人員</string>
     <string name="main_information_list_leave_workers_date">日期</string>
-    <string name="main_information_add_notify_time_button">+%1$d分鐘</string>
+    <string name="main_information_list_add_notify_time_button">+%1$d分鐘</string>
+    <string name="main_information_list_pass_button">通過</string>
+    <string name="main_information_list_reject_button">不通過</string>
 
     <!-- Login Activity -->
     <string name="login_account">帳號</string>

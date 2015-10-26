@@ -988,14 +988,20 @@ public class LoadingDataUtils {
         try {
             String id = leaveJson.getString("_id");
             String workerId = leaveJson.getString("employeeId");
-            Leave.Type type = Leave.convertStringToType(leaveJson.getString("type"));
             String description = getStringFromJson(leaveJson, "description");
+
+            Leave.Type type = Leave.convertStringToType(leaveJson.getString("type"));
+
+            long from = leaveJson.getLong("from");
+            long to = leaveJson.getLong("to");
             long lastUpdatedTime = leaveJson.getLong("updatedAt");
 
             return new Leave(
                     id,
                     workerId,
                     type,
+                    from,
+                    to,
                     description,
                     lastUpdatedTime);
 

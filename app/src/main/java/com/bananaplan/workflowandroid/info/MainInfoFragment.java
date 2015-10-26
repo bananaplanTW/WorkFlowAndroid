@@ -48,6 +48,7 @@ public class MainInfoFragment extends Fragment implements DataObserver {
     private ReviewListAdapter mReviewListAdapter;
 
     private RecyclerView mLeaveList;
+    private LeaveListAdapter mLeaveListAdapter;
 
     private ListView mWarningTasks;
     private WarningListViewAdapter mWarningAdapter;
@@ -59,7 +60,6 @@ public class MainInfoFragment extends Fragment implements DataObserver {
     private List<Task> mDelayTasks = new ArrayList<>();
     private List<Warning> mWarnings = new ArrayList<>();
     private List<Task> mReviewTasks = new ArrayList<>();
-    private List<Worker> mLeaveWorkers = new ArrayList<>();
 
 
     private class WarningListViewAdapter extends ArrayAdapter<Warning> {
@@ -223,7 +223,11 @@ public class MainInfoFragment extends Fragment implements DataObserver {
     }
 
     private void setupLeaveList() {
+        mLeaveListAdapter = new LeaveListAdapter(getActivity(), WorkingData.getInstance(getActivity()).getLeaves());
         mLeaveList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLeaveList.addItemDecoration(new DividerItemDecoration(mContext.getResources().
+                getDrawable(R.drawable.drawer_divider), false, true));
+        mLeaveList.setAdapter(mLeaveListAdapter);
     }
 
     @Override
@@ -235,6 +239,7 @@ public class MainInfoFragment extends Fragment implements DataObserver {
         mDelayListAdapter.notifyDataSetChanged();
         mWarningAdapter.notifyDataSetChanged();
         mReviewListAdapter.notifyDataSetChanged();
+        mLeaveListAdapter.notifyDataSetChanged();
     }
 
     private void resetDatas() {
@@ -244,6 +249,5 @@ public class MainInfoFragment extends Fragment implements DataObserver {
         mDelayTasks.clear();
         mWarnings.clear();
         mReviewTasks.clear();
-        mLeaveWorkers.clear();
     }
 }
