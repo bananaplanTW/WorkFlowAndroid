@@ -34,7 +34,6 @@ public class DetailedWorkerActivity extends AppCompatActivity {
     }
 
     private ActionBar mActionBar;
-    private FragmentManager mFragmentManager;
     private TabHost mTabHost;
 
     private ImageView mWorkerAvatar;
@@ -54,7 +53,6 @@ public class DetailedWorkerActivity extends AppCompatActivity {
 
     private void initialize(Intent intent) {
         mWorker = WorkingData.getInstance(this).getWorkerById(intent.getStringExtra(EXTRA_WORKER_ID));
-        mFragmentManager = getSupportFragmentManager();
         findViews();
         setupActionBar();
         setupTabs();
@@ -87,9 +85,9 @@ public class DetailedWorkerActivity extends AppCompatActivity {
         bundle1.putString(EXTRA_WORKER_ID, mWorker.id);
         addTab(FragmentTag.TASK_SCHEDULE, bundle1, TaskScheduleFragment.class);
 
-        Bundle bundle2 = new Bundle();
-        bundle2.putString(TaskItemFragment.FROM, getClass().getSimpleName());
-        addTab(FragmentTag.TASK_ITEM, bundle2, TaskItemFragment.class);
+//        Bundle bundle2 = new Bundle();
+//        bundle2.putString(TaskItemFragment.FROM, getClass().getSimpleName());
+//        addTab(FragmentTag.TASK_ITEM, bundle2, TaskItemFragment.class);
 
         Bundle bundle3 = new Bundle();
         bundle3.putString(StatusFragment.FROM, getClass().getSimpleName());
