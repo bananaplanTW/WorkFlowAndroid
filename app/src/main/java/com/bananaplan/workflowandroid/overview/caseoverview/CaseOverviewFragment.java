@@ -53,7 +53,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
     private ListView mCaseListView;
     private TextView mTvCaseNameSelected;
     private TextView mTvCaseVendorSelected;
-    private TextView mTvCaseWorker;
+    private TextView mTvCaseManager;
     private ProgressBar mPbCaseSelected;
     private TextView mTvCaseHoursPassedBy;
     private TextView mTvCaseHoursUnfinished;
@@ -104,7 +104,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
         // right pane
         mTvCaseNameSelected = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_case_name);
         mTvCaseVendorSelected = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_vendor_name);
-        mTvCaseWorker = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_worker_name);
+        mTvCaseManager = (TextView) getActivity().findViewById(R.id.case_ov_right_pane_manager_name);
         mPbCaseSelected = (ProgressBar) getActivity().findViewById(R.id.case_ov_right_pane_case_progress_bar);
         mTvCaseHoursPassedBy = (TextView) getActivity().findViewById(R.id.case_tv_hours_passed_by);
         mTvCaseHoursUnfinished = (TextView) getActivity().findViewById(R.id.case_tv_hours_unfinished);
@@ -215,8 +215,8 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
         if (aCase == null) return;
         mTvCaseNameSelected.setText(aCase.name);
         mTvCaseVendorSelected.setText(WorkingData.getInstance(getActivity()).getVendorById(aCase.vendorId).name);
-        if (!TextUtils.isEmpty(mSelectedCase.workerId)) {
-            mTvCaseWorker.setText(WorkingData.getInstance(getActivity()).getWorkerById(aCase.workerId).name);
+        if (!TextUtils.isEmpty(mSelectedCase.managerId)) {
+            mTvCaseManager.setText(WorkingData.getInstance(getActivity()).getManagerById(aCase.managerId).name);
         }
         mTvCaseHoursPassedBy.setText(Utils.millisecondsToTimeString(aCase.getSpentTime()));
         mTvCaseHoursUnfinished.setText(Utils.millisecondsToTimeString(aCase.getUnfinishedTime()));

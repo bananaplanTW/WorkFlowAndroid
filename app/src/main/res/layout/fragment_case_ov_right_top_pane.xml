@@ -104,7 +104,7 @@
             android:textSize="14dp"
             android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_vendor_string_margin_left"/>
         <TextView
-            android:id="@+id/case_ov_right_pane_worker_name"
+            android:id="@+id/case_ov_right_pane_manager_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/case_ov_right_top_pane_tv_vendor_margin_left"
