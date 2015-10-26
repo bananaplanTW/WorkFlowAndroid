@@ -98,7 +98,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/worker_ov_right_pane_worker_avatar"
                     android:layout_marginRight="@dimen/worker_ov_right_pane_edit_worker_margin_right"
-                    android:text="@string/case_overview_edit_worker" />
+                    android:text="@string/case_overview_edit_worker"
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 

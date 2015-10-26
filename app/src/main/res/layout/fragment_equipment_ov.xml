@@ -67,7 +67,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_alignTop="@id/equipment_name"
                 android:layout_alignParentRight="true"
-                android:text="@string/equipment_edit" />
+                android:text="@string/equipment_edit"
+                android:visibility="gone"/>
 
             <View
                 android:id="@+id/right_pane_horizontal_divider"
