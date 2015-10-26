@@ -171,7 +171,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 case DrawerItemIndex.WARNING:
                     item = DrawerItem.generateNormalItem(R.id.drawer_warning,
-                            mContext.getString(R.string.drawer_warning), null);
+                                                         mContext.getString(R.string.drawer_warning),
+                                                         mContext.getDrawable(R.drawable.selector_drawer_warning_icon));
                     break;
             }
 
