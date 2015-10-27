@@ -37,6 +37,8 @@ public class Task extends IdData {
     public long spentTime = 0L;
 
     public List<Warning> warnings = new ArrayList<>();
+    public long nextAlertTime = 0L;
+
     public List<Task> subTaskIds = new ArrayList<>();
 
     public int errorCount;

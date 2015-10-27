@@ -65,6 +65,7 @@ public class Utils {
     public static final String DATE_FORMAT_YMD = "yyyy/MM/dd";
     public static final String DATE_FORMAT_MD = "MM/dd";
     public static final String DATE_FORMAT_YMD_HM_AMPM = "yyyy/MM/dd hh:mm aa";
+    public static final String DATE_FORMAT_HM_AMPM = "hh:mm aa";
 
 
     public static View genBarChart(final Activity activity, final BarChartData data) {

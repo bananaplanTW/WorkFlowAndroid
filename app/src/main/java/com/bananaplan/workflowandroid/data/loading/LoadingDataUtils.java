@@ -166,7 +166,11 @@ public class LoadingDataUtils {
         if (!WorkingData.getInstance(context).hasCase(caseId)) return;
 
         try {
-            String taskJsonListString = RestfulUtils.getJsonStringFromUrl(getTasksByCaseUrl(caseId));
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String taskJsonListString = RestfulUtils.restfulGetRequest(getTasksByCaseUrl(caseId), headers);
             JSONArray taskJsonList = new JSONObject(taskJsonListString).getJSONArray("result");
             List<Task> newCaseTasks = new ArrayList<>();
 
@@ -852,7 +856,7 @@ public class LoadingDataUtils {
 
             // TODO: Sub task
 
-            return new Task(
+            Task task = new Task(
                     id,
                     name,
                     caseId,
@@ -868,6 +872,12 @@ public class LoadingDataUtils {
                     spentTime,
                     lastUpdatedTime,
                     isDelayed);
+
+            JSONObject scheduledTaskAlert = getJsonObjectFromJson(taskJson, "scheduledTaskAlert");
+            if (scheduledTaskAlert != null) {
+                task.nextAlertTime = scheduledTaskAlert.getLong("willAlertAt");
+            }
+            return task;
 
         } catch (JSONException e) {
             Log.e(TAG, "Exception in retrieveTaskFromJson()");
