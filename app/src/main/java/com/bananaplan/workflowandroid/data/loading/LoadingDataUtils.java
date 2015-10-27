@@ -41,14 +41,13 @@ public class LoadingDataUtils {
     public static final class WorkingDataUrl {
 
         //public static final String BASE_URL = "http://128.199.198.169:3000";
-        public static final String BASE_URL = "http://188.166.248.171:3000";
+        public static final String BASE_URL = "http://188.166.248.171:3000/";
         public static final String DEBUG_BASE_URL = "http://128.199.198.169:3000";
 
         public static final String WORKERS = BASE_URL + "/api/employees";
         public static final String CASES = BASE_URL + "/api/cases";
         public static final String FACTORIES = BASE_URL + "/api/groups";
         public static final String EQUIPMENTS = BASE_URL + "/api/resources";
-        public static final String WARNINGS = BASE_URL + "/api/exceptions";
         public static final String TASKS_BY_CASE = BASE_URL + "/api/tasks?caseId=";
         public static final String TASKS_BY_WORKER = BASE_URL + "/api/employee/tasks?employeeId=";
         public static final String WORKERS_BY_FACTORY = BASE_URL + "/api/group/employees?groupId=";
@@ -158,26 +157,6 @@ public class LoadingDataUtils {
             }
         } catch (JSONException e) {
             Log.e(TAG, "Exception in loadLeaveWorkers()");
-            e.printStackTrace();
-        }
-    }
-    /**
-     * Load all warnings data from server.
-     *
-     * @param context
-     */
-    public static void loadWarnings(Context context) {
-        try {
-            String warningListString =
-                    RestfulUtils.getJsonStringFromUrl(WorkingDataUrl.WARNINGS);
-            JSONArray warningJsonList = new JSONObject(warningListString).getJSONArray("result");
-
-            for (int i = 0 ; i < warningJsonList.length() ; i++) {
-                JSONObject warningJson = warningJsonList.getJSONObject(i);
-                addWarningToWorkingData(context, warningJson);
-            }
-        } catch (JSONException e) {
-            Log.e(TAG, "Exception in loadWarnings()");
             e.printStackTrace();
         }
     }
@@ -566,7 +545,6 @@ public class LoadingDataUtils {
             } else {
                 WorkingData.getInstance(context).addWarning(retrieveWarningFromJson(warningJson));
             }
-
         } catch (JSONException e) {
             Log.e(TAG, "Exception in addWarningToWorkingData()");
             e.printStackTrace();
@@ -861,12 +839,13 @@ public class LoadingDataUtils {
             Date endDate = getDateFromJson(taskJson, "endDate");
             Date assignDate = getDateFromJson(taskJson, "dispatchedDate");
 
-            List<String> warningIds = new ArrayList<>();
+            List<Warning> warnings = new ArrayList<>();
             for (int w = 0 ; w < warningJsonList.length() ; w++) {
                 JSONObject warningJson = warningJsonList.getJSONObject(w);
                 String warningId = warningJson.getString("_id");
 
-                warningIds.add(warningId);
+                addWarningToWorkingData(context, warningJson);
+                warnings.add(WorkingData.getInstance(context).getWarningById(warningId));
             }
 
             boolean isDelayed = getBooleanFromJson(taskJson, "delay");
@@ -883,11 +862,11 @@ public class LoadingDataUtils {
                     assignDate,
                     startDate,
                     endDate,
+                    warnings,
                     expectedTime,
                     startTime,
                     spentTime,
                     lastUpdatedTime,
-                    warningIds,
                     isDelayed);
 
         } catch (JSONException e) {
@@ -951,11 +930,10 @@ public class LoadingDataUtils {
     private static Warning retrieveWarningFromJson(JSONObject warningJson) {
         try {
             String id = warningJson.getString("_id");
-            String name = getStringFromJson(warningJson, "name");
+            String name = warningJson.getString("name");
             String caseId = warningJson.getString("caseId");
             String taskId = warningJson.getString("taskId");
             String workerId = warningJson.getString("employeeId");
-            String managerId = warningJson.getString("managerId");
 
             long spentTime = warningJson.getLong("spentTime");
             long lastUpdatedTime = warningJson.getLong("updatedAt");
@@ -968,7 +946,6 @@ public class LoadingDataUtils {
                     caseId,
                     taskId,
                     workerId,
-                    managerId,
                     status,
                     spentTime,
                     lastUpdatedTime);

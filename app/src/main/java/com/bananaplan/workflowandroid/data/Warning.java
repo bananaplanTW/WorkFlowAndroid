@@ -28,7 +28,6 @@ public class Warning extends IdData {
             String caseId,
             String taskId,
             String workerId,
-            String managerId,
             Status status,
             long spentTime,
             long lastUpdatedTime) {
@@ -37,7 +36,6 @@ public class Warning extends IdData {
         this.caseId = caseId;
         this.taskId = taskId;
         this.workerId = workerId;
-        this.managerId = managerId;
         this.status = status;
         this.spentTime = spentTime;
         this.lastUpdatedTime = lastUpdatedTime;
@@ -53,7 +51,6 @@ public class Warning extends IdData {
         this.caseId = warning.caseId;
         this.taskId = warning.taskId;
         this.workerId = warning.workerId;
-        this.managerId = warning.managerId;
         this.status = warning.status;
         this.spentTime = warning.spentTime;
         this.lastUpdatedTime = warning.lastUpdatedTime;

@@ -36,9 +36,7 @@ public class Task extends IdData {
     public long startTime = 0L;  // The starting time of this working section
     public long spentTime = 0L;
 
-    public List<String> warningIds = new ArrayList<>();
-    private List<Warning> warnings = new ArrayList<>();
-
+    public List<Warning> warnings = new ArrayList<>();
     public List<Task> subTaskIds = new ArrayList<>();
 
     public int errorCount;
@@ -61,11 +59,11 @@ public class Task extends IdData {
                 Date assignDate,
                 Date startDate,
                 Date endDate,
+                List<Warning> warnings,
                 long expectedTime,
                 long startTime,
                 long spentTime,
                 long lastUpdatedTime,
-                List<String> warningIds,
                 boolean isDelayed) {
         this.id = id;
         this.name = name;
@@ -79,8 +77,8 @@ public class Task extends IdData {
         this.assignDate = assignDate;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.warnings = warnings;
         this.lastUpdatedTime = lastUpdatedTime;
-        this.warningIds = warningIds;
         this.isDelayed = isDelayed;
 
         if (this.warnings == null) {
@@ -116,47 +114,13 @@ public class Task extends IdData {
         this.assignDate = task.assignDate;
         this.startDate = task.startDate;
         this.endDate = task.endDate;
+        this.warnings = task.warnings;
         this.lastUpdatedTime = task.lastUpdatedTime;
-        this.warningIds = task.warningIds;
         this.isDelayed = task.isDelayed;
     }
 
     public long getWorkingTime() {
         return Status.WIP.equals(status) ? System.currentTimeMillis()-startTime+spentTime : spentTime;
-    }
-
-    public void setWarnings(List<Warning> warnings) {
-        List<String> warningIds = new ArrayList<>();
-        for (Warning warning : warnings) {
-            warningIds.add(warning.id);
-        }
-
-        this.warningIds = warningIds;
-        this.warnings = warnings;
-    }
-
-    public void addWarning(Warning warning) {
-        if (!warningIds.contains(warning.id)) {
-            warningIds.add(warning.id);
-        }
-
-        if (!warnings.contains(warning)) {
-            warnings.add(warning);
-        }
-    }
-
-    public List<Warning> getWarnings() {
-        return warnings;
-    }
-
-    public void clearWarnings() {
-        warningIds.clear();
-        warnings.clear();
-    }
-
-    public void removeWarning(Warning warning) {
-        warningIds.remove(warning.id);
-        warnings.remove(warning);
     }
 
     public static Status convertStringToStatus(String status) {

@@ -53,7 +53,7 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         if (aCase != null) {
             ArrayList<Warning> warnings = new ArrayList<>();
             for (Task item : aCase.tasks) {
-                for (Warning warning : item.getWarnings()) {
+                for (Warning warning : item.warnings) {
                     warnings.add(warning);
                 }
             }
