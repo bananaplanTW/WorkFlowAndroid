@@ -229,6 +229,7 @@
     <!-- Status Fragment -->
     <string name="status_string_worker">員工 %s 的紀錄</string>
     <string name="status_string_task">工作項目 %s 的記錄</string>
+    <string name="status_no_wip_task_text">無目前工作</string>
 
     <!-- Main information -->
     <string name="main_information_worker_on">上班人數</string>

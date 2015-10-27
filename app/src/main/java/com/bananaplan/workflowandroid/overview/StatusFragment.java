@@ -104,6 +104,9 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
     private ListView mListView;
     private DataAdapter mAdapter;
 
+    private TextView mNoWipText;
+    private ViewGroup mStatusContent;
+
     private String mCurrentPhotoPath = null;
     private String mCurrentFilePath = null;
     private String mCommentText = null;
@@ -150,6 +153,9 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
             mContentShow = CONTENT_SHOW.TASK_STATUS;
         }
 
+        mNoWipText = (TextView) getView().findViewById(R.id.worker_ov_status_no_wip_task_text);
+        mStatusContent = (ViewGroup) getView().findViewById(R.id.worker_ov_status_content);
+
         mRecordEditText = (EditText) getActivity().findViewById(R.id.et_record);
         getActivity().findViewById(R.id.upload).setOnClickListener(this);
         getActivity().findViewById(R.id.record).setOnClickListener(this);
@@ -161,6 +167,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
         mScorerContainer = (LinearLayout) getActivity().findViewById(R.id.scorer_container);
         mScore = (TextView) getActivity().findViewById(R.id.score);
         onItemSelected(getSelectedWorker());
+
         String temp = null;
         switch (mContentShow) {
             case CONTENT_SHOW.WORKER_STATUS:
@@ -168,6 +175,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 temp = getString(R.string.status_string_worker, getSelectedWorker().name);
                 break;
             case CONTENT_SHOW.TASK_STATUS:
+                showContent(mWorker.hasWipTask());
                 mScorerContainer.setVisibility(View.GONE);
                 temp = getString(R.string.status_string_task,
                         getSelectedWorker().getWipTask() != null ? getSelectedWorker().getWipTask().name: "");
@@ -183,8 +191,19 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                 ((TextView) getActivity().findViewById(R.id.status_string)).setText(statusStringBuilder);
             }
         }
+
+
     }
 
+    private void showContent(boolean isShow) {
+        if (isShow) {
+            mNoWipText.setVisibility(View.GONE);
+            mStatusContent.setVisibility(View.VISIBLE);
+        } else {
+            mNoWipText.setVisibility(View.VISIBLE);
+            mStatusContent.setVisibility(View.GONE);
+        }
+    }
 
     private void setupTabHost() {
         mTabHost.setup();

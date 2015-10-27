@@ -222,6 +222,7 @@
     <dimen name="worker_status_ov_listview_item_download_height">35dp</dimen>
     <dimen name="worker_status_ov_listview_item_download_margin_left">405dp</dimen>
     <dimen name="worker_status_ov_listview_item_photo_margin_left">71dp</dimen>
+    <dimen name="worker_status_ov_no_wip_task_text_size">28dp</dimen>
     <dimen name="worker_status_ov_listview_item_photo_margin_top">48dp</dimen>
 
     <!-- Equipment ov -->

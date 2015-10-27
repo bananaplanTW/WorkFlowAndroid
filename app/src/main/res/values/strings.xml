@@ -240,6 +240,7 @@
     <!-- Status Fragment -->
     <string name="status_string_worker">Worker %s records</string>
     <string name="status_string_task">Task %s records</string>
+    <string name="status_no_wip_task_text">No WIP task</string>
 
     <!-- Main information -->
     <string name="main_information_board_0">0</string>
