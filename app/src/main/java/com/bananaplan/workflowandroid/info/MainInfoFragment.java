@@ -64,6 +64,21 @@ public class MainInfoFragment extends Fragment implements DataObserver {
 
     private class WarningListViewAdapter extends ArrayAdapter<Warning> {
 
+        private class ViewHolder {
+
+            TextView title;
+            TextView _case;
+            TextView task;
+            TextView manager;
+
+            public ViewHolder(View v) {
+                title = (TextView) v.findViewById(R.id.title);
+                _case = (TextView) v.findViewById(R.id.case_name);
+                task = (TextView) v.findViewById(R.id.task);
+                manager = (TextView) v.findViewById(R.id.manager);
+            }
+        }
+
         public WarningListViewAdapter(List<Warning> warnings) {
             super(getActivity(), 0, warnings);
         }
@@ -90,23 +105,9 @@ public class MainInfoFragment extends Fragment implements DataObserver {
                 Utils.setTaskItemWarningTextView(getActivity(), data.getTaskById(warning.taskId), holder.title, false);
                 holder._case.setText(data.getCaseById(data.getTaskById(warning.taskId).caseId).name);
                 holder.task.setText(data.getTaskById(warning.taskId).name);
-                holder.worker.setText(data.getWorkerById(data.getTaskById(warning.taskId).workerId).name);
+                holder.manager.setText(data.getManagerById(warning.managerId).name);
             }
             return convertView;
-        }
-
-        private class ViewHolder {
-            TextView title;
-            TextView _case;
-            TextView task;
-            TextView worker;
-
-            public ViewHolder(View v) {
-                title = (TextView) v.findViewById(R.id.title);
-                _case = (TextView) v.findViewById(R.id.case_name);
-                task = (TextView) v.findViewById(R.id.task);
-                worker = (TextView) v.findViewById(R.id.worker);
-            }
         }
     }
 
