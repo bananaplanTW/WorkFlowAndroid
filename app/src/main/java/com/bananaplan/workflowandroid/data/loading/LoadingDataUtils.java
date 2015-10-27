@@ -930,10 +930,11 @@ public class LoadingDataUtils {
     private static Warning retrieveWarningFromJson(JSONObject warningJson) {
         try {
             String id = warningJson.getString("_id");
-            String name = warningJson.getString("name");
+            String name = getStringFromJson(warningJson, "name");
             String caseId = warningJson.getString("caseId");
             String taskId = warningJson.getString("taskId");
             String workerId = warningJson.getString("employeeId");
+            String managerId = warningJson.getString("managerId");
 
             long spentTime = warningJson.getLong("spentTime");
             long lastUpdatedTime = warningJson.getLong("updatedAt");
@@ -946,6 +947,7 @@ public class LoadingDataUtils {
                     caseId,
                     taskId,
                     workerId,
+                    managerId,
                     status,
                     spentTime,
                     lastUpdatedTime);
