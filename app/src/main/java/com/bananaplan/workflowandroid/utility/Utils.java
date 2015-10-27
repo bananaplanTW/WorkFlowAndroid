@@ -227,7 +227,7 @@ public class Utils {
 
     public static void setTaskItemWarningTextView(final Activity activity, final Task item,
                                                   final TextView v, boolean hasClickListener) {
-        if (item.warnings.size() == 0) {
+        if (item.getWarnings().size() == 0) {
             v.setVisibility(View.GONE);
             return;
         }
@@ -236,14 +236,14 @@ public class Utils {
         int txtColor;
         Drawable background;
         int unSolvedCount = item.getUnSolvedWarningCount();
-        int solvedCount = item.warnings.size() - item.getUnSolvedWarningCount();
+        int solvedCount = item.getWarnings().size() - item.getUnSolvedWarningCount();
         if (unSolvedCount > 1) {
             displayTxt = activity.getResources().getString(R.string.overview_display_warning_txt, unSolvedCount);
         } else if (solvedCount > 1) {
             displayTxt = activity.getResources().getString(R.string.overview_display_warning_txt, solvedCount);
         } else {
             Warning tmp = null;
-            for (Warning warning : item.warnings) {
+            for (Warning warning : item.getWarnings()) {
                 if (tmp == null) {
                     tmp = warning;
                 } else {
@@ -264,13 +264,13 @@ public class Utils {
         v.setTextColor(txtColor);
         v.setText(displayTxt);
         v.setBackground(background);
-        if (hasClickListener && item.warnings.size() > 1) {
+        if (hasClickListener && item.getWarnings().size() > 1) {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     View view = activity.getLayoutInflater().inflate(R.layout.warning_list_container_layout, null);
                     LinearLayout root = (LinearLayout) view.findViewById(R.id.warning_list_container);
-                    for (Warning warning : item.warnings) {
+                    for (Warning warning : item.getWarnings()) {
                         TextView tv = (TextView) activity.getLayoutInflater().inflate(R.layout.warning_textview_layout, null);
                         setTaskItemWarningTextView(activity, warning, tv);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(

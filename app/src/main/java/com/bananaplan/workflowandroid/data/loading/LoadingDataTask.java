@@ -48,10 +48,12 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
                 loadCases();
                 loadFactories();
                 loadEquipments();
+                loadWarnings();
                 loadLeaveWorkersIn7Days();  // TODO: Need to load the data of leave workers separately.
                 putWorkerIdsIntoCases();
                 putTasksIntoWorkers();
                 putCasesIntoVendors();
+                putWarningsIntoTasks();
             } else {
                 isFailCausedByInternet = true;
                 cancel(true);
@@ -98,6 +100,10 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
      */
     private void loadEquipments () {
         LoadingDataUtils.loadEquipments(mContext);
+    }
+
+    private void loadWarnings() {
+        LoadingDataUtils.loadWarnings(mContext);
     }
 
     private void loadLeaveWorkersIn7Days() {
@@ -160,6 +166,17 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
                 if (WorkingData.getInstance(mContext).hasCase(caseId)) {
                     vendor.addCase(WorkingData.getInstance(mContext).getCaseById(caseId));
                 }
+            }
+        }
+    }
+
+    private void putWarningsIntoTasks() {
+        for (Task task : WorkingData.getInstance(mContext).getTasks()) {
+            // We need warning ids to find the corresponding warning data, so we don't use clearWarnings() here.
+            task.getWarnings().clear();
+
+            for (String warningId : task.warningIds) {
+                task.addWarning(WorkingData.getInstance(mContext).getWarningById(warningId));
             }
         }
     }

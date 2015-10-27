@@ -269,6 +269,9 @@ public final class WorkingData implements DataSubject {
     public List<Leave> getLeaves() {
         return new ArrayList<>(mLeavesMap.values());
     }
+    public List<Warning> getWarnings() {
+        return new ArrayList<>(mWarningsMap.values());
+    }
 
 
     public ArrayList<Task> getTasksByEquipment(Equipment equipment) {
@@ -484,10 +487,10 @@ public final class WorkingData implements DataSubject {
                     w2.managerId = getRandomManagerId();
                     w3.managerId = getRandomManagerId();
                     w4.managerId = getRandomManagerId();
-                    task.warnings.add(w1);
-                    task.warnings.add(w2);
-                    task.warnings.add(w3);
-                    task.warnings.add(w4);
+                    task.addWarning(w1);
+                    task.addWarning(w2);
+                    task.addWarning(w3);
+                    task.addWarning(w4);
                     aCase.tasks.add(task);
                     mTasksMap.put(task.id, task);
                     task.equipmentId = getRandomEquipmentId();

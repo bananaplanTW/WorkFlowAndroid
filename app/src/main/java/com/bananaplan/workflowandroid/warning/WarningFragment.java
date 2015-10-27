@@ -119,7 +119,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
     private void initWarningGroupsMap() {
         mWarningGroups = new HashMap<>();
         for (Task task : WorkingData.getInstance(getActivity()).getTasks()) {
-            for (Warning warning : task.warnings) {
+            for (Warning warning : task.getWarnings()) {
                 if (warning.status == Warning.Status.OPEN) {
                     if (!mWarningGroups.containsKey(warning.name)) {
                         mWarningGroups.put(warning.name, 0);
@@ -417,7 +417,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
         // update map value
         if (mSelectedCase != null) {
             for (Task task : mSelectedCase.tasks) {
-                for (Warning warning : task.warnings) {
+                for (Warning warning : task.getWarnings()) {
                     if (warning.status != null && warning.status == Warning.Status.OPEN) {
                         warnings.add(warning);
                         int count = mWarningGroups.get(warning.name) + 1;
