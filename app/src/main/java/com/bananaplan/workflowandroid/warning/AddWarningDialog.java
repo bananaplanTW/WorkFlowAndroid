@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Manager;
@@ -22,6 +23,7 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
 
     private Spinner mWarningListSpinner;
     private Spinner mManagerListSpinner;
+    private TextView mCreateWarningButton;
 
     private ArrayList<Warning> mWarningListData;
     private TextSpinnerAdapter<Warning> mWarningListAdapter;
@@ -39,15 +41,19 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
 
     private void initialize () {
         findViews();
+        setupViews();
         setupWarningList();
         setupMangerList();
     }
     private void findViews () {
         mWarningListSpinner = (Spinner) findViewById(R.id.warning_list);
         mManagerListSpinner = (Spinner) findViewById(R.id.manager_list);
+        mCreateWarningButton = (TextView) findViewById(R.id.create_warning);
+    }
+    private void setupViews () {
+        mCreateWarningButton.setOnClickListener(this);
     }
     private void setupWarningList () {
-
         mWarningListData = new ArrayList<>();
         mWarningListData.add(new Warning("1234", "過切"));
         mWarningListData.add(new Warning("12334", "過銷"));
@@ -59,7 +65,6 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
         mWarningListSpinner.setOnItemSelectedListener(this);
     }
     private void setupMangerList () {
-
         mManagerListData = WorkingData.getInstance(getApplicationContext()).getManagers();
 
         mManagerListAdapter = new TextSpinnerAdapter<>(getApplicationContext(), R.layout.text_spinner_item, mManagerListData);
@@ -71,24 +76,22 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.create_warning:
+                Log.d("DAZZZZ", "going to create warning");
+                break;
+        }
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.d("DAZZZZ", "onitemseelcted: " + adapterView.getId());
         switch (adapterView.getId()) {
             case R.id.warning_list:
-                Log.d("DAZZZZ", "onitemseelcted: " + mWarningListData.get(i).name);
                 break;
             case R.id.manager_list:
-                Log.d("DAZZZZ", "onitemseelcted: " + mManagerListData.get(i).name);
                 break;
         }
-
-
-
     }
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
