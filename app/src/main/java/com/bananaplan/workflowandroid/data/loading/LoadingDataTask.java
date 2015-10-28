@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.bananaplan.workflowandroid.data.Case;
-import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.Worker;
@@ -47,6 +46,7 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
             if (RestfulUtils.isConnectToInternet(mContext)) {
                 loadCases();
                 loadFactories();
+                loadEmployees();
                 loadEquipments();
                 loadLeaveWorkersIn7Days();  // TODO: Need to load the data of leave workers separately.
                 putWorkerIdsIntoCases();
@@ -88,9 +88,11 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
      */
     private void loadFactories() {
         LoadingDataUtils.loadFactories(mContext);
-        for (Factory factory : WorkingData.getInstance(mContext).getFactories()) {
-            LoadingDataUtils.loadWorkersByFactory(mContext, factory.id);
-        }
+    }
+
+
+    private void loadEmployees() {
+        LoadingDataUtils.loadEmployees(mContext);
     }
 
     /**
