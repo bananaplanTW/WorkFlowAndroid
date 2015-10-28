@@ -35,7 +35,7 @@ import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOvervi
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.utility.data.BarChartData;
 import com.bananaplan.workflowandroid.data.Task;
-import com.bananaplan.workflowandroid.data.Warning;
+import com.bananaplan.workflowandroid.data.TaskWarning;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -228,7 +228,7 @@ public class Utils {
 
     public static void setTaskItemWarningTextView(final Activity activity, final Task item,
                                                   final TextView v, boolean hasClickListener) {
-        if (item.warnings.size() == 0) {
+        if (item.taskWarnings.size() == 0) {
             v.setVisibility(View.GONE);
             return;
         }
@@ -237,19 +237,19 @@ public class Utils {
         int txtColor;
         Drawable background;
         int unSolvedCount = item.getUnSolvedWarningCount();
-        int solvedCount = item.warnings.size() - item.getUnSolvedWarningCount();
+        int solvedCount = item.taskWarnings.size() - item.getUnSolvedWarningCount();
         if (unSolvedCount > 1) {
             displayTxt = activity.getResources().getString(R.string.overview_display_warning_txt, unSolvedCount);
         } else if (solvedCount > 1) {
             displayTxt = activity.getResources().getString(R.string.overview_display_warning_txt, solvedCount);
         } else {
-            Warning tmp = null;
-            for (Warning warning : item.warnings) {
+            TaskWarning tmp = null;
+            for (TaskWarning taskWarning : item.taskWarnings) {
                 if (tmp == null) {
-                    tmp = warning;
+                    tmp = taskWarning;
                 } else {
-                    if (tmp.status == Warning.Status.CLOSE && warning.status == Warning.Status.OPEN) {
-                        tmp = warning;
+                    if (tmp.status == TaskWarning.Status.CLOSE && taskWarning.status == TaskWarning.Status.OPEN) {
+                        tmp = taskWarning;
                     }
                 }
                 displayTxt = tmp.name;
@@ -265,15 +265,15 @@ public class Utils {
         v.setTextColor(txtColor);
         v.setText(displayTxt);
         v.setBackground(background);
-        if (hasClickListener && item.warnings.size() > 1) {
+        if (hasClickListener && item.taskWarnings.size() > 1) {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     View view = activity.getLayoutInflater().inflate(R.layout.warning_list_container_layout, null);
                     LinearLayout root = (LinearLayout) view.findViewById(R.id.warning_list_container);
-                    for (Warning warning : item.warnings) {
+                    for (TaskWarning taskWarning : item.taskWarnings) {
                         TextView tv = (TextView) activity.getLayoutInflater().inflate(R.layout.warning_textview_layout, null);
-                        setTaskItemWarningTextView(activity, warning, tv);
+                        setTaskItemWarningTextView(activity, taskWarning, tv);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -295,9 +295,9 @@ public class Utils {
         }
     }
 
-    public static void setTaskItemWarningTextView(final Activity activity, final Warning warning, final TextView v) {
-        v.setText(warning.name);
-        if (warning.status == Warning.Status.OPEN) {
+    public static void setTaskItemWarningTextView(final Activity activity, final TaskWarning taskWarning, final TextView v) {
+        v.setText(taskWarning.name);
+        if (taskWarning.status == TaskWarning.Status.OPEN) {
             v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_red, null));
             v.setTextColor(activity.getResources().getColor(R.color.red));
         } else {

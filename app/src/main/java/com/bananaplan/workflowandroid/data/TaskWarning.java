@@ -5,7 +5,7 @@ package com.bananaplan.workflowandroid.data;
  * @author Danny Lin
  * @since 2015/7/30.
  */
-public class Warning extends IdData {
+public class TaskWarning extends IdData {
 
     public enum Status {
         OPEN, CLOSE
@@ -22,7 +22,7 @@ public class Warning extends IdData {
     public Status status = Status.OPEN;
 
 
-    public Warning(
+    public TaskWarning(
             String id,
             String name,
             String caseId,
@@ -43,20 +43,20 @@ public class Warning extends IdData {
         this.lastUpdatedTime = lastUpdatedTime;
     }
 
-    public Warning(String name, Status status) {
+    public TaskWarning(String name, Status status) {
         this.name = name;
         this.status = status;
     }
 
-    public void update(Warning warning) {
-        this.name = warning.name;
-        this.caseId = warning.caseId;
-        this.taskId = warning.taskId;
-        this.workerId = warning.workerId;
-        this.managerId = warning.managerId;
-        this.status = warning.status;
-        this.spentTime = warning.spentTime;
-        this.lastUpdatedTime = warning.lastUpdatedTime;
+    public void update(TaskWarning taskWarning) {
+        this.name = taskWarning.name;
+        this.caseId = taskWarning.caseId;
+        this.taskId = taskWarning.taskId;
+        this.workerId = taskWarning.workerId;
+        this.managerId = taskWarning.managerId;
+        this.status = taskWarning.status;
+        this.spentTime = taskWarning.spentTime;
+        this.lastUpdatedTime = taskWarning.lastUpdatedTime;
     }
 
     public static Status convertStringToStatus(String status) {

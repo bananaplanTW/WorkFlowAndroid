@@ -17,7 +17,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Vendor;
-import com.bananaplan.workflowandroid.data.Warning;
+import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
@@ -58,11 +58,11 @@ public class MainInfoFragment extends Fragment implements DataObserver {
     private int mWarningCount = 0;
 
     private List<Task> mDelayTasks = new ArrayList<>();
-    private List<Warning> mWarnings = new ArrayList<>();
+    private List<TaskWarning> mTaskWarnings = new ArrayList<>();
     private List<Task> mReviewTasks = new ArrayList<>();
 
 
-    private class WarningListViewAdapter extends ArrayAdapter<Warning> {
+    private class WarningListViewAdapter extends ArrayAdapter<TaskWarning> {
 
         private class ViewHolder {
 
@@ -79,11 +79,11 @@ public class MainInfoFragment extends Fragment implements DataObserver {
             }
         }
 
-        public WarningListViewAdapter(List<Warning> warnings) {
-            super(getActivity(), 0, warnings);
+        public WarningListViewAdapter(List<TaskWarning> taskWarnings) {
+            super(getActivity(), 0, taskWarnings);
         }
 
-        public void updateData(List<Warning> data) {
+        public void updateData(List<TaskWarning> data) {
             clear();
             addAll(data);
             notifyDataSetChanged();
@@ -100,12 +100,12 @@ public class MainInfoFragment extends Fragment implements DataObserver {
                 holder = (ViewHolder) convertView.getTag();
             }
             WorkingData data = WorkingData.getInstance(getActivity());
-            Warning warning = getItem(position);
-            if (warning != null) {
-                Utils.setTaskItemWarningTextView(getActivity(), data.getTaskById(warning.taskId), holder.title, false);
-                holder._case.setText(data.getCaseById(data.getTaskById(warning.taskId).caseId).name);
-                holder.task.setText(data.getTaskById(warning.taskId).name);
-                holder.manager.setText(data.getManagerById(warning.managerId).name);
+            TaskWarning taskWarning = getItem(position);
+            if (taskWarning != null) {
+                Utils.setTaskItemWarningTextView(getActivity(), data.getTaskById(taskWarning.taskId), holder.title, false);
+                holder._case.setText(data.getCaseById(data.getTaskById(taskWarning.taskId).caseId).name);
+                holder.task.setText(data.getTaskById(taskWarning.taskId).name);
+                holder.manager.setText(data.getManagerById(taskWarning.managerId).name);
             }
             return convertView;
         }
@@ -162,8 +162,8 @@ public class MainInfoFragment extends Fragment implements DataObserver {
                 mReviewTasks.add(task);
             }
 
-            for (Warning warning : task.warnings) {
-                if (warning.status == Warning.Status.OPEN) {
+            for (TaskWarning taskWarning : task.taskWarnings) {
+                if (taskWarning.status == TaskWarning.Status.OPEN) {
                     mWarningCount++;
                 }
             }
@@ -182,9 +182,9 @@ public class MainInfoFragment extends Fragment implements DataObserver {
         for (Vendor vendor : WorkingData.getInstance(mContext).getVendors()) {
             for (Case _case : vendor.getCases()) {
                 for (Task task : _case.tasks) {
-                    for (Warning warning : task.warnings) {
-                        if (warning.status == Warning.Status.OPEN) {
-                            mWarnings.add(warning);
+                    for (TaskWarning taskWarning : task.taskWarnings) {
+                        if (taskWarning.status == TaskWarning.Status.OPEN) {
+                            mTaskWarnings.add(taskWarning);
                         }
                     }
                 }
@@ -208,7 +208,7 @@ public class MainInfoFragment extends Fragment implements DataObserver {
     }
 
     private void setupWarningList() {
-        mWarningAdapter = new WarningListViewAdapter(mWarnings);
+        mWarningAdapter = new WarningListViewAdapter(mTaskWarnings);
         mWarningTasks.setHeaderDividersEnabled(true);
         //mWarningTasks.addHeaderView(LayoutInflater.from(getActivity())
         //        .inflate(R.layout.main_information_list_warning_title, null), null, false);
@@ -248,7 +248,7 @@ public class MainInfoFragment extends Fragment implements DataObserver {
         mWorkerOvertimeCount = 0;
         mWarningCount = 0;
         mDelayTasks.clear();
-        mWarnings.clear();
+        mTaskWarnings.clear();
         mReviewTasks.clear();
     }
 }

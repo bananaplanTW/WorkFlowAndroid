@@ -50,6 +50,9 @@
             android:name=".management.ManagementDialog"
             android:theme="@style/AppDialogTheme.NoActionBar" >
         </activity>
+        <activity android:name=".warning.AddWarningDialog"
+            android:theme="@style/AppDialogTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".detail.DetailedWorkerActivity"
             android:theme="@style/PopupActivityTheme" >

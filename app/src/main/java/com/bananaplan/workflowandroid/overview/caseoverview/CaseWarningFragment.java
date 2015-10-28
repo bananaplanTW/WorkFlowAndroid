@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
-import com.bananaplan.workflowandroid.data.Warning;
+import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
@@ -25,7 +25,6 @@ import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Ben on 2015/8/23.
@@ -49,22 +48,22 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
         onItemSelected(getSelectedTaskCase());
     }
 
-    private ArrayList<Warning> getWarnings(Case aCase) {
+    private ArrayList<TaskWarning> getWarnings(Case aCase) {
         if (aCase != null) {
-            ArrayList<Warning> warnings = new ArrayList<>();
+            ArrayList<TaskWarning> taskWarnings = new ArrayList<>();
             for (Task item : aCase.tasks) {
-                for (Warning warning : item.warnings) {
-                    warnings.add(warning);
+                for (TaskWarning taskWarning : item.taskWarnings) {
+                    taskWarnings.add(taskWarning);
                 }
             }
-            return warnings;
+            return taskWarnings;
         }
         return new ArrayList<>();
     }
 
-    private class WarningListViewAdapter extends ArrayAdapter<Warning> {
-        public WarningListViewAdapter(ArrayList<Warning> warnings) {
-            super(getActivity(), 0, warnings);
+    private class WarningListViewAdapter extends ArrayAdapter<TaskWarning> {
+        public WarningListViewAdapter(ArrayList<TaskWarning> taskWarnings) {
+            super(getActivity(), 0, taskWarnings);
         }
 
         @Override
@@ -84,20 +83,20 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
             } else {
                 convertView.setBackgroundColor(Color.WHITE);
             }
-            Warning warning = getItem(position);
-            Task item = WorkingData.getInstance(getActivity()).getTaskById(warning.taskId);
+            TaskWarning taskWarning = getItem(position);
+            Task item = WorkingData.getInstance(getActivity()).getTaskById(taskWarning.taskId);
             Worker worker = WorkingData.getInstance(getActivity()).getWorkerById(item.workerId);
-            Utils.setTaskItemWarningTextView(getActivity(), warning, holder.warning);
+            Utils.setTaskItemWarningTextView(getActivity(), taskWarning, holder.warning);
             holder.title.setText(item.name);
             holder.workerName.setText(worker.name);
             holder.workerAvatar.setImageDrawable(worker.getAvator());
-            if (!TextUtils.isEmpty(warning.managerId)) {
-                holder.handleMgrName.setText(WorkingData.getInstance(getActivity()).getManagerById(warning.managerId).name);
+            if (!TextUtils.isEmpty(taskWarning.managerId)) {
+                holder.handleMgrName.setText(WorkingData.getInstance(getActivity()).getManagerById(taskWarning.managerId).name);
             } else {
                 holder.handleMgrName.setText("");
             }
-            holder.time.setText(Utils.milliSeconds2MinsSecs(warning.spentTime));
-            holder.description.setText(TextUtils.isEmpty(warning.description) ? "" : warning.description);
+            holder.time.setText(Utils.milliSeconds2MinsSecs(taskWarning.spentTime));
+            holder.description.setText(TextUtils.isEmpty(taskWarning.description) ? "" : taskWarning.description);
             return convertView;
         }
     }
@@ -181,13 +180,13 @@ public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragm
     public void onItemSelected(Object item) {
         if (item == null) return;
         Case aCase = (Case) item;
-        ArrayList<Warning> warnings = getWarnings(aCase);
+        ArrayList<TaskWarning> taskWarnings = getWarnings(aCase);
         if (mWarningAdapter == null) {
-            mWarningAdapter = new WarningListViewAdapter(warnings);
+            mWarningAdapter = new WarningListViewAdapter(taskWarnings);
             mWarningListView.setAdapter(mWarningAdapter);
         } else {
             mWarningAdapter.clear();
-            mWarningAdapter.addAll(warnings);
+            mWarningAdapter.addAll(taskWarnings);
         }
         mWarningAdapter.notifyDataSetChanged();
         if (mWarningAdapter != null && mWarningAdapter.getCount() > 0) {

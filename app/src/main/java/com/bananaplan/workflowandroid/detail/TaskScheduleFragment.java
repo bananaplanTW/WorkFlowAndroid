@@ -1,10 +1,12 @@
 package com.bananaplan.workflowandroid.detail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.worker.actions.CompleteTaskForWorkerCommand;
 import com.bananaplan.workflowandroid.utility.Utils;
+import com.bananaplan.workflowandroid.warning.AddWarningDialog;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
@@ -378,6 +381,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                 }
                 break;
             case R.id.add_warning_button:
+                startActivity(new Intent(mContext, AddWarningDialog.class));
                 break;
             case R.id.manage_warning_button:
                 break;
