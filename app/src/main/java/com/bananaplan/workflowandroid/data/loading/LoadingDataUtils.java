@@ -56,6 +56,8 @@ public class LoadingDataUtils {
         public static final String LEAVE_WORKERS = BASE_URL + "/api/leaves?startDate=%s&endDate=%s";
 
         public static final class EndPoints {
+            public static final String EMPLOYEES = "/api/employees";
+
             public static final String WORKER_ACTIVITIES = "/api/employee/activities";
             public static final String TASK_ACTIVITIES = "/api/task/activities";
             public static final String DISPATCH = "/api/dispatch";
@@ -210,6 +212,36 @@ public class LoadingDataUtils {
 
             WorkingData.getInstance(context).getFactoryById(factoryId).workers = newWorkers;
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void loadEmployees(Context context) {
+        try {
+            String urlString = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.EMPLOYEES, null);
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String employeeJsonString = RestfulUtils.restfulGetRequest(urlString, headers);
+            JSONArray employeeJsonList = new JSONObject(employeeJsonString).getJSONArray("result");
+
+            WorkingData instance = WorkingData.getInstance(context);
+
+            for (int i = 0 ; i < employeeJsonList.length() ; i++) {
+                JSONObject workerJson = employeeJsonList.getJSONObject(i);
+                String workerId = workerJson.getString("_id");
+                String role = workerJson.getString("role");
+
+                if (role.equals("operator")) {
+                    addWorkerToWorkingData(context, workerJson);
+                    // [TODO] should move worker list out from factory, retrieve workers from WorkingData by adding a method:
+                    // getWorkersByFactoryId
+                    instance.getFactoryById(workerJson.getString("groupId")).workers.add(instance.getWorkerById(workerId));
+                } else {
+                    addManagerToWorkingData(context, workerJson);
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
