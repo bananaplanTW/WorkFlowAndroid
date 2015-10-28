@@ -72,6 +72,8 @@ public final class WorkingData implements DataSubject {
     private HashMap<String, TaskWarning> mWarningsMap = new HashMap<>();
     private HashMap<String, Leave> mLeavesMap = new HashMap<>();
 
+    private ArrayList<Warning> mWarningList = new ArrayList<>();
+
     // TODO: retrieve data from server
     public int hourWorkingOn = 8;
     public int minWorkingOn = 0;
