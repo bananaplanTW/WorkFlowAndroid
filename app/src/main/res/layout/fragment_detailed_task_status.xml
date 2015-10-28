@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/worker_status_ov_top_pane_margin_bottom"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/worker_status_ov_top_pane_padding_left"
-        android:paddingRight="@dimen/worker_status_ov_top_pane_padding_right"
+        android:paddingLeft="@dimen/detailed_task_log_padding_left_right"
+        android:paddingRight="@dimen/detailed_task_log_padding_left_right"
         android:paddingTop="@dimen/worker_status_ov_top_pane_padding_top">
 
         <TextView

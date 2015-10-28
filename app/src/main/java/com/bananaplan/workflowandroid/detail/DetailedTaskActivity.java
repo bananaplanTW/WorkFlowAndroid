@@ -12,9 +12,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.overview.StatusFragment;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 
 public class DetailedTaskActivity extends AppCompatActivity {
@@ -29,6 +30,13 @@ public class DetailedTaskActivity extends AppCompatActivity {
 
     private TextView mDetailedTaskName;
     private TextView mDetailedCaseName;
+
+    private TextView mDetailedInformationCaseName;
+    private TextView mDetailedInformationTaskName;
+    private TextView mDetailedInformaationExpectedTime;
+    private TextView mDetailedInformationSpentTime;
+    private TextView mDetailedInformationEquipment;
+    private TextView mDetailedInformationWarning;
 
     private Task mTask;
 
@@ -51,6 +59,12 @@ public class DetailedTaskActivity extends AppCompatActivity {
     private void findViews() {
         mDetailedTaskName = (TextView) findViewById(R.id.detailed_task_name);
         mDetailedCaseName = (TextView) findViewById(R.id.detailed_case_name);
+        mDetailedInformationCaseName = (TextView) findViewById(R.id.detailed_information_case_name);
+        mDetailedInformationTaskName = (TextView) findViewById(R.id.detailed_information_task_name);
+        mDetailedInformaationExpectedTime = (TextView) findViewById(R.id.detailed_information_expected_time);
+        mDetailedInformationSpentTime = (TextView) findViewById(R.id.detailed_information_spent_time);
+        mDetailedInformationEquipment = (TextView) findViewById(R.id.detailed_information_equipment);
+        mDetailedInformationWarning = (TextView) findViewById(R.id.detailed_information_warning);
     }
 
     private void setupActionBar() {
@@ -65,8 +79,19 @@ public class DetailedTaskActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        mDetailedTaskName.setText(mTask.name);
-        mDetailedCaseName.setText(WorkingData.getInstance(this).getCaseById(mTask.caseId).name);
+        String taskName = mTask.name;
+        String caseName = WorkingData.getInstance(this).getCaseById(mTask.caseId).name;
+        Equipment equipment = WorkingData.getInstance(this).getEquipmentById(mTask.equipmentId);
+
+        mDetailedTaskName.setText(taskName);
+        mDetailedCaseName.setText(caseName);
+        mDetailedInformationCaseName.setText(caseName);
+        mDetailedInformationTaskName.setText(taskName);
+        mDetailedInformaationExpectedTime.setText(Utils.millisecondsToTimeString(mTask.expectedTime));
+        mDetailedInformationSpentTime.setText(Utils.millisecondsToTimeString(mTask.spentTime));
+        mDetailedInformationEquipment.setText(equipment == null ?
+                getString(R.string.task_card_no_equipment) : equipment.name);
+        Utils.setTaskItemWarningTextView(this, mTask, mDetailedInformationWarning, true);
     }
 
     private void setupTaskLog() {

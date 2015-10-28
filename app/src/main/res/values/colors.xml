@@ -132,6 +132,8 @@
     <!-- Detailed task -->
     <color name="detailed_task_actionbar_background_color">#FF4A90E2</color>
     <color name="detailed_task_actionbar_text_color">@android:color/white</color>
+    <color name="detailed_task_information_stroke_color">#FFD8D8D8</color>
+    <color name="detailed_task_information_text_color">@android:color/black</color>
 
     <!-- Main information -->
     <color name="main_information_background_color">#FFEEEEEE</color>
