@@ -1,12 +1,12 @@
 package com.bananaplan.workflowandroid.detail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +37,8 @@ import java.util.List;
  * @since 2015/9/21.
  */
 public class TaskScheduleFragment extends Fragment implements View.OnClickListener {
+
+    private static final int CREATE_WARNING = 10001;
 
     private Context mContext;
 
@@ -384,7 +386,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                 if (mWorker.hasWipTask()) {
                     Intent intent = new Intent(mContext, AddWarningDialog.class);
                     intent.putExtra(AddWarningDialog.EXTRA_TASK_ID, mWorker.getWipTask().id);
-                    startActivity(intent);
+                    startActivityForResult(intent, CREATE_WARNING);
                 }
                 break;
             case R.id.manage_warning_button:
@@ -393,6 +395,30 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                 if (mAdapter == null) return;
                 mAdapter.setDivEnable(!mAdapter.isDivEnable());
                 mListView.setDragEnabled(!mAdapter.isDivEnable());
+                break;
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CREATE_WARNING:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (mWorker.hasScheduledTasks()) {
+                        Task task = mWorker.getScheduledTasks().get(0);
+                        mWorker.setWipTask(task);
+                        mWorker.removeScheduleTask(task);
+                    } else {
+                        mWorker.status = Worker.Status.PENDING;
+                        mWorker.setWipTask(null);
+                    }
+                    setupCurrentTask();
+                    mAdapter.updateData((mWorker.getScheduledTasks()));
+                }
+                break;
+            default:
                 break;
         }
     }
