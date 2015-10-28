@@ -258,7 +258,12 @@ public class LoadingDataUtils {
                     addWorkerToWorkingData(context, workerJson);
                     // [TODO] should move worker list out from factory, retrieve workers from WorkingData by adding a method:
                     // getWorkersByFactoryId
-                    instance.getFactoryById(workerJson.getString("groupId")).workers.add(instance.getWorkerById(workerId));
+
+                    Factory factory = instance.getFactoryById(workerJson.getString("groupId"));
+                    Worker worker = instance.getWorkerById(workerId);
+                    if (!factory.workers.contains(worker)) {
+                        factory.workers.add(worker);
+                    }
                 } else {
                     addManagerToWorkingData(context, workerJson);
                 }
