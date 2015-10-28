@@ -69,8 +69,10 @@ public final class WorkingData implements DataSubject {
     private HashMap<String, Equipment> mEquipmentsMap = new HashMap<>();
     private HashMap<String, Factory> mFactoriesMap = new HashMap<>();
     private HashMap<String, Tag> mTagsMap = new HashMap<>();
-    private HashMap<String, TaskWarning> mWarningsMap = new HashMap<>();
+    private HashMap<String, TaskWarning> mTaskWarningsMap = new HashMap<>();
     private HashMap<String, Leave> mLeavesMap = new HashMap<>();
+
+    private HashMap<String, Warning> mWarningList = new HashMap<>();
 
     // TODO: retrieve data from server
     public int hourWorkingOn = 8;
@@ -167,9 +169,9 @@ public final class WorkingData implements DataSubject {
         if (worker == null) return;
         mWorkersMap.put(worker.id, worker);
     }
-    public void addWarning(TaskWarning taskWarning) {
+    public void addTaskWarning(TaskWarning taskWarning) {
         if (taskWarning == null) return;
-        mWarningsMap.put(taskWarning.id, taskWarning);
+        mTaskWarningsMap.put(taskWarning.id, taskWarning);
     }
     public void addEquipment(Equipment equipment) {
         if (equipment == null) return;
@@ -178,6 +180,10 @@ public final class WorkingData implements DataSubject {
     public void addLeave(Leave leave) {
         if (leave == null) return;
         mLeavesMap.put(leave.id, leave);
+    }
+    public void addWarning(Warning warning) {
+        if (warning == null) return;
+        mWarningList.put(warning.id, warning);
     }
 
 
@@ -202,8 +208,8 @@ public final class WorkingData implements DataSubject {
     public void updateWorker(String workerId, Worker updatedWorker) {
         getWorkerById(workerId).update(updatedWorker);
     }
-    public void updateWarning(String warningId, TaskWarning updatedTaskWarning) {
-        getWarningById(warningId).update(updatedTaskWarning);
+    public void updateTaskWarning(String warningId, TaskWarning updatedTaskWarning) {
+        getTaskWarningById(warningId).update(updatedTaskWarning);
     }
     public void updateEquipment(String equipmentId, Equipment updatedEquipment) {
         getEquipmentById(equipmentId).update(updatedEquipment);
@@ -234,8 +240,8 @@ public final class WorkingData implements DataSubject {
     public boolean hasTask(String taskId) {
         return mTasksMap.containsKey(taskId);
     }
-    public boolean hasWarning(String warningId) {
-        return mWarningsMap.containsKey(warningId);
+    public boolean hasTaskWarning(String warningId) {
+        return mTaskWarningsMap.containsKey(warningId);
     }
     public boolean hasEquipment(String equipmentId) {
         return mEquipmentsMap.containsKey(equipmentId);
@@ -268,6 +274,9 @@ public final class WorkingData implements DataSubject {
     }
     public List<Leave> getLeaves() {
         return new ArrayList<>(mLeavesMap.values());
+    }
+    public ArrayList<Warning> getWarnings() {
+        return new ArrayList<>(mWarningList.values());
     }
 
 
@@ -314,8 +323,8 @@ public final class WorkingData implements DataSubject {
     public Tag getTagById(String tagId) {
         return mTagsMap.get(tagId);
     }
-    public TaskWarning getWarningById(String warningId) {
-        return mWarningsMap.get(warningId);
+    public TaskWarning getTaskWarningById(String warningId) {
+        return mTaskWarningsMap.get(warningId);
     }
     public Leave getLeaveById(String leaveId) {
         return mLeavesMap.get(leaveId);

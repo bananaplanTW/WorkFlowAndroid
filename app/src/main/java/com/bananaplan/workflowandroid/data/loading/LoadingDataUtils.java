@@ -15,6 +15,7 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.CaseTimeCard;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.TaskWarning;
+import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkerTimeCard;
 import com.bananaplan.workflowandroid.data.WorkingData;
@@ -150,6 +151,31 @@ public class LoadingDataUtils {
             for (int i = 0 ; i < equipmentJsonList.length() ; i++) {
                 JSONObject equipmentJson = equipmentJsonList.getJSONObject(i);
                 addEquipmentToWorkingData(context, equipmentJson);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in loadFactories()");
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Load all warning data from server
+     *
+     * @param context
+     */
+    public static void loadWarnings(Context context) {
+        try {
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String urlString = URLUtils.buildURLString(WorkingDataUrl.BASE_URL, WorkingDataUrl.EndPoints.WARNINGS, null);
+
+            String resourceJsonListString = RestfulUtils.restfulGetRequest(urlString, headers);
+            JSONArray warningJsonList = new JSONObject(resourceJsonListString).getJSONArray("result");
+
+            for (int i = 0 ; i < warningJsonList.length() ; i++) {
+                JSONObject warningJson = warningJsonList.getJSONObject(i);
+                addWarningToWorkingData(context, warningJson);
             }
         } catch (JSONException e) {
             Log.e(TAG, "Exception in loadFactories()");
@@ -608,24 +634,24 @@ public class LoadingDataUtils {
             e.printStackTrace();
         }
     }
-    private static void addWarningToWorkingData(Context context, JSONObject warningJson) {
+    private static void addTaskWarningToWorkingData(Context context, JSONObject warningJson) {
         try {
             String warningId = warningJson.getString("_id");
             long lastUpdatedTime = warningJson.getLong("updatedAt");
-            boolean workingDataHasWarning = WorkingData.getInstance(context).hasWarning(warningId);
+            boolean workingDataHasWarning = WorkingData.getInstance(context).hasTaskWarning(warningId);
 
             if (workingDataHasWarning &&
-                    WorkingData.getInstance(context).getWarningById(warningId).lastUpdatedTime >= lastUpdatedTime) {
+                    WorkingData.getInstance(context).getTaskWarningById(warningId).lastUpdatedTime >= lastUpdatedTime) {
                 return;
             }
 
             if (workingDataHasWarning) {
-                WorkingData.getInstance(context).updateWarning(warningId, retrieveWarningFromJson(warningJson));
+                WorkingData.getInstance(context).updateTaskWarning(warningId, retrieveTaskWarningFromJson(warningJson));
             } else {
-                WorkingData.getInstance(context).addWarning(retrieveWarningFromJson(warningJson));
+                WorkingData.getInstance(context).addTaskWarning(retrieveTaskWarningFromJson(warningJson));
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Exception in addWarningToWorkingData()");
+            Log.e(TAG, "Exception in addTaskWarningToWorkingData()");
             e.printStackTrace();
         }
     }
@@ -670,6 +696,10 @@ public class LoadingDataUtils {
             Log.e(TAG, "Exception in addEquipmentToWorkingData()");
             e.printStackTrace();
         }
+    }
+
+    private static void addWarningToWorkingData(Context context, JSONObject warningJson) {
+        WorkingData.getInstance(context).addWarning(retrieveWarningFromJson(warningJson));
     }
     private static void addLeaveWorkerToWorkingData(Context context, JSONObject leaveJson) {
         try {
@@ -923,8 +953,8 @@ public class LoadingDataUtils {
                 JSONObject warningJson = warningJsonList.getJSONObject(w);
                 String warningId = warningJson.getString("_id");
 
-                addWarningToWorkingData(context, warningJson);
-                taskWarnings.add(WorkingData.getInstance(context).getWarningById(warningId));
+                addTaskWarningToWorkingData(context, warningJson);
+                taskWarnings.add(WorkingData.getInstance(context).getTaskWarningById(warningId));
             }
 
             boolean isDelayed = getBooleanFromJson(taskJson, "delay");
@@ -1012,7 +1042,7 @@ public class LoadingDataUtils {
 
         return null;
     }
-    private static TaskWarning retrieveWarningFromJson(JSONObject warningJson) {
+    private static TaskWarning retrieveTaskWarningFromJson(JSONObject warningJson) {
         try {
             String id = warningJson.getString("_id");
             String name = getStringFromJson(warningJson, "name");
@@ -1095,6 +1125,19 @@ public class LoadingDataUtils {
 
         } catch (JSONException e) {
             Log.e(TAG, "Exception in retrieveLeaveFromJson()");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    private static Warning retrieveWarningFromJson(JSONObject warningJson) {
+        try {
+            String id = warningJson.getString("_id");
+            String name = warningJson.getString("name");
+
+            return new Warning(id, name);
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in retrieveWarningFromJson()");
             e.printStackTrace();
         }
 
