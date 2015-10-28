@@ -160,6 +160,9 @@
         <item name="android:textColor">@color/black1</item>
         <item name="android:background">@drawable/gray_button_background</item>
     </style>
+    <style name="ButtonStyle.Red">
+        <item name="android:background">@drawable/red_button_background</item>
+    </style>
 
 
     <style name="TitleEditText">

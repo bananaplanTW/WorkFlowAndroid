@@ -48,6 +48,7 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
                 loadFactories();
                 loadEmployees();
                 loadEquipments();
+                loadWarnings();
                 loadLeaveWorkersIn7Days();  // TODO: Need to load the data of leave workers separately.
                 putWorkerIdsIntoCases();
                 putTasksIntoWorkers();
@@ -100,6 +101,13 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
      */
     private void loadEquipments () {
         LoadingDataUtils.loadEquipments(mContext);
+    }
+
+    /**
+     * load all warnings
+     */
+    private void loadWarnings () {
+        LoadingDataUtils.loadWarnings(mContext);
     }
 
     private void loadLeaveWorkersIn7Days() {

@@ -72,6 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:gravity="top|left"
+                    android:background="@drawable/border_textview_bg_gray"
                     android:hint="詳細內容..." />
             </LinearLayout>
         </LinearLayout>
@@ -85,6 +86,7 @@
                 android:id="@+id/create_warning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/ButtonStyle.Red"
                 android:text="新增警訊"/>
         </LinearLayout>
     </RelativeLayout>

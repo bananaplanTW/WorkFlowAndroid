@@ -54,11 +54,7 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
         mCreateWarningButton.setOnClickListener(this);
     }
     private void setupWarningList () {
-        mWarningListData = new ArrayList<>();
-        mWarningListData.add(new Warning("1234", "過切"));
-        mWarningListData.add(new Warning("12334", "過銷"));
-        mWarningListData.add(new Warning("12344", "過同"));
-
+        mWarningListData = WorkingData.getInstance(getApplicationContext()).getWarnings();
         mWarningListAdapter = new TextSpinnerAdapter<>(getApplicationContext(), R.layout.text_spinner_item, mWarningListData);
         mWarningListSpinner.setAdapter(mWarningListAdapter);
 
