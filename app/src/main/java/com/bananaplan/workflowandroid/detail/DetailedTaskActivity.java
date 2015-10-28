@@ -6,26 +6,23 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
-import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.overview.StatusFragment;
-import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
-import com.bananaplan.workflowandroid.utility.TabManager;
+
 
 public class DetailedTaskActivity extends AppCompatActivity {
 
-    private static final String TAG = "DetailWorkerActivity";
+    private static final String TAG = "DetailedTaskActivity";
 
     public static final String EXTRA_TASK_ID = "extra_task_id";
 
     private ActionBar mActionBar;
+
+    private TextView mDetailedTaskName;
+    private TextView mDetailedCaseName;
 
     private Task mTask;
 
@@ -45,7 +42,8 @@ public class DetailedTaskActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-
+        mDetailedTaskName = (TextView) findViewById(R.id.detailed_task_name);
+        mDetailedCaseName = (TextView) findViewById(R.id.detailed_case_name);
     }
 
     private void setupActionBar() {
@@ -60,7 +58,8 @@ public class DetailedTaskActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-
+        mDetailedTaskName.setText(mTask.name);
+        mDetailedCaseName.setText(WorkingData.getInstance(this).getCaseById(mTask.caseId).name);
     }
 
     @Override

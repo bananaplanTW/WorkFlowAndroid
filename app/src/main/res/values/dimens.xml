@@ -265,6 +265,10 @@
     <dimen name="detailed_worker_task_schedule_item_id_width">40dp</dimen>
     <dimen name="detailed_worker_task_schedule_listview_divider_height">6dp</dimen>
 
+    <!-- Detailed task -->
+    <dimen name="detailed_task_actionbar_task_text_size">25dp</dimen>
+    <dimen name="detailed_task_actionbar_case_text_size">16dp</dimen>
+
     <!-- Overview-->
     <dimen name="ov_left_pane_width">227dp</dimen>
     <dimen name="ov_divider_width">8dp</dimen>

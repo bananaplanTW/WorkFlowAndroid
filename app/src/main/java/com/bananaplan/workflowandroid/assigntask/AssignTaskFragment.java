@@ -355,7 +355,7 @@ public class AssignTaskFragment extends Fragment implements
 
     private void initCaseView() {
         mCaseAdapter = new CaseAdapter(mContext, WorkingData.getInstance(mContext).getCases().get(0));
-        mCaseOnTouchListener = new CaseOnTouchListener(mCaseView);
+        mCaseOnTouchListener = new CaseOnTouchListener(mContext, mCaseView);
         mCaseLayoutManager = new LinearLayoutManager(mContext);
 
         mCaseView.setLayoutManager(mCaseLayoutManager);

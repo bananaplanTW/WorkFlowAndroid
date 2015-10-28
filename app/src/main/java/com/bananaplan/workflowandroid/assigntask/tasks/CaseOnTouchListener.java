@@ -2,12 +2,15 @@ package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.bananaplan.workflowandroid.data.Task;
+import com.bananaplan.workflowandroid.detail.DetailedTaskActivity;
 
 
 /**
@@ -23,16 +26,20 @@ public class CaseOnTouchListener implements View.OnTouchListener {
 
     private static final int THRESHOLD_DRAG_THETA = 35;
 
+    private Context mContext;
+
     private RecyclerView mRecyclerView;
     private View mDownView = null;
 
     private boolean mIsTouched = false;
-    private boolean mIsDragging = false;
+    private boolean mIsFingerMoving = false;
+    private boolean mIsItemDragging = false;
     private float mTouchDownX = 0F;
     private float mTouchDownY = 0F;
 
 
-    public CaseOnTouchListener(RecyclerView recyclerView) {
+    public CaseOnTouchListener(Context context, RecyclerView recyclerView) {
+        mContext = context;
         mRecyclerView = recyclerView;
     }
 
@@ -50,7 +57,7 @@ public class CaseOnTouchListener implements View.OnTouchListener {
                 mDownView = mRecyclerView.findChildViewUnder(event.getX(), event.getY());
                 Log.d(TAG, "Down position = " + mRecyclerView.getChildAdapterPosition(mDownView));
 
-                if (mDownView == null || mRecyclerView.getChildAdapterPosition(mDownView) == 0 || isAssignable()) break;
+                if (mDownView == null || mRecyclerView.getChildAdapterPosition(mDownView) == 0) break;
 
                 mIsTouched = true;
                 mTouchDownX = x;
@@ -64,19 +71,37 @@ public class CaseOnTouchListener implements View.OnTouchListener {
 
                 if (mDownView == null || deltaX == 0F || deltaY == 0F) break;
 
+                if (deltaX >= 4F || deltaY >= 4F) {
+                    mIsFingerMoving = true;
+                }
+
                 double deltaZ = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
                 int theta = Math.round((float) (Math.asin(deltaY / deltaZ) / Math.PI*180));
 
-                if (!mIsTouched || mIsDragging || x < mTouchDownX || theta > THRESHOLD_DRAG_THETA) {
+                if (!mIsTouched || mIsItemDragging || x < mTouchDownX || theta > THRESHOLD_DRAG_THETA) {
                     break;
                 }
 
-                startDragTaskItem();
+                if (isAssignable()) {
+                    startDragTaskItem();
+                }
 
                 break;
 
             case MotionEvent.ACTION_UP:
                 if (mDownView == null) break;
+
+                if (!mIsFingerMoving) {
+                    int position = mRecyclerView.getChildAdapterPosition(mDownView);
+                    if (position >= 0) {
+                        Intent intent = new Intent(mContext, DetailedTaskActivity.class);
+                        intent.putExtra(DetailedTaskActivity.EXTRA_TASK_ID,
+                                ((CaseAdapter) mRecyclerView.getAdapter()).getItem(position).id);
+
+                        mContext.startActivity(intent);
+                    }
+                }
+
                 resetTaskItemTouch();
 
                 break;
@@ -112,25 +137,26 @@ public class CaseOnTouchListener implements View.OnTouchListener {
                             0            // flags (not currently used, set to 0)
         );
 
-        mIsDragging = true;
+        mIsItemDragging = true;
     }
 
     private void resetTaskItemTouch() {
         mDownView = null;
         mIsTouched = false;
-        mIsDragging = false;
+        mIsFingerMoving = false;
+        mIsItemDragging = false;
         mTouchDownX = 0F;
         mTouchDownY = 0F;
     }
 
     /**
-     * If the status of a task is "unclaimed" or "pending", the task can not be assigned.
+     * If the status of a task is "unclaimed" or "pending", the task can be assigned.
      *
      * @return
      */
     private boolean isAssignable() {
         Task downTask = ((CaseAdapter) mRecyclerView.getAdapter()).getItem(mRecyclerView.getChildAdapterPosition(mDownView));
 
-        return !(Task.Status.UNCLAIMED.equals(downTask.status) || Task.Status.PENDING.equals(downTask.status));
+        return Task.Status.UNCLAIMED.equals(downTask.status) || Task.Status.PENDING.equals(downTask.status);
     }
 }

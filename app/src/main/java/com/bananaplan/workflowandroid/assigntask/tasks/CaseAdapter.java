@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
+import com.bananaplan.workflowandroid.detail.DetailedTaskActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.CustomProgressBar;
 import com.bananaplan.workflowandroid.utility.view.SquareAvatar;
@@ -77,8 +79,13 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         public TextView worker;
         public TextView status;
 
+
         public TaskCardViewHolder(View v) {
             super(v);
+            findViews(v);
+        }
+
+        private void findViews(View v) {
             view = v;
             index = (TextView) v.findViewById(R.id.task_card_index);
             name = (TextView) v.findViewById(R.id.task_card_title);

@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_detailed_worker_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/PopupActivityTheme.AppBarOverlay"
+        android:background="@color/detailed_task_actionbar_background_color"
+        android:theme="@style/PopupActivityTheme.AppBarOverlayWhite"
         app:popupTheme="@style/PopupActivityTheme.PopupOverlay">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/detailed_task_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/detailed_worker_actionbar_title_text_size"
-                android:textColor="@color/detailed_worker_acitonbar_name_text_color"/>
+                android:textSize="@dimen/detailed_task_actionbar_task_text_size"
+                android:textColor="@color/detailed_task_actionbar_text_color"/>
 
             <TextView
                 android:id="@+id/detailed_case_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/detailed_worker_actionbar_title_text_size"
-                android:textColor="@color/detailed_worker_acitonbar_jobtitle_text_color"/>
+                android:textSize="@dimen/detailed_task_actionbar_case_text_size"
+                android:textColor="@color/detailed_task_actionbar_text_color"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 

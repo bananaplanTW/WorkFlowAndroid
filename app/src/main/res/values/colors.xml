@@ -128,6 +128,10 @@
     <color name="detailed_worker_task_schedule_item_text_color">@android:color/black</color>
     <color name="detailed_worker_task_schedule_item_divider_color">#FFE1E1E1</color>
 
+    <!-- Detailed task -->
+    <color name="detailed_task_actionbar_background_color">#FF4A90E2</color>
+    <color name="detailed_task_actionbar_text_color">@android:color/white</color>
+
     <!-- Main information -->
     <color name="main_information_background_color">#FFEEEEEE</color>
     <color name="main_information_board_text_color">@android:color/white</color>
