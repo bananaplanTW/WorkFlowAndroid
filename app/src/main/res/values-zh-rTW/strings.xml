@@ -230,6 +230,7 @@
     <string name="status_string_worker">員工 %s 的紀錄</string>
     <string name="status_string_task">工作項目 %s 的記錄</string>
     <string name="status_no_wip_task_text">無目前工作</string>
+    <string name="status_string_detailed_task">工作記錄</string>
 
     <!-- Main information -->
     <string name="main_information_worker_on">上班人數</string>
@@ -259,7 +260,6 @@
     <string name="login_password">密碼</string>
     <string name="login">登入</string>
     <string name="logout">登出</string>
-
 
     <!-- Employee Activity Translations -->
     <string name="worker_check_in">打卡上班</string>

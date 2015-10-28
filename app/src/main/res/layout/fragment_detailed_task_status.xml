@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/worker_ov_status_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/worker_status_ov_top_pane_margin_bottom"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/worker_status_ov_top_pane_padding_left"
+        android:paddingRight="@dimen/worker_status_ov_top_pane_padding_right"
+        android:paddingTop="@dimen/worker_status_ov_top_pane_padding_top">
+
+        <TextView
+            android:id="@+id/status_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/worker_ov_worker_tab_title_worker_status"
+            android:textColor="@color/gray1"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/et_record"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/worker_status_ov_top_pane_et_record_height"
+            android:layout_marginTop="@dimen/worker_status_ov_top_pane_et_record_margin_top"
+            android:background="@drawable/border_textview_bg_gray"
+            android:gravity="top|left"
+            android:hint="@string/worker_ov_editText_record_hint"
+            android:padding="@dimen/worker_status_ov_top_pane_et_record_padding"
+            android:textColor="@color/gray1"
+            android:textSize="16dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/worker_status_ov_top_pane_buttons_root_height"
+            android:layout_marginTop="@dimen/worker_status_ov_top_pane_buttons_root_margin_top"
+            android:gravity="right">
+
+            <LinearLayout
+                android:id="@+id/record"
+                style="@style/ButtonStyle.Blue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/worker_ov_btn_finish_record"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/capture"
+                android:layout_width="@dimen/worker_status_ov_top_pane_button_width"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/worker_status_ov_top_pane_button_margin_right"
+                android:layout_toLeftOf="@id/record"
+                android:background="@drawable/bg_solid_btn_bg_gray"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/worker_status_ov_top_pane_button_iv_margin_right"
+                    android:src="@drawable/take_pic_blk" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/worker_ov_btn_capture"
+                    android:textColor="@color/black1"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/upload"
+                android:layout_width="@dimen/worker_status_ov_top_pane_button_width"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/worker_status_ov_top_pane_button_margin_right"
+                android:layout_toLeftOf="@id/capture"
+                android:background="@drawable/bg_solid_btn_bg_gray"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/worker_status_ov_top_pane_button_iv_margin_right"
+                    android:src="@drawable/upload_blk" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/worker_ov_btn_upload"
+                    android:textColor="@color/black1"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/h_divider" />
+
+    <TabHost
+        android:id="@+id/worker_ov_right_pane_status_tab_host"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="@dimen/worker_status_ov_tab_width"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/tab_all"
+                    layout="@layout/worker_status_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/tab_record"
+                    layout="@layout/worker_status_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/tab_file"
+                    layout="@layout/worker_status_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/tab_photo"
+                    layout="@layout/worker_status_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/tab_history"
+                    layout="@layout/worker_status_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </TabHost>
+</LinearLayout>

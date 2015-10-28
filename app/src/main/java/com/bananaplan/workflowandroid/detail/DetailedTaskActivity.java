@@ -2,6 +2,9 @@ package com.bananaplan.workflowandroid.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.overview.StatusFragment;
 
 
 public class DetailedTaskActivity extends AppCompatActivity {
@@ -18,6 +22,8 @@ public class DetailedTaskActivity extends AppCompatActivity {
     private static final String TAG = "DetailedTaskActivity";
 
     public static final String EXTRA_TASK_ID = "extra_task_id";
+
+    private static final String TAG_DETAILED_TASK_STATUS_FRAGMENT = "tag_detailed_task_status_fragment";
 
     private ActionBar mActionBar;
 
@@ -39,6 +45,7 @@ public class DetailedTaskActivity extends AppCompatActivity {
         findViews();
         setupActionBar();
         setupViews();
+        setupTaskLog();
     }
 
     private void findViews() {
@@ -60,6 +67,24 @@ public class DetailedTaskActivity extends AppCompatActivity {
     private void setupViews() {
         mDetailedTaskName.setText(mTask.name);
         mDetailedCaseName.setText(WorkingData.getInstance(this).getCaseById(mTask.caseId).name);
+    }
+
+    private void setupTaskLog() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment fragment = fragmentManager.findFragmentByTag(TAG_DETAILED_TASK_STATUS_FRAGMENT);
+        if (fragment == null) {
+            fragment = new DetailedTaskStatusFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString(EXTRA_TASK_ID, mTask.id);
+
+            fragment.setArguments(bundle);
+            fragmentTransaction.add(R.id.detailed_task_log_container, fragment, TAG_DETAILED_TASK_STATUS_FRAGMENT);
+        }
+
+        fragmentTransaction.commit();
     }
 
     @Override
