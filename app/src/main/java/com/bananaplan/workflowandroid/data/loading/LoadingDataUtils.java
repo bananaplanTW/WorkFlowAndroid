@@ -90,7 +90,11 @@ public class LoadingDataUtils {
      */
     public static void loadCases(Context context) {
         try {
-            String caseJsonListString = RestfulUtils.getJsonStringFromUrl(WorkingDataUrl.CASES);
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String caseJsonListString = RestfulUtils.restfulGetRequest(WorkingDataUrl.CASES, headers);
             JSONArray caseJsonList = new JSONObject(caseJsonListString).getJSONArray("result");
 
             for (int i = 0; i < caseJsonList.length(); i++) {
@@ -111,7 +115,11 @@ public class LoadingDataUtils {
      */
     public static void loadFactories(Context context) {
         try {
-            String factoryJsonListString = RestfulUtils.getJsonStringFromUrl(WorkingDataUrl.FACTORIES);
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String factoryJsonListString = RestfulUtils.restfulGetRequest(WorkingDataUrl.FACTORIES, headers);
             JSONArray factoryJsonList = new JSONObject(factoryJsonListString).getJSONArray("result");
 
             for (int i = 0 ; i < factoryJsonList.length() ; i++) {
@@ -130,7 +138,11 @@ public class LoadingDataUtils {
      */
     public static void loadEquipments(Context context) {
         try {
-            String resourceJsonListString = RestfulUtils.getJsonStringFromUrl(WorkingDataUrl.EQUIPMENTS);
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String resourceJsonListString = RestfulUtils.restfulGetRequest(WorkingDataUrl.EQUIPMENTS, headers);
             JSONArray equipmentJsonList = new JSONObject(resourceJsonListString).getJSONArray("result");
 
             for (int i = 0 ; i < equipmentJsonList.length() ; i++) {
@@ -149,8 +161,11 @@ public class LoadingDataUtils {
      */
     public static void loadLeaveWorkers(Context context, long startDate, long endDate) {
         try {
-            String leaveWorkerJsonListString =
-                    RestfulUtils.getJsonStringFromUrl(getLeaveWorkersUrl(startDate, endDate));
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String leaveWorkerJsonListString = RestfulUtils.restfulGetRequest(getLeaveWorkersUrl(startDate, endDate), headers);
             JSONArray leaveWorkerJsonList = new JSONObject(leaveWorkerJsonListString).getJSONArray("result");
 
             for (int i = 0 ; i < leaveWorkerJsonList.length() ; i++) {
@@ -196,7 +211,11 @@ public class LoadingDataUtils {
         if (!WorkingData.getInstance(context).hasFactory(factoryId)) return;
 
         try {
-            String workerJsonString = RestfulUtils.getJsonStringFromUrl(getWorkersByFactoryUrl(factoryId));
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String workerJsonString = RestfulUtils.restfulGetRequest(getWorkersByFactoryUrl(factoryId), headers);
             JSONArray workerJsonList = new JSONObject(workerJsonString).getJSONArray("result");
             List<Worker> newWorkers = new ArrayList<>();
 
@@ -250,7 +269,12 @@ public class LoadingDataUtils {
         if (!WorkingData.getInstance(context).hasWorker(workerId)) return;
 
         try {
-            String taskJsonString = RestfulUtils.getJsonStringFromUrl(getTasksByWorkerUrl(workerId));
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String taskJsonString = RestfulUtils.restfulGetRequest(getTasksByWorkerUrl(workerId), headers);
+
             JSONObject taskJson = new JSONObject(taskJsonString).getJSONObject("result");
             JSONObject wipTaskJson = taskJson.getJSONObject("WIPTask");
             String wipTaskId = wipTaskJson.getString("_id");
@@ -291,7 +315,11 @@ public class LoadingDataUtils {
         if (!WorkingData.getInstance(context).hasCase(caseId)) return;
 
         try {
-            String jsonString = RestfulUtils.getJsonStringFromUrl(getCaseTimeCardUrl(caseId, startDate, endDate));
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String jsonString = RestfulUtils.restfulGetRequest(getCaseTimeCardUrl(caseId, startDate, endDate), headers);
             if (!new JSONObject(jsonString).getString("status").equals("success")) return;
             JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
             Case aCase = WorkingData.getInstance(context).getCaseById(caseId);
@@ -343,7 +371,11 @@ public class LoadingDataUtils {
         if (!WorkingData.getInstance(context).hasWorker(workerId)) return;
 
         try {
-            String jsonString = RestfulUtils.getJsonStringFromUrl(getWorkerTimeCardUrl(workerId, startDate, endDate));
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String jsonString = RestfulUtils.restfulGetRequest(getWorkerTimeCardUrl(workerId, startDate, endDate), headers);
             if (!new JSONObject(jsonString).getString("status").equals("success")) return;
             JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
             for (int i = 0 ; i < jsonArray.length() ; i++) {
@@ -394,7 +426,11 @@ public class LoadingDataUtils {
         if (!WorkingData.getInstance(context).hasEquipment(equipmentId)) return;
 
         try {
-            String jsonString = RestfulUtils.getJsonStringFromUrl(getEquipmentTimeCardUrl(equipmentId, startDate, endDate));
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("x-user-id", WorkingData.getUserId());
+            headers.put("x-auth-token", WorkingData.getAuthToken());
+
+            String jsonString = RestfulUtils.restfulGetRequest(getEquipmentTimeCardUrl(equipmentId, startDate, endDate), headers);
             if (!new JSONObject(jsonString).getString("status").equals("success")) return;
             JSONArray jsonArray = new JSONObject(jsonString).getJSONArray("result");
             for (int i = 0 ; i < jsonArray.length() ; i++) {
