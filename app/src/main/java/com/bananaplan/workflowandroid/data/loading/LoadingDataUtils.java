@@ -14,7 +14,7 @@ import com.bananaplan.workflowandroid.data.Tag;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.CaseTimeCard;
 import com.bananaplan.workflowandroid.data.Vendor;
-import com.bananaplan.workflowandroid.data.Warning;
+import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkerTimeCard;
 import com.bananaplan.workflowandroid.data.WorkingData;
@@ -913,13 +913,13 @@ public class LoadingDataUtils {
             Date endDate = getDateFromJson(taskJson, "endDate");
             Date assignDate = getDateFromJson(taskJson, "dispatchedDate");
 
-            List<Warning> warnings = new ArrayList<>();
+            List<TaskWarning> taskWarnings = new ArrayList<>();
             for (int w = 0 ; w < warningJsonList.length() ; w++) {
                 JSONObject warningJson = warningJsonList.getJSONObject(w);
                 String warningId = warningJson.getString("_id");
 
                 addWarningToWorkingData(context, warningJson);
-                warnings.add(WorkingData.getInstance(context).getWarningById(warningId));
+                taskWarnings.add(WorkingData.getInstance(context).getWarningById(warningId));
             }
 
             boolean isDelayed = getBooleanFromJson(taskJson, "delay");
@@ -936,7 +936,7 @@ public class LoadingDataUtils {
                     assignDate,
                     startDate,
                     endDate,
-                    warnings,
+                    taskWarnings,
                     expectedTime,
                     startTime,
                     spentTime,
@@ -1007,7 +1007,7 @@ public class LoadingDataUtils {
 
         return null;
     }
-    private static Warning retrieveWarningFromJson(JSONObject warningJson) {
+    private static TaskWarning retrieveWarningFromJson(JSONObject warningJson) {
         try {
             String id = warningJson.getString("_id");
             String name = getStringFromJson(warningJson, "name");
@@ -1019,9 +1019,9 @@ public class LoadingDataUtils {
             long spentTime = warningJson.getLong("spentTime");
             long lastUpdatedTime = warningJson.getLong("updatedAt");
 
-            Warning.Status status = Warning.convertStringToStatus(warningJson.getString("status"));
+            TaskWarning.Status status = TaskWarning.convertStringToStatus(warningJson.getString("status"));
 
-            return new Warning(
+            return new TaskWarning(
                     id,
                     name,
                     caseId,

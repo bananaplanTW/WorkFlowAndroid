@@ -36,7 +36,7 @@ public class Task extends IdData {
     public long startTime = 0L;  // The starting time of this working section
     public long spentTime = 0L;
 
-    public List<Warning> warnings = new ArrayList<>();
+    public List<TaskWarning> taskWarnings = new ArrayList<>();
     public long nextAlertTime = 0L;
 
     public List<Task> subTaskIds = new ArrayList<>();
@@ -61,7 +61,7 @@ public class Task extends IdData {
                 Date assignDate,
                 Date startDate,
                 Date endDate,
-                List<Warning> warnings,
+                List<TaskWarning> taskWarnings,
                 long expectedTime,
                 long startTime,
                 long spentTime,
@@ -79,25 +79,25 @@ public class Task extends IdData {
         this.assignDate = assignDate;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.warnings = warnings;
+        this.taskWarnings = taskWarnings;
         this.lastUpdatedTime = lastUpdatedTime;
         this.isDelayed = isDelayed;
 
-        if (this.warnings == null) {
-            this.warnings = new ArrayList<>();
+        if (this.taskWarnings == null) {
+            this.taskWarnings = new ArrayList<>();
         }
     }
 
     public Task(String id, String name) {
         this.id = id;
         this.name = name;
-        this.warnings = new ArrayList<>();
+        this.taskWarnings = new ArrayList<>();
     }
 
     public int getUnSolvedWarningCount() {
         int count = 0;
-        for (Warning warning : warnings) {
-            if (warning.status == Warning.Status.OPEN) {
+        for (TaskWarning taskWarning : taskWarnings) {
+            if (taskWarning.status == TaskWarning.Status.OPEN) {
                 count++;
             }
         }
@@ -116,7 +116,7 @@ public class Task extends IdData {
         this.assignDate = task.assignDate;
         this.startDate = task.startDate;
         this.endDate = task.endDate;
-        this.warnings = task.warnings;
+        this.taskWarnings = task.taskWarnings;
         this.lastUpdatedTime = task.lastUpdatedTime;
         this.isDelayed = task.isDelayed;
     }

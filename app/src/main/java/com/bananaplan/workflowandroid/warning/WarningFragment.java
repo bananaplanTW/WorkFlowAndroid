@@ -27,7 +27,7 @@ import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Vendor;
-import com.bananaplan.workflowandroid.data.Warning;
+import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.overview.CaseAdapter;
 import com.bananaplan.workflowandroid.overview.VendorSpinnerAdapter;
@@ -119,10 +119,10 @@ public class WarningFragment extends Fragment implements TextWatcher,
     private void initWarningGroupsMap() {
         mWarningGroups = new HashMap<>();
         for (Task task : WorkingData.getInstance(getActivity()).getTasks()) {
-            for (Warning warning : task.warnings) {
-                if (warning.status == Warning.Status.OPEN) {
-                    if (!mWarningGroups.containsKey(warning.name)) {
-                        mWarningGroups.put(warning.name, 0);
+            for (TaskWarning taskWarning : task.taskWarnings) {
+                if (taskWarning.status == TaskWarning.Status.OPEN) {
+                    if (!mWarningGroups.containsKey(taskWarning.name)) {
+                        mWarningGroups.put(taskWarning.name, 0);
                     }
                 }
             }
@@ -204,10 +204,10 @@ public class WarningFragment extends Fragment implements TextWatcher,
         }
     }
 
-    private class WarningCardsAdapter extends ArrayAdapter<Warning> implements Filterable {
+    private class WarningCardsAdapter extends ArrayAdapter<TaskWarning> implements Filterable {
 
-        private ArrayList<Warning> mOrigWarnings;
-        private ArrayList<Warning> mFilteredWarnings;
+        private ArrayList<TaskWarning> mOrigTaskWarnings;
+        private ArrayList<TaskWarning> mFilteredTaskWarnings;
         private CustomFilter mFilter;
 
 
@@ -228,21 +228,21 @@ public class WarningFragment extends Fragment implements TextWatcher,
             }
         }
 
-        public WarningCardsAdapter(List<Warning> data) {
+        public WarningCardsAdapter(List<TaskWarning> data) {
             super(getActivity(), 0, data);
-            mOrigWarnings = (ArrayList<Warning>) data;
-            mFilteredWarnings = new ArrayList<>(data);
+            mOrigTaskWarnings = (ArrayList<TaskWarning>) data;
+            mFilteredTaskWarnings = new ArrayList<>(data);
             mFilter = new CustomFilter();
         }
 
         @Override
-        public Warning getItem(int position) {
-            return mFilteredWarnings.get(position);
+        public TaskWarning getItem(int position) {
+            return mFilteredTaskWarnings.get(position);
         }
 
         @Override
         public int getCount() {
-            return mFilteredWarnings.size();
+            return mFilteredTaskWarnings.size();
         }
 
         @Override
@@ -254,11 +254,11 @@ public class WarningFragment extends Fragment implements TextWatcher,
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults result = new FilterResults();
-                ArrayList<Warning> filterResult = new ArrayList<>();
-                for (Warning warning : mOrigWarnings) {
+                ArrayList<TaskWarning> filterResult = new ArrayList<>();
+                for (TaskWarning taskWarning : mOrigTaskWarnings) {
                     if (constraint.equals(getResources().getString(R.string.warning_all_warnings)) ||
-                            warning.name.equals(constraint)) {
-                        filterResult.add(warning);
+                            taskWarning.name.equals(constraint)) {
+                        filterResult.add(taskWarning);
                     }
                 }
 
@@ -270,8 +270,8 @@ public class WarningFragment extends Fragment implements TextWatcher,
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                mFilteredWarnings.clear();
-                mFilteredWarnings.addAll((ArrayList<Warning>) results.values);
+                mFilteredTaskWarnings.clear();
+                mFilteredTaskWarnings.addAll((ArrayList<TaskWarning>) results.values);
                 notifyDataSetChanged();
             }
         }
@@ -287,14 +287,14 @@ public class WarningFragment extends Fragment implements TextWatcher,
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            Warning warning = getItem(position);
-            Manager manager = WorkingData.getInstance(getActivity()).getManagerById(warning.managerId);
+            TaskWarning taskWarning = getItem(position);
+            Manager manager = WorkingData.getInstance(getActivity()).getManagerById(taskWarning.managerId);
 
-            holder.taskName.setText(WorkingData.getInstance(getActivity()).getTaskById(warning.taskId).name);
-            holder.caseName.setText(WorkingData.getInstance(getActivity()).getCaseById(warning.caseId).name);
+            holder.taskName.setText(WorkingData.getInstance(getActivity()).getTaskById(taskWarning.taskId).name);
+            holder.caseName.setText(WorkingData.getInstance(getActivity()).getCaseById(taskWarning.caseId).name);
             holder.managerName.setText(manager != null ? manager.name : "");
-            holder.warningName.setText(warning.name);
-            holder.time.setText(Utils.millisecondsToTimeString(warning.spentTime));
+            holder.warningName.setText(taskWarning.name);
+            holder.time.setText(Utils.millisecondsToTimeString(taskWarning.spentTime));
 
             return convertView;
         }
@@ -407,7 +407,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
 
     private void onCaseSelected() {
         int total = 0;
-        List<Warning> warnings = new ArrayList<>();
+        List<TaskWarning> taskWarnings = new ArrayList<>();
 
         // clear map value
         for (String key : mWarningGroups.keySet()) {
@@ -417,11 +417,11 @@ public class WarningFragment extends Fragment implements TextWatcher,
         // update map value
         if (mSelectedCase != null) {
             for (Task task : mSelectedCase.tasks) {
-                for (Warning warning : task.warnings) {
-                    if (warning.status != null && warning.status == Warning.Status.OPEN) {
-                        warnings.add(warning);
-                        int count = mWarningGroups.get(warning.name) + 1;
-                        mWarningGroups.put(warning.name, count);
+                for (TaskWarning taskWarning : task.taskWarnings) {
+                    if (taskWarning.status != null && taskWarning.status == TaskWarning.Status.OPEN) {
+                        taskWarnings.add(taskWarning);
+                        int count = mWarningGroups.get(taskWarning.name) + 1;
+                        mWarningGroups.put(taskWarning.name, count);
                     }
                 }
             }
@@ -435,11 +435,11 @@ public class WarningFragment extends Fragment implements TextWatcher,
         groups.add(0, new WarningGroup(getResources().getString(R.string.warning_all_warnings), total));
         mWarningGroupList.setAdapter(new WarningGroupAdapter(groups));
         if (mWarningCardsAdapter == null) {
-            mWarningCardsAdapter = new WarningCardsAdapter(warnings);
+            mWarningCardsAdapter = new WarningCardsAdapter(taskWarnings);
             mWarningCards.setAdapter(mWarningCardsAdapter);
         } else {
             mWarningCardsAdapter.clear();
-            mWarningCardsAdapter.addAll(warnings);
+            mWarningCardsAdapter.addAll(taskWarnings);
         }
         filterWarningCards(getResources().getString(R.string.warning_all_warnings));
         mWarningCardsAdapter.notifyDataSetChanged();

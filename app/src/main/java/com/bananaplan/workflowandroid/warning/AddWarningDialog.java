@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.Warning;
+import com.bananaplan.workflowandroid.data.TaskWarning;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
 
     private Spinner mWarninigListSpinner;
 
-    private ArrayList<Warning> mWarningListData;
+    private ArrayList<TaskWarning> mTaskWarningListData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +36,8 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
     }
     private void setupWarningList () {
 
-        mWarningListData = new ArrayList<>();
-        mWarningListData.add(new Warning());
+        mTaskWarningListData = new ArrayList<>();
+        //mTaskWarningListData.add(new TaskWarning());
 
     }
 
