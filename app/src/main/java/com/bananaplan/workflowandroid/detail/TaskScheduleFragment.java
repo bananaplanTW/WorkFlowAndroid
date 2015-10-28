@@ -381,7 +381,11 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                 }
                 break;
             case R.id.add_warning_button:
-                startActivity(new Intent(mContext, AddWarningDialog.class));
+                if (mWorker.hasWipTask()) {
+                    Intent intent = new Intent(mContext, AddWarningDialog.class);
+                    intent.putExtra(AddWarningDialog.EXTRA_TASK_ID, mWorker.getWipTask().id);
+                    startActivity(intent);
+                }
                 break;
             case R.id.manage_warning_button:
                 break;

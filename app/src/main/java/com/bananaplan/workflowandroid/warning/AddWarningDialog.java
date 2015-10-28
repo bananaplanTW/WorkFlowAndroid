@@ -2,9 +2,9 @@ package com.bananaplan.workflowandroid.warning;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -12,6 +12,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.warning.actions.CreateTaskWarningCommand;
 import com.bananaplan.workflowandroid.utility.data.TextSpinnerAdapter;
 
 import java.util.ArrayList;
@@ -21,8 +22,13 @@ import java.util.ArrayList;
  */
 public class AddWarningDialog  extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
+    public static final String EXTRA_TASK_ID = "extra_task_id";
+
+    private String mTaskId;
+
     private Spinner mWarningListSpinner;
     private Spinner mManagerListSpinner;
+    private EditText mCommentEditText;
     private TextView mCreateWarningButton;
 
     private ArrayList<Warning> mWarningListData;
@@ -36,6 +42,8 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_warning);
 
+        mTaskId = getIntent().getStringExtra(EXTRA_TASK_ID);
+
         initialize();
     }
 
@@ -48,6 +56,7 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
     private void findViews () {
         mWarningListSpinner = (Spinner) findViewById(R.id.warning_list);
         mManagerListSpinner = (Spinner) findViewById(R.id.manager_list);
+        mCommentEditText = (EditText) findViewById(R.id.warning_text);
         mCreateWarningButton = (TextView) findViewById(R.id.create_warning);
     }
     private void setupViews () {
@@ -74,7 +83,11 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.create_warning:
-                Log.d("DAZZZZ", "going to create warning");
+                Warning warning = (Warning) mWarningListSpinner.getSelectedItem();
+                Manager manager = (Manager) mManagerListSpinner.getSelectedItem();
+                String comment = mCommentEditText.getText().toString();
+                CreateTaskWarningCommand createTaskWarningCommand = new CreateTaskWarningCommand(getApplicationContext(), mTaskId, warning.id, manager.id, comment);
+                createTaskWarningCommand.execute();
                 break;
         }
     }
