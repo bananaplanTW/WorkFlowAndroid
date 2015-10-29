@@ -68,7 +68,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
     }
 
     private void setupActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_detailed_worker_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         mActionBar = getSupportActionBar();
 
