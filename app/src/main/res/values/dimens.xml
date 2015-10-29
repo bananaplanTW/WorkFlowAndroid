@@ -325,12 +325,14 @@
     <dimen name="warning_frag_vertical_padding">16dp</dimen>
     <dimen name="warning_frag_warning_group_height">50dp</dimen>
     <dimen name="warning_frag_warning_card_height">170dp</dimen>
-    <dimen name="warning_frag_warning_card_text_size">14dp</dimen>
+    <dimen name="warning_frag_warning_card_warning_text_size">19dp</dimen>
+    <dimen name="warning_frag_warning_card_task_text_size">13dp</dimen>
+    <dimen name="warning_frag_warning_card_manager_text_size">16dp</dimen>
     <dimen name="warning_frag_warning_card_container_padding">30dp</dimen>
     <dimen name="warning_frag_warning_cards_margin_top">20dp</dimen>
     <dimen name="warning_frag_warning_cards_horizontal_spacing">50dp</dimen>
     <dimen name="warning_frag_warning_cards_vertical_spacing">42dp</dimen>
-    <dimen name="warning_frag_warning_card_padding">8dp</dimen>
+    <dimen name="warning_frag_warning_card_padding">7dp</dimen>
     <dimen name="warning_frag_warning_card_vertical_margin">8dp</dimen>
     <dimen name="warning_frag_warning_card_stroke_width">2dp</dimen>
     <dimen name="warning_frag_warning_card_corner_radius">3dp</dimen>

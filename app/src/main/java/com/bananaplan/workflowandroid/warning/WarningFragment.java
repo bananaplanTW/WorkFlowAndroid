@@ -217,18 +217,16 @@ public class WarningFragment extends Fragment implements TextWatcher,
         private class ViewHolder {
 
             ViewGroup taskPartContainer;
-            TextView taskName;
-            TextView caseName;
-            TextView managerName;
             TextView warningName;
+            TextView taskName;
+            TextView managerName;
             TextView time;
 
             public ViewHolder(View v) {
                 taskPartContainer = (ViewGroup) v.findViewById(R.id.warning_card_task_part_container);
+                warningName = (TextView) v.findViewById(R.id.warning_card_name);
                 taskName = (TextView) v.findViewById(R.id.warning_card_task_name);
-                caseName = (TextView) v.findViewById(R.id.warning_card_case_name);
                 managerName = (TextView) v.findViewById(R.id.warning_card_manager);
-                warningName = (TextView) v.findViewById(R.id.warning_card_warning);
                 time = (TextView) v.findViewById(R.id.warning_card_time);
             }
         }
@@ -285,7 +283,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = getActivity().getLayoutInflater().inflate(R.layout.warning_frag_warning_card_itemview, parent, false);
+                convertView = getActivity().getLayoutInflater().inflate(R.layout.warning_card, parent, false);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
@@ -296,10 +294,9 @@ public class WarningFragment extends Fragment implements TextWatcher,
             Manager manager = WorkingData.getInstance(getActivity()).getManagerById(taskWarning.managerId);
 
             setWarningCardColor(holder, taskWarning.status);
-            holder.taskName.setText(WorkingData.getInstance(getActivity()).getTaskById(taskWarning.taskId).name);
-            holder.caseName.setText(WorkingData.getInstance(getActivity()).getCaseById(taskWarning.caseId).name);
-            holder.managerName.setText(manager != null ? manager.name : "");
             holder.warningName.setText(taskWarning.name);
+            holder.taskName.setText(WorkingData.getInstance(getActivity()).getTaskById(taskWarning.taskId).name);
+            holder.managerName.setText(manager != null ? manager.name : "");
             holder.time.setText(Utils.millisecondsToTimeString(taskWarning.spentTime));
 
             return convertView;
