@@ -9,7 +9,7 @@ import com.bananaplan.workflowandroid.R;
  * @author Danny Lin
  * @since 2015/9/22.
  */
-public class Leave extends IdData {
+public class LeaveInMainInfo extends IdData {
 
     // DEFAULT無請假類別
     // PERSONAL事假, MEDICAL病假, ANNUAL特休假, OFFICIAL公假,
@@ -27,7 +27,7 @@ public class Leave extends IdData {
     public long to = 0L;
 
 
-    public Leave(String id, String workerId, Type type, long from, long to, String description, long lastUpdatedTime) {
+    public LeaveInMainInfo(String id, String workerId, Type type, long from, long to, String description, long lastUpdatedTime) {
         this.id = id;
         this.workerId = workerId;
         this.type = type;
@@ -37,13 +37,13 @@ public class Leave extends IdData {
         this.lastUpdatedTime = lastUpdatedTime;
     }
 
-    public void update(Leave leave) {
-        this.workerId = leave.workerId;
-        this.type = leave.type;
-        this.from = leave.from;
-        this.to = leave.to;
-        this.description = leave.description;
-        this.lastUpdatedTime = leave.lastUpdatedTime;
+    public void update(LeaveInMainInfo leaveInMainInfo) {
+        this.workerId = leaveInMainInfo.workerId;
+        this.type = leaveInMainInfo.type;
+        this.from = leaveInMainInfo.from;
+        this.to = leaveInMainInfo.to;
+        this.description = leaveInMainInfo.description;
+        this.lastUpdatedTime = leaveInMainInfo.lastUpdatedTime;
     }
 
     public static Type convertStringToType(String type) {
@@ -81,11 +81,11 @@ public class Leave extends IdData {
         return result;
     }
 
-    public static String getLeaveString(Context context, Leave leave) {
+    public static String getLeaveString(Context context, LeaveInMainInfo leaveInMainInfo) {
         String r = "";
         Resources resources = context.getResources();
 
-        switch (leave.type) {
+        switch (leaveInMainInfo.type) {
             case PERSONAL:
                 r = resources.getString(R.string.leave_type_personal);
                 break;

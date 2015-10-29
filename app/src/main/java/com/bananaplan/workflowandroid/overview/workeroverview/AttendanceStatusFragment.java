@@ -11,12 +11,11 @@ import android.view.ViewGroup;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
-import com.bananaplan.workflowandroid.data.loading.LoadingWorkerAttendanceAsyncTask;
+import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.loading.loadingworkerattendance.LoadingWorkerAttendanceAsyncTask;
 import com.bananaplan.workflowandroid.data.loading.loadingworkerattendance.LoadingWorkerAttendanceStrategy;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
-import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
-
-import org.json.JSONArray;
+import com.bananaplan.workflowandroid.data.worker.attendance.WorkerAttendance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
 
     private ProgressDialog mProgressDialog;
 
-    private List<LeaveData> mLeaveDataSet = new ArrayList<>();
+    private List<WorkerAttendance> mWorkerAttendanceSet = new ArrayList<>();
 
     private Worker mWorker;
 
@@ -72,7 +71,7 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
 
     private void loadWorkerAttendance() {
         LoadingWorkerAttendanceStrategy loadingWorkerAttendanceStrategy =
-                new LoadingWorkerAttendanceStrategy(mWorker.id, 0, System.currentTimeMillis());
+                new LoadingWorkerAttendanceStrategy(getActivity(), mWorker.id, 0, System.currentTimeMillis());
         LoadingWorkerAttendanceAsyncTask loadingWorkerAttendanceAsyncTask =
                 new LoadingWorkerAttendanceAsyncTask(getActivity(), loadingWorkerAttendanceStrategy, this);
         loadingWorkerAttendanceAsyncTask.execute();
@@ -89,9 +88,11 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
     }
 
     @Override
-    public void onFinishLoadingData(JSONArray workerAttendance) {
+    public void onFinishLoadingData() {
         //mProgressDialog.dismiss();
 
+        mWorkerAttendanceSet.clear();
+        mWorkerAttendanceSet.addAll(WorkingData.getInstance(getActivity()).getWorkerById(mWorker.id).getAttendanceList());
     }
 
     @Override

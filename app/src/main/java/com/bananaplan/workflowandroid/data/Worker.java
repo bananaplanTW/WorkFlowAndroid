@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
+import com.bananaplan.workflowandroid.data.worker.attendance.WorkerAttendance;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 
 import java.util.ArrayList;
@@ -58,9 +58,10 @@ public class Worker extends IdData {
     public List<Task> warningTasks = new ArrayList<>();
 
     public ArrayList<BaseData> records = new ArrayList<>();
-    public ArrayList<LeaveData> leaveDatas = new ArrayList<>();
     public HashMap<String, WorkerTimeCard> timeCards = new HashMap<>();
     public boolean isOvertime = false;
+
+    private List<WorkerAttendance> attendanceList = new ArrayList<>();
 
     private Drawable avatar;
 
@@ -180,6 +181,18 @@ public class Worker extends IdData {
     public void clearScheduleTasks() {
         scheduledTaskIds.clear();
         scheduledTasks.clear();
+    }
+
+    public List<WorkerAttendance> getAttendanceList() {
+        return attendanceList;
+    }
+
+    public void addAttendance(WorkerAttendance attendance) {
+        for (WorkerAttendance workerAttendance : attendanceList) {
+            if (workerAttendance.id.equals(attendance.id)) return;
+        }
+
+        attendanceList.add(attendance);
     }
 
     public List<Task> getScheduledTasks() {

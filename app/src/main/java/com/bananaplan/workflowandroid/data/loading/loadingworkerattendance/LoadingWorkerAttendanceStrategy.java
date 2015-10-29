@@ -1,5 +1,6 @@
 package com.bananaplan.workflowandroid.data.loading.loadingworkerattendance;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.bananaplan.workflowandroid.data.WorkingData;
@@ -20,19 +21,22 @@ public class LoadingWorkerAttendanceStrategy implements ILoadingWorkerAttendance
 
     private static final String TAG = LoadingWorkerAttendanceStrategy.class.toString();
 
+    private Context mContext;
+
     private String mWorkerId;
     private long mStartDate;
     private long mEndDate;
 
 
-    public LoadingWorkerAttendanceStrategy(String workerId, long startDate, long endDate) {
+    public LoadingWorkerAttendanceStrategy(Context context, String workerId, long startDate, long endDate) {
+        mContext = context;
         mWorkerId = workerId;
         mStartDate = startDate;
         mEndDate = endDate;
     }
 
     @Override
-    public JSONArray get() {
+    public void load() {
         try {
             HashMap<String, String> headers = new HashMap<>();
             headers.put("x-user-id", WorkingData.getUserId());
@@ -43,15 +47,18 @@ public class LoadingWorkerAttendanceStrategy implements ILoadingWorkerAttendance
             JSONObject responseJSON = new JSONObject(responseJSONString);
 
             if (responseJSON.getString("status").equals("success")) {
-                return responseJSON.getJSONArray("result");
+                JSONArray attendanceList = responseJSON.getJSONArray("result");
+
+                for (int i = 0 ; i < attendanceList.length() ; i++) {
+                    WorkingData.getInstance(mContext).getWorkerById(mWorkerId).
+                            addAttendance(LoadingDataUtils.retrieveWorkerAttendance(attendanceList.getJSONObject(i)));
+                }
             }
 
         } catch (JSONException e) {
             Log.e(TAG, "Exception in LoadingWorkerAttendanceStrategy()");
             e.printStackTrace();
         }
-
-        return null;
     }
 
     private String getWorkerAttendanceUrl() {

@@ -1,8 +1,9 @@
-package com.bananaplan.workflowandroid.data.loading;
+package com.bananaplan.workflowandroid.data.loading.loadingworkerattendance;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.bananaplan.workflowandroid.data.loading.RestfulUtils;
 import com.bananaplan.workflowandroid.data.loading.loadingactivities.ILoadingActivitiesStrategy;
 import com.bananaplan.workflowandroid.data.loading.loadingworkerattendance.ILoadingWorkerAttendanceStrategy;
 import com.bananaplan.workflowandroid.main.MainApplication;
@@ -12,10 +13,10 @@ import org.json.JSONArray;
 /**
  * Created by daz on 10/10/15.
  */
-public class LoadingWorkerAttendanceAsyncTask extends AsyncTask<Void, Void, JSONArray> {
+public class LoadingWorkerAttendanceAsyncTask extends AsyncTask<Void, Void, Void> {
 
     public interface OnFinishLoadingDataListener {
-        void onFinishLoadingData(JSONArray workerAttendance);
+        void onFinishLoadingData();
         void onFailLoadingData(boolean isFailCausedByInternet);
     }
 
@@ -39,26 +40,27 @@ public class LoadingWorkerAttendanceAsyncTask extends AsyncTask<Void, Void, JSON
     }
 
     @Override
-    protected JSONArray doInBackground(Void... voids) {
+    protected Void doInBackground(Void... voids) {
         if (!MainApplication.sUseTestData) {
             if (RestfulUtils.isConnectToInternet(mContext)) {
-                return mLoadingWorkerAttendanceStrategy.get();
+                mLoadingWorkerAttendanceStrategy.load();
             } else {
                 cancel(true);
             }
         }
+
         return null;
     }
 
     @Override
-    protected void onCancelled(JSONArray jsonArray) {
-        super.onCancelled(jsonArray);
+    protected void onCancelled(Void aVoid) {
+        super.onCancelled(aVoid);
         mOnFinishLoadingDataListener.onFailLoadingData(true);
     }
 
     @Override
-    protected void onPostExecute(JSONArray jsonArray) {
-        super.onPostExecute(jsonArray);
-        mOnFinishLoadingDataListener.onFinishLoadingData(jsonArray);
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        mOnFinishLoadingDataListener.onFinishLoadingData();
     }
 }

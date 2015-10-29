@@ -9,7 +9,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.dataobserver.DataSubject;
-import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
+import com.bananaplan.workflowandroid.data.worker.attendance.WorkerAttendance;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.data.worker.status.FileData;
@@ -70,7 +70,7 @@ public final class WorkingData implements DataSubject {
     private HashMap<String, Factory> mFactoriesMap = new HashMap<>();
     private HashMap<String, Tag> mTagsMap = new HashMap<>();
     private HashMap<String, TaskWarning> mTaskWarningsMap = new HashMap<>();
-    private HashMap<String, Leave> mLeavesMap = new HashMap<>();
+    private HashMap<String, LeaveInMainInfo> mLeavesMap = new HashMap<>();
 
     private HashMap<String, Warning> mWarningList = new HashMap<>();
 
@@ -177,9 +177,9 @@ public final class WorkingData implements DataSubject {
         if (equipment == null) return;
         mEquipmentsMap.put(equipment.id, equipment);
     }
-    public void addLeave(Leave leave) {
-        if (leave == null) return;
-        mLeavesMap.put(leave.id, leave);
+    public void addLeave(LeaveInMainInfo leaveInMainInfo) {
+        if (leaveInMainInfo == null) return;
+        mLeavesMap.put(leaveInMainInfo.id, leaveInMainInfo);
     }
     public void addWarning(Warning warning) {
         if (warning == null) return;
@@ -214,8 +214,8 @@ public final class WorkingData implements DataSubject {
     public void updateEquipment(String equipmentId, Equipment updatedEquipment) {
         getEquipmentById(equipmentId).update(updatedEquipment);
     }
-    public void updateLeave(String leaveId, Leave updatedLeave) {
-        getLeaveById(leaveId).update(updatedLeave);
+    public void updateLeave(String leaveId, LeaveInMainInfo updatedLeaveInMainInfo) {
+        getLeaveById(leaveId).update(updatedLeaveInMainInfo);
     }
 
 
@@ -272,7 +272,7 @@ public final class WorkingData implements DataSubject {
     public ArrayList<Equipment> getEquipments() {
         return new ArrayList<>(mEquipmentsMap.values());
     }
-    public List<Leave> getLeaves() {
+    public List<LeaveInMainInfo> getLeaves() {
         return new ArrayList<>(mLeavesMap.values());
     }
     public ArrayList<Warning> getWarnings() {
@@ -326,7 +326,7 @@ public final class WorkingData implements DataSubject {
     public TaskWarning getTaskWarningById(String warningId) {
         return mTaskWarningsMap.get(warningId);
     }
-    public Leave getLeaveById(String leaveId) {
+    public LeaveInMainInfo getLeaveById(String leaveId) {
         return mLeavesMap.get(leaveId);
     }
 
@@ -436,21 +436,21 @@ public final class WorkingData implements DataSubject {
                 record.description = "test description";
                 worker.records.add(record);
 
-                LeaveData leave1 = new LeaveData();
-                leave1.date = getRandomDate();
-                leave1.reason = "test reason";
-                leave1.type = LeaveData.TYPE.PRIVATE;
-                worker.leaveDatas.add(leave1);
-                LeaveData leave2 = new LeaveData();
-                leave2.date = getRandomDate();
-                leave2.reason = "test reason";
-                leave2.type = LeaveData.TYPE.SICK;
-                worker.leaveDatas.add(leave2);
-                LeaveData leave3 = new LeaveData();
-                leave3.date = getRandomDate();
-                leave3.reason = "test reason";
-                leave3.type = LeaveData.TYPE.WORK;
-                worker.leaveDatas.add(leave3);
+//                WorkerAttendance leave1 = new WorkerAttendance();
+//                leave1.date = getRandomDate();
+//                leave1.reason = "test reason";
+//                leave1.type = WorkerAttendance.TYPE.PRIVATE;
+//                worker.addAttendance(leave1);
+//                WorkerAttendance leave2 = new WorkerAttendance();
+//                leave2.date = getRandomDate();
+//                leave2.reason = "test reason";
+//                leave2.type = WorkerAttendance.TYPE.SICK;
+//                worker.addAttendance(leave2);
+//                WorkerAttendance leave3 = new WorkerAttendance();
+//                leave3.date = getRandomDate();
+//                leave3.reason = "test reason";
+//                leave3.type = WorkerAttendance.TYPE.WORK;
+//                worker.addAttendance(leave3);
             }
         }
 

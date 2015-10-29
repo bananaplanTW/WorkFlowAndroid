@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.Leave;
+import com.bananaplan.workflowandroid.data.LeaveInMainInfo;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.Utils;
 
@@ -24,7 +24,7 @@ public class LeaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private Context mContext;
 
-    private List<Leave> mDataSet;
+    private List<LeaveInMainInfo> mDataSet;
 
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -41,7 +41,7 @@ public class LeaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public LeaveListAdapter(Context context, List<Leave> dataSet) {
+    public LeaveListAdapter(Context context, List<LeaveInMainInfo> dataSet) {
         mContext = context;
         mDataSet = dataSet;
     }
@@ -55,11 +55,11 @@ public class LeaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder itemVH = (ItemViewHolder) holder;
-        Leave leave = mDataSet.get(position);
+        LeaveInMainInfo leaveInMainInfo = mDataSet.get(position);
 
-        itemVH.leaveType.setText(Leave.getLeaveString(mContext, leave));
-        itemVH.leaveWorker.setText(WorkingData.getInstance(mContext).getWorkerById(leave.workerId).name);
-        itemVH.leaveDate.setText(Utils.timestamp2Date(new Date(leave.from), Utils.DATE_FORMAT_YMD));
+        itemVH.leaveType.setText(LeaveInMainInfo.getLeaveString(mContext, leaveInMainInfo));
+        itemVH.leaveWorker.setText(WorkingData.getInstance(mContext).getWorkerById(leaveInMainInfo.workerId).name);
+        itemVH.leaveDate.setText(Utils.timestamp2Date(new Date(leaveInMainInfo.from), Utils.DATE_FORMAT_YMD));
     }
 
     @Override

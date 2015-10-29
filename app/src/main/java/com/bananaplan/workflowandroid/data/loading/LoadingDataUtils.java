@@ -8,7 +8,7 @@ import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.EquipmentTimeCard;
 import com.bananaplan.workflowandroid.data.Factory;
-import com.bananaplan.workflowandroid.data.Leave;
+import com.bananaplan.workflowandroid.data.LeaveInMainInfo;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Tag;
 import com.bananaplan.workflowandroid.data.Task;
@@ -19,6 +19,7 @@ import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkerTimeCard;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.worker.attendance.WorkerAttendance;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1105,19 +1106,19 @@ public class LoadingDataUtils {
 
         return null;
     }
-    private static Leave retrieveLeaveFromJson(JSONObject leaveJson) {
+    private static LeaveInMainInfo retrieveLeaveFromJson(JSONObject leaveJson) {
         try {
             String id = leaveJson.getString("_id");
             String workerId = leaveJson.getString("employeeId");
             String description = getStringFromJson(leaveJson, "description");
 
-            Leave.Type type = Leave.convertStringToType(leaveJson.getString("type"));
+            LeaveInMainInfo.Type type = LeaveInMainInfo.convertStringToType(leaveJson.getString("type"));
 
             long from = leaveJson.getLong("from");
             long to = leaveJson.getLong("to");
             long lastUpdatedTime = leaveJson.getLong("updatedAt");
 
-            return new Leave(
+            return new LeaveInMainInfo(
                     id,
                     workerId,
                     type,
@@ -1141,6 +1142,25 @@ public class LoadingDataUtils {
             return new Warning(id, name);
         } catch (JSONException e) {
             Log.e(TAG, "Exception in retrieveWarningFromJson()");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public static WorkerAttendance retrieveWorkerAttendance(JSONObject attendanceJson) {
+        try {
+            String id = attendanceJson.getString("_id");
+            String workerId = attendanceJson.getString("employeeId");
+            String description = getStringFromJson(attendanceJson, "description");
+
+            LeaveInMainInfo.Type type = LeaveInMainInfo.convertStringToType(attendanceJson.getString("type"));
+
+            long from = attendanceJson.getLong("from");
+            long to = attendanceJson.getLong("to");
+
+            return new WorkerAttendance(id, workerId, description, type, from, to);
+        } catch (JSONException e) {
+            Log.e(TAG, "Exception in retrieveWorkerAttendance()");
             e.printStackTrace();
         }
 
