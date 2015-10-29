@@ -39,7 +39,7 @@
 
     <!-- Worker overview attendance -->
     <integer name="worker_overview_attendance_list_leave_date_weight">1</integer>
-    <integer name="worker_overview_attendance_list_leave_time_weight">1</integer>
+    <integer name="worker_overview_attendance_list_leave_time_range_weight">1</integer>
     <integer name="worker_overview_attendance_list_leave_type_weight">1</integer>
     <integer name="worker_overview_attendance_list_leave_reason_weight">2</integer>
 

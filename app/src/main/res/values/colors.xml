@@ -171,5 +171,11 @@
 
     <!-- Worker overview attendance -->
     <color name="worker_overview_attendance_list_divider_color">#FF979797</color>
+    <color name="worker_overview_attendance_list_odd_background_color">#FFF7F7F7</color>
+    <color name="worker_overview_attendance_list_even_background_color">@android:color/white</color>
+    <color name="worker_overview_attendance_list_time_range_text_color">@android:color/white</color>
+    <color name="worker_overview_attendance_list_time_range_whole_day_background_color">#FFEA705E</color>
+    <color name="worker_overview_attendance_list_time_range_forenoon_background_color">#FF4FC8A9</color>
+    <color name="worker_overview_attendance_list_time_range_afternoon_background_color">#FFF6C567</color>
 
 </resources>

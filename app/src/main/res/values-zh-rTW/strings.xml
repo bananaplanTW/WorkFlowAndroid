@@ -301,8 +301,11 @@
 
     <!-- Worker overview attendance -->
     <string name="worker_overview_attendance_leave_date">請假日期</string>
-    <string name="worker_overview_attendance_leave_time">請假時段</string>
+    <string name="worker_overview_attendance_leave_time_range">請假時段</string>
     <string name="worker_overview_attendance_leave_type">請假類別</string>
     <string name="worker_overview_attendance_leave_reason">請假事由</string>
+    <string name="worker_overview_attendance_time_range_forenoon">上午</string>
+    <string name="worker_overview_attendance_time_range_afternoon">下午</string>
+    <string name="worker_overview_attendance_time_range_whole_day">全天</string>
 
 </resources>

@@ -1152,13 +1152,14 @@ public class LoadingDataUtils {
             String id = attendanceJson.getString("_id");
             String workerId = attendanceJson.getString("employeeId");
             String description = getStringFromJson(attendanceJson, "description");
+            String timeRange = attendanceJson.getString("range");
 
             LeaveInMainInfo.Type type = LeaveInMainInfo.convertStringToType(attendanceJson.getString("type"));
 
             long from = attendanceJson.getLong("from");
             long to = attendanceJson.getLong("to");
 
-            return new WorkerAttendance(id, workerId, description, type, from, to);
+            return new WorkerAttendance(id, workerId, description, timeRange, type, from, to);
         } catch (JSONException e) {
             Log.e(TAG, "Exception in retrieveWorkerAttendance()");
             e.printStackTrace();

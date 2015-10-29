@@ -267,12 +267,18 @@
         <item name="android:paddingBottom">@dimen/warning_frag_vertical_padding</item>
     </style>
 
-    <style name="WorkerOverviewAttendanceListHeader">
+    <style name="WorkerOverviewAttendanceList">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="WorkerOverviewAttendanceList.Header">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="WorkerOverviewAttendanceList.Item">
     </style>
 
 </resources>

@@ -314,8 +314,11 @@
 
     <!-- Worker overview attendance -->
     <string name="worker_overview_attendance_leave_date">Leave date</string>
-    <string name="worker_overview_attendance_leave_time">Leave time</string>
+    <string name="worker_overview_attendance_leave_time_range">Leave time</string>
     <string name="worker_overview_attendance_leave_type">Leave type</string>
     <string name="worker_overview_attendance_leave_reason">Leave reason</string>
+    <string name="worker_overview_attendance_time_range_forenoon">Forenoon</string>
+    <string name="worker_overview_attendance_time_range_afternoon">Afternoon</string>
+    <string name="worker_overview_attendance_time_range_whole_day">Whole</string>
 
 </resources>

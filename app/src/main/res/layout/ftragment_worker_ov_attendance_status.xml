@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/WorkerOverviewAttendanceListHeader"
+            style="@style/WorkerOverviewAttendanceList.Header"
             android:layout_weight="@integer/worker_overview_attendance_list_leave_date_weight"
             android:text="@string/worker_overview_attendance_leave_date" />
 
@@ -21,9 +21,9 @@
             android:background="@color/worker_overview_attendance_list_divider_color" />
 
         <TextView
-            style="@style/WorkerOverviewAttendanceListHeader"
-            android:layout_weight="@integer/worker_overview_attendance_list_leave_time_weight"
-            android:text="@string/worker_overview_attendance_leave_time" />
+            style="@style/WorkerOverviewAttendanceList.Header"
+            android:layout_weight="@integer/worker_overview_attendance_list_leave_time_range_weight"
+            android:text="@string/worker_overview_attendance_leave_time_range" />
 
         <View
             android:layout_width="@dimen/worker_overview_attendance_list_divider_width"
@@ -31,7 +31,7 @@
             android:background="@color/worker_overview_attendance_list_divider_color" />
 
         <TextView
-            style="@style/WorkerOverviewAttendanceListHeader"
+            style="@style/WorkerOverviewAttendanceList.Header"
             android:layout_weight="@integer/worker_overview_attendance_list_leave_type_weight"
             android:text="@string/worker_overview_attendance_leave_type" />
 
@@ -41,7 +41,7 @@
             android:background="@color/worker_overview_attendance_list_divider_color" />
 
         <TextView
-            style="@style/WorkerOverviewAttendanceListHeader"
+            style="@style/WorkerOverviewAttendanceList.Header"
             android:layout_weight="@integer/worker_overview_attendance_list_leave_reason_weight"
             android:text="@string/worker_overview_attendance_leave_reason" />
 

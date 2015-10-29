@@ -81,11 +81,11 @@ public class LeaveInMainInfo extends IdData {
         return result;
     }
 
-    public static String getLeaveString(Context context, LeaveInMainInfo leaveInMainInfo) {
+    public static String getLeaveString(Context context, Type type) {
         String r = "";
         Resources resources = context.getResources();
 
-        switch (leaveInMainInfo.type) {
+        switch (type) {
             case PERSONAL:
                 r = resources.getString(R.string.leave_type_personal);
                 break;

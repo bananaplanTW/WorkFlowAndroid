@@ -1,6 +1,9 @@
 package com.bananaplan.workflowandroid.overview.workeroverview;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,16 +11,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.LeaveInMainInfo;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.loading.loadingworkerattendance.LoadingWorkerAttendanceAsyncTask;
 import com.bananaplan.workflowandroid.data.loading.loadingworkerattendance.LoadingWorkerAttendanceStrategy;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.data.worker.attendance.WorkerAttendance;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,6 +37,7 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
         OvTabFragmentBase.OvCallBack, LoadingWorkerAttendanceAsyncTask.OnFinishLoadingDataListener {
 
     private RecyclerView mAttendanceList;
+    private AttendanceAdapter mAttendanceAdapter;
     private LinearLayoutManager mAttendanceListManager;
 
     private ProgressDialog mProgressDialog;
@@ -36,6 +46,91 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
 
     private Worker mWorker;
 
+
+    private class AttendanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        private Context mContext;
+        private List<WorkerAttendance> mDataSet;
+
+
+        private class ItemViewHolder extends RecyclerView.ViewHolder {
+
+            public View view;
+            public TextView attendanceDate;
+            public TextView attendanceTimeRange;
+            public TextView attendanceType;
+            public TextView attendanceDescription;
+
+            public ItemViewHolder(View view) {
+                super(view);
+                this.view = view;
+                attendanceDate = (TextView) view.findViewById(R.id.worker_overview_attendance_list_date);
+                attendanceTimeRange = (TextView) view.findViewById(R.id.worker_overview_attendance_list_time_range);
+                attendanceType = (TextView) view.findViewById(R.id.worker_overview_attendance_list_type);
+                attendanceDescription = (TextView) view.findViewById(R.id.worker_overview_attendance_list_description);
+            }
+        }
+
+        public AttendanceAdapter(Context context, List<WorkerAttendance> data) {
+            mContext = context;
+            mDataSet = data;
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ItemViewHolder(
+                    LayoutInflater.from(mContext).inflate(R.layout.worker_ov_attendance_list_item, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ItemViewHolder itemVH = (ItemViewHolder) holder;
+            WorkerAttendance attendance = mDataSet.get(position);
+
+            if (position % 2 == 0) {
+                itemVH.view.setBackgroundResource(R.color.worker_overview_attendance_list_odd_background_color);
+            } else {
+                itemVH.view.setBackgroundResource(R.color.worker_overview_attendance_list_even_background_color);
+            }
+
+            itemVH.attendanceDate.setText(Utils.timestamp2Date(new Date(attendance.from), Utils.DATE_FORMAT_YMD));
+
+            setAttendanceTimeRange(itemVH.attendanceTimeRange, attendance);
+
+            itemVH.attendanceType.setText(LeaveInMainInfo.getLeaveString(mContext, attendance.type));
+
+            itemVH.attendanceDescription.setText(attendance.description);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDataSet.size();
+        }
+
+        private void setAttendanceTimeRange(TextView timeRange, WorkerAttendance attendance) {
+            GradientDrawable attendanceTimeRangeBackground = (GradientDrawable) timeRange.getBackground();
+            Resources resources = mContext.getResources();
+            String forenoon = resources.getString(R.string.worker_overview_attendance_time_range_forenoon);
+            String afternoon = resources.getString(R.string.worker_overview_attendance_time_range_afternoon);
+            String wholeDay = resources.getString(R.string.worker_overview_attendance_time_range_whole_day);
+
+            timeRange.setText(attendance.timeRange);
+
+            int color = 0;
+            if (forenoon.equals(attendance.timeRange)) {
+                color = resources.getColor(R.color.worker_overview_attendance_list_time_range_forenoon_background_color);
+
+            } else if (afternoon.equals(attendance.timeRange)) {
+                color = resources.getColor(R.color.worker_overview_attendance_list_time_range_afternoon_background_color);
+
+            } else if (wholeDay.equals(attendance.timeRange)) {
+                color = resources.getColor(R.color.worker_overview_attendance_list_time_range_whole_day_background_color);
+
+            }
+
+            attendanceTimeRangeBackground.setColor(color);
+        }
+    }
 
     @Nullable
     @Override
@@ -78,8 +173,10 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
     }
 
     private void setupAttendanceList() {
+        mAttendanceAdapter = new AttendanceAdapter(getActivity(), mWorkerAttendanceSet);
         mAttendanceListManager = new LinearLayoutManager(getActivity());
         mAttendanceList.setLayoutManager(mAttendanceListManager);
+        mAttendanceList.setAdapter(mAttendanceAdapter);
     }
 
     @Override
@@ -93,6 +190,14 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
 
         mWorkerAttendanceSet.clear();
         mWorkerAttendanceSet.addAll(WorkingData.getInstance(getActivity()).getWorkerById(mWorker.id).getAttendanceList());
+        Collections.sort(mWorkerAttendanceSet, new Comparator<WorkerAttendance>() {
+            @Override
+            public int compare(WorkerAttendance lhs, WorkerAttendance rhs) {
+                return Long.compare(lhs.from, rhs.from);
+            }
+        });
+
+        mAttendanceAdapter.notifyDataSetChanged();
     }
 
     @Override

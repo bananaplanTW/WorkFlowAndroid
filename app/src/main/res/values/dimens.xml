@@ -345,5 +345,8 @@
     <!-- Worker overview attendance -->
     <dimen name="worker_overview_attendance_list_header_height">40dp</dimen>
     <dimen name="worker_overview_attendance_list_divider_width">2dp</dimen>
+    <dimen name="worker_overview_attendance_list_description_padding">5dp</dimen>
+    <dimen name="worker_overview_attendance_list_time_range_padding_left_right">35dp</dimen>
+    <dimen name="worker_overview_attendance_list_time_range_padding_top_bottom">6dp</dimen>
 
 </resources>

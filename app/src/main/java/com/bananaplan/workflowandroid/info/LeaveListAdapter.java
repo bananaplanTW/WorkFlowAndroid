@@ -57,7 +57,7 @@ public class LeaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ItemViewHolder itemVH = (ItemViewHolder) holder;
         LeaveInMainInfo leaveInMainInfo = mDataSet.get(position);
 
-        itemVH.leaveType.setText(LeaveInMainInfo.getLeaveString(mContext, leaveInMainInfo));
+        itemVH.leaveType.setText(LeaveInMainInfo.getLeaveString(mContext, leaveInMainInfo.type));
         itemVH.leaveWorker.setText(WorkingData.getInstance(mContext).getWorkerById(leaveInMainInfo.workerId).name);
         itemVH.leaveDate.setText(Utils.timestamp2Date(new Date(leaveInMainInfo.from), Utils.DATE_FORMAT_YMD));
     }
