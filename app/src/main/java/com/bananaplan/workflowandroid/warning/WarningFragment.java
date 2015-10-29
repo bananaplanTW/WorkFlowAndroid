@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.warning;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -32,6 +33,7 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.detail.DetailedWarningActivity;
 import com.bananaplan.workflowandroid.overview.CaseAdapter;
 import com.bananaplan.workflowandroid.overview.VendorSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.Utils;
@@ -311,13 +313,13 @@ public class WarningFragment extends Fragment implements TextWatcher,
             switch (status) {
                 case OPENED:
                     warningCardTaskPartBackground.
-                            setColor(resources.getColor(R.color.warning_card_task_part_opened_background_color));
+                            setColor(resources.getColor(R.color.warning_opened_background_color));
 
                     break;
 
                 case CLOSED:
                     warningCardTaskPartBackground.
-                            setColor(resources.getColor(R.color.warning_card_task_part_closed_background_color));
+                            setColor(resources.getColor(R.color.warning_closed_background_color));
 
                     break;
             }
@@ -376,15 +378,22 @@ public class WarningFragment extends Fragment implements TextWatcher,
                 onCaseSelected();
                 adapter.setPositionSelected(position);
                 adapter.notifyDataSetChanged();
+
                 break;
+
             case R.id.warning_cards:
-                showWarningDetailFragment();
+                showDetailedWarning(position);
+
                 break;
         }
     }
 
-    private void showWarningDetailFragment() {
-        Toast.makeText(getActivity(), "showWarningDetailFragment", Toast.LENGTH_SHORT).show();
+    private void showDetailedWarning(int adapterPosition) {
+        TaskWarning selectedTaskWarning = ((WarningCardsAdapter) mWarningCards.getAdapter()).getItem(adapterPosition);
+        Intent intent = new Intent(getActivity(), DetailedWarningActivity.class);
+        intent.putExtra(DetailedWarningActivity.EXTRA_WARNING_ID, selectedTaskWarning.id);
+
+        startActivity(intent);
     }
 
     private class WarningGroupAdapter extends ArrayAdapter<WarningGroup> {

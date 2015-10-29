@@ -6,10 +6,10 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/activity_detailed_task_toolbar"
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/detailed_task_actionbar_background_color"
+        android:background="@color/warning_opened_background_color"
         android:theme="@style/PopupActivityTheme.AppBarOverlayWhite"
         app:popupTheme="@style/PopupActivityTheme.PopupOverlay">
 
@@ -140,7 +140,7 @@
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/detailed_task_log_container"
+            android:id="@+id/detailed_warning_log_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

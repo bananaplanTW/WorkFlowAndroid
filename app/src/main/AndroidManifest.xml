@@ -61,6 +61,10 @@
             android:name=".detail.DetailedWorkerActivity"
             android:theme="@style/PopupActivityTheme" >
         </activity>
+        <activity
+            android:name=".detail.DetailedWarningActivity"
+            android:theme="@style/PopupActivityTheme" >
+        </activity>
 
 <!--             parse necessary settings -->
         <service android:name="com.parse.PushService" />
