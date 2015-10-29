@@ -481,10 +481,10 @@ public final class WorkingData implements DataSubject {
 //                        }
 //                    }
                     task.caseId = aCase.id;
-                    TaskWarning w1 = new TaskWarning("No power", TaskWarning.Status.CLOSE);
-                    TaskWarning w2 = new TaskWarning("No power", TaskWarning.Status.CLOSE);
-                    TaskWarning w3 = new TaskWarning("No resource", TaskWarning.Status.OPEN);
-                    TaskWarning w4 = new TaskWarning("No resource", TaskWarning.Status.OPEN);
+                    TaskWarning w1 = new TaskWarning("No power", TaskWarning.Status.CLOSED);
+                    TaskWarning w2 = new TaskWarning("No power", TaskWarning.Status.CLOSED);
+                    TaskWarning w3 = new TaskWarning("No resource", TaskWarning.Status.OPENED);
+                    TaskWarning w4 = new TaskWarning("No resource", TaskWarning.Status.OPENED);
                     w1.taskId = task.id;
                     w2.taskId = task.id;
                     w3.taskId = task.id;

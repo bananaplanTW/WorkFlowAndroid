@@ -8,7 +8,7 @@ package com.bananaplan.workflowandroid.data;
 public class TaskWarning extends IdData {
 
     public enum Status {
-        OPEN, CLOSE
+        OPENED, CLOSED
     }
 
     public String taskId;
@@ -19,7 +19,7 @@ public class TaskWarning extends IdData {
 
     public long spentTime;
 
-    public Status status = Status.OPEN;
+    public Status status = Status.OPENED;
 
 
     public TaskWarning(
@@ -60,12 +60,12 @@ public class TaskWarning extends IdData {
     }
 
     public static Status convertStringToStatus(String status) {
-        Status result = Status.OPEN;
+        Status result = Status.OPENED;
 
-        if ("OPEN".equals(status)) {
-            result = Status.OPEN;
+        if ("OPENED".equals(status)) {
+            result = Status.OPENED;
         } else if ("CLOSE".equals(status)) {
-            result = Status.CLOSE;
+            result = Status.CLOSED;
         }
 
         return result;

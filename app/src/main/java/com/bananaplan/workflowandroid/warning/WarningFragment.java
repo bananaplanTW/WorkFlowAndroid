@@ -1,7 +1,10 @@
 package com.bananaplan.workflowandroid.warning;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -120,10 +123,8 @@ public class WarningFragment extends Fragment implements TextWatcher,
         mWarningGroups = new HashMap<>();
         for (Task task : WorkingData.getInstance(getActivity()).getTasks()) {
             for (TaskWarning taskWarning : task.taskWarnings) {
-                if (taskWarning.status == TaskWarning.Status.OPEN) {
-                    if (!mWarningGroups.containsKey(taskWarning.name)) {
-                        mWarningGroups.put(taskWarning.name, 0);
-                    }
+                if (!mWarningGroups.containsKey(taskWarning.name)) {
+                    mWarningGroups.put(taskWarning.name, 0);
                 }
             }
         }
@@ -143,6 +144,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
     }
 
     private class CaseListViewAdapter extends CaseAdapter {
+
         public CaseListViewAdapter(Context context, ArrayList<Case> cases) {
             super(context, cases);
         }
@@ -210,9 +212,9 @@ public class WarningFragment extends Fragment implements TextWatcher,
         private ArrayList<TaskWarning> mFilteredTaskWarnings;
         private CustomFilter mFilter;
 
-
         private class ViewHolder {
 
+            ViewGroup taskPartContainer;
             TextView taskName;
             TextView caseName;
             TextView managerName;
@@ -220,6 +222,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
             TextView time;
 
             public ViewHolder(View v) {
+                taskPartContainer = (ViewGroup) v.findViewById(R.id.warning_card_task_part_container);
                 taskName = (TextView) v.findViewById(R.id.warning_card_task_name);
                 caseName = (TextView) v.findViewById(R.id.warning_card_case_name);
                 managerName = (TextView) v.findViewById(R.id.warning_card_manager);
@@ -290,6 +293,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
             TaskWarning taskWarning = getItem(position);
             Manager manager = WorkingData.getInstance(getActivity()).getManagerById(taskWarning.managerId);
 
+            setWarningCardColor(holder, taskWarning.status);
             holder.taskName.setText(WorkingData.getInstance(getActivity()).getTaskById(taskWarning.taskId).name);
             holder.caseName.setText(WorkingData.getInstance(getActivity()).getCaseById(taskWarning.caseId).name);
             holder.managerName.setText(manager != null ? manager.name : "");
@@ -297,6 +301,26 @@ public class WarningFragment extends Fragment implements TextWatcher,
             holder.time.setText(Utils.millisecondsToTimeString(taskWarning.spentTime));
 
             return convertView;
+        }
+
+        private void setWarningCardColor(ViewHolder holder, TaskWarning.Status status) {
+            Resources resources = getActivity().getResources();
+            GradientDrawable warningCardTaskPartBackground =
+                    (GradientDrawable) ((RippleDrawable) holder.taskPartContainer.getBackground()).getDrawable(0);
+
+            switch (status) {
+                case OPENED:
+                    warningCardTaskPartBackground.
+                            setColor(resources.getColor(R.color.warning_card_task_part_opened_background_color));
+
+                    break;
+
+                case CLOSED:
+                    warningCardTaskPartBackground.
+                            setColor(resources.getColor(R.color.warning_card_task_part_closed_background_color));
+
+                    break;
+            }
         }
     }
 
@@ -418,11 +442,9 @@ public class WarningFragment extends Fragment implements TextWatcher,
         if (mSelectedCase != null) {
             for (Task task : mSelectedCase.tasks) {
                 for (TaskWarning taskWarning : task.taskWarnings) {
-                    if (taskWarning.status != null && taskWarning.status == TaskWarning.Status.OPEN) {
-                        taskWarnings.add(taskWarning);
-                        int count = mWarningGroups.get(taskWarning.name) + 1;
-                        mWarningGroups.put(taskWarning.name, count);
-                    }
+                    taskWarnings.add(taskWarning);
+                    int count = mWarningGroups.get(taskWarning.name) + 1;
+                    mWarningGroups.put(taskWarning.name, count);
                 }
             }
         }

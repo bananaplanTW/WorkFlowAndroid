@@ -97,7 +97,7 @@ public class Task extends IdData {
     public int getUnSolvedWarningCount() {
         int count = 0;
         for (TaskWarning taskWarning : taskWarnings) {
-            if (taskWarning.status == TaskWarning.Status.OPEN) {
+            if (taskWarning.status == TaskWarning.Status.OPENED) {
                 count++;
             }
         }

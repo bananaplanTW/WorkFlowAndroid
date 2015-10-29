@@ -248,7 +248,7 @@ public class Utils {
                 if (tmp == null) {
                     tmp = taskWarning;
                 } else {
-                    if (tmp.status == TaskWarning.Status.CLOSE && taskWarning.status == TaskWarning.Status.OPEN) {
+                    if (tmp.status == TaskWarning.Status.CLOSED && taskWarning.status == TaskWarning.Status.OPENED) {
                         tmp = taskWarning;
                     }
                 }
@@ -297,7 +297,7 @@ public class Utils {
 
     public static void setTaskItemWarningTextView(final Activity activity, final TaskWarning taskWarning, final TextView v) {
         v.setText(taskWarning.name);
-        if (taskWarning.status == TaskWarning.Status.OPEN) {
+        if (taskWarning.status == TaskWarning.Status.OPENED) {
             v.setBackground(activity.getResources().getDrawable(R.drawable.border_textview_bg_red, null));
             v.setTextColor(activity.getResources().getColor(R.color.red));
         } else {

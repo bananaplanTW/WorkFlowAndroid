@@ -163,7 +163,7 @@ public class MainInfoFragment extends Fragment implements DataObserver {
             }
 
             for (TaskWarning taskWarning : task.taskWarnings) {
-                if (taskWarning.status == TaskWarning.Status.OPEN) {
+                if (taskWarning.status == TaskWarning.Status.OPENED) {
                     mWarningCount++;
                 }
             }
@@ -183,7 +183,7 @@ public class MainInfoFragment extends Fragment implements DataObserver {
             for (Case _case : vendor.getCases()) {
                 for (Task task : _case.tasks) {
                     for (TaskWarning taskWarning : task.taskWarnings) {
-                        if (taskWarning.status == TaskWarning.Status.OPEN) {
+                        if (taskWarning.status == TaskWarning.Status.OPENED) {
                             mTaskWarnings.add(taskWarning);
                         }
                     }

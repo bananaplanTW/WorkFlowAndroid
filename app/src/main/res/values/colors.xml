@@ -158,7 +158,8 @@
 
     <!-- Warning -->
     <color name="warning_background">@android:color/white</color>
-    <color name="warning_card_task_part_background">#FFD9534F</color>
+    <color name="warning_card_task_part_opened_background_color">#FFD9534F</color>
+    <color name="warning_card_task_part_closed_background_color">#FFD8D8D8</color>
     <color name="warning_card_stroke_color">#FFE1E1E1</color>
     <color name="warning_card_task_part_text_color">@android:color/white</color>
     <color name="warning_card_warning_part_text_color">@android:color/black</color>

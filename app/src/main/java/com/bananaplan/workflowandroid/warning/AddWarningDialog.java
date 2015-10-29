@@ -17,7 +17,6 @@ import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.Warning;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.warning.actions.CreateTaskWarningCommand;
-import com.bananaplan.workflowandroid.detail.TaskScheduleFragment;
 import com.bananaplan.workflowandroid.utility.data.TextSpinnerAdapter;
 
 import java.util.ArrayList;
@@ -128,7 +127,7 @@ public class AddWarningDialog  extends AppCompatActivity implements View.OnClick
         Manager manager = (Manager) mManagerListSpinner.getSelectedItem();
         // [TODO] should use factory
         TaskWarning taskWarning = new TaskWarning(
-                taskWarningId, warning.name, task.caseId, mTaskId, task.workerId, manager.id, TaskWarning.Status.OPEN, 0, new Date().getTime());
+                taskWarningId, warning.name, task.caseId, mTaskId, task.workerId, manager.id, TaskWarning.Status.OPENED, 0, new Date().getTime());
 
         WorkingData.getInstance(this).addTaskWarning(taskWarning);
         task.taskWarnings.add(taskWarning);
