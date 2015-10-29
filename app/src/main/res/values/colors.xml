@@ -135,6 +135,9 @@
     <color name="detailed_task_information_stroke_color">#FFD8D8D8</color>
     <color name="detailed_task_information_text_color">@android:color/black</color>
 
+    <!-- Detailed warning -->
+    <color name="detailed_warning_actionbar_text_color">@android:color/white</color>
+
     <!-- Main information -->
     <color name="main_information_background_color">#FFEEEEEE</color>
     <color name="main_information_board_text_color">@android:color/white</color>

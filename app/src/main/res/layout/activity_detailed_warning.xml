@@ -20,18 +20,18 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/detailed_task_name"
+                android:id="@+id/detailed_actionbar_warning_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/detailed_task_actionbar_task_text_size"
-                android:textColor="@color/detailed_task_actionbar_text_color"/>
+                android:textSize="@dimen/detailed_actionbar_title_text_size"
+                android:textColor="@color/detailed_warning_actionbar_text_color"/>
 
             <TextView
-                android:id="@+id/detailed_case_name"
+                android:id="@+id/detailed_actionbar_warning_task_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/detailed_task_actionbar_case_text_size"
-                android:textColor="@color/detailed_task_actionbar_text_color"/>
+                android:textSize="@dimen/detailed_actionbar_subtitle_text_size"
+                android:textColor="@color/detailed_warning_actionbar_text_color"/>
 
         </LinearLayout>
 
@@ -44,20 +44,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/detailed_task_information_height"
-            android:layout_marginTop="@dimen/detailed_task_information_padding_top_left_right"
-            android:layout_marginLeft="@dimen/detailed_task_information_padding_top_left_right"
-            android:layout_marginRight="@dimen/detailed_task_information_padding_top_left_right"
+            android:layout_height="@dimen/detailed_information_height"
+            android:layout_marginTop="@dimen/detailed_information_padding_top_left_right"
+            android:layout_marginLeft="@dimen/detailed_information_padding_top_left_right"
+            android:layout_marginRight="@dimen/detailed_information_padding_top_left_right"
             android:background="@drawable/detailed_task_information_background"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/detailed_information_case_name"
+                android:id="@+id/detailed_information_warning_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textSize="@dimen/detailed_task_information_text_size"
+                android:layout_weight="1"
+                android:textSize="@dimen/detailed_information_text_size"
                 android:textColor="@color/detailed_task_information_text_color"
                 android:gravity="center"/>
 
@@ -70,8 +70,8 @@
                 android:id="@+id/detailed_information_task_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textSize="@dimen/detailed_task_information_text_size"
+                android:layout_weight="1"
+                android:textSize="@dimen/detailed_information_text_size"
                 android:textColor="@color/detailed_task_information_text_color"
                 android:gravity="center"/>
 
@@ -81,11 +81,11 @@
                 android:background="@color/detailed_task_information_stroke_color"/>
 
             <TextView
-                android:id="@+id/detailed_information_expected_time"
+                android:id="@+id/detailed_information_manager_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/detailed_task_information_text_size"
+                android:textSize="@dimen/detailed_information_text_size"
                 android:textColor="@color/detailed_task_information_text_color"
                 android:gravity="center"/>
 
@@ -95,47 +95,13 @@
                 android:background="@color/detailed_task_information_stroke_color"/>
 
             <TextView
-                android:id="@+id/detailed_information_spent_time"
+                android:id="@+id/detailed_information_warning_spent_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/detailed_task_information_text_size"
+                android:textSize="@dimen/detailed_information_text_size"
                 android:textColor="@color/detailed_task_information_text_color"
                 android:gravity="center"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/detailed_task_information_stroke_color"/>
-
-            <TextView
-                android:id="@+id/detailed_information_equipment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textSize="@dimen/detailed_task_information_text_size"
-                android:textColor="@color/detailed_task_information_text_color"
-                android:gravity="center"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/detailed_task_information_stroke_color"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/detailed_information_warning"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/detailed_task_information_text_size"
-                    android:padding="@dimen/detailed_task_information_warning_padding"/>
-
-            </LinearLayout>
 
         </LinearLayout>
 
