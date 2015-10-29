@@ -1,5 +1,6 @@
 package com.bananaplan.workflowandroid.overview.workeroverview;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,24 +11,31 @@ import android.view.ViewGroup;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
+import com.bananaplan.workflowandroid.data.loading.LoadingWorkerAttendanceAsyncTask;
+import com.bananaplan.workflowandroid.data.loading.loadingworkerattendance.LoadingWorkerAttendanceStrategy;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.data.worker.attendance.LeaveData;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
 /**
  * Created by Ben on 2015/8/14.
  */
-public class AttendanceStatusFragment extends OvTabFragmentBase implements OvTabFragmentBase.OvCallBack {
+public class AttendanceStatusFragment extends OvTabFragmentBase implements
+        OvTabFragmentBase.OvCallBack, LoadingWorkerAttendanceAsyncTask.OnFinishLoadingDataListener {
 
     private RecyclerView mAttendanceList;
     private LinearLayoutManager mAttendanceListManager;
 
+    private ProgressDialog mProgressDialog;
+
     private List<LeaveData> mLeaveDataSet = new ArrayList<>();
+
+    private Worker mWorker;
 
 
     @Nullable
@@ -43,6 +51,7 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements OvTab
     }
 
     private void initialize() {
+        mProgressDialog = new ProgressDialog(getActivity());
         findViews();
         onItemSelected(getSelectedWorker());
         setupAttendanceList();
@@ -54,16 +63,19 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements OvTab
 
     @Override
     public void onItemSelected(Object item) {
-        Worker worker = (Worker) item;
-        if (worker == null) return;
+        mWorker = (Worker) item;
+        if (mWorker == null) return;
 
-        mLeaveDataSet.addAll(worker.leaveDatas);
-        Collections.sort(mLeaveDataSet, new Comparator<LeaveData>() {
-            @Override
-            public int compare(LeaveData lhs, LeaveData rhs) {
-                return rhs.date.compareTo(lhs.date);
-            }
-        });
+        //mProgressDialog.show();
+        loadWorkerAttendance();
+    }
+
+    private void loadWorkerAttendance() {
+        LoadingWorkerAttendanceStrategy loadingWorkerAttendanceStrategy =
+                new LoadingWorkerAttendanceStrategy(mWorker.id, 0, System.currentTimeMillis());
+        LoadingWorkerAttendanceAsyncTask loadingWorkerAttendanceAsyncTask =
+                new LoadingWorkerAttendanceAsyncTask(getActivity(), loadingWorkerAttendanceStrategy, this);
+        loadingWorkerAttendanceAsyncTask.execute();
     }
 
     private void setupAttendanceList() {
@@ -73,6 +85,17 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements OvTab
 
     @Override
     public Object getCallBack() {
-        return null;
+        return this;
+    }
+
+    @Override
+    public void onFinishLoadingData(JSONArray workerAttendance) {
+        //mProgressDialog.dismiss();
+
+    }
+
+    @Override
+    public void onFailLoadingData(boolean isFailCausedByInternet) {
+
     }
 }

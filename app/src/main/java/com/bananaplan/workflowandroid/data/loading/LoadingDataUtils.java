@@ -55,6 +55,7 @@ public class LoadingDataUtils {
         public static final String TIME_CARD_BY_CASE = BASE_URL + "/api/case/task-timecards?caseId=%s&startDate=%d&endDate=%d";
         public static final String TIME_CARD_BY_WORKER = BASE_URL + "/api/employee/timecards?employeeId=%s&startDate=%d&endDate=%d";
         public static final String LEAVE_WORKERS = BASE_URL + "/api/leaves?startDate=%s&endDate=%s";
+        public static final String WORKER_ATTENDANCE = BASE_URL + "/api/employee/leaves?employeeId=%s&startDate=%d&endDate=%d";
 
         public static final class EndPoints {
             public static final String EMPLOYEES = "/api/employees";
