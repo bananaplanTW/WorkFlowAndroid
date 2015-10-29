@@ -267,6 +267,8 @@ public class DetailedTaskStatusFragment extends OvTabFragmentBase implements Vie
         syncingTextActivity();
 
         mRecordEditText.setText("");
+
+        Utils.hideSoftKeyboard(getActivity());
     }
 
     private void pickupFile() {
