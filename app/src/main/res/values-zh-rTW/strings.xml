@@ -299,4 +299,10 @@
     <string name="warning_card_pic">處理人</string>
     <string name="warning_card_warning">警訊</string>
 
+    <!-- Worker overview attendance -->
+    <string name="worker_overview_attendance_leave_date">請假日期</string>
+    <string name="worker_overview_attendance_leave_time">請假時段</string>
+    <string name="worker_overview_attendance_leave_type">請假類別</string>
+    <string name="worker_overview_attendance_leave_reason">請假事由</string>
+
 </resources>

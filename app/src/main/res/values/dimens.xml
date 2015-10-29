@@ -342,4 +342,8 @@
     <dimen name="warning_frag_warning_card_warning_part_content_margin_left">10dp</dimen>
     <dimen name="warning_frag_warning_card_warning_part_padding_vertical">8dp</dimen>
 
+    <!-- Worker overview attendance -->
+    <dimen name="worker_overview_attendance_list_header_height">40dp</dimen>
+    <dimen name="worker_overview_attendance_list_divider_width">2dp</dimen>
+
 </resources>

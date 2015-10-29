@@ -169,5 +169,7 @@
     <color name="warning_card_warning_text_color">#FFD9534F</color>
     <color name="warning_card_time_part_text_color">@android:color/black</color>
 
+    <!-- Worker overview attendance -->
+    <color name="worker_overview_attendance_list_divider_color">#FF979797</color>
 
 </resources>

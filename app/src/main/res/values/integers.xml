@@ -37,4 +37,10 @@
     <!-- Warning fragment -->
     <integer name="warning_frag_gridview_column_count">3</integer>
 
+    <!-- Worker overview attendance -->
+    <integer name="worker_overview_attendance_list_leave_date_weight">1</integer>
+    <integer name="worker_overview_attendance_list_leave_time_weight">1</integer>
+    <integer name="worker_overview_attendance_list_leave_type_weight">1</integer>
+    <integer name="worker_overview_attendance_list_leave_reason_weight">2</integer>
+
 </resources>
