@@ -54,7 +54,7 @@
                     android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/worker_ov_right_pane_worker_title"
+                    android:id="@+id/worker_ov_right_pane_worker_wip_equipment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/worker_ov_right_pane_worker_name"
@@ -67,7 +67,7 @@
                     android:id="@+id/worker_ov_right_pane_worker_factory_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/worker_ov_right_pane_worker_title"
+                    android:layout_below="@id/worker_ov_right_pane_worker_wip_equipment"
                     android:layout_toRightOf="@id/worker_ov_right_pane_worker_avatar"
                     android:singleLine="true"
                     android:textColor="@color/gray1"

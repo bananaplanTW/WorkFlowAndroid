@@ -30,6 +30,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.data.Equipment;
+import com.bananaplan.workflowandroid.data.Worker;
+import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -222,7 +225,7 @@ public class Utils {
 
     public static String milliSeconds2MinsSecs(long millis) {
         int minutes = (int) ((millis / (1000 * 60)) % 60);
-        int hours   = (int) ((millis / (1000 * 60 * 60)) % 24);
+        int hours = (int) ((millis / (1000 * 60 * 60)) % 24);
         return Integer.toString(hours) + " : " + Integer.toString(minutes);
     }
 
@@ -401,7 +404,7 @@ public class Utils {
                     contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                 }
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] { split[1] };
+                final String[] selectionArgs = new String[]{split[1]};
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             } else if (isDownloadedDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
@@ -423,7 +426,7 @@ public class Utils {
     public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
         Cursor cursor = null;
         final String column = "_data";
-        final String[] projection = { column };
+        final String[] projection = {column};
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -485,14 +488,13 @@ public class Utils {
         return type;
     }
 
-    private static final String[] okFileExtensions =  new String[] {"jpg", "png", "gif","jpeg"};
-    public static boolean isImage (String filePath) {
+    private static final String[] okFileExtensions = new String[]{"jpg", "png", "gif", "jpeg"};
+
+    public static boolean isImage(String filePath) {
         File file = new File(filePath);
 
-        for (String extension : okFileExtensions)
-        {
-            if (file.getName().toLowerCase().endsWith(extension))
-            {
+        for (String extension : okFileExtensions) {
+            if (file.getName().toLowerCase().endsWith(extension)) {
                 return true;
             }
         }
@@ -540,5 +542,16 @@ public class Utils {
             e2.printStackTrace();
         }
         return null;
+    }
+
+    public static String getWorkerWipEquipmentName(Context context, Worker worker) {
+        String result = context.getString(R.string.no_equipment);
+        Equipment wipEquipment = WorkingData.getInstance(context).getEquipmentById(worker.getWipTask().equipmentId);
+
+        if (worker.hasWipTask() && wipEquipment != null) {
+            result = wipEquipment.name;
+        }
+
+        return result;
     }
 }

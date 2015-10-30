@@ -2,7 +2,6 @@ package com.bananaplan.workflowandroid.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,10 +14,10 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 import com.bananaplan.workflowandroid.overview.StatusFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.utility.TabManager;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 public class DetailedWorkerActivity extends AppCompatActivity {
 
@@ -38,7 +37,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
 
     private ImageView mWorkerAvatar;
     private TextView mWorkerName;
-    private TextView mWorkerJobTitle;
+    private TextView mWipEquipment;
 
     private Worker mWorker;
     private TabManager mTabMgr;
@@ -63,7 +62,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
         mTabHost = (TabHost) findViewById(R.id.detailed_worker_tab_host);
         mWorkerAvatar = (ImageView) findViewById(R.id.detailed_worker_avatar);
         mWorkerName = (TextView) findViewById(R.id.detailed_worker_name);
-        mWorkerJobTitle = (TextView) findViewById(R.id.detailed_worker_jobtitle);
+        mWipEquipment = (TextView) findViewById(R.id.detailed_worker_wip_equipment);
         mTabMgr = new TabManager(this, mTabHost, android.R.id.tabcontent);
     }
 
@@ -135,7 +134,7 @@ public class DetailedWorkerActivity extends AppCompatActivity {
     private void setupViews() {
         mWorkerAvatar.setImageDrawable(mWorker.getAvator());
         mWorkerName.setText(mWorker.name);
-        mWorkerJobTitle.setText(mWorker.jobTitle);
+        mWipEquipment.setText(Utils.getWorkerWipEquipmentName(this, mWorker));
     }
 
     @Override

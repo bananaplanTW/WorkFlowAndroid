@@ -34,7 +34,7 @@
                 android:textColor="@color/detailed_worker_acitonbar_name_text_color"/>
 
             <TextView
-                android:id="@+id/detailed_worker_jobtitle"
+                android:id="@+id/detailed_worker_wip_equipment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/detailed_worker_avatar"

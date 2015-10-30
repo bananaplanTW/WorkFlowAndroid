@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.assigntask.tasks;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Task;
-import com.bananaplan.workflowandroid.detail.DetailedTaskActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.CustomProgressBar;
 import com.bananaplan.workflowandroid.utility.view.SquareAvatar;
@@ -188,7 +186,7 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Equipment
         Equipment equipment = WorkingData.getInstance(mContext).getEquipmentById(task.equipmentId);
         holder.equipment.setText(equipment == null ?
-                mContext.getString(R.string.task_card_no_equipment) : equipment.name);
+                mContext.getString(R.string.no_equipment) : equipment.name);
 
         // Worker
         Worker worker = WorkingData.getInstance(mContext).getWorkerById(task.workerId);

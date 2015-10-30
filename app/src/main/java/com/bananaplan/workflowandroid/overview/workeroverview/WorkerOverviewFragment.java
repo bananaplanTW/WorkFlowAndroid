@@ -52,7 +52,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     private ListView mWorkerListView;
     private ImageView mIvWorkerAvatar;
     private TextView mTvWorkerName;
-    private TextView mTvWorkerTitle;
+    private TextView mTvWorkerWipEquipment;
     private TextView mTvWorkerFactoryName;
     private TextView mTvWorkerAddress;
     private TextView mTvWorkerPhone;
@@ -79,7 +79,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         mWorkerListView = (ListView) getActivity().findViewById(R.id.ov_leftpane_listview);
         mIvWorkerAvatar = (ImageView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_avatar);
         mTvWorkerName = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_name);
-        mTvWorkerTitle = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_title);
+        mTvWorkerWipEquipment = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_wip_equipment);
         mTvWorkerFactoryName = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_factory_name);
         mTvWorkerAddress = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_address);
         mTvWorkerPhone = (TextView) getActivity().findViewById(R.id.worker_ov_right_pane_worker_phone);
@@ -358,7 +358,7 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
         // update worker's personal info.
         mIvWorkerAvatar.setImageDrawable(worker.getAvator());
         mTvWorkerName.setText(worker.name);
-        mTvWorkerTitle.setText(worker.jobTitle);
+        mTvWorkerWipEquipment.setText(Utils.getWorkerWipEquipmentName(getActivity(), worker));
         mTvWorkerFactoryName.setText(WorkingData.getInstance(getActivity()).getFactoryById(worker.factoryId).name);
         mTvWorkerAddress.setText(getResources().getString(R.string.worker_ov_worker_address)
                 + (TextUtils.isEmpty(worker.address) ? "" : worker.address));

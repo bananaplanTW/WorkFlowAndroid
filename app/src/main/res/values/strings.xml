@@ -9,6 +9,7 @@
     <string name="no_internet_connection">Check your connection and try again.</string>
     <string name="retry">Retry</string>
     <string name="processing">Processing</string>
+    <string name="no_equipment">No equipment</string>
 
     <!-- Task status -->
     <string name="task_status_unclaimed">Not start</string>
@@ -44,7 +45,6 @@
     <string name="task_case_progress_text">Case Progress</string>
     <string name="task_case_participated_worker_text">Participated Worker</string>
     <string name="task_case_edit_text">Edit case</string>
-    <string name="task_card_no_equipment">No equipment</string>
     <string name="task_card_no_worker">No worker</string>
     <string name="worker_action_start">Start for all</string>
     <string name="worker_card_next_task_text">Next task</string>

@@ -90,7 +90,7 @@ public class DetailedTaskActivity extends AppCompatActivity {
         mDetailedInformaationExpectedTime.setText(Utils.millisecondsToTimeString(mTask.expectedTime));
         mDetailedInformationSpentTime.setText(Utils.millisecondsToTimeString(mTask.spentTime));
         mDetailedInformationEquipment.setText(equipment == null ?
-                getString(R.string.task_card_no_equipment) : equipment.name);
+                getString(R.string.no_equipment) : equipment.name);
         Utils.setTaskItemWarningTextView(this, mTask, mDetailedInformationWarning, true);
     }
 
