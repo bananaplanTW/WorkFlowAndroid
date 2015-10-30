@@ -322,4 +322,10 @@
     <string name="worker_overview_attendance_time_range_afternoon">Afternoon</string>
     <string name="worker_overview_attendance_time_range_whole_day">Whole</string>
 
+    <!-- Warning Dialog -->
+    <string name="warning_dialog_create_warning">Create Warning</string>
+    <string name="warning_dialog_warning_title">Warning</string>
+    <string name="warning_dialog_warning_lead">Warning Lead</string>
+    <string name="warning_dialog_warning_description_title">Warning Description</string>
+    <string name="warning_dialog_warning_description">Description</string>
 </resources>
