@@ -225,6 +225,11 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
                 status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
                 status.setBackgroundResource(R.drawable.task_card_status_warning_background);
                 break;
+
+            case DONE:
+                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_done_text_color));
+                status.setBackground(null);
+                break;
         }
     }
 

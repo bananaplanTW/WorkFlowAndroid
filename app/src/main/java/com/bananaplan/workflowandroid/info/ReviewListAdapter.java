@@ -58,14 +58,32 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.main_information_pass_button:
-                    PassTaskCommand passTaskCommand = new PassTaskCommand(mContext, mData.get(getAdapterPosition()).id);
-                    passTaskCommand.execute();
+                    setTaskPassed(true, mData.get(getAdapterPosition()).id);
                     break;
+
                 case R.id.main_information_unpass_button:
-                    FailTaskCommand failTaskCommand = new FailTaskCommand(mContext, mData.get(getAdapterPosition()).id);
-                    failTaskCommand.execute();
+                    setTaskPassed(false, mData.get(getAdapterPosition()).id);
                     break;
             }
+        }
+
+        private void setTaskPassed(boolean isPassed, String taskId) {
+            if (isPassed) {
+                PassTaskCommand passTaskCommand = new PassTaskCommand(mContext, taskId);
+                passTaskCommand.execute();
+
+                WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.DONE;
+                mData.remove(getAdapterPosition());
+
+            } else {
+                FailTaskCommand failTaskCommand = new FailTaskCommand(mContext, taskId);
+                failTaskCommand.execute();
+
+                WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.PENDING;
+                mData.remove(getAdapterPosition());
+            }
+
+            notifyDataSetChanged();
         }
     }
 
