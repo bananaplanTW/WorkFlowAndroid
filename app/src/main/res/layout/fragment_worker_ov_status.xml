@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="@dimen/worker_status_ov_no_wip_task_text_size"
+        android:textSize="@dimen/worker_status_ov_no_data_item_text_size"
         android:text="@string/status_no_wip_task_text"
         android:visibility="gone"/>
 

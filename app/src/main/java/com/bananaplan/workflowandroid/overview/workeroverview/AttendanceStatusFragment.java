@@ -36,6 +36,9 @@ import java.util.List;
 public class AttendanceStatusFragment extends OvTabFragmentBase implements
         OvTabFragmentBase.OvCallBack, LoadingWorkerAttendanceAsyncTask.OnFinishLoadingDataListener {
 
+    private ViewGroup mAttendanceStatusFragmentView;
+    private TextView mNoAttendanceText;
+
     private RecyclerView mAttendanceList;
     private AttendanceAdapter mAttendanceAdapter;
     private LinearLayoutManager mAttendanceListManager;
@@ -152,6 +155,8 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
     }
 
     private void findViews() {
+        mAttendanceStatusFragmentView = (ViewGroup) getView().findViewById(R.id.worker_overview_attendance_view);
+        mNoAttendanceText = (TextView) getView().findViewById(R.id.worker_overview_no_attendance_text);
         mAttendanceList = (RecyclerView) getView().findViewById(R.id.worker_ov_attendance_list);
     }
 
@@ -197,7 +202,14 @@ public class AttendanceStatusFragment extends OvTabFragmentBase implements
             }
         });
 
-        mAttendanceAdapter.notifyDataSetChanged();
+        if (mWorkerAttendanceSet.size() == 0) {
+            mAttendanceStatusFragmentView.setVisibility(View.GONE);
+            mNoAttendanceText.setVisibility(View.VISIBLE);
+        } else {
+            mAttendanceStatusFragmentView.setVisibility(View.VISIBLE);
+            mNoAttendanceText.setVisibility(View.GONE);
+            mAttendanceAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

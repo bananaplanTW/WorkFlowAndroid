@@ -1,61 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/worker_overview_no_attendance_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="@dimen/worker_status_ov_no_data_item_text_size"
+        android:text="@string/worker_overview_no_attendance_text"
+        android:visibility="gone"/>
 
     <LinearLayout
+        android:id="@+id/worker_overview_attendance_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/worker_overview_attendance_list_header_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <TextView
-            style="@style/WorkerOverviewAttendanceList.Header"
-            android:layout_weight="@integer/worker_overview_attendance_list_leave_date_weight"
-            android:text="@string/worker_overview_attendance_leave_date" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/worker_overview_attendance_list_header_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/WorkerOverviewAttendanceList.Header"
+                android:layout_weight="@integer/worker_overview_attendance_list_leave_date_weight"
+                android:text="@string/worker_overview_attendance_leave_date" />
+
+            <View
+                android:layout_width="@dimen/worker_overview_attendance_list_divider_width"
+                android:layout_height="match_parent"
+                android:background="@color/worker_overview_attendance_list_divider_color" />
+
+            <TextView
+                style="@style/WorkerOverviewAttendanceList.Header"
+                android:layout_weight="@integer/worker_overview_attendance_list_leave_time_range_weight"
+                android:text="@string/worker_overview_attendance_leave_time_range" />
+
+            <View
+                android:layout_width="@dimen/worker_overview_attendance_list_divider_width"
+                android:layout_height="match_parent"
+                android:background="@color/worker_overview_attendance_list_divider_color" />
+
+            <TextView
+                style="@style/WorkerOverviewAttendanceList.Header"
+                android:layout_weight="@integer/worker_overview_attendance_list_leave_type_weight"
+                android:text="@string/worker_overview_attendance_leave_type" />
+
+            <View
+                android:layout_width="@dimen/worker_overview_attendance_list_divider_width"
+                android:layout_height="match_parent"
+                android:background="@color/worker_overview_attendance_list_divider_color" />
+
+            <TextView
+                style="@style/WorkerOverviewAttendanceList.Header"
+                android:layout_weight="@integer/worker_overview_attendance_list_leave_reason_weight"
+                android:text="@string/worker_overview_attendance_leave_reason" />
+
+        </LinearLayout>
 
         <View
-            android:layout_width="@dimen/worker_overview_attendance_list_divider_width"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/worker_overview_attendance_list_divider_width"
             android:background="@color/worker_overview_attendance_list_divider_color" />
 
-        <TextView
-            style="@style/WorkerOverviewAttendanceList.Header"
-            android:layout_weight="@integer/worker_overview_attendance_list_leave_time_range_weight"
-            android:text="@string/worker_overview_attendance_leave_time_range" />
-
-        <View
-            android:layout_width="@dimen/worker_overview_attendance_list_divider_width"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/worker_ov_attendance_list"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/worker_overview_attendance_list_divider_color" />
-
-        <TextView
-            style="@style/WorkerOverviewAttendanceList.Header"
-            android:layout_weight="@integer/worker_overview_attendance_list_leave_type_weight"
-            android:text="@string/worker_overview_attendance_leave_type" />
-
-        <View
-            android:layout_width="@dimen/worker_overview_attendance_list_divider_width"
-            android:layout_height="match_parent"
-            android:background="@color/worker_overview_attendance_list_divider_color" />
-
-        <TextView
-            style="@style/WorkerOverviewAttendanceList.Header"
-            android:layout_weight="@integer/worker_overview_attendance_list_leave_reason_weight"
-            android:text="@string/worker_overview_attendance_leave_reason" />
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/worker_overview_attendance_list_divider_width"
-        android:background="@color/worker_overview_attendance_list_divider_color" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/worker_ov_attendance_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
-
-</LinearLayout>
+</RelativeLayout>

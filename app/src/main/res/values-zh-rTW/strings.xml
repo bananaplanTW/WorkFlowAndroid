@@ -300,6 +300,7 @@
     <string name="warning_card_warning">警訊</string>
 
     <!-- Worker overview attendance -->
+    <string name="worker_overview_no_attendance_text">無請假</string>
     <string name="worker_overview_attendance_leave_date">請假日期</string>
     <string name="worker_overview_attendance_leave_time_range">請假時段</string>
     <string name="worker_overview_attendance_leave_type">請假類別</string>

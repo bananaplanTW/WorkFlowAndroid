@@ -313,6 +313,7 @@
     <string name="warning_card_warning">Warning</string>
 
     <!-- Worker overview attendance -->
+    <string name="worker_overview_no_attendance_text">No attendances</string>
     <string name="worker_overview_attendance_leave_date">Leave date</string>
     <string name="worker_overview_attendance_leave_time_range">Leave time</string>
     <string name="worker_overview_attendance_leave_type">Leave type</string>
