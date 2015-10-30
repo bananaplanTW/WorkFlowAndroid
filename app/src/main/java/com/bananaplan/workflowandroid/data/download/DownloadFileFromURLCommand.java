@@ -1,16 +1,17 @@
 package com.bananaplan.workflowandroid.data.download;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.network.GetRequestAsyncTask;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by daz on 10/30/15.
@@ -25,12 +26,12 @@ public class DownloadFileFromURLCommand implements IDownloadCommand,
 
     private Context mContext;
     private String mUrlString;
-    private String mFileName;
+    private String mFilePath;
 
     public DownloadFileFromURLCommand(Context context, String urlString, String fileName) {
         mContext = context;
         mUrlString = urlString;
-        mFileName = fileName;
+        mFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/" + fileName;
     }
 
 
@@ -40,9 +41,20 @@ public class DownloadFileFromURLCommand implements IDownloadCommand,
         mBuilder = new NotificationCompat.Builder(mContext);
         mBuilder.setContentTitle(mContext.getString(R.string.download_file))
                 .setContentText(mContext.getString(R.string.downloading))
-                        .setSmallIcon(R.drawable.black_arrow_down);
+                .setSmallIcon(R.drawable.black_arrow_down);
 
-        DownloadFileFromURLStrategy downloadFileFromURLStrategy = new DownloadFileFromURLStrategy(mUrlString, mFileName, this);
+        Intent resultIntent = new Intent(Intent.ACTION_VIEW);
+
+        resultIntent.setData(Uri.parse("content://" + mFilePath));
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                mContext,
+                0,
+                resultIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        mBuilder.setContentIntent(pendingIntent);
+
+        DownloadFileFromURLStrategy downloadFileFromURLStrategy = new DownloadFileFromURLStrategy(mUrlString, mFilePath, this);
         mGetRequestAsyncTask = new GetRequestAsyncTask(mContext, downloadFileFromURLStrategy, this);
         mGetRequestAsyncTask.execute();
     }

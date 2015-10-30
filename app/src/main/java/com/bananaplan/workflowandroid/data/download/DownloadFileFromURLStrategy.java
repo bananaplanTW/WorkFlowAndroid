@@ -1,12 +1,8 @@
 package com.bananaplan.workflowandroid.data.download;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Environment;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.network.IGetRequestStrategy;
 
 import org.json.JSONObject;
@@ -24,7 +20,7 @@ import java.net.URLConnection;
 public class DownloadFileFromURLStrategy implements IGetRequestStrategy {
 
     private String mUrlString;
-    private String mFileName;
+    private String mFilePath;
     private DownloadProgressListener mDownloadProgressListener;
 
     public interface DownloadProgressListener {
@@ -32,9 +28,9 @@ public class DownloadFileFromURLStrategy implements IGetRequestStrategy {
         void downloadCompleted();
     }
 
-    public DownloadFileFromURLStrategy (String urlString, String fileName, DownloadProgressListener downloadProgressListener) {
+    public DownloadFileFromURLStrategy (String urlString, String filePath, DownloadProgressListener downloadProgressListener) {
         mUrlString = urlString;
-        mFileName = fileName;
+        mFilePath = filePath;
         mDownloadProgressListener = downloadProgressListener;
     }
 
@@ -52,7 +48,7 @@ public class DownloadFileFromURLStrategy implements IGetRequestStrategy {
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
             // Output stream
-            OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/" + mFileName);
+            OutputStream output = new FileOutputStream(mFilePath);
 
             byte data[] = new byte[1024];
 
