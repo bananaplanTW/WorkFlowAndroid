@@ -36,6 +36,7 @@ import com.bananaplan.workflowandroid.data.activity.TaskWarningActivityTypeInter
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
@@ -419,11 +420,11 @@ public class DetailedWarningStatusFragment extends OvTabFragmentBase implements 
     }
 
     private void syncingTextActivity() {
-//        LeaveATextCommentToTaskCommand leaveATextCommentToTaskCommand =
-//                new LeaveATextCommentToTaskCommand(mContext, mTask.id, mCommentText);
-//        leaveATextCommentToTaskCommand.execute();
-//
-//        mCommentText = null;
+        LeaveATextCommentToTaskWarningCommand leaveATextCommentToTaskWarningCommand =
+                new LeaveATextCommentToTaskWarningCommand(mContext, mTaskWarning.id, mCommentText);
+        leaveATextCommentToTaskWarningCommand.execute();
+
+        mCommentText = null;
     }
 
     private void onTabSelected(int id) {
