@@ -332,4 +332,9 @@
     <string name="warning_dialog_warning_lead">Warning Lead</string>
     <string name="warning_dialog_warning_description_title">Warning Description</string>
     <string name="warning_dialog_warning_description">Description</string>
+
+    <!-- Downloading -->
+    <string name="download_file">Download File</string>
+    <string name="downloading">Downloading</string>
+    <string name="download_completed">Download Completed</string>
 </resources>
