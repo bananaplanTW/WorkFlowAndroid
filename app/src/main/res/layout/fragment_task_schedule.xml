@@ -64,7 +64,8 @@
                 android:layout_alignBottom="@+id/complete_task_button"
                 android:layout_marginRight="@dimen/detailed_worker_task_schedule_current_task_container_button_margin_right"
                 android:layout_toLeftOf="@+id/add_warning_button"
-                android:text="@string/detailed_worker_task_schedule_manage_warning_button" />
+                android:text="@string/detailed_worker_task_schedule_manage_warning_button"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
@@ -97,7 +98,8 @@
                 style="@style/ButtonStyle.Gray"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:text="@string/detailed_worker_task_schedule_manage_tasks_button" />
+                android:text="@string/detailed_worker_task_schedule_manage_tasks_button"
+                android:visibility="gone"/>
 
             <com.mobeta.android.dslv.DragSortListView
                 android:id="@+id/task_list"
