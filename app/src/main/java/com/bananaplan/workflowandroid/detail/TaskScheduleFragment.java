@@ -126,13 +126,17 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
 
         public TaskAdapter(ArrayList<Task> items) {
             super(getActivity(), 0, items);
-            mData = items;
-            calDivPos();
+            setupDataSet(items);
         }
 
         public void updateData (List<Task> data) {
-            mData = data;
+            setupDataSet(data);
             notifyDataSetChanged();
+        }
+
+        private void setupDataSet(List<Task> data) {
+            mData = data;
+            calDivPos();
         }
 
         private void calDivPos() {
