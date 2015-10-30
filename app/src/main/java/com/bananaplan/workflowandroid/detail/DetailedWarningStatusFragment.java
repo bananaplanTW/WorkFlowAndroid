@@ -34,8 +34,11 @@ import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpre
 import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.TaskWarningActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
@@ -395,35 +398,35 @@ public class DetailedWarningStatusFragment extends OvTabFragmentBase implements 
     }
 
     private void syncingPhotoActivity() {
-//        String realPath = mCurrentPhotoPath.substring(mCurrentPhotoPath.indexOf(':') + 1);
-//
-//        LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand =
-//                new LeaveAPhotoCommentToTaskCommand(mContext, mTask.id, realPath);
-//        leaveAPhotoCommentToTaskCommand.execute();
-//
-//        mCurrentPhotoPath = null;
+        String realPath = mCurrentPhotoPath.substring(mCurrentPhotoPath.indexOf(':') + 1);
+
+        LeaveAPhotoCommentToTaskWarningCommand leaveAPhotoCommentToTaskWarningCommand =
+                new LeaveAPhotoCommentToTaskWarningCommand(mContext, mTaskWarning.id, realPath);
+        leaveAPhotoCommentToTaskWarningCommand.execute();
+
+        mCurrentPhotoPath = null;
     }
 
     private void syncingFileActivity() {
-//        if (Utils.isImage(mCurrentFilePath)) {
-//            LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand =
-//                    new LeaveAPhotoCommentToTaskCommand(mContext, mTask.id, mCurrentFilePath);
-//            leaveAPhotoCommentToTaskCommand.execute();
-//        } else {
-//            LeaveAFileCommentToTaskCommand leaveAFileCommentToTaskCommand =
-//                    new LeaveAFileCommentToTaskCommand(mContext, mTask.id, mCurrentFilePath);
-//            leaveAFileCommentToTaskCommand.execute();
-//        }
-//
-//        mCurrentFilePath = null;
+        if (Utils.isImage(mCurrentFilePath)) {
+            LeaveAPhotoCommentToTaskWarningCommand leaveAPhotoCommentToTaskWarningCommand =
+                    new LeaveAPhotoCommentToTaskWarningCommand(mContext, mTaskWarning.id, mCurrentFilePath);
+            leaveAPhotoCommentToTaskWarningCommand.execute();
+        } else {
+            LeaveAFileCommentToTaskWarningCommand leaveAFileCommentToTaskWarningCommand =
+                    new LeaveAFileCommentToTaskWarningCommand(mContext, mTaskWarning.id, mCurrentFilePath);
+            leaveAFileCommentToTaskWarningCommand.execute();
+        }
+
+        mCurrentFilePath = null;
     }
 
     private void syncingTextActivity() {
-//        LeaveATextCommentToTaskCommand leaveATextCommentToTaskCommand =
-//                new LeaveATextCommentToTaskCommand(mContext, mTask.id, mCommentText);
-//        leaveATextCommentToTaskCommand.execute();
-//
-//        mCommentText = null;
+        LeaveATextCommentToTaskWarningCommand leaveATextCommentToTaskWarningCommand =
+                new LeaveATextCommentToTaskWarningCommand(mContext, mTaskWarning.id, mCommentText);
+        leaveATextCommentToTaskWarningCommand.execute();
+
+        mCommentText = null;
     }
 
     private void onTabSelected(int id) {
