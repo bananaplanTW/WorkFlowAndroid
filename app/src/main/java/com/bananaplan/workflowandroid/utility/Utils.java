@@ -546,10 +546,13 @@ public class Utils {
 
     public static String getWorkerWipEquipmentName(Context context, Worker worker) {
         String result = context.getString(R.string.no_equipment);
-        Equipment wipEquipment = WorkingData.getInstance(context).getEquipmentById(worker.getWipTask().equipmentId);
 
-        if (worker.hasWipTask() && wipEquipment != null) {
-            result = wipEquipment.name;
+        if (worker.hasWipTask()) {
+            Equipment wipEquipment = WorkingData.getInstance(context).getEquipmentById(worker.getWipTask().equipmentId);
+
+            if (wipEquipment != null) {
+                result = wipEquipment.name;
+            }
         }
 
         return result;
