@@ -42,6 +42,7 @@ import com.bananaplan.workflowandroid.data.worker.status.FileData;
 import com.bananaplan.workflowandroid.data.worker.status.HistoryData;
 import com.bananaplan.workflowandroid.data.worker.status.PhotoData;
 import com.bananaplan.workflowandroid.data.worker.status.RecordData;
+import com.bananaplan.workflowandroid.utility.DisplayImageActivity;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;
 
@@ -500,6 +501,7 @@ public class DetailedTaskStatusFragment extends OvTabFragmentBase implements Vie
         }
 
         private class ViewHolder {
+            View view;
             ImageView avatar;
             ImageView photo;
             TextView name;
@@ -509,6 +511,7 @@ public class DetailedTaskStatusFragment extends OvTabFragmentBase implements Vie
             TextView time;
 
             public ViewHolder(View view) {
+                this.view = view;
                 avatar = (ImageView) view.findViewById(R.id.avatar);
                 photo = (ImageView) view.findViewById(R.id.photo);
                 name = (TextView) view.findViewById(R.id.name);
@@ -577,14 +580,12 @@ public class DetailedTaskStatusFragment extends OvTabFragmentBase implements Vie
                                 (TextUtils.isEmpty(photoData.fileName) ? "" : " " + photoData.fileName));
                         holder.photo.setImageDrawable(photoData.photo);
                         if (Uri.EMPTY != photoData.filePath) {
-                            holder.photo.setOnClickListener(new View.OnClickListener() {
+                            holder.view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent();
-                                    intent.setAction(Intent.ACTION_VIEW);
-                                    File file = new File(photoData.filePath.getPath());
-                                    intent.setDataAndType(Uri.fromFile(file), "image/*");
-                                    startActivity(intent);
+                                    startActivity(DisplayImageActivity.
+                                            launchDisplayImageActivity(mContext,
+                                                    photoData.fileName, photoData.filePath.toString()));
                                 }
                             });
                         }

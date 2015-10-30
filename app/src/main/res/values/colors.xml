@@ -181,4 +181,8 @@
     <!-- Warning Dialog -->
     <color name="warning_dialog_actionbar_background_color">#FFD9534F</color>
     <color name="warning_dialog_actionbar_title_text_color">@android:color/white</color>
+
+    <!-- Display image -->
+    <color name="display_image_actionbar_title_text_color">#FF4A4A4A</color>
+
 </resources>

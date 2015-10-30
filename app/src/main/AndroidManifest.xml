@@ -65,8 +65,12 @@
             android:name=".detail.warning.DetailedWarningActivity"
             android:theme="@style/PopupActivityTheme" >
         </activity>
+        <activity
+            android:name=".utility.DisplayImageActivity"
+            android:theme="@style/PopupActivityTheme" >
+        </activity>
 
-<!--             parse necessary settings -->
+        <!-- Parse necessary settings -->
         <service android:name="com.parse.PushService" />
 
         <receiver
