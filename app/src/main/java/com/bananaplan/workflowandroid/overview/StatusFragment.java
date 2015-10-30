@@ -44,6 +44,7 @@ import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToW
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
 import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
+import com.bananaplan.workflowandroid.data.download.DownloadFileFromURLCommand;
 import com.bananaplan.workflowandroid.data.loading.UpdatableScheduledExecution;
 import com.bananaplan.workflowandroid.data.worker.actions.UpdateEmployeeScoreCommand;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
@@ -733,6 +734,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                     break;
                 case FILE:
                     if (data instanceof FileData) {
+                        final FileData fileData = (FileData) data;
                         user = WorkingData.getInstance(getActivity()).getUserById(((FileData) data).uploader);
                         String statusTxt = (user != null ? user.name + " " : "") +
                                 getResources().getString(R.string.worker_ov_tab_status_upload) +
@@ -742,7 +744,9 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                         holder.download.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(getActivity(), "download file", Toast.LENGTH_SHORT).show();
+                                DownloadFileFromURLCommand downloadFileFromURLCommand = new DownloadFileFromURLCommand(mContext, fileData.filePath.toString(), fileData.fileName);
+                                downloadFileFromURLCommand.execute();
+                                Toast.makeText(getActivity(), mContext.getString(R.string.download_file), Toast.LENGTH_SHORT).show();
                             }
                         });
                         statusVisibility = View.VISIBLE;
