@@ -34,6 +34,7 @@ import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpre
 import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.TaskWarningActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskCommand;
@@ -407,17 +408,17 @@ public class DetailedWarningStatusFragment extends OvTabFragmentBase implements 
     }
 
     private void syncingFileActivity() {
-//        if (Utils.isImage(mCurrentFilePath)) {
-//            LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand =
-//                    new LeaveAPhotoCommentToTaskCommand(mContext, mTask.id, mCurrentFilePath);
-//            leaveAPhotoCommentToTaskCommand.execute();
-//        } else {
-//            LeaveAFileCommentToTaskCommand leaveAFileCommentToTaskCommand =
-//                    new LeaveAFileCommentToTaskCommand(mContext, mTask.id, mCurrentFilePath);
-//            leaveAFileCommentToTaskCommand.execute();
-//        }
-//
-//        mCurrentFilePath = null;
+        if (Utils.isImage(mCurrentFilePath)) {
+            LeaveAPhotoCommentToTaskWarningCommand leaveAPhotoCommentToTaskWarningCommand =
+                    new LeaveAPhotoCommentToTaskWarningCommand(mContext, mTaskWarning.id, mCurrentFilePath);
+            leaveAPhotoCommentToTaskWarningCommand.execute();
+        } else {
+            LeaveAFileCommentToTaskWarningCommand leaveAFileCommentToTaskWarningCommand =
+                    new LeaveAFileCommentToTaskWarningCommand(mContext, mTaskWarning.id, mCurrentFilePath);
+            leaveAFileCommentToTaskWarningCommand.execute();
+        }
+
+        mCurrentFilePath = null;
     }
 
     private void syncingTextActivity() {
