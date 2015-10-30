@@ -35,6 +35,7 @@ import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.TaskWarningActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskCommand;
+import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
@@ -396,13 +397,13 @@ public class DetailedWarningStatusFragment extends OvTabFragmentBase implements 
     }
 
     private void syncingPhotoActivity() {
-//        String realPath = mCurrentPhotoPath.substring(mCurrentPhotoPath.indexOf(':') + 1);
-//
-//        LeaveAPhotoCommentToTaskCommand leaveAPhotoCommentToTaskCommand =
-//                new LeaveAPhotoCommentToTaskCommand(mContext, mTask.id, realPath);
-//        leaveAPhotoCommentToTaskCommand.execute();
-//
-//        mCurrentPhotoPath = null;
+        String realPath = mCurrentPhotoPath.substring(mCurrentPhotoPath.indexOf(':') + 1);
+
+        LeaveAPhotoCommentToTaskWarningCommand leaveAPhotoCommentToTaskWarningCommand =
+                new LeaveAPhotoCommentToTaskWarningCommand(mContext, mTaskWarning.id, realPath);
+        leaveAPhotoCommentToTaskWarningCommand.execute();
+
+        mCurrentPhotoPath = null;
     }
 
     private void syncingFileActivity() {
