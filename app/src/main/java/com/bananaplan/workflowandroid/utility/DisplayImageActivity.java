@@ -3,23 +3,14 @@ package com.bananaplan.workflowandroid.utility;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
-import com.bananaplan.workflowandroid.data.Manager;
-import com.bananaplan.workflowandroid.data.Task;
-import com.bananaplan.workflowandroid.data.TaskWarning;
-import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.detail.warning.DetailedWarningStatusFragment;
-import com.bananaplan.workflowandroid.utility.Utils;
 
 
 public class DisplayImageActivity extends AppCompatActivity {
@@ -31,6 +22,7 @@ public class DisplayImageActivity extends AppCompatActivity {
 
     private ActionBar mActionBar;
 
+    private WebView mImageWebView;
     private TextView mImageName;
 
     private String mTitle;
@@ -55,14 +47,15 @@ public class DisplayImageActivity extends AppCompatActivity {
     private void initialize(Intent intent) {
         mTitle = intent.getStringExtra(EXTRA_TITLE);
         mImageUrl = intent.getStringExtra(EXTRA_IMAGE_URL);
-
         findViews();
         setupActionBar();
         setupViews();
+        setupImageWebView();
     }
 
     private void findViews() {
         mImageName = (TextView) findViewById(R.id.display_image_name);
+        mImageWebView = (WebView) findViewById(R.id.image_web_view);
     }
 
     private void setupActionBar() {
@@ -78,6 +71,16 @@ public class DisplayImageActivity extends AppCompatActivity {
 
     private void setupViews() {
         mImageName.setText(mTitle);
+    }
+
+    private void setupImageWebView() {
+        mImageWebView.getSettings().setUseWideViewPort(true);
+        mImageWebView.getSettings().setLoadWithOverviewMode(true);
+        mImageWebView.getSettings().setSupportZoom(true);
+        mImageWebView.getSettings().setBuiltInZoomControls(true);
+        mImageWebView.setInitialScale(0);
+
+        mImageWebView.loadUrl(mImageUrl);
     }
 
     @Override
