@@ -306,6 +306,10 @@
     <string name="task_complete_exception">Exception solved: </string>
     <string name="task_dispatch">Dispatched to: </string>
 
+    <!-- Task Warning Activity Translations -->
+    <string name="task_warning_open">Opened Warning</string>
+    <string name="task_warning_close">Closed Warning</string>
+
     <!-- Warning fragment -->
     <string name="warning_manage_warning">Manage warning</string>
     <string name="warning_all_warnings">All</string>

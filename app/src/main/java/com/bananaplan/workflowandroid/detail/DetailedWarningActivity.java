@@ -2,6 +2,9 @@ package com.bananaplan.workflowandroid.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -49,6 +52,7 @@ public class DetailedWarningActivity extends AppCompatActivity {
         findViews();
         setupActionBar();
         setupViews();
+        setupWarningLog();
     }
 
     private void findViews() {
@@ -94,21 +98,21 @@ public class DetailedWarningActivity extends AppCompatActivity {
     }
 
     private void setupWarningLog() {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//        Fragment fragment = fragmentManager.findFragmentByTag(TAG_DETAILED_WARNING_STATUS_FRAGMENT);
-//        if (fragment == null) {
-//            fragment = new DetailedTaskStatusFragment();
-//
-//            Bundle bundle = new Bundle();
-//            bundle.putString(EXTRA_WARNING_ID, mTask.id);
-//
-//            fragment.setArguments(bundle);
-//            fragmentTransaction.add(R.id.detailed_task_log_container, fragment, TAG_DETAILED_WARNING_STATUS_FRAGMENT);
-//        }
-//
-//        fragmentTransaction.commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment fragment = fragmentManager.findFragmentByTag(TAG_DETAILED_WARNING_STATUS_FRAGMENT);
+        if (fragment == null) {
+            fragment = new DetailedWarningStatusFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString(EXTRA_WARNING_ID, mTaskWarning.id);
+
+            fragment.setArguments(bundle);
+            fragmentTransaction.add(R.id.detailed_warning_log_container, fragment, TAG_DETAILED_WARNING_STATUS_FRAGMENT);
+        }
+
+        fragmentTransaction.commit();
     }
 
     @Override

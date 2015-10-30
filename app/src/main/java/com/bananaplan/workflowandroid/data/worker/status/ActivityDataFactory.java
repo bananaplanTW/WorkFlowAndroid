@@ -116,6 +116,15 @@ public class ActivityDataFactory {
                 taskException.time = new Date(recordJSON.getLong("createdAt"));
                 taskException.description = recordJSON.getString("exceptionName");
                 return taskException;
+
+            // task warining specific activities
+            case "open":
+            case "close":
+                HistoryData taskWarningStatus = (HistoryData) DataFactory.genData(recordJSON.getString("ownerId"), BaseData.TYPE.HISTORY);
+                taskWarningStatus.tag = type;
+                taskWarningStatus.category = BaseData.CATEGORY.WARNING;
+                taskWarningStatus.time = new Date(recordJSON.getLong("createdAt"));
+                return taskWarningStatus;
             default:
                 return null;
         }

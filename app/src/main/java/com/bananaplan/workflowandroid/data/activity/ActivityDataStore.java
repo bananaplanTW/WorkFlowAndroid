@@ -7,6 +7,7 @@ import com.bananaplan.workflowandroid.data.dataobserver.DataSubject;
 import com.bananaplan.workflowandroid.data.loading.LoadingActivitiesAsyncTask;
 import com.bananaplan.workflowandroid.data.loading.loadingactivities.ILoadingActivitiesStrategy;
 import com.bananaplan.workflowandroid.data.loading.loadingactivities.LoadingTaskActivitiesStrategy;
+import com.bananaplan.workflowandroid.data.loading.loadingactivities.LoadingTaskWarningActivitiesStrategy;
 import com.bananaplan.workflowandroid.data.loading.loadingactivities.LoadingWorkerActivitiesStrategy;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.ActivityDataFactory;
@@ -27,12 +28,13 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
     private Context mContext;
     private HashMap<String, LoadingActivitiesAsyncTask> loadingWorkerActivitiesAsyncTaskHashMap = new HashMap<>();
     private HashMap<String, LoadingActivitiesAsyncTask> loadingTaskActivitiesAsyncTaskHashMap = new HashMap<>();
+    private HashMap<String, LoadingActivitiesAsyncTask> loadingTaskWarningActivitiesAsyncTaskHashMap = new HashMap<>();
 
     private List<DataObserver> mDataObservers = new ArrayList<>();
 
     private HashMap<String, ArrayList<BaseData>> mWorkerActivitiesCache = new HashMap<>();
     private HashMap<String, ArrayList<BaseData>> mTaskActivityesCache = new HashMap<>();
-    private HashMap<String, ArrayList<BaseData>> mWarningActivitiesCache = new HashMap<>();
+    private HashMap<String, ArrayList<BaseData>> mTaskWarningActivitiesCache = new HashMap<>();
 
     private volatile static ActivityDataStore sActivityData = null;
 
@@ -156,6 +158,58 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
 
 
     /**
+     * load task warning activities
+     * @param taskWarningId
+     * @param limit
+     */
+    public void loadTaskWarningActivities(String taskWarningId, int limit) {
+        if (!loadingTaskWarningActivitiesAsyncTaskHashMap.containsKey(taskWarningId)) {
+            synchronized (ActivityDataStore.class) {
+                if (!loadingTaskWarningActivitiesAsyncTaskHashMap.containsKey(taskWarningId)) {
+                    LoadingTaskWarningActivitiesStrategy loadingTaskWarningActivitiesStrategy = new LoadingTaskWarningActivitiesStrategy(taskWarningId, limit);
+                    LoadingActivitiesAsyncTask loadingWorkerActivitiesTask = new LoadingActivitiesAsyncTask(mContext, taskWarningId, this, loadingTaskWarningActivitiesStrategy);
+                    loadingWorkerActivitiesTask.execute();
+                    loadingTaskWarningActivitiesAsyncTaskHashMap.put(taskWarningId, loadingWorkerActivitiesTask);
+                }
+            }
+        }
+    }
+    public ArrayList<BaseData> getTaskWarningActivities(String taskWarningId) {
+        return mTaskWarningActivitiesCache.get(taskWarningId);
+    }
+    public boolean hasTaskWarningActivitiesCacheWithTaskWarningId(String taskWarningId) {
+        return mTaskWarningActivitiesCache.get(taskWarningId) != null;
+    }
+    public void addTaskWarningActivity (String taskWarningId, BaseData activity) {
+        ArrayList<BaseData> taskWarningActivities = mTaskWarningActivitiesCache.get(taskWarningId);
+        if (taskWarningActivities != null) {
+            synchronized (ActivityDataStore.class) {
+                if (taskWarningActivities != null) {
+                    taskWarningActivities.add(0, activity);
+                }
+            }
+        }
+    }
+    private void removeLoadingTaskWarningActivitiesAsyncTaskFromHashMap(String taskWarningId) {
+        if (loadingTaskWarningActivitiesAsyncTaskHashMap.containsKey(taskWarningId)) {
+            synchronized (ActivityDataStore.class) {
+                if (loadingTaskWarningActivitiesAsyncTaskHashMap.containsKey(taskWarningId)) {
+                    loadingTaskWarningActivitiesAsyncTaskHashMap.remove(taskWarningId);
+                }
+            }
+        }
+    }
+    private void putTaskWarningActivityDataArrayListToCache(String taskId, ArrayList<BaseData> activityDataArrayList) {
+        synchronized (ActivityDataStore.class) {
+            if (mTaskWarningActivitiesCache.containsKey(taskId)) {
+                mTaskWarningActivitiesCache.remove(taskId);
+            }
+            mTaskWarningActivitiesCache.put(taskId, activityDataArrayList);
+        }
+    }
+
+
+    /**
      * LoadingWorkerActivitiesAsyncTask.OnFinishLoadingData Callbacks
      */
     @Override
@@ -164,7 +218,7 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
             case WORKER:
                 removeLoadingWorkerActivitiesAsyncTaskFromHashMap(id);
                 if (activities != null) {
-                    ArrayList<BaseData> activityDataArrayList = parseWorkerActivityJSONArray(activities);
+                    ArrayList<BaseData> activityDataArrayList = parseActivityJSONArray(activities);
                     if (activityDataArrayList != null) {
                         putWorkerActivityDataArrayListToCache(id, activityDataArrayList);
                         notifyDataObservers();
@@ -174,9 +228,19 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
             case TASK:
                 removeLoadingTaskActivitiesAsyncTaskFromHashMap(id);
                 if (activities != null) {
-                    ArrayList<BaseData> activityDataArrayList = parseTaskActivityJSONArray(activities);
+                    ArrayList<BaseData> activityDataArrayList = parseActivityJSONArray(activities);
                     if (activityDataArrayList != null) {
                         putTaskActivityDataArrayListToCache(id, activityDataArrayList);
+                        notifyDataObservers();
+                    }
+                }
+                break;
+            case WARNING:
+                removeLoadingTaskWarningActivitiesAsyncTaskFromHashMap(id);
+                if (activities != null) {
+                    ArrayList<BaseData> activityDataArrayList = parseActivityJSONArray(activities);
+                    if (activityDataArrayList != null) {
+                        putTaskWarningActivityDataArrayListToCache(id, activityDataArrayList);
                         notifyDataObservers();
                     }
                 }
@@ -215,26 +279,7 @@ public class ActivityDataStore implements DataSubject, LoadingActivitiesAsyncTas
     }
 
 
-    private ArrayList<BaseData> parseWorkerActivityJSONArray(JSONArray activities) {
-        ArrayList<BaseData> parsedActivities = new ArrayList<>();
-
-        int length = activities.length();
-
-        try {
-            for (int i = 0; i < length; i++) {
-                JSONObject activity = activities.getJSONObject(i);
-                BaseData activityData = ActivityDataFactory.genData(activity, mContext);
-                if (activityData != null) {
-                    parsedActivities.add(activityData);
-                }
-            }
-            return parsedActivities;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    private ArrayList<BaseData> parseTaskActivityJSONArray(JSONArray activities) {
+    private ArrayList<BaseData> parseActivityJSONArray(JSONArray activities) {
         ArrayList<BaseData> parsedActivities = new ArrayList<>();
 
         int length = activities.length();

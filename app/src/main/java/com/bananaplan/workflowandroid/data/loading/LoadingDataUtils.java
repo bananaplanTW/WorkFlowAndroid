@@ -65,6 +65,7 @@ public class LoadingDataUtils {
 
             public static final String WORKER_ACTIVITIES = "/api/employee/activities";
             public static final String TASK_ACTIVITIES = "/api/task/activities";
+            public static final String TASK_WARNING_ACTIVITIES = "/api/task-exception/activities";
             public static final String DISPATCH = "/api/dispatch";
             public static final String COMPLETE_TASK = "/api/complete-task";
             public static final String SCORE_EMPLOYEE = "/api/score/employee";
