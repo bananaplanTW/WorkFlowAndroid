@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.detail;
+package com.bananaplan.workflowandroid.detail.warning;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,14 +30,9 @@ import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.activity.ActivityDataStore;
-import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpreter;
-import com.bananaplan.workflowandroid.data.activity.TaskActivityTypeInterpreter;
 import com.bananaplan.workflowandroid.data.activity.TaskWarningActivityTypeInterpreter;
-import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAFileCommentToTaskWarningCommand;
-import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveAPhotoCommentToTaskWarningCommand;
-import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskCommand;
 import com.bananaplan.workflowandroid.data.activity.actions.LeaveATextCommentToTaskWarningCommand;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;

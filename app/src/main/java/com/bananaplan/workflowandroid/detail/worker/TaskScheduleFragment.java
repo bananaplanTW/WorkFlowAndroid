@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.detail;
+package com.bananaplan.workflowandroid.detail.worker;
 
 import android.app.Activity;
 import android.content.Context;

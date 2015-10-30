@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.detail;
+package com.bananaplan.workflowandroid.detail.task;
 
 import android.content.Intent;
 import android.os.Bundle;

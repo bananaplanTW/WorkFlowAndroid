@@ -47,7 +47,7 @@ import com.bananaplan.workflowandroid.data.activity.EmployeeActivityTypeInterpre
 import com.bananaplan.workflowandroid.data.loading.UpdatableScheduledExecution;
 import com.bananaplan.workflowandroid.data.worker.actions.UpdateEmployeeScoreCommand;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
-import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
+import com.bananaplan.workflowandroid.detail.worker.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
 import com.bananaplan.workflowandroid.utility.OvTabFragmentBase;
 import com.bananaplan.workflowandroid.utility.Utils;

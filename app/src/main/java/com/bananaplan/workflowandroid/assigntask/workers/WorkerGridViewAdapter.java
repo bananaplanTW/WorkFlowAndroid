@@ -23,7 +23,7 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.worker.actions.AssignTaskToWorkerCommand;
-import com.bananaplan.workflowandroid.detail.DetailedWorkerActivity;
+import com.bananaplan.workflowandroid.detail.worker.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.List;

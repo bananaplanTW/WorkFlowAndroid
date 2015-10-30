@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.bananaplan.workflowandroid.data.Task;
-import com.bananaplan.workflowandroid.detail.DetailedTaskActivity;
+import com.bananaplan.workflowandroid.detail.task.DetailedTaskActivity;
 
 
 /**

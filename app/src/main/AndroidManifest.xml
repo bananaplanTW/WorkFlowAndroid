@@ -54,15 +54,15 @@
             android:theme="@style/AppDialogTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".detail.DetailedTaskActivity"
+            android:name=".detail.task.DetailedTaskActivity"
             android:theme="@style/PopupActivityTheme" >
         </activity>
         <activity
-            android:name=".detail.DetailedWorkerActivity"
+            android:name=".detail.worker.DetailedWorkerActivity"
             android:theme="@style/PopupActivityTheme" >
         </activity>
         <activity
-            android:name=".detail.DetailedWarningActivity"
+            android:name=".detail.warning.DetailedWarningActivity"
             android:theme="@style/PopupActivityTheme" >
         </activity>
 

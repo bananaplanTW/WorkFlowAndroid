@@ -33,7 +33,7 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.detail.DetailedWarningActivity;
+import com.bananaplan.workflowandroid.detail.warning.DetailedWarningActivity;
 import com.bananaplan.workflowandroid.overview.CaseAdapter;
 import com.bananaplan.workflowandroid.overview.VendorSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.Utils;
