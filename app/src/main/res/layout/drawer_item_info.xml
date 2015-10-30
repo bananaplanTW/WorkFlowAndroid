@@ -19,6 +19,7 @@
 
     <TextView
         android:id="@+id/drawer_item_info_count"
-        style="@style/DrawerItemInfoCountTextStyle"/>
+        style="@style/DrawerItemInfoCountTextStyle"
+        android:visibility="gone"/>
 
 </RelativeLayout>
