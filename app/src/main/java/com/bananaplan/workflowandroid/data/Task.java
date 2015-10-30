@@ -37,7 +37,7 @@ public class Task extends IdData {
     public long spentTime = 0L;
 
     public List<TaskWarning> taskWarnings = new ArrayList<>();
-    public long nextAlertTime = 0L;
+    public long nextNotifyTime = 0L;
 
     public List<Task> subTaskIds = new ArrayList<>();
 

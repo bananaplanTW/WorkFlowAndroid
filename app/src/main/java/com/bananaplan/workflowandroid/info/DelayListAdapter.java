@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int ADD_NOTIFY_TIME = 30;
+    private static final int ADD_NOTIFY_TIME_MINS = 30;
 
     private Context mContext;
     private List<Task> mData;
@@ -63,14 +63,37 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.main_information_list_title_add_notify_time_button:
-                    // [TODO] should user current notification time, if not, use current time
-                    Calendar c = Calendar.getInstance();
-                    c.setTimeInMillis(System.currentTimeMillis() + 1800000);
-                    String taskId = mData.get(getAdapterPosition()).id;
-                    IncrementTaskAlertScheduleCommand incrementTaskAlertScheduleCommand = new IncrementTaskAlertScheduleCommand(mContext, taskId, c.getTimeInMillis(), "+30分鐘");
-                    incrementTaskAlertScheduleCommand.execute();
+                    postponeNotifyTime();
+
                     break;
             }
+        }
+
+        private void postponeNotifyTime() {
+            // [TODO] should user current notification time, if not, use current time
+            long nextNotifyTime = 0L;
+            long taskNextNotifyTime = mData.get(getAdapterPosition()).nextNotifyTime;
+
+            if (taskNextNotifyTime == 0L) {
+                nextNotifyTime = System.currentTimeMillis() + getAddNotifyTimeMilliseconds();
+            } else {
+                nextNotifyTime = taskNextNotifyTime + getAddNotifyTimeMilliseconds();
+            }
+
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(nextNotifyTime);
+            String taskId = mData.get(getAdapterPosition()).id;
+            IncrementTaskAlertScheduleCommand incrementTaskAlertScheduleCommand =
+                    new IncrementTaskAlertScheduleCommand(mContext, taskId, c.getTimeInMillis(), "+30分鐘");
+            incrementTaskAlertScheduleCommand.execute();
+
+            mData.get(getAdapterPosition()).nextNotifyTime = nextNotifyTime;
+
+            notifyDataSetChanged();
+        }
+
+        private long getAddNotifyTimeMilliseconds() {
+            return ADD_NOTIFY_TIME_MINS * 60 * 1000;
         }
     }
 
@@ -95,15 +118,15 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         itemVH.taskName.setText(task.name);
         itemVH.pic.setText(WorkingData.getInstance(mContext).getWorkerById(task.workerId).name);
 
-        if (task.nextAlertTime != 0L) {
-            Log.d("DAZZZZ", "" + task.nextAlertTime);
-            itemVH.nextNotifyTime.setText(Utils.timestamp2Date(new Date(task.nextAlertTime), Utils.DATE_FORMAT_HM_AMPM));
+        if (task.nextNotifyTime != 0L) {
+            //Log.d("DAZZZZ", "" + task.nextNotifyTime);
+            itemVH.nextNotifyTime.setText(Utils.timestamp2Date(new Date(task.nextNotifyTime), Utils.DATE_FORMAT_HM_AMPM));
         } else {
             itemVH.nextNotifyTime.setText("無通知");
         }
 
         itemVH.addNotifyTimeButton.setText(
-                String.format(mContext.getString(R.string.main_information_list_add_notify_time_button), ADD_NOTIFY_TIME));
+                String.format(mContext.getString(R.string.main_information_list_add_notify_time_button), ADD_NOTIFY_TIME_MINS));
     }
 
     @Override

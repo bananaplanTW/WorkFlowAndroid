@@ -989,7 +989,7 @@ public class LoadingDataUtils {
 
             JSONObject scheduledTaskAlert = getJsonObjectFromJson(taskJson, "scheduledTaskAlert");
             if (scheduledTaskAlert != null) {
-                task.nextAlertTime = scheduledTaskAlert.getLong("willAlertAt");
+                task.nextNotifyTime = scheduledTaskAlert.getLong("willAlertAt");
             }
             return task;
 
