@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/management_dialog_actionbar_background_color"
+        android:background="@color/warning_dialog_actionbar_background_color"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -18,9 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/management_dialog_actionbar_title_text_color"
+            android:textColor="@color/warning_dialog_actionbar_title_text_color"
             android:textSize="@dimen/management_dialog_actionbar_title_text_size"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="@string/warning_dialog_create_warning"/>
 
     </android.support.v7.widget.Toolbar>
 
@@ -41,7 +42,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="警訊"/>
+                    android:text="@string/warning_dialog_warning_title"
+                    android:textSize="16dp"/>
                 <Spinner
                     android:id="@+id/warning_list"
                     android:layout_width="match_parent"
@@ -57,7 +59,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="警訊負責人"/>
+                    android:text="@string/warning_dialog_warning_lead"
+                    android:textSize="16dp"/>
                 <Spinner
                     android:id="@+id/manager_list"
                     android:layout_width="match_parent"
@@ -67,15 +70,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="vertical"
                 android:focusableInTouchMode="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/warning_dialog_warning_description_title"
+                    android:textSize="16dp"/>
                 <EditText
                     android:imeOptions="flagNoExtractUi"
                     android:id="@+id/warning_text"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="200dp"
                     android:gravity="top|left"
                     android:background="@drawable/border_textview_bg_gray"
-                    android:hint="詳細內容..." />
+                    android:padding="10dp"
+                    android:hint="@string/warning_dialog_warning_description" />
             </LinearLayout>
         </LinearLayout>
 
@@ -83,13 +96,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp">
             <TextView
                 android:id="@+id/create_warning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/ButtonStyle.Red"
-                android:text="新增警訊"/>
+                android:text="@string/warning_dialog_create_warning"/>
         </LinearLayout>
     </RelativeLayout>
 

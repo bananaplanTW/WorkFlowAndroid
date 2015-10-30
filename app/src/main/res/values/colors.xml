@@ -178,4 +178,7 @@
     <color name="worker_overview_attendance_list_time_range_forenoon_background_color">#FF4FC8A9</color>
     <color name="worker_overview_attendance_list_time_range_afternoon_background_color">#FFF6C567</color>
 
+    <!-- Warning Dialog -->
+    <color name="warning_dialog_actionbar_background_color">#FFD9534F</color>
+    <color name="warning_dialog_actionbar_title_text_color">@android:color/white</color>
 </resources>
