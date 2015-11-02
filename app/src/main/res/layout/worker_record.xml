@@ -9,6 +9,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/worker_status_ov_listview_item_avatar_size"
@@ -51,16 +52,13 @@
 
         <TextView
             android:id="@+id/download"
-            android:layout_width="@dimen/worker_status_ov_listview_item_download_width"
-            android:layout_height="@dimen/worker_status_ov_listview_item_download_height"
+            style="@style/ButtonStyle.Blue"
+            android:layout_toRightOf="@+id/status"
             android:layout_marginLeft="@dimen/worker_status_ov_listview_item_download_margin_left"
             android:layout_centerVertical="true"
-            android:textColor="@android:color/white"
-            android:textSize="18dp"
             android:text="@string/worker_ov_tab_status_download"
-            android:background="@drawable/bg_solid_textview_bg_blue"
-            android:gravity="center"
             android:visibility="gone"/>
+
     </RelativeLayout>
 
     <ImageView
