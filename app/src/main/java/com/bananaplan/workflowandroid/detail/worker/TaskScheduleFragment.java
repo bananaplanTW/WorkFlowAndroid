@@ -373,6 +373,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                     String taskId = mWorker.getWipTask().id;
                     CompleteTaskForWorkerCommand completeTaskForWorkerCommand = new CompleteTaskForWorkerCommand(mContext, mWorker.id, taskId);
                     completeTaskForWorkerCommand.execute();
+                    WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.IN_REVIEW;
 
                     if (mWorker.hasScheduledTasks()) {
                         Task task = mWorker.getScheduledTasks().get(0);

@@ -267,6 +267,8 @@
     <string name="main_information_list_add_notify_time_button">+%1$d mins</string>
     <string name="main_information_list_pass_button">Pass</string>
     <string name="main_information_list_reject_button">Reject</string>
+    <string name="main_information_list_pass_toast">"Review passed   Task: %1$s   PIC: %2$s"</string>
+    <string name="main_information_list_reject_toast">"Review failed   Task: %1$s   PIC: %2$s"</string>
 
     <!-- Login Activity -->
     <string name="login_account">Account</string>

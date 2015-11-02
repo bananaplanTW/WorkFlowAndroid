@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
@@ -68,6 +69,9 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         private void setTaskPassed(boolean isPassed, String taskId) {
+            Task task = mData.get(getAdapterPosition());
+            String picName = WorkingData.getInstance(mContext).getWorkerById(task.workerId).name;
+
             if (isPassed) {
                 PassTaskCommand passTaskCommand = new PassTaskCommand(mContext, taskId);
                 passTaskCommand.execute();
@@ -75,12 +79,20 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.DONE;
                 mData.remove(getAdapterPosition());
 
+                Toast.makeText(mContext,
+                        String.format(mContext.getString(R.string.main_information_list_pass_toast), task.name, picName),
+                        Toast.LENGTH_SHORT).show();
+
             } else {
                 FailTaskCommand failTaskCommand = new FailTaskCommand(mContext, taskId);
                 failTaskCommand.execute();
 
                 WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.PENDING;
                 mData.remove(getAdapterPosition());
+
+                Toast.makeText(mContext,
+                        String.format(mContext.getString(R.string.main_information_list_reject_toast), task.name, picName),
+                        Toast.LENGTH_SHORT).show();
             }
 
             notifyDataSetChanged();

@@ -255,6 +255,8 @@
     <string name="main_information_list_add_notify_time_button">+%1$d分鐘</string>
     <string name="main_information_list_pass_button">通過</string>
     <string name="main_information_list_reject_button">不通過</string>
+    <string name="main_information_list_pass_toast">"審核通過   工作: %1$s   負責人: %2$s"</string>
+    <string name="main_information_list_reject_toast">"審核不通過   工作: %1$s   負責人: %2$s"</string>
 
     <!-- Login Activity -->
     <string name="login_account">帳號</string>
