@@ -42,7 +42,8 @@ public class DownloadFileFromURLStrategy implements IGetRequestStrategy {
             URLConnection connection = url.openConnection();
             connection.connect();
 
-            int lenghtOfFile = connection.getContentLength();
+            int lengthOfFile = connection.getContentLength();
+            int previousProgress = -1;
 
             // download the file
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
@@ -56,7 +57,13 @@ public class DownloadFileFromURLStrategy implements IGetRequestStrategy {
 
             while ((count = input.read(data)) != -1) {
                 total += count;
-                mDownloadProgressListener.updateProgress((int) ((total * 100) / lenghtOfFile));
+
+                int currentProgress = (int) ((total * 100) / lengthOfFile);
+                if (currentProgress > previousProgress) {
+                    mDownloadProgressListener.updateProgress((int) ((total * 100) / lengthOfFile));
+                    previousProgress = currentProgress;
+                }
+
                 // writing data to file
                 output.write(data, 0, count);
             }

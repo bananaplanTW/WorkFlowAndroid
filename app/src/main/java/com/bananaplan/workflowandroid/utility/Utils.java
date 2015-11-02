@@ -564,7 +564,5 @@ public class Utils {
         DownloadFileFromURLCommand downloadFileFromURLCommand =
                 new DownloadFileFromURLCommand(context, urlString, fileName);
         downloadFileFromURLCommand.execute();
-
-        Toast.makeText(context, context.getString(R.string.download_file), Toast.LENGTH_SHORT).show();
     }
 }
