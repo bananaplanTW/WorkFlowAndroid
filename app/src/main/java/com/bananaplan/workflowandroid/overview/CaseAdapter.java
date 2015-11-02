@@ -10,21 +10,26 @@ import android.widget.Filterable;
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Ben on 2015/10/24.
  */
 public abstract class CaseAdapter extends ArrayAdapter<Case> implements Filterable {
+
     private Activity mActivity;
-    protected ArrayList<Case> mOrigCases;
-    protected ArrayList<Case> mFilteredCases;
+
+    protected List<Case> mOrigCases;
+    protected List<Case> mFilteredCases;
     protected CustomFilter mFilter;
+
     protected int mPositionSelected;
 
-    public CaseAdapter(Context context, ArrayList<Case> cases) {
+
+    public CaseAdapter(Context context, List<Case> cases) {
         super(context, 0, cases);
         if (context instanceof Activity) {
             mActivity = (Activity) context;
@@ -33,6 +38,8 @@ public abstract class CaseAdapter extends ArrayAdapter<Case> implements Filterab
         mFilteredCases = new ArrayList<>(cases);
         mFilter = new CustomFilter();
     }
+
+    public abstract Vendor getSelectedVendor();
 
     @Override
     public Case getItem(int position) {
@@ -53,23 +60,25 @@ public abstract class CaseAdapter extends ArrayAdapter<Case> implements Filterab
         mPositionSelected = position;
     }
 
+    public int getPositionSelected() {
+        return mPositionSelected;
+    }
+
     private class CustomFilter extends Filter {
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             constraint = constraint.toString().toLowerCase();
             FilterResults result = new FilterResults();
-            ArrayList<Case> filterResult = new ArrayList<>();
+            List<Case> filterResult = new ArrayList<>();
             Vendor selectedVendor = getSelectedVendor();
+
             if (selectedVendor != null) {
                 for (Case aCase : mOrigCases) {
-                    boolean matchText = TextUtils.isEmpty(constraint) ?
-                            true :
-                            (aCase.name.toLowerCase().contains(constraint) ||
+                    boolean matchText = TextUtils.isEmpty(constraint) || (aCase.name.toLowerCase().contains(constraint) ||
                                     WorkingData.getInstance(mActivity).getVendorById(aCase.vendorId).name.toLowerCase().contains(constraint));
-                    boolean matchVendor = TextUtils.isEmpty(selectedVendor.id) ?
-                            true :
-                            Utils.isSameId(aCase.vendorId, selectedVendor.id);
-                    if (matchText && matchVendor) {
+
+                    if (matchText) {
                         filterResult.add(aCase);
                     }
                 }
@@ -77,17 +86,21 @@ public abstract class CaseAdapter extends ArrayAdapter<Case> implements Filterab
 
             result.values = filterResult;
             result.count = filterResult.size();
+
             return result;
         }
 
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mFilteredCases.clear();
-            mFilteredCases.addAll((ArrayList<Case>) results.values);
+            mFilteredCases = (ArrayList<Case>) results.values;
             notifyDataSetChanged();
         }
     }
 
-    public abstract Vendor getSelectedVendor();
+    public void updateDataSet(List<Case> dataSet) {
+        mOrigCases = dataSet;
+        mFilteredCases = dataSet;
+        notifyDataSetChanged();
+    }
 }

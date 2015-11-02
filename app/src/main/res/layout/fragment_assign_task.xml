@@ -31,7 +31,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/assign_task_divider_width_height"
+                android:layout_height="@dimen/main_window_divider_width_height"
                 android:background="@color/main_window_divider_color" />
 
             <android.support.v7.widget.RecyclerView
@@ -44,7 +44,7 @@
         </LinearLayout>
 
         <View
-            android:layout_width="@dimen/assign_task_divider_width_height"
+            android:layout_width="@dimen/main_window_divider_width_height"
             android:layout_height="match_parent"
             android:background="@color/main_window_divider_color" />
 
@@ -61,7 +61,7 @@
             <View
                 android:id="@+id/worker_container_divider"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/assign_task_divider_width_height"
+                android:layout_height="@dimen/main_window_divider_width_height"
                 android:layout_below="@+id/factory_spinner"
                 android:background="@color/main_window_divider_color" />
 

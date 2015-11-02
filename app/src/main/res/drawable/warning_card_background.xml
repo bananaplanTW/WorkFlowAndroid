@@ -8,6 +8,7 @@
             <stroke
                 android:width="@dimen/warning_frag_warning_card_stroke_width"
                 android:color="@color/warning_card_stroke_color" />
+            <solid android:color="@color/warning_background" />
         </shape>
     </item>
 

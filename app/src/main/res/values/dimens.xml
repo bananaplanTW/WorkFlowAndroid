@@ -1,5 +1,7 @@
 <resources>
 
+    <dimen name="main_window_divider_width_height">5dp</dimen>
+
     <dimen name="refresh_action_view_padding">12dp</dimen>
 
     <dimen name="no_internet_connection_text_size">23dp</dimen>
@@ -22,7 +24,6 @@
     <dimen name="title_edit_text_content_text_size">18dp</dimen>
 
     <!-- Assign task: Tasks part -->
-    <dimen name="assign_task_divider_width_height">5dp</dimen>
     <dimen name="task_case_spinner_padding">15dp</dimen>
     <dimen name="task_case_spinner_item_text_size">18dp</dimen>
     <dimen name="task_case_information_height">120dp</dimen>
@@ -341,6 +342,9 @@
     <dimen name="warning_frag_warning_card_time_text_size">20dp</dimen>
     <dimen name="warning_frag_warning_card_warning_part_content_margin_left">10dp</dimen>
     <dimen name="warning_frag_warning_card_warning_part_padding_vertical">8dp</dimen>
+    <dimen name="warning_frag_warning_card_parent_padding">30dp</dimen>
+    <dimen name="warning_frag_warning_card_top_bottom_margin">20dp</dimen>
+    <dimen name="warning_frag_warning_card_left_right_margin">20dp</dimen>
 
     <!-- Worker overview attendance -->
     <dimen name="worker_overview_attendance_list_header_height">40dp</dimen>

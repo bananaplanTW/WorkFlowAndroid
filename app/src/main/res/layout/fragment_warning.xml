@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:widget="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,18 +6,18 @@
         android:id="@+id/left_pane"
         layout="@layout/overview_left_pane" />
 
-    <include
+    <View
         android:id="@+id/vertical_divider"
-        layout="@layout/v_divider"
-        android:layout_width="@dimen/ov_divider_width"
+        android:layout_width="@dimen/main_window_divider_width_height"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@id/left_pane" />
+        android:layout_toRightOf="@id/left_pane"
+        android:background="@color/main_window_divider_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/vertical_divider"
-        android:background="@color/warning_background"
+        android:background="@drawable/common_block_background"
         android:orientation="vertical">
 
         <LinearLayout
@@ -36,29 +35,11 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/warning_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/warning_frag_warning_card_container_padding"
-            android:orientation="vertical">
-
-            <it.sephiroth.android.library.widget.HListView
-                android:id="@+id/warning_list"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/warning_frag_warning_group_height"
-                android:divider="@null"
-                widget:hlv_dividerWidth="@dimen/workers_hlist_divider_width"
-                android:visibility="gone"/>
-
-            <GridView
-                android:id="@+id/warning_cards"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:numColumns="@integer/warning_frag_gridview_column_count"
-                android:verticalSpacing="@dimen/warning_frag_warning_cards_vertical_spacing"
-                android:horizontalSpacing="@dimen/warning_frag_warning_cards_horizontal_spacing" />
-
-        </LinearLayout>
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 

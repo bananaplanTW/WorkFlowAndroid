@@ -17,7 +17,6 @@
     <integer name="add_case_grid_view_span_count">4</integer>
     <integer name="add_case_info_header_description_min_lines">3</integer>
 
-
     <!-- Detailed worker -->
     <integer name="detailed_worker_task_schedule_case_weight">106</integer>
     <integer name="detailed_worker_task_schedule_task_weight">177</integer>
