@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.network.GetRequestAsyncTask;
+
+import java.io.File;
+import java.net.URLConnection;
 
 
 /**
@@ -23,7 +25,7 @@ public class DownloadFileFromURLCommand implements IDownloadCommand,
 
     private GetRequestAsyncTask mGetRequestAsyncTask;
     private NotificationManager mNotificationManager;
-    private NotificationCompat.Builder mBuilder;
+    private NotificationCompat.Builder mNotificationBuilder;
 
     private Context mContext;
     private String mUrlString;
@@ -43,33 +45,40 @@ public class DownloadFileFromURLCommand implements IDownloadCommand,
     @Override
     public void execute() {
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(mContext);
+        mNotificationBuilder = new NotificationCompat.Builder(mContext);
+        mNotificationId = (int) System.currentTimeMillis();
 
-        Intent resultIntent = new Intent(Intent.ACTION_VIEW);
-        resultIntent.setData(Uri.parse("content://" + mFilePath));
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 mContext,
                 0,
-                resultIntent,
+                getOpenFileIntent(),
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
-        mNotificationId = (int) System.currentTimeMillis();
-        String downloadFile = String.format(mContext.getString(R.string.download_file), mFileName);
-        mBuilder.setSmallIcon(android.R.drawable.stat_sys_download)
-                .setContentTitle(downloadFile)
+        String downloadFileNotificationTitle = String.format(mContext.getString(R.string.download_file), mFileName);
+        mNotificationBuilder.setSmallIcon(android.R.drawable.stat_sys_download)
+                .setContentTitle(downloadFileNotificationTitle)
                 .setContentText(mContext.getString(R.string.downloading))
                 .setAutoCancel(true)
-                .setTicker(downloadFile)
+                .setTicker(downloadFileNotificationTitle)
                 .setContentIntent(pendingIntent);
 
         DownloadFileFromURLStrategy downloadFileFromURLStrategy = new DownloadFileFromURLStrategy(mUrlString, mFilePath, this);
         mGetRequestAsyncTask = new GetRequestAsyncTask(mContext, downloadFileFromURLStrategy, this);
         mGetRequestAsyncTask.execute();
 
-        Toast.makeText(mContext, downloadFile, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, downloadFileNotificationTitle, Toast.LENGTH_SHORT).show();
     }
 
+    private Intent getOpenFileIntent() {
+        Uri fileUri = Uri.fromFile(new File(mFilePath));
+        String mimeType = URLConnection.guessContentTypeFromName(fileUri.toString());
+
+        Intent resultIntent = new Intent(Intent.ACTION_VIEW);
+        resultIntent.setDataAndType(fileUri, mimeType);
+
+        return resultIntent;
+    }
 
     @Override
     public void onFinishGettingData() {
@@ -80,19 +89,19 @@ public class DownloadFileFromURLCommand implements IDownloadCommand,
 
     }
 
-
     @Override
     public void updateProgress(int progress) {
-        mBuilder.setContentText(mContext.getString(R.string.downloading) + ": " + progress + "%");
-        mBuilder.setProgress(100, progress, false);
-        mNotificationManager.notify(mNotificationId, mBuilder.build());
+        mNotificationBuilder.setContentText(mContext.getString(R.string.downloading) + ": " + progress + "%");
+        mNotificationBuilder.setProgress(100, progress, false);
+
+        mNotificationManager.notify(mNotificationId, mNotificationBuilder.build());
     }
     @Override
     public void downloadCompleted() {
-        mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done)
+        mNotificationBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done)
                 .setContentText(mContext.getString(R.string.download_completed)).setProgress(0, 0, false)
                 .setTicker(mContext.getString(R.string.download_completed));
 
-        mNotificationManager.notify(mNotificationId, mBuilder.build());
+        mNotificationManager.notify(mNotificationId, mNotificationBuilder.build());
     }
 }
