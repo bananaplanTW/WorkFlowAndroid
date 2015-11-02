@@ -28,11 +28,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.download.DownloadFileFromURLCommand;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -556,5 +558,13 @@ public class Utils {
         }
 
         return result;
+    }
+
+    public static void downloadFile(Context context, String urlString, String fileName) {
+        DownloadFileFromURLCommand downloadFileFromURLCommand =
+                new DownloadFileFromURLCommand(context, urlString, fileName);
+        downloadFileFromURLCommand.execute();
+
+        Toast.makeText(context, context.getString(R.string.download_file), Toast.LENGTH_SHORT).show();
     }
 }

@@ -744,9 +744,7 @@ public class StatusFragment extends OvTabFragmentBase implements View.OnClickLis
                         holder.download.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                DownloadFileFromURLCommand downloadFileFromURLCommand = new DownloadFileFromURLCommand(mContext, fileData.filePath.toString(), fileData.fileName);
-                                downloadFileFromURLCommand.execute();
-                                Toast.makeText(getActivity(), mContext.getString(R.string.download_file), Toast.LENGTH_SHORT).show();
+                                Utils.downloadFile(getActivity(), fileData.filePath.toString(), fileData.fileName);
                             }
                         });
                         statusVisibility = View.VISIBLE;

@@ -554,16 +554,18 @@ public class DetailedWarningStatusFragment extends OvTabFragmentBase implements 
                     break;
                 case FILE:
                     if (data instanceof FileData) {
-                        user = WorkingData.getInstance(getActivity()).getUserById(((FileData) data).uploader);
+                        final FileData fileData = (FileData) data;
+
+                        user = WorkingData.getInstance(getActivity()).getUserById((fileData.uploader));
                         String statusTxt = (user != null ? user.name + " " : "") +
                                 getResources().getString(R.string.worker_ov_tab_status_upload) +
-                                (TextUtils.isEmpty(((FileData) data).fileName) ? "" : " " + ((FileData) data).fileName);
+                                (TextUtils.isEmpty(fileData.fileName) ? "" : " " + fileData.fileName);
                         holder.avatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_insert_drive_file, null));
                         holder.status.setText(statusTxt);
                         holder.download.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(getActivity(), "download file", Toast.LENGTH_SHORT).show();
+                                Utils.downloadFile(getActivity(), fileData.filePath.toString(), fileData.fileName);
                             }
                         });
                         statusVisibility = View.VISIBLE;
