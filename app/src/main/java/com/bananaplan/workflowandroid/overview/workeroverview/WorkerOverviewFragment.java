@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.Worker;
+import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.StatusFragment;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
@@ -40,8 +41,8 @@ import java.util.List;
 /**
  * Created by Ben on 2015/8/1.
  */
-public class WorkerOverviewFragment extends Fragment implements TextWatcher, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener
-        , View.OnClickListener, TabHost.OnTabChangeListener {
+public class WorkerOverviewFragment extends Fragment implements TextWatcher, AdapterView.OnItemSelectedListener,
+        AdapterView.OnItemClickListener, View.OnClickListener, TabHost.OnTabChangeListener, DataObserver {
 
     public static class TAB_TAG {
         private static final String TASK_ITEMS = "tab_tag_task_items";
@@ -229,9 +230,21 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         initialize();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        WorkingData.getInstance(getActivity()).registerDataObserver(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        WorkingData.getInstance(getActivity()).removeDataObserver(this);
     }
 
     private void initialize() {
@@ -448,5 +461,16 @@ public class WorkerOverviewFragment extends Fragment implements TextWatcher, Ada
 
     public Worker getSelectedWorker() {
         return mSelectedWorker;
+    }
+
+    @Override
+    public void updateData() {
+        setFactorySpinnerData();
+        mFactorySpinnerAdapter.notifyDataSetChanged();
+
+        setWorkerListData(mFactorySpinnerDataSet.get(mFactorySpinner.getSelectedItemPosition()).id);
+        mWorkerLisViewAdapter.updateDataSet(mWorkerListDataSet);
+
+        selectWorker(mWorkerListDataSet.get(mWorkerLisViewAdapter.getSelectedPosition()), false);
     }
 }
