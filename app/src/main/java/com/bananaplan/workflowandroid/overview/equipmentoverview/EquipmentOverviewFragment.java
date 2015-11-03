@@ -26,6 +26,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.TabManager;
@@ -45,7 +46,7 @@ import java.util.List;
  */
 public class EquipmentOverviewFragment extends Fragment implements
         AdapterView.OnItemSelectedListener, TextWatcher, AdapterView.OnItemClickListener,
-        View.OnClickListener {
+        View.OnClickListener, DataObserver {
 
     public static class TAB_TAG {
         private static final String TASK_ITEMS = "tab_tag_task_items";
@@ -206,6 +207,18 @@ public class EquipmentOverviewFragment extends Fragment implements
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        WorkingData.getInstance(getActivity()).registerDataObserver(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        WorkingData.getInstance(getActivity()).removeDataObserver(this);
     }
 
     private void initialize() {
@@ -405,5 +418,16 @@ public class EquipmentOverviewFragment extends Fragment implements
 
     public Equipment getSelectedEquipment() {
         return mSelectedEquipment;
+    }
+
+    @Override
+    public void updateData() {
+        setFactorySpinnerData();
+        mFactorySpinnerAdapter.notifyDataSetChanged();
+
+        setEquipmentListData(mFactorySpinnerDataSet.get(mFactorySpinner.getSelectedItemPosition()).id);
+        mEquipmentListAdapter.updateDataSet(mEquipmentListDataSet);
+
+        selectEquipment(mEquipmentListDataSet.get(mEquipmentListAdapter.getSelectedPosition()), false);
     }
 }
