@@ -1,13 +1,12 @@
-package com.bananaplan.workflowandroid.utility.view;
+package com.bananaplan.workflowandroid.overview;
 
 import android.content.Context;
-import android.widget.Spinner;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -15,11 +14,11 @@ import java.util.ArrayList;
  */
 public class FactorySpinnerAdapter extends IconSpinnerAdapter<Factory> {
 
-    public FactorySpinnerAdapter(Context context, ArrayList<Factory> objects) {
+    public FactorySpinnerAdapter(Context context, List<Factory> objects) {
         super(context, 0, objects);
     }
 
-    public FactorySpinnerAdapter(Context context, ArrayList<Factory> objects, OnItemSelectedCallback callback) {
+    public FactorySpinnerAdapter(Context context, List<Factory> objects, OnItemSelectedCallback callback) {
         super(context, 0, objects, callback);
     }
 

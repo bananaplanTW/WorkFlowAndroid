@@ -1,8 +1,6 @@
 package com.bananaplan.workflowandroid.overview.equipmentoverview;
 
 import android.graphics.Color;
-import android.graphics.drawable.Icon;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,14 +27,16 @@ import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Factory;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.main.MainActivity;
+import com.bananaplan.workflowandroid.utility.OverviewScrollView;
 import com.bananaplan.workflowandroid.utility.TabManager;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
-import com.bananaplan.workflowandroid.utility.view.FactorySpinnerAdapter;
+import com.bananaplan.workflowandroid.overview.FactorySpinnerAdapter;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -48,95 +48,46 @@ public class EquipmentOverviewFragment extends Fragment implements
         View.OnClickListener {
 
     public static class TAB_TAG {
-        private static final String TASK_ITEMS              = "tab_tag_task_items";
-        private static final String FIX_RECORD              = "tab_tag_fix_records";
+        private static final String TASK_ITEMS = "tab_tag_task_items";
+        private static final String FIX_RECORD = "tab_tag_fix_records";
     }
 
-    private Spinner mSpinner;
-    private ListView mListView;
-    private EditText mEditText;
+    private Spinner mFactorySpinner;
+    private FactorySpinnerAdapter mFactorySpinnerAdapter;
+    private List<Factory> mFactorySpinnerDataSet = new ArrayList<>();
+
+    private ListView mEquipmentList;
+    private EquipmentDataAdapter mEquipmentListAdapter;
+    private List<Equipment> mEquipmentListDataSet = new ArrayList<>();
+    private Equipment mSelectedEquipment;
+
+    private EditText mSearchText;
     private TabHost mTabHost;
     private TabManager mTabMgr;
 
-    private FactorySpinnerAdapter mSpinnerAdapter;
-    private EquipmentDataAdapter mEquipmentAdapter;
-
-    private Equipment mSelectedEquipment;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_equipment_ov, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mSpinner = (Spinner) getActivity().findViewById(R.id.ov_leftpane_spinner);
-        mSpinner.setOnItemSelectedListener(this);
-        mSpinnerAdapter = new FactorySpinnerAdapter(getActivity(),
-                new ArrayList<Factory>(), new IconSpinnerAdapter.OnItemSelectedCallback() {
-            @Override
-            public int getSelectedPos() {
-                if (mSpinner != null) {
-                    return mSpinner.getSelectedItemPosition();
-                }
-                return 0;
-            }
-        });
-        mSpinner.setAdapter(mSpinnerAdapter);
-        mListView = (ListView) getActivity().findViewById(R.id.ov_leftpane_listview);
-        mEditText = (EditText) getActivity().findViewById(R.id.ov_leftpane_search_edittext);
-        mEditText.addTextChangedListener(this);
-        mListView.setOnItemClickListener(this);
-        getActivity().findViewById(R.id.equipment_edit).setOnClickListener(this);
-        mEquipmentAdapter = new EquipmentDataAdapter(new ArrayList<Equipment>());
-        mListView.setAdapter(mEquipmentAdapter);
-        mTabHost = (TabHost) getActivity().findViewById(R.id.tab_host);
-        mTabHost.setup();
-        mTabMgr = new TabManager((MainActivity) getActivity(), mTabHost, android.R.id.tabcontent);
-        setupTabs();
-        new InitTask().execute();
-    }
-
-    private void setupTabs() {
-        Bundle bundle = new Bundle();
-        TabHost.TabSpec taskItemsTabSpec = mTabHost.newTabSpec(TAB_TAG.TASK_ITEMS)
-                .setIndicator(getTabTitleView(TAB_TAG.TASK_ITEMS));
-        bundle.putString(TaskItemFragment.FROM, getClass().getSimpleName());
-        mTabMgr.addTab(taskItemsTabSpec, TaskItemFragment.class, bundle);
-        TabHost.TabSpec fixRecordTabSpec = mTabHost.newTabSpec(TAB_TAG.FIX_RECORD)
-                .setIndicator(getTabTitleView(TAB_TAG.FIX_RECORD));
-        mTabMgr.addTab(fixRecordTabSpec, MaintenanceRecordsFragment.class, null);
-    }
-
-    private View getTabTitleView(final String tag) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.tab, null);
-        int titleResId;
-        switch (tag) {
-            case TAB_TAG.TASK_ITEMS:
-                titleResId = R.string.worker_ov_worker_tab_title_task_items;
-                break;
-            case TAB_TAG.FIX_RECORD:
-                titleResId = R.string.worker_ov_worker_tab_title_fix_record;
-                break;
-            default:
-                titleResId = -1;
-                break;
-        }
-        String text = titleResId != -1 ? getResources().getString(titleResId) : "";
-        ((TextView) view.findViewById(R.id.tab_title)).setText(text);
-        return view;
-    }
 
     private class EquipmentDataAdapter extends ArrayAdapter<Equipment> implements Filterable {
+
         private int mSelectedPosition;
         private CustomFilter mFilter;
-        private ArrayList<Equipment> mOrigData;
-        private ArrayList<Equipment> mFilteredData;
+        private List<Equipment> mOrigData;
+        private List<Equipment> mFilteredData;
 
-        public EquipmentDataAdapter(ArrayList<Equipment> objects) {
+
+        private class ViewHolder {
+
+            private ViewGroup root;
+            private ImageView icon;
+            private TextView name;
+
+            public ViewHolder(View v) {
+                root = (ViewGroup) v.findViewById(R.id.root);
+                icon = (ImageView) v.findViewById(R.id.icon);
+                name = (TextView) v.findViewById(R.id.name);
+            }
+        }
+
+        public EquipmentDataAdapter(List<Equipment> objects) {
             super(getActivity(), 0, objects);
             mOrigData = objects;
             mFilteredData = new ArrayList<>(mOrigData);
@@ -167,6 +118,7 @@ public class EquipmentOverviewFragment extends Fragment implements
                 holder = (ViewHolder) convertView.getTag();
             }
             convertView.findViewById(R.id.header_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+
             if (position == mSelectedPosition) {
                 holder.root.setBackgroundColor(getResources().getColor(R.color.blue1));
                 holder.name.setTextColor(Color.WHITE);
@@ -178,24 +130,24 @@ public class EquipmentOverviewFragment extends Fragment implements
                 holder.icon.setImageDrawable(
                         getResources().getDrawable(R.drawable.equipmentp_gary, null));
             }
+
             holder.name.setText(getItem(position).name);
+
             return convertView;
-        }
-
-        private class ViewHolder {
-            private ViewGroup root;
-            private ImageView icon;
-            private TextView name;
-
-            public ViewHolder(View v) {
-                root = (ViewGroup) v.findViewById(R.id.root);
-                icon = (ImageView) v.findViewById(R.id.icon);
-                name = (TextView) v.findViewById(R.id.name);
-            }
         }
 
         public void setSelectedPosition(int position) {
             mSelectedPosition = position;
+        }
+
+        public int getSelectedPosition() {
+            return mSelectedPosition;
+        }
+
+        public void updateDataSet(List<Equipment> dataSet) {
+            mOrigData = dataSet;
+            mFilteredData = dataSet;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -220,7 +172,7 @@ public class EquipmentOverviewFragment extends Fragment implements
                 FilterResults result = new FilterResults();
                 ArrayList<Equipment> filterResult = new ArrayList<>();
 
-                Factory selectedFactory = (Factory) mSpinner.getSelectedItem();
+                Factory selectedFactory = (Factory) mFactorySpinner.getSelectedItem();
                 for (Equipment equipment : mOrigData) {
                     if ((TextUtils.isEmpty(constraint)
                             || equipment.name.toLowerCase().contains(constraint))
@@ -232,82 +184,179 @@ public class EquipmentOverviewFragment extends Fragment implements
 
                 result.values = filterResult;
                 result.count = filterResult.size();
+
                 return result;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                mFilteredData.clear();
-                mFilteredData.addAll((ArrayList<Equipment>) results.values);
+                mFilteredData = (ArrayList<Equipment>) results.values;
                 notifyDataSetChanged();
             }
         }
     }
 
-    private class InitTask extends AsyncTask<Void, Void, Void> {
-        ArrayList<Factory> factories;
-        ArrayList<Equipment> equipments;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_equipment_ov, container, false);
+    }
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            loadData();
-            return null;
-        }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initialize();
+    }
 
-        private void loadData() {
-            factories = new ArrayList<>();
-            factories.add(new Factory("", getResources()
-                    .getString(R.string.worker_ov_all_factories))); // all factories
-            factories.addAll(WorkingData.getInstance(getActivity()).getFactories());
-            equipments = new ArrayList<>();
-            equipments.addAll(WorkingData.getInstance(getActivity()).getEquipments());
-        }
+    private void initialize() {
+        findViews();
+        setupViews();
+        setupTabs();
+        setupFactorySpinner();
+        setupEquipmentList();
+    }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            mSpinnerAdapter.clear();
-            mSpinnerAdapter.addAll(factories);
-            mSpinnerAdapter.notifyDataSetChanged();
-            mEquipmentAdapter.clear();
-            mEquipmentAdapter.addAll(equipments);
-            mEquipmentAdapter.notifyDataSetChanged();
-            if (mEquipmentAdapter.getCount() > 0) {
-                mSelectedEquipment = mEquipmentAdapter.getItem(0);
-                onToolSelected(mSelectedEquipment);
+    private void findViews() {
+        mFactorySpinner = (Spinner) getView().findViewById(R.id.ov_leftpane_spinner);
+        mEquipmentList = (ListView) getView().findViewById(R.id.ov_leftpane_listview);
+        mSearchText = (EditText) getView().findViewById(R.id.ov_leftpane_search_edittext);
+        mTabHost = (TabHost) getView().findViewById(R.id.tab_host);
+    }
+
+    private void setupViews() {
+        mSearchText.addTextChangedListener(this);
+        mEquipmentList.setOnItemClickListener(this);
+        getView().findViewById(R.id.equipment_edit).setOnClickListener(this);
+    }
+
+    private void setupTabs() {
+        mTabHost.setup();
+        mTabMgr = new TabManager((MainActivity) getActivity(), mTabHost, android.R.id.tabcontent);
+
+        Bundle bundle = new Bundle();
+        TabHost.TabSpec taskItemsTabSpec = mTabHost.newTabSpec(TAB_TAG.TASK_ITEMS)
+                .setIndicator(getTabTitleView(TAB_TAG.TASK_ITEMS));
+        bundle.putString(TaskItemFragment.FROM, getClass().getSimpleName());
+
+        mTabMgr.addTab(taskItemsTabSpec, TaskItemFragment.class, bundle);
+        TabHost.TabSpec fixRecordTabSpec = mTabHost.newTabSpec(TAB_TAG.FIX_RECORD)
+                .setIndicator(getTabTitleView(TAB_TAG.FIX_RECORD));
+        mTabMgr.addTab(fixRecordTabSpec, MaintenanceRecordsFragment.class, null);
+    }
+
+    private void setupFactorySpinner() {
+        setFactorySpinnerData();
+        mFactorySpinnerAdapter = new FactorySpinnerAdapter(getActivity(), mFactorySpinnerDataSet,
+                new IconSpinnerAdapter.OnItemSelectedCallback() {
+            @Override
+            public int getSelectedPos() {
+                if (mFactorySpinner != null) {
+                    return mFactorySpinner.getSelectedItemPosition();
+                }
+                return 0;
+            }
+        });
+        mFactorySpinner.setAdapter(mFactorySpinnerAdapter);
+        mFactorySpinner.setOnItemSelectedListener(this);
+    }
+
+    private void setFactorySpinnerData() {
+        mFactorySpinnerDataSet.clear();
+        mFactorySpinnerDataSet.add(new Factory("", getResources().getString(R.string.worker_ov_all_factories))); // all factories
+        mFactorySpinnerDataSet.addAll(WorkingData.getInstance(getActivity()).getFactories());
+    }
+
+    private void setupEquipmentList() {
+        setEquipmentListData(null);
+        mEquipmentListAdapter = new EquipmentDataAdapter(mEquipmentListDataSet);
+        mEquipmentList.setAdapter(mEquipmentListAdapter);
+    }
+
+    private void setEquipmentListData(String factoryId) {
+        mEquipmentListDataSet.clear();
+
+        if (TextUtils.isEmpty(factoryId)) {
+            mEquipmentListDataSet.addAll(WorkingData.getInstance(getActivity()).getEquipments());
+
+        } else {
+            for (Equipment equipment : WorkingData.getInstance(getActivity()).getEquipments()) {
+                if (!equipment.factoryId.equals(factoryId)) continue;
+                mEquipmentListDataSet.add(equipment);
             }
         }
+
+        if (mSelectedEquipment == null) {
+            mSelectedEquipment = mEquipmentListDataSet.get(0);
+        }
+    }
+
+    private View getTabTitleView(final String tag) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.tab, null);
+
+        int titleResId;
+        switch (tag) {
+            case TAB_TAG.TASK_ITEMS:
+                titleResId = R.string.worker_ov_worker_tab_title_task_items;
+                break;
+            case TAB_TAG.FIX_RECORD:
+                titleResId = R.string.worker_ov_worker_tab_title_fix_record;
+                break;
+            default:
+                titleResId = -1;
+                break;
+        }
+
+        String text = titleResId != -1 ? getResources().getString(titleResId) : "";
+        ((TextView) view.findViewById(R.id.tab_title)).setText(text);
+
+        return view;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()) {
             case R.id.ov_leftpane_spinner:
-                oFactorySelected((Factory) mSpinner.getSelectedItem());
-                break;
-            default:
+                setEquipmentListData(mFactorySpinnerDataSet.get(position).id);
+                mEquipmentListAdapter.updateDataSet(mEquipmentListDataSet);
+
+                mSearchText.setText("");
+                mEquipmentList.setSelection(0);
+                mEquipmentListAdapter.setSelectedPosition(0);
+                mEquipmentListAdapter.notifyDataSetChanged();
+
+                selectEquipment(mEquipmentListAdapter.getItem(0), true);
+
                 break;
         }
     }
 
-    private void onToolSelected(Equipment equipment) {
+    private void selectEquipment(Equipment selectedEquipment, boolean isScrollToTop) {
+        mSelectedEquipment = selectedEquipment;
+        onEquipmentSelected(mSelectedEquipment, isScrollToTop);
+    }
+
+    private void onEquipmentSelected(Equipment equipment, boolean isScrollToTop) {
         if (equipment == null) return;
-        ((TextView) getActivity().findViewById(R.id.equipment_name)).setText(equipment.name);
-        ((TextView) getActivity().findViewById(R.id.equipment_factory_name))
+
+        if (isScrollToTop) {
+            ((OverviewScrollView) getView().findViewById(R.id.scroll)).setScrollEnable(false);
+        } else {
+            ((OverviewScrollView) getView().findViewById(R.id.scroll)).setScrollEnable(true);
+        }
+
+        ((TextView) getView().findViewById(R.id.equipment_name)).setText(equipment.name);
+        ((TextView) getView().findViewById(R.id.equipment_factory_name))
                 .setText(WorkingData.getInstance(getActivity()).getFactoryById(equipment.factoryId).name);
-        ((TextView) getActivity().findViewById(R.id.equipment_purchase_date))
+        ((TextView) getView().findViewById(R.id.equipment_purchase_date))
                 .setText(getResources().getString(R.string.equipment_purchase_date)
                         + Utils.timestamp2Date(equipment.purchasedDate, Utils.DATE_FORMAT_YMD));
-        ((TextView) getActivity().findViewById(R.id.equipment_fix_date))
+        ((TextView) getView().findViewById(R.id.equipment_fix_date))
                 .setText(getResources().getString(R.string.equipment_fix_date)
                         + Utils.timestamp2Date(equipment.getRecentlyMaintenanceDate(), Utils.DATE_FORMAT_YMD));
+
         if (mTabMgr != null) {
             mTabMgr.selectItem(equipment);
         }
-    }
-
-    private void oFactorySelected(Factory factory) {
-        mEquipmentAdapter.getFilter().filter(mEditText.getText().toString());
     }
 
     @Override
@@ -317,7 +366,7 @@ public class EquipmentOverviewFragment extends Fragment implements
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // do nothing
+        mEquipmentListAdapter.getFilter().filter(mSearchText.getText().toString());
     }
 
     @Override
@@ -327,20 +376,20 @@ public class EquipmentOverviewFragment extends Fragment implements
 
     @Override
     public void afterTextChanged(Editable s) {
-        mEquipmentAdapter.getFilter().filter(mEditText.getText().toString());
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()) {
             case R.id.ov_leftpane_listview:
-                if (mSelectedEquipment == mEquipmentAdapter.getItem(position)) return;
-                mSelectedEquipment = mEquipmentAdapter.getItem(position);
-                mEquipmentAdapter.setSelectedPosition(position);
-                onToolSelected(mSelectedEquipment);
-                mEquipmentAdapter.notifyDataSetChanged();
-                break;
-            default:
+                if (mSelectedEquipment == mEquipmentListAdapter.getItem(position)) return;
+
+                mEquipmentListAdapter.setSelectedPosition(position);
+                mEquipmentListAdapter.notifyDataSetChanged();
+
+                selectEquipment(mEquipmentListAdapter.getItem(position), true);
+
                 break;
         }
     }
