@@ -214,11 +214,11 @@
 
                 <TextView
                     style="@style/CaseOvStatsTextViewDisplay"
-                    android:text="@string/case_hours_passed_by" />
+                    android:text="@string/case_hours_unfinished" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/case_tv_hours_passed_by"
+                android:id="@+id/case_tv_hours_unfinished"
                 style="@style/CaseOvStatsTextViewValue" />
         </LinearLayout>
 
@@ -233,11 +233,11 @@
 
                 <TextView
                     style="@style/CaseOvStatsTextViewDisplay"
-                    android:text="@string/case_hours_unfinished" />
+                    android:text="@string/case_hours_passed_by" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/case_tv_hours_unfinished"
+                android:id="@+id/case_tv_hours_passed_by"
                 style="@style/CaseOvStatsTextViewValue" />
         </LinearLayout>
 
