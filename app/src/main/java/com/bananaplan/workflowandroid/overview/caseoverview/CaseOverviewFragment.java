@@ -24,6 +24,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.Case;
 import com.bananaplan.workflowandroid.data.Vendor;
+import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.main.MainActivity;
 import com.bananaplan.workflowandroid.overview.TaskItemFragment;
 import com.bananaplan.workflowandroid.overview.VendorSpinnerAdapter;
@@ -40,14 +41,15 @@ import java.util.List;
  * @since 2015/7/16.
  */
 public class CaseOverviewFragment extends Fragment implements TextWatcher,
-        AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnClickListener {
+        AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener,
+        View.OnClickListener, DataObserver {
 
     public static class TAB_TAG {
         private static final String TASK_ITEMS = "tab_tag_task_items";
         private static final String WARNING = "tab_tag_warning";
     }
 
-    private Spinner mVendorsSpinner;
+    private Spinner mVendorSpinner;
     private VendorSpinnerAdapter mVendorSpinnerAdapter;
     private List<Vendor> mVendorSpinnerDataSet = new ArrayList<>();
 
@@ -152,7 +154,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
 
         @Override
         public Vendor getSelectedVendor() {
-            return (Vendor) mVendorsSpinner.getSelectedItem();
+            return (Vendor) mVendorSpinner.getSelectedItem();
         }
     }
 
@@ -165,7 +167,19 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
-        onCaseSelected(mSelectedCase);
+        onCaseSelected(mSelectedCase, true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        WorkingData.getInstance(getActivity()).registerDataObserver(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        WorkingData.getInstance(getActivity()).removeDataObserver(this);
     }
 
     private void initialize() {
@@ -177,7 +191,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
     }
 
     private void findViews() {
-        mVendorsSpinner = (Spinner) getView().findViewById(R.id.ov_leftpane_spinner);
+        mVendorSpinner = (Spinner) getView().findViewById(R.id.ov_leftpane_spinner);
         mEtCaseSearch = (EditText) getView().findViewById(R.id.ov_leftpane_search_edittext);
         mCaseListView = (ListView) getView().findViewById(R.id.ov_leftpane_listview);
 
@@ -227,14 +241,14 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
                 new IconSpinnerAdapter.OnItemSelectedCallback() {
                     @Override
                     public int getSelectedPos() {
-                        if (mVendorsSpinner != null) {
-                            return mVendorsSpinner.getSelectedItemPosition();
+                        if (mVendorSpinner != null) {
+                            return mVendorSpinner.getSelectedItemPosition();
                         }
                         return 0;
                     }
                 });
-        mVendorsSpinner.setAdapter(mVendorSpinnerAdapter);
-        mVendorsSpinner.setOnItemSelectedListener(this);
+        mVendorSpinner.setAdapter(mVendorSpinnerAdapter);
+        mVendorSpinner.setOnItemSelectedListener(this);
     }
 
     private void setSpinnerVendorData() {
@@ -318,15 +332,15 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
                 mCaseListViewAdapter.setPositionSelected(0);
                 mCaseListViewAdapter.notifyDataSetChanged();
 
-                selectCase(mCaseListViewAdapter.getItem(0));
+                selectCase(mCaseListViewAdapter.getItem(0), true);
 
                 break;
         }
     }
 
-    private void selectCase(Case selectedCase) {
+    private void selectCase(Case selectedCase, boolean isScrollToTop) {
         mSelectedCase = selectedCase;
-        onCaseSelected(selectedCase);
+        onCaseSelected(selectedCase, isScrollToTop);
     }
 
     private void filterCaseList(String query) {
@@ -334,10 +348,14 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
         mCaseListViewAdapter.getFilter().filter(query);
     }
 
-    private void onCaseSelected(Case aCase) {
+    private void onCaseSelected(Case aCase, boolean isScrollToTop) {
         if (aCase == null) return;
 
-        ((OverviewScrollView) getView().findViewById(R.id.scroll)).setScrollEnable(false);
+        if (isScrollToTop) {
+            ((OverviewScrollView) getView().findViewById(R.id.scroll)).setScrollEnable(false);
+        } else {
+            ((OverviewScrollView) getView().findViewById(R.id.scroll)).setScrollEnable(true);
+        }
 
         mTvCaseNameSelected.setText(aCase.name);
         mTvCaseVendorSelected.setText(WorkingData.getInstance(getActivity()).getVendorById(aCase.vendorId).name);
@@ -374,7 +392,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
             case R.id.ov_leftpane_listview:
                 if (mSelectedCase == mCaseListViewAdapter.getItem(position)) return;
 
-                selectCase(mCaseListViewAdapter.getItem(position));
+                selectCase(mCaseListViewAdapter.getItem(position), true);
 
                 mCaseListViewAdapter.setPositionSelected(position);
                 mCaseListViewAdapter.notifyDataSetChanged();
@@ -394,5 +412,16 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
 
     public Case getSelectedCase() {
         return mSelectedCase;
+    }
+
+    @Override
+    public void updateData() {
+        setSpinnerVendorData();
+        mVendorSpinnerAdapter.notifyDataSetChanged();
+
+        setCaseListData(mVendorSpinnerDataSet.get(mVendorSpinner.getSelectedItemPosition()).id);
+        mCaseListViewAdapter.updateDataSet(mCaseListDataSet);
+
+        selectCase(mCaseListDataSet.get(mCaseListViewAdapter.getPositionSelected()), false);
     }
 }
