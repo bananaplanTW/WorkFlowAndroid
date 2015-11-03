@@ -216,14 +216,17 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 convertView.setTag(holder);
                 final ViewGroup.LayoutParams params = convertView.getLayoutParams();
                 params.height = (int) getResources().getDimension(R.dimen.ov_taskitem_listview_item_height);
+
                 if (position % 2 == 0) {
                     convertView.setBackgroundColor(getResources().getColor(R.color.gray4));
                 } else {
                     convertView.setBackgroundColor(Color.WHITE);
                 }
+
                 if (holder.workerNameString != null) {
                     holder.workerNameString.setVisibility(View.GONE);
                 }
+
                 if (holder.workerInfo != null) {
                     holder.workerInfo.setVisibility(View.VISIBLE);
                 }

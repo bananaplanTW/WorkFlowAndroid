@@ -28,7 +28,7 @@ import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
-import com.bananaplan.workflowandroid.overview.CaseAdapter;
+import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewListAdapterBase;
 import com.bananaplan.workflowandroid.overview.VendorSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
 
@@ -48,7 +48,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
     private List<Vendor> mVendorSpinnerDataSet = new ArrayList<>();
 
     private ListView mCaseListView;
-    private CaseListViewAdapter mCaseListViewAdapter;
+    private CaseListViewOverviewListAdapterBase mCaseListViewAdapter;
     private List<Case> mCaseListDataSet = new ArrayList<>();
 
     private RecyclerView mWarningCards;
@@ -60,7 +60,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
     private EditText mEtCaseSearch;
 
 
-    private class CaseListViewAdapter extends CaseAdapter {
+    private class CaseListViewOverviewListAdapterBase extends CaseOverviewListAdapterBase {
 
         private class ViewHolder {
 
@@ -78,7 +78,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
         }
 
 
-        public CaseListViewAdapter(Context context, List<Case> cases) {
+        public CaseListViewOverviewListAdapterBase(Context context, List<Case> cases) {
             super(context, cases);
         }
 
@@ -192,7 +192,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
 
     private void setupCaseList() {
         setCaseListData(null);
-        mCaseListViewAdapter = new CaseListViewAdapter(getActivity(), mCaseListDataSet);
+        mCaseListViewAdapter = new CaseListViewOverviewListAdapterBase(getActivity(), mCaseListDataSet);
         mCaseListView.setAdapter(mCaseListViewAdapter);
     }
 

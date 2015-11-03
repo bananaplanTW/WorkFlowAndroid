@@ -1,4 +1,4 @@
-package com.bananaplan.workflowandroid.overview;
+package com.bananaplan.workflowandroid.overview.caseoverview;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Ben on 2015/10/24.
  */
-public abstract class CaseAdapter extends ArrayAdapter<Case> implements Filterable {
+public abstract class CaseOverviewListAdapterBase extends ArrayAdapter<Case> implements Filterable {
 
     private Activity mActivity;
 
@@ -29,7 +29,7 @@ public abstract class CaseAdapter extends ArrayAdapter<Case> implements Filterab
     protected int mPositionSelected;
 
 
-    public CaseAdapter(Context context, List<Case> cases) {
+    public CaseOverviewListAdapterBase(Context context, List<Case> cases) {
         super(context, 0, cases);
         if (context instanceof Activity) {
             mActivity = (Activity) context;

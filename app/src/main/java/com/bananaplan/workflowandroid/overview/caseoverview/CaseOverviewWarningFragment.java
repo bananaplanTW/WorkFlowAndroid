@@ -29,7 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by Ben on 2015/8/23.
  */
-public class CaseWarningFragment extends OvTabFragmentBase implements OvTabFragmentBase.OvCallBack {
+public class CaseOverviewWarningFragment extends OvTabFragmentBase implements OvTabFragmentBase.OvCallBack {
     private ListView mWarningListView;
     private WarningListViewAdapter mWarningAdapter;
     private int mListViewHeaderHeight = 0;
