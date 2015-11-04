@@ -2,9 +2,11 @@ package com.bananaplan.workflowandroid.data.activity.actions;
 
 import android.content.Context;
 
+import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.HashMap;
 
@@ -40,7 +42,8 @@ public class LeaveAPhotoCommentToTaskWarningCommand implements ICreateActivityCo
 
     @Override
     public void onFinishPostingData() {
-
+        Utils.showToast(mContext,
+                String.format(mContext.getString(R.string.status_record_completed), mContext.getString(R.string.ov_tab_photo)));
     }
 
     @Override

@@ -270,10 +270,6 @@ public class DetailedTaskStatusFragment extends OvTabFragmentBase implements Vie
         mRecordEditText.setText("");
 
         Utils.hideSoftKeyboard(getActivity());
-
-        Toast.makeText(mContext,
-                String.format(mContext.getString(R.string.status_record_completed), mContext.getString(R.string.ov_message)),
-                Toast.LENGTH_SHORT).show();
     }
 
     private void pickupFile() {

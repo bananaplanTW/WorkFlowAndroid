@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -564,5 +565,19 @@ public class Utils {
         DownloadFileFromURLCommand downloadFileFromURLCommand =
                 new DownloadFileFromURLCommand(context, urlString, fileName);
         downloadFileFromURLCommand.execute();
+    }
+
+    /**
+     * Use this method to show toast in non-UI thread
+     *
+     * @param context
+     * @param text
+     */
+    public static void showToast(final Context context, final String text) {
+        new Handler().post(new Runnable() {
+            public void run() {
+                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
