@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.warning;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import com.bananaplan.workflowandroid.data.Vendor;
 import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
+import com.bananaplan.workflowandroid.detail.warning.DetailedWarningActivity;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewListAdapterBase;
 import com.bananaplan.workflowandroid.overview.VendorSpinnerAdapter;
 import com.bananaplan.workflowandroid.utility.data.IconSpinnerAdapter;
@@ -41,7 +43,8 @@ import java.util.List;
  * @since 2015/8/22.
  */
 public class WarningFragment extends Fragment implements TextWatcher,
-        AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnClickListener, DataObserver {
+        AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnClickListener,
+        DataObserver, WarningCardAdapter.OnClickWarningCardListener {
 
     private Spinner mVendorSpinner;
     private VendorSpinnerAdapter mVendorSpinnerAdapter;
@@ -223,7 +226,7 @@ public class WarningFragment extends Fragment implements TextWatcher,
         setWarningCardsData();
 
         int spanCount = getActivity().getResources().getInteger(R.integer.warning_frag_gridview_column_count);
-        mWarningCardAdapter = new WarningCardAdapter(getActivity(), mWarningCardsDataSet);
+        mWarningCardAdapter = new WarningCardAdapter(getActivity(), mWarningCardsDataSet, this);
         mWarningCardsLayoutManager =
                 new GridLayoutManager(getActivity(), spanCount);
 
@@ -329,5 +332,24 @@ public class WarningFragment extends Fragment implements TextWatcher,
         mCaseListViewAdapter.updateDataSet(mCaseListDataSet);
 
         selectCase(mCaseListDataSet.get(mCaseListViewAdapter.getPositionSelected()));
+    }
+
+    @Override
+    public void onClickWarningCard(TaskWarning clickedTaskWarning) {
+        Intent intent = new Intent(getActivity(), DetailedWarningActivity.class);
+        intent.putExtra(DetailedWarningActivity.EXTRA_WARNING_ID, clickedTaskWarning.id);
+
+        startActivityForResult(intent, DetailedWarningActivity.REQUEST_DETAILED_WARNING);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case DetailedWarningActivity.REQUEST_DETAILED_WARNING:
+                updateData();
+
+                break;
+        }
     }
 }

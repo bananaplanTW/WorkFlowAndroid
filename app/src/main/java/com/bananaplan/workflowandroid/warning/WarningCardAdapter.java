@@ -1,7 +1,6 @@
 package com.bananaplan.workflowandroid.warning;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +13,6 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.WorkingData;
-import com.bananaplan.workflowandroid.detail.warning.DetailedWarningActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.List;
@@ -25,6 +23,12 @@ import java.util.List;
  * @since 2015/11/3.
  */
 public class WarningCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    public interface OnClickWarningCardListener {
+        void onClickWarningCard(TaskWarning clickedTaskWarning);
+    }
+
+    public OnClickWarningCardListener mOnClickWarningCardListener;
 
     private Context mContext;
     private List<TaskWarning> mDataSet;
@@ -53,21 +57,14 @@ public class WarningCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void onClick(View v) {
-            showDetailedWarning(getAdapterPosition());
-        }
-
-        private void showDetailedWarning(int adapterPosition) {
-            TaskWarning selectedTaskWarning = mDataSet.get(adapterPosition);
-            Intent intent = new Intent(mContext, DetailedWarningActivity.class);
-            intent.putExtra(DetailedWarningActivity.EXTRA_WARNING_ID, selectedTaskWarning.id);
-
-            mContext.startActivity(intent);
+            mOnClickWarningCardListener.onClickWarningCard(mDataSet.get(getAdapterPosition()));
         }
     }
 
-    public WarningCardAdapter(Context mContext, List<TaskWarning> mDataSet) {
+    public WarningCardAdapter(Context mContext, List<TaskWarning> mDataSet, OnClickWarningCardListener listener) {
         this.mContext = mContext;
         this.mDataSet = mDataSet;
+        this.mOnClickWarningCardListener = listener;
     }
 
     @Override

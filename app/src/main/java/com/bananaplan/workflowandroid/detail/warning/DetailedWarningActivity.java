@@ -27,6 +27,8 @@ public class DetailedWarningActivity extends AppCompatActivity implements View.O
 
     public static final String EXTRA_WARNING_ID = "extra_warning_id";
 
+    public static final int REQUEST_DETAILED_WARNING = 33;
+
     private static final String TAG_DETAILED_WARNING_STATUS_FRAGMENT = "tag_detailed_task_status_fragment";
 
     private ActionBar mActionBar;
