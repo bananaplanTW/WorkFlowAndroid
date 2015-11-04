@@ -136,7 +136,7 @@ public class AssignTaskFragment extends Fragment implements
 
         @Override
         public int getSpinnerIconResourceId() {
-            return R.drawable.case_spinner_icon;
+            return R.drawable.ic_business_black;
         }
 
         @Override
