@@ -128,7 +128,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
                 caseNameColor = getResources().getColor(R.color.gray1);
             } else {
                 statusText = aCase.getFinishItemsCount() + "/" + aCase.tasks.size();
-                statusBgId = R.drawable.bg_solid_textview_bg_red;
+                statusBgId = R.drawable.case_overview_case_list_progress_background;
                 caseNameColor = getResources().getColor(R.color.black1);
             }
 
