@@ -248,14 +248,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 holder.startDate.setTextColor(txtColor);
             }
             if (holder.status != null) {
-                holder.status.setText(Task.getTaskStatusString(getActivity(), task));
-                holder.status.setTextColor(txtColor);
-                if (Task.Status.WIP == task.status) {
-                    holder.status.setBackground(getResources().getDrawable(R.drawable.border_textview_bg_green, null));
-                    holder.status.setTextColor(getResources().getColor(R.color.green));
-                } else {
-                    holder.status.setBackground(null);
-                }
+                Utils.setTaskStatusForTextView(getActivity(), holder.status, task);
             }
             if (holder.id != null) {
                 holder.id.setText(String.valueOf(position + 1));

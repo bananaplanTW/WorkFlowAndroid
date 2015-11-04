@@ -580,4 +580,47 @@ public class Utils {
             }
         });
     }
+
+    /**
+     * Set the style of TextView according to the status of a task
+     *
+     * @param context
+     * @param status
+     * @param task
+     */
+    public static void setTaskStatusForTextView(Context context, TextView status, Task task) {
+        status.setText(Task.getTaskStatusString(context, task));
+
+        switch (task.status) {
+            case IN_REVIEW:
+                status.setTextColor(context.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_in_review_background);
+                break;
+
+            case WIP:
+                status.setTextColor(context.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_wip_background);
+                break;
+
+            case PENDING:
+                status.setTextColor(context.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_pending_background);
+                break;
+
+            case UNCLAIMED:
+                status.setTextColor(context.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_unclaimed_background);
+                break;
+
+            case WARNING:
+                status.setTextColor(context.getResources().getColor(R.color.task_card_status_text_color));
+                status.setBackgroundResource(R.drawable.task_card_status_warning_background);
+                break;
+
+            case DONE:
+                status.setTextColor(context.getResources().getColor(R.color.task_card_status_done_text_color));
+                status.setBackground(null);
+                break;
+        }
+    }
 }

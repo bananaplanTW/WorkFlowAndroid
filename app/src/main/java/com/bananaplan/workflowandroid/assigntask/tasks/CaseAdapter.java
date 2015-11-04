@@ -194,44 +194,10 @@ public class CaseAdapter extends RecyclerView.Adapter<ViewHolder> {
                 mContext.getString(R.string.task_card_no_worker) : worker.name);
 
         // Status
-        setTaskStatus(holder.status, task);
+        Utils.setTaskStatusForTextView(mContext, holder.status, task);
     }
 
-    private void setTaskStatus(TextView status, Task task) {
-        status.setText(Task.getTaskStatusString(mContext, task));
 
-        switch (task.status) {
-            case IN_REVIEW:
-                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
-                status.setBackgroundResource(R.drawable.task_card_status_in_review_background);
-                break;
-
-            case WIP:
-                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
-                status.setBackgroundResource(R.drawable.task_card_status_wip_background);
-                break;
-
-            case PENDING:
-                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
-                status.setBackgroundResource(R.drawable.task_card_status_pending_background);
-                break;
-
-            case UNCLAIMED:
-                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
-                status.setBackgroundResource(R.drawable.task_card_status_unclaimed_background);
-                break;
-
-            case WARNING:
-                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_text_color));
-                status.setBackgroundResource(R.drawable.task_card_status_warning_background);
-                break;
-
-            case DONE:
-                status.setTextColor(mContext.getResources().getColor(R.color.task_card_status_done_text_color));
-                status.setBackground(null);
-                break;
-        }
-    }
 
     public Task getItem(int position) {
         return mSelectedCase.tasks.get(--position);
