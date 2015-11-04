@@ -240,6 +240,9 @@
     <string name="detailed_worker_task_schedule_header_warnings">Warnings</string>
     <string name="detailed_worker_task_schedule_listview_divider_text">Finish by today</string>
 
+    <!-- Detailed warning -->
+    <string name="detailed_warning_remove_warning_button_text">Remove earning</string>
+
     <!-- Status Fragment -->
     <string name="status_string_worker">Worker %s records</string>
     <string name="status_string_task">Task %s records</string>

@@ -13,16 +13,17 @@
         android:theme="@style/PopupActivityTheme.AppBarOverlayWhite"
         app:popupTheme="@style/PopupActivityTheme.PopupOverlay">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/detailed_actionbar_warning_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
                 android:textSize="@dimen/detailed_actionbar_title_text_size"
                 android:textColor="@color/detailed_warning_actionbar_text_color"/>
 
@@ -30,10 +31,19 @@
                 android:id="@+id/detailed_actionbar_warning_task_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/detailed_actionbar_warning_name"
                 android:textSize="@dimen/detailed_actionbar_subtitle_text_size"
                 android:textColor="@color/detailed_warning_actionbar_text_color"/>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/detailed_warning_remove_warning_button"
+                style="@style/ButtonStyle.Green"
+                android:layout_marginRight="@dimen/detailed_warning_remove_warning_button_text_margin_right"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="@string/detailed_warning_remove_warning_button_text" />
+
+        </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 

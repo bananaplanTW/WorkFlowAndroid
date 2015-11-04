@@ -230,6 +230,9 @@
     <string name="detailed_worker_task_schedule_header_warnings">警訊</string>
     <string name="detailed_worker_task_schedule_listview_divider_text">以上預計今日完成</string>
 
+    <!-- Detailed warning -->
+    <string name="detailed_warning_remove_warning_button_text">解除警訊</string>
+
     <!-- Status Fragment -->
     <string name="status_string_worker">員工 %s 的記錄</string>
     <string name="status_string_task">工作項目 %s 的記錄</string>
@@ -331,4 +334,5 @@
     <string name="download_file">下載檔案  %1$s</string>
     <string name="downloading">下載中...</string>
     <string name="download_completed">下載完成</string>
+
 </resources>

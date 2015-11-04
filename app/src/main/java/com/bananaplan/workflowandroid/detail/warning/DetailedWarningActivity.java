@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
@@ -19,7 +20,7 @@ import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 
-public class DetailedWarningActivity extends AppCompatActivity {
+public class DetailedWarningActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "DetailedWarningActivity";
 
@@ -28,9 +29,12 @@ public class DetailedWarningActivity extends AppCompatActivity {
     private static final String TAG_DETAILED_WARNING_STATUS_FRAGMENT = "tag_detailed_task_status_fragment";
 
     private ActionBar mActionBar;
+    private Toolbar mToolbar;
 
     private TextView mActionBarWarningName;
     private TextView mActionBarTaskName;
+
+    private TextView mRemoveWarningButton;
 
     private TextView mInformationWarningName;
     private TextView mInformationTaskName;
@@ -52,6 +56,7 @@ public class DetailedWarningActivity extends AppCompatActivity {
         findViews();
         setupActionBar();
         setupViews();
+        setupRemoveWarningButton();
         setupWarningLog();
     }
 
@@ -62,11 +67,12 @@ public class DetailedWarningActivity extends AppCompatActivity {
         mInformationTaskName = (TextView) findViewById(R.id.detailed_information_task_name);
         mInformationManagerName = (TextView) findViewById(R.id.detailed_information_manager_name);
         mInformationWarningSpentTime = (TextView) findViewById(R.id.detailed_information_warning_spent_time);
+        mRemoveWarningButton = (TextView) findViewById(R.id.detailed_warning_remove_warning_button);
     }
 
     private void setupActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
 
         if (mActionBar != null) {
@@ -74,13 +80,17 @@ public class DetailedWarningActivity extends AppCompatActivity {
             mActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        setActionBarBackgroundColor();
+    }
+
+    private void setActionBarBackgroundColor() {
         switch (mTaskWarning.status) {
             case OPENED:
-                toolbar.setBackgroundColor(getResources().getColor(R.color.warning_opened_background_color));
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.warning_opened_background_color));
                 break;
 
             case CLOSED:
-                toolbar.setBackgroundColor(getResources().getColor(R.color.warning_closed_background_color));
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.warning_closed_background_color));
                 break;
         }
     }
@@ -95,6 +105,16 @@ public class DetailedWarningActivity extends AppCompatActivity {
         mInformationTaskName.setText(warningTask.name);
         mInformationManagerName.setText(picManager.name);
         mInformationWarningSpentTime.setText(Utils.millisecondsToTimeString(mTaskWarning.spentTime));
+    }
+
+    private void setupRemoveWarningButton() {
+        if (TaskWarning.Status.OPENED.equals(mTaskWarning.status)) {
+            mRemoveWarningButton.setVisibility(View.VISIBLE);
+        } else if (TaskWarning.Status.CLOSED.equals(mTaskWarning.status)) {
+            mRemoveWarningButton.setVisibility(View.GONE);
+        }
+
+        mRemoveWarningButton.setOnClickListener(this);
     }
 
     private void setupWarningLog() {
@@ -124,5 +144,22 @@ public class DetailedWarningActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.detailed_warning_remove_warning_button:
+                removeWarning();
+                break;
+        }
+    }
+
+    private void removeWarning() {
+        mTaskWarning.status = TaskWarning.Status.CLOSED;
+        WorkingData.getInstance(this).getTaskById(mTaskWarning.taskId).status = Task.Status.PENDING;
+
+        setActionBarBackgroundColor();
+        mRemoveWarningButton.setVisibility(View.GONE);
     }
 }
