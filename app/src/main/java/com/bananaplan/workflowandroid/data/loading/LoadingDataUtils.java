@@ -74,6 +74,7 @@ public class LoadingDataUtils {
             public static final String FAIL_TASK = "/api/fail-task";
 
             public static final String CREATE_TASK_EXCEPTION = "/api/add-task-exception";
+            public static final String CLOSE_TASK_EXCEPTION = "/api/close-task-exception";
 
             public static final String COMMENT_IMAGE_ACTIVITY = "/api/add-activity/image";
             public static final String COMMENT_FILE_ACTIVITY = "/api/add-activity/file";
