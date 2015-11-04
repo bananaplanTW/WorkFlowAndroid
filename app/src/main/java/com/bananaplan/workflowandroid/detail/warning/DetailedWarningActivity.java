@@ -17,6 +17,7 @@ import com.bananaplan.workflowandroid.data.Manager;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.warning.actions.CloseTaskWarningCommand;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 
@@ -150,7 +151,18 @@ public class DetailedWarningActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.detailed_warning_remove_warning_button:
-                removeWarning();
+                CloseTaskWarningCommand closeTaskWarningCommand = new CloseTaskWarningCommand(this, mTaskWarning.id, new CloseTaskWarningCommand.OnFinishedClosingTaskWarningListener() {
+                    @Override
+                    public void onClosedTaskWarning() {
+                        removeWarning();
+                    }
+
+                    @Override
+                    public void onFailClosingTaskWarning() {
+                        // doing failing handling
+                    }
+                });
+                closeTaskWarningCommand.execute();
                 break;
         }
     }
