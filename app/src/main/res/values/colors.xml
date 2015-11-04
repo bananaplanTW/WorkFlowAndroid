@@ -73,6 +73,7 @@
     <color name="working_status_ok">#FF55931F</color>
 
     <!-- CaseOverviewFragment -->
+    <color name="listview_taskcase_progress_background_color">#FF36BA99</color>
     <color name="listview_taskcase_taskname_textcolor_finished">#9b9b9b</color>
     <color name="listview_taskcase_taskname_textcolor_unfinished">#4a4a4a</color>
     <color name="listview_selected_bg">#428bca</color>

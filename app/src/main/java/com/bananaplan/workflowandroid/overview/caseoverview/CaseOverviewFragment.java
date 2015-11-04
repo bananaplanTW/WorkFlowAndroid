@@ -82,6 +82,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
     private class CaseListViewOverviewListAdapterBase extends CaseOverviewListAdapterBase {
 
         private class ViewHolder {
+
             RelativeLayout mRoot;
             TextView mTvStatus;
             TextView mTvVendor;
