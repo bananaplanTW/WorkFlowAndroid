@@ -123,12 +123,12 @@
     <string name="worker_ov_taskItem_listView_tool_used">"使用機器"</string>
     <string name="worker_ov_taskItem_listView_error_count">"錯誤"</string>
     <string name="worker_ov_taskItem_listView_warning">"警訊"</string>
-    <string name="worker_ov_editText_record_hint">"寫下紀錄&#8230;"</string>
+    <string name="worker_ov_editText_record_hint">"寫下記錄&#8230;"</string>
     <string name="worker_ov_btn_upload">"上傳"</string>
     <string name="worker_ov_btn_capture">"照相"</string>
-    <string name="worker_ov_btn_finish_record">"紀錄完成"</string>
+    <string name="worker_ov_btn_finish_record">"記錄完成"</string>
     <string name="worker_ov_tab_all">"全部"</string>
-    <string name="worker_ov_tab_record">"紀錄"</string>
+    <string name="worker_ov_tab_record">"記錄"</string>
     <string name="worker_ov_tab_photo">"照片"</string>
     <string name="worker_ov_tab_file">"檔案"</string>
     <string name="worker_ov_tab_history">"日誌"</string>
@@ -159,7 +159,7 @@
     <string name="equipment_purchase_date">"購買日期："</string>
     <string name="equipment_fix_date">"最近維修日期："</string>
     <string name="equipment_edit">"修改設備資訊"</string>
-    <string name="worker_ov_worker_tab_title_fix_record">"維修紀錄"</string>
+    <string name="worker_ov_worker_tab_title_fix_record">"維修記錄"</string>
     <string name="overview_used_hours">"完成時數 <b>%d</b> 小時"</string>
     <string name="add_maintenance_record">"新增維修"</string>
 
@@ -211,7 +211,7 @@
     <string name="detailed_worker_task_schedule">工作排程</string>
     <string name="detailed_worker_task_items">工作項目</string>
     <string name="detailed_worker_task_log">工作記錄</string>
-    <string name="detailed_worker_worker_log">員工紀錄</string>
+    <string name="detailed_worker_worker_log">員工記錄</string>
     <string name="detailed_worker_current_task_text">目前工作</string>
     <string name="detailed_worker_scheduled_task_text">預排工作</string>
     <string name="detailed_worker_task_schedule_complete_task_button">工作完成</string>
@@ -229,7 +229,7 @@
     <string name="detailed_worker_task_schedule_listview_divider_text">以上預計今日完成</string>
 
     <!-- Status Fragment -->
-    <string name="status_string_worker">員工 %s 的紀錄</string>
+    <string name="status_string_worker">員工 %s 的記錄</string>
     <string name="status_string_task">工作項目 %s 的記錄</string>
     <string name="status_no_wip_task_text">無目前工作</string>
     <string name="status_string_detailed_task">工作記錄</string>
