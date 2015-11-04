@@ -8,6 +8,7 @@
     <string name="retry">重試</string>
     <string name="processing">處理中</string>
     <string name="no_equipment">無使用機器</string>
+    <string name="complete_task">完成工作:  %1$s</string>
 
     <!-- Task status -->
     <string name="task_status_unclaimed">尚無排程</string>

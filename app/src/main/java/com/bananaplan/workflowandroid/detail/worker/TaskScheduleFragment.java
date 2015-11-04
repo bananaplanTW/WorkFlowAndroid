@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
@@ -369,37 +370,47 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.complete_task_button:
-                if (mWorker.hasWipTask()) {
-                    String taskId = mWorker.getWipTask().id;
-                    CompleteTaskForWorkerCommand completeTaskForWorkerCommand = new CompleteTaskForWorkerCommand(mContext, mWorker.id, taskId);
-                    completeTaskForWorkerCommand.execute();
-                    WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.IN_REVIEW;
+                if (!mWorker.hasWipTask()) break;
 
-                    if (mWorker.hasScheduledTasks()) {
-                        Task task = mWorker.getScheduledTasks().get(0);
-                        mWorker.setWipTask(task);
-                        mWorker.removeScheduleTask(task);
-                    } else {
-                        mWorker.status = Worker.Status.PENDING;
-                        mWorker.setWipTask(null);
-                    }
-                    setupCurrentTask();
-                    mAdapter.updateData((mWorker.getScheduledTasks()));
+                Toast.makeText(mContext,
+                               String.format(mContext.getString(R.string.complete_task), mWorker.getWipTask().name),
+                               Toast.LENGTH_SHORT).show();
+
+                String taskId = mWorker.getWipTask().id;
+                CompleteTaskForWorkerCommand completeTaskForWorkerCommand = new CompleteTaskForWorkerCommand(mContext, mWorker.id, taskId);
+                completeTaskForWorkerCommand.execute();
+                WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.IN_REVIEW;
+
+                if (mWorker.hasScheduledTasks()) {
+                    Task task = mWorker.getScheduledTasks().get(0);
+                    mWorker.setWipTask(task);
+                    mWorker.removeScheduleTask(task);
+                } else {
+                    mWorker.status = Worker.Status.PENDING;
+                    mWorker.setWipTask(null);
                 }
+                setupCurrentTask();
+                mAdapter.updateData((mWorker.getScheduledTasks()));
+
                 break;
+
             case R.id.add_warning_button:
                 if (mWorker.hasWipTask()) {
                     Intent intent = new Intent(mContext, AddWarningDialog.class);
                     intent.putExtra(AddWarningDialog.EXTRA_TASK_ID, mWorker.getWipTask().id);
                     startActivityForResult(intent, CREATE_WARNING);
                 }
+
                 break;
+
             case R.id.manage_warning_button:
                 break;
+
             case R.id.manage_tasks_button:
                 if (mAdapter == null) return;
                 mAdapter.setDivEnable(!mAdapter.isDivEnable());
                 mListView.setDragEnabled(!mAdapter.isDivEnable());
+
                 break;
         }
     }

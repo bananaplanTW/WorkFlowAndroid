@@ -10,6 +10,7 @@
     <string name="retry">Retry</string>
     <string name="processing">Processing</string>
     <string name="no_equipment">No equipment</string>
+    <string name="complete_task">Complete task:  %1$s</string>
 
     <!-- Task status -->
     <string name="task_status_unclaimed">Not start</string>
