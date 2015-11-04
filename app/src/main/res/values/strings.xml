@@ -104,6 +104,13 @@
     <string name="case_ov_tab_title_warning">"Warning"</string>
 
     <!-- WorkerOverView fragment-->
+    <string name="ov_message">"Message"</string>
+    <string name="ov_tab_record">"Record"</string>
+    <string name="ov_tab_photo">"Photo"</string>
+    <string name="ov_tab_file">"File"</string>
+    <string name="ov_tab_history">"History"</string>
+    <string name="ov_taskItem_listView_start_date">"Start Date"</string>
+
     <string name="worker_ov_all_factories">"All factories"</string>
     <string name="worker_ov_worker_address">"Address:"</string>
     <string name="worker_ov_worker_phone">"Phone:"</string>
@@ -111,7 +118,6 @@
     <string name="worker_ov_worker_tab_title_worker_status">"Worker's status"</string>
     <string name="worker_ov_worker_tab_title_worker_attendance_status">"Attendance status"</string>
     <string name="worker_ov_edit_task_item">"Edit Item"</string>
-    <string name="ov_taskItem_listView_start_date">"Start Date"</string>
     <string name="worker_ov_taskItem_listView_status">"Status"</string>
     <string name="worker_ov_taskItem_listView_case_name">"Case Name"</string>
     <string name="worker_ov_taskItem_listView_item_name">"Item Name"</string>
@@ -125,10 +131,6 @@
     <string name="worker_ov_btn_capture">"Capture"</string>
     <string name="worker_ov_btn_finish_record">"Finish Record"</string>
     <string name="worker_ov_tab_all">"All"</string>
-    <string name="worker_ov_tab_record">"Record"</string>
-    <string name="worker_ov_tab_photo">"Photo"</string>
-    <string name="worker_ov_tab_file">"File"</string>
-    <string name="worker_ov_tab_history">"History"</string>
     <string name="worker_ov_tab_status_download">"Download"</string>
     <string name="worker_ov_tab_status_upload">"has uploaded"</string>
     <string name="worker_ov_tab_status_capture">"has captured"</string>
@@ -243,6 +245,7 @@
     <string name="status_string_task">Task %s records</string>
     <string name="status_no_wip_task_text">No WIP task</string>
     <string name="status_string_detailed_task">Task records</string>
+    <string name="status_record_completed">Record %1$s completed</string>
 
     <!-- Main information -->
     <string name="main_information_board_0">0</string>

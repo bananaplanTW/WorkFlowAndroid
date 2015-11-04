@@ -198,19 +198,19 @@ public class DetailedTaskStatusFragment extends OvTabFragmentBase implements Vie
                 iconResId = R.drawable.selector_tab_all;
                 break;
             case TAB_TAG.RECORD:
-                textResId = R.string.worker_ov_tab_record;
+                textResId = R.string.ov_tab_record;
                 iconResId = R.drawable.selector_tab_record;
                 break;
             case TAB_TAG.FILE:
-                textResId = R.string.worker_ov_tab_file;
+                textResId = R.string.ov_tab_file;
                 iconResId = R.drawable.selector_tab_file;
                 break;
             case TAB_TAG.PHOTO:
-                textResId = R.string.worker_ov_tab_photo;
+                textResId = R.string.ov_tab_photo;
                 iconResId = R.drawable.selector_tab_photo;
                 break;
             case TAB_TAG.HISTORY:
-                textResId = R.string.worker_ov_tab_history;
+                textResId = R.string.ov_tab_history;
                 iconResId = R.drawable.selector_tab_history;
                 break;
         }
@@ -270,6 +270,10 @@ public class DetailedTaskStatusFragment extends OvTabFragmentBase implements Vie
         mRecordEditText.setText("");
 
         Utils.hideSoftKeyboard(getActivity());
+
+        Toast.makeText(mContext,
+                String.format(mContext.getString(R.string.status_record_completed), mContext.getString(R.string.ov_message)),
+                Toast.LENGTH_SHORT).show();
     }
 
     private void pickupFile() {

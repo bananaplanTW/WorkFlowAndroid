@@ -101,6 +101,13 @@
     <string name="case_ov_tab_title_warning">"警訊"</string>
 
     <!-- WorkerOverView fragment-->
+    <string name="ov_message">"訊息"</string>
+    <string name="ov_tab_record">"記錄"</string>
+    <string name="ov_tab_photo">"照片"</string>
+    <string name="ov_tab_file">"檔案"</string>
+    <string name="ov_tab_history">"日誌"</string>
+    <string name="ov_taskItem_listView_start_date">"開始日期"</string>
+
     <string name="worker_ov_all_factories">"全部工廠"</string>
     <string name="worker_ov_worker_address">"地址："</string>
     <string name="worker_ov_worker_phone">"電話："</string>
@@ -114,7 +121,6 @@
     <string name="worker_ov_tab_status_work">"上班"</string>
     <string name="worker_ov_tab_status_off_work">"下班"</string>
 
-    <string name="ov_taskItem_listView_start_date">"開始日期"</string>
     <string name="worker_ov_taskItem_listView_status">"工作狀態"</string>
     <string name="worker_ov_taskItem_listView_case_name">"案件名稱"</string>
     <string name="worker_ov_taskItem_listView_item_name">"項目名稱"</string>
@@ -128,10 +134,6 @@
     <string name="worker_ov_btn_capture">"照相"</string>
     <string name="worker_ov_btn_finish_record">"記錄完成"</string>
     <string name="worker_ov_tab_all">"全部"</string>
-    <string name="worker_ov_tab_record">"記錄"</string>
-    <string name="worker_ov_tab_photo">"照片"</string>
-    <string name="worker_ov_tab_file">"檔案"</string>
-    <string name="worker_ov_tab_history">"日誌"</string>
     <string name="worker_ov_tab_attendance_add_leave_date">"新增請假"</string>
     <string name="worker_ov_tab_attendance_leave_date">"請假日期"</string>
     <string name="worker_ov_tab_attendance_leave_type">"請假假別"</string>
@@ -233,6 +235,7 @@
     <string name="status_string_task">工作項目 %s 的記錄</string>
     <string name="status_no_wip_task_text">無目前工作</string>
     <string name="status_string_detailed_task">工作記錄</string>
+    <string name="status_record_completed">%1$s記錄完成</string>
 
     <!-- Main information -->
     <string name="main_information_worker_on">上班人數</string>
