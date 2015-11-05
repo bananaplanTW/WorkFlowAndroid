@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bananaplan.workflowandroid.R;
+import com.bananaplan.workflowandroid.dialog.ConfirmDialogFragment.OnConfirmDialogActionListener;
 
 /**
  * @author Danny Lin
@@ -23,10 +24,13 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
     private TextView mConfirmDialogText;
     private TextView mConfirmDialogOkButton;
 
+    private OnConfirmDialogActionListener mOnConfirmDialogActionListener;
 
-    public ConfirmDialog(Context context, int type) {
+
+    public ConfirmDialog(Context context, OnConfirmDialogActionListener listener, int type) {
         super(context);
         mContext = context;
+        mOnConfirmDialogActionListener = listener;
         mType = type;
     }
 
@@ -35,7 +39,6 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_confirm);
-        setCanceledOnTouchOutside(false);
         initialize();
     }
 
@@ -73,7 +76,7 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirm_dialog_ok_button:
-                dismiss();
+                mOnConfirmDialogActionListener.onClickOk();
 
                 break;
         }

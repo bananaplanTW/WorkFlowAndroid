@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,9 +39,12 @@ import java.util.List;
  * @author Danny Lin
  * @since 2015/9/21.
  */
-public class TaskScheduleFragment extends Fragment implements View.OnClickListener {
+public class TaskScheduleFragment extends Fragment implements View.OnClickListener,
+        ConfirmDialogFragment.OnConfirmDialogActionListener {
 
     private static final int CREATE_WARNING = 10001;
+
+    private static final int REQUEST_TASK_SCHEDULE_FRAGMENT = 3;
 
     private Context mContext;
 
@@ -49,6 +53,8 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     private TaskAdapter mAdapter;
     private DragSortController mController;
     private ViewHolder mListViewHeaderHolder;
+
+    private DialogFragment mWarningConfirmDialogFragment;
 
 
     @Override
@@ -434,7 +440,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                     setupCurrentTask();
                     mAdapter.updateData((mWorker.getScheduledTasks()));
 
-                    ConfirmDialogFragment.showConfirmDialog(getFragmentManager(), ConfirmDialogFragment.Type.ADD_WARNING);
+                    showWarningConfirmDialog();
                 }
 
                 break;
@@ -442,5 +448,38 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
             default:
                 break;
         }
+    }
+
+    private void showWarningConfirmDialog() {
+        mWarningConfirmDialogFragment =
+                (DialogFragment) getFragmentManager().findFragmentByTag(ConfirmDialogFragment.TAG_CONFIRM_DIALOG);
+
+        if (mWarningConfirmDialogFragment == null) {
+            mWarningConfirmDialogFragment = new ConfirmDialogFragment();
+        }
+
+        mWarningConfirmDialogFragment.setTargetFragment(this, REQUEST_TASK_SCHEDULE_FRAGMENT);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(ConfirmDialogFragment.EXTRA_CONFIRM_TYPE, ConfirmDialogFragment.Type.ADD_WARNING);
+        mWarningConfirmDialogFragment.setArguments(bundle);
+
+        mWarningConfirmDialogFragment.show(getFragmentManager(), ConfirmDialogFragment.TAG_CONFIRM_DIALOG);
+    }
+
+    @Override
+    public void onClickCompleteTask() {
+
+    }
+
+    @Override
+    public void onClickCancel() {
+
+    }
+
+    @Override
+    public void onClickOk() {
+        mWarningConfirmDialogFragment.dismiss();
+        mWarningConfirmDialogFragment = null;
     }
 }
