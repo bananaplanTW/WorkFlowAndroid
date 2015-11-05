@@ -22,7 +22,10 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
 
     private ImageView mConfirmDialogIcon;
     private TextView mConfirmDialogText;
+
     private TextView mConfirmDialogOkButton;
+    private TextView mConfirmDialogCancelButton;
+    private TextView mConfirmDialogCompleteButton;
 
     private OnConfirmDialogActionListener mOnConfirmDialogActionListener;
 
@@ -44,7 +47,7 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
 
     private void initialize() {
         findViews();
-        setupIconAndText();
+        setupViews();
         setupButton();
     }
 
@@ -52,24 +55,45 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
         mConfirmDialogIcon = (ImageView) findViewById(R.id.confirm_dialog_icon);
         mConfirmDialogText = (TextView) findViewById(R.id.confirm_dialog_text);
         mConfirmDialogOkButton = (TextView) findViewById(R.id.confirm_dialog_ok_button);
+        mConfirmDialogCancelButton = (TextView) findViewById(R.id.confirm_dialog_cancel_button);
+        mConfirmDialogCompleteButton = (TextView) findViewById(R.id.confirm_dialog_complete_button);
     }
 
-    private void setupIconAndText() {
+    private void setupViews() {
         switch (mType) {
             case ConfirmDialogFragment.Type.ADD_TASK:
                 mConfirmDialogIcon.setImageResource(R.drawable.ic_confirm_dialog_completed);
                 mConfirmDialogText.setText(mContext.getString(R.string.confirm_dialog_add_task_completed_text));
+                mConfirmDialogOkButton.setVisibility(View.VISIBLE);
+                mConfirmDialogCancelButton.setVisibility(View.GONE);
+                mConfirmDialogCompleteButton.setVisibility(View.GONE);
+
                 break;
 
             case ConfirmDialogFragment.Type.ADD_WARNING:
                 mConfirmDialogIcon.setImageResource(R.drawable.ic_confirm_dialog_warning);
                 mConfirmDialogText.setText(mContext.getString(R.string.confirm_dialog_add_warning_completed_text));
+                mConfirmDialogOkButton.setVisibility(View.VISIBLE);
+                mConfirmDialogCancelButton.setVisibility(View.GONE);
+                mConfirmDialogCompleteButton.setVisibility(View.GONE);
+
+                break;
+
+            case ConfirmDialogFragment.Type.COMPLETE_TASK:
+                mConfirmDialogIcon.setImageResource(R.drawable.ic_confirm_dialog_completed);
+                mConfirmDialogText.setText(mContext.getString(R.string.confirm_dialog_complete_task_text));
+                mConfirmDialogOkButton.setVisibility(View.GONE);
+                mConfirmDialogCancelButton.setVisibility(View.VISIBLE);
+                mConfirmDialogCompleteButton.setVisibility(View.VISIBLE);
+
                 break;
         }
     }
 
     private void setupButton() {
         mConfirmDialogOkButton.setOnClickListener(this);
+        mConfirmDialogCancelButton.setOnClickListener(this);
+        mConfirmDialogCompleteButton.setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +101,16 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.confirm_dialog_ok_button:
                 mOnConfirmDialogActionListener.onClickOk();
+
+                break;
+
+            case R.id.confirm_dialog_cancel_button:
+                mOnConfirmDialogActionListener.onClickCancel();
+
+                break;
+
+            case R.id.confirm_dialog_complete_button:
+                mOnConfirmDialogActionListener.onClickCompleteTask();
 
                 break;
         }

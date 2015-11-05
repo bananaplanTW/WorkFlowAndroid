@@ -10,6 +10,7 @@
     <string name="complete_task">完成工作:  %1$s</string>
     <string name="ok">確定</string>
     <string name="cancel">取消</string>
+    <string name="complete">完成</string>
 
     <!-- Task status -->
     <string name="task_status_unclaimed">尚無排程</string>
@@ -338,6 +339,7 @@
 
     <!-- Confirm dialog -->
     <string name="confirm_dialog_add_warning_completed_text">已經新增警訊</string>
-    <string name="confirm_dialog_add_task_completed_text">已完成</string>
+    <string name="confirm_dialog_add_task_completed_text">已完成工作</string>
+    <string name="confirm_dialog_complete_task_text">確定要完成工作？</string>
 
 </resources>

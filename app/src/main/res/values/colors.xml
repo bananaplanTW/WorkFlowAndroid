@@ -190,5 +190,7 @@
     <color name="confirm_dialog_background_color">#FFFFFFFF</color>
     <color name="confirm_dialog_ok_button_stroke_color">#FF979797</color>
     <color name="confirm_dialog_ok_button_background_color">#FFFFFFFF</color>
+    <color name="confirm_dialog_cancel_button_background_color">#FFE1E1E1</color>
+    <color name="confirm_dialog_complete_button_background_color">#FF3BAFDA</color>
 
 </resources>

@@ -377,34 +377,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.complete_task_button:
                 if (!mWorker.hasWipTask()) break;
-
-                final String taskId = mWorker.getWipTask().id;
-                CompleteTaskForWorkerCommand completeTaskForWorkerCommand =
-                        new CompleteTaskForWorkerCommand(mContext, mWorker.id, taskId, new CompleteTaskForWorkerCommand.OnCompleteTaskForWorkerListener() {
-                            @Override
-                            public void onFinishCompleteTask() {
-                                WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.IN_REVIEW;
-
-                                if (mWorker.hasScheduledTasks()) {
-                                    Task task = mWorker.getScheduledTasks().get(0);
-                                    mWorker.setWipTask(task);
-                                    mWorker.removeScheduleTask(task);
-                                } else {
-                                    mWorker.status = Worker.Status.PENDING;
-                                    mWorker.setWipTask(null);
-                                }
-                                setupCurrentTask();
-                                mAdapter.updateData((mWorker.getScheduledTasks()));
-
-                                showConfirmDialog(ConfirmDialogFragment.Type.ADD_TASK);
-                            }
-
-                            @Override
-                            public void onFailCompleteTask() {
-
-                            }
-                        });
-                completeTaskForWorkerCommand.execute();
+                showConfirmDialog(ConfirmDialogFragment.Type.COMPLETE_TASK);
 
                 break;
 
@@ -476,7 +449,37 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClickCompleteTask() {
+        mConfirmDialogFragment.dismiss();
+        mConfirmDialogFragment = null;
 
+        final String taskId = mWorker.getWipTask().id;
+        CompleteTaskForWorkerCommand completeTaskForWorkerCommand =
+                new CompleteTaskForWorkerCommand(mContext, mWorker.id, taskId, new CompleteTaskForWorkerCommand.OnCompleteTaskForWorkerListener() {
+                    @Override
+                    public void onFinishCompleteTask() {
+                        WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.IN_REVIEW;
+
+                        if (mWorker.hasScheduledTasks()) {
+                            Task task = mWorker.getScheduledTasks().get(0);
+                            mWorker.setWipTask(task);
+                            mWorker.removeScheduleTask(task);
+                        } else {
+                            mWorker.status = Worker.Status.PENDING;
+                            mWorker.setWipTask(null);
+                        }
+                        setupCurrentTask();
+                        mAdapter.updateData((mWorker.getScheduledTasks()));
+
+                        showConfirmDialog(ConfirmDialogFragment.Type.ADD_TASK);
+                    }
+
+                    @Override
+                    public void onFailCompleteTask() {
+
+                    }
+                });
+
+        completeTaskForWorkerCommand.execute();
     }
 
     @Override

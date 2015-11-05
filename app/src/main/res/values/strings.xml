@@ -12,6 +12,7 @@
     <string name="complete_task">Complete task:  %1$s</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="complete">Complete</string>
 
     <!-- Task status -->
     <string name="task_status_unclaimed">Not start</string>
@@ -351,5 +352,6 @@
     <!-- Confirm dialog -->
     <string name="confirm_dialog_add_warning_completed_text">Warning has been added</string>
     <string name="confirm_dialog_add_task_completed_text">Task completed</string>
+    <string name="confirm_dialog_complete_task_text">Do you want to complete the task?</string>
 
 </resources>

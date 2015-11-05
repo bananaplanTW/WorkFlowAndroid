@@ -366,6 +366,7 @@
     <dimen name="confirm_dialog_button_corner_radius">2dp</dimen>
     <dimen name="confirm_dialog_button_width">150dp</dimen>
     <dimen name="confirm_dialog_button_height">60dp</dimen>
+    <dimen name="confirm_dialog_button_margin_left_right">25dp</dimen>
     <dimen name="confirm_dialog_button_text_size">25dp</dimen>
 
 </resources>
