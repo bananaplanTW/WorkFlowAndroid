@@ -281,7 +281,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         holder.workTime.setText(Utils.millisecondsToTimeString(task.getWorkingTime()));
         holder.equipment.setText(WorkingData.getInstance(getActivity()).hasEquipment(task.equipmentId) ?
                 WorkingData.getInstance(getActivity()).getEquipmentById(task.equipmentId).name : "");
-        holder.errorCnt.setText(String.valueOf(task.errorCount));
         Utils.setTaskItemWarningTextView(getActivity(), task, holder.warnings, true);
     }
     private void resetListViewItemContent (ViewHolder holder) {
@@ -290,7 +289,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         holder.expectedTime.setText("");
         holder.workTime.setText("");
         holder.equipment.setText("");
-        holder.errorCnt.setText("");
         holder.warnings.setText("");
     }
 
@@ -315,7 +313,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         TextView expectedTime;
         TextView workTime;
         TextView equipment;
-        TextView errorCnt;
         TextView warnings;
         LinearLayout idRoot;
         LinearLayout taskRoot;
@@ -329,7 +326,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
             expectedTime = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_expected_time);
             workTime = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_spent_time);
             equipment = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_equipment);
-            errorCnt = (TextView) root.findViewById(R.id.detailed_worker_task_schedule_error);
             warnings = (TextView) root.findViewById(R.id.listview_task_warning);
             taskRoot = (LinearLayout) root.findViewById(R.id.task_item_root);
             if (current) {
@@ -355,8 +351,6 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                 workTime.setTextAppearance(getActivity(), R.style.DetailedWorkerTaskSchedule_Header);
                 equipment.setText(getString(R.string.detailed_worker_task_schedule_header_equipment));
                 equipment.setTextAppearance(getActivity(), R.style.DetailedWorkerTaskSchedule_Header);
-                errorCnt.setText(getString(R.string.detailed_worker_task_schedule_header_error));
-                errorCnt.setTextAppearance(getActivity(), R.style.DetailedWorkerTaskSchedule_Header);
                 warnings.setText(getString(R.string.detailed_worker_task_schedule_header_warnings));
                 warnings.setTextAppearance(getActivity(), R.style.DetailedWorkerTaskSchedule_Header);
             } else {

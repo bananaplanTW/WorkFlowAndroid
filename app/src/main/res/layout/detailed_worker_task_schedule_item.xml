@@ -71,11 +71,6 @@
             android:id="@+id/divider"
             layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
 
-        <TextView
-            android:id="@+id/detailed_worker_task_schedule_error"
-            style="@style/DetailedWorkerTaskSchedule.Item"
-            android:layout_weight="@integer/detailed_worker_task_schedule_error_weight" />
-
         <include
             android:id="@+id/divider"
             layout="@layout/detailed_worker_task_schedule_item_vertical_divider" />
