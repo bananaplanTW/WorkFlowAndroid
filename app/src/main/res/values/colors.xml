@@ -62,6 +62,7 @@
     <color name="worker_pager_indicator_selected_color">#FF222222</color>
     <color name="worker_pager_indicator_normal_color">#FFCFCFCF</color>
     <color name="worker_card_stroke_color">#FF979797</color>
+    <color name="worker_card_green_tag_color">#FF159285</color>
     <color name="worker_card_drag_available_color">@android:color/holo_green_dark</color>
     <color name="worker_card_entered_stroke_color">@android:color/holo_red_dark</color>
     <color name="worker_card_text_black">#FF4A4A4A</color>

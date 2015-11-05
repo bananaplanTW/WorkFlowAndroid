@@ -89,15 +89,23 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/worker_card_wip_task_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/worker_card_wip_task_green_tag"
+                android:layout_width="@dimen/worker_card_green_tag_width"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/worker_card_green_tag_color"/>
 
             <RelativeLayout
+                android:id="@+id/worker_card_wip_task_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/worker_card_wip_task_green_tag"
                 android:padding="@dimen/worker_card_current_task_container_padding">
 
                 <TextView
@@ -120,19 +128,24 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/worker_card_wip_task_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_below="@+id/worker_card_wip_task_top"
+                android:layout_toRightOf="@+id/worker_card_wip_task_green_tag"
                 android:background="@color/worker_card_divider_color"/>
 
             <TextView
                 android:id="@+id/worker_card_wip_task_working_time"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/worker_card_wip_task_divider"
+                android:layout_toRightOf="@+id/worker_card_wip_task_green_tag"
                 android:gravity="center"
                 android:textSize="@dimen/worker_card_current_task_working_time_text_size"
                 android:fontFamily="sans-serif-condensed" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

@@ -70,6 +70,7 @@
     <dimen name="worker_grid_view_vertical_spacing">30dp</dimen>
     <dimen name="worker_grid_view_horizontal_spacing">30dp</dimen>
     <dimen name="worker_grid_view_item_width">160dp</dimen>
+    <dimen name="worker_card_green_tag_width">10dp</dimen>
     <dimen name="worker_card_height">180dp</dimen>
     <dimen name="worker_card_padding">6dp</dimen>
     <dimen name="worker_card_stroke_width">1dp</dimen>
