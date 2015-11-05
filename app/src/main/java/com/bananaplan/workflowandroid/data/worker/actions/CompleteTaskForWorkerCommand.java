@@ -9,16 +9,25 @@ import com.bananaplan.workflowandroid.data.network.PostRequestAsyncTask;
  */
 public class CompleteTaskForWorkerCommand implements IWorkerActionCommand, PostRequestAsyncTask.OnFinishPostingDataListener {
 
+    public interface OnCompleteTaskForWorkerListener {
+        void onFinishCompleteTask();
+        void onFailCompleteTask();
+    }
+
     private PostRequestAsyncTask mPostRequestAsyncTask;
+
+    private OnCompleteTaskForWorkerListener mOnCompleteTaskForWorkerListener;
 
     private Context mContext;
     private String mWorkerId;
     private String mTaskId;
 
-    public CompleteTaskForWorkerCommand (Context context, String workerId, String taskId) {
+    public CompleteTaskForWorkerCommand (Context context, String workerId, String taskId,
+                                         OnCompleteTaskForWorkerListener listener) {
         mContext = context;
         mWorkerId = workerId;
         mTaskId = taskId;
+        mOnCompleteTaskForWorkerListener = listener;
     }
 
 
@@ -32,10 +41,11 @@ public class CompleteTaskForWorkerCommand implements IWorkerActionCommand, PostR
 
     @Override
     public void onFinishPostingData() {
-
+        mOnCompleteTaskForWorkerListener.onFinishCompleteTask();
     }
+
     @Override
     public void onFailPostingData(boolean isFailCausedByInternet) {
-
+        mOnCompleteTaskForWorkerListener.onFailCompleteTask();
     }
 }

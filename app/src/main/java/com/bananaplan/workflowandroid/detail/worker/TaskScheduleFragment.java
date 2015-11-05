@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
@@ -54,7 +53,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
     private DragSortController mController;
     private ViewHolder mListViewHeaderHolder;
 
-    private DialogFragment mWarningConfirmDialogFragment;
+    private DialogFragment mConfirmDialogFragment;
 
 
     @Override
@@ -379,25 +378,33 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
             case R.id.complete_task_button:
                 if (!mWorker.hasWipTask()) break;
 
-                Toast.makeText(mContext,
-                               String.format(mContext.getString(R.string.complete_task), mWorker.getWipTask().name),
-                               Toast.LENGTH_SHORT).show();
+                final String taskId = mWorker.getWipTask().id;
+                CompleteTaskForWorkerCommand completeTaskForWorkerCommand =
+                        new CompleteTaskForWorkerCommand(mContext, mWorker.id, taskId, new CompleteTaskForWorkerCommand.OnCompleteTaskForWorkerListener() {
+                            @Override
+                            public void onFinishCompleteTask() {
+                                WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.IN_REVIEW;
 
-                String taskId = mWorker.getWipTask().id;
-                CompleteTaskForWorkerCommand completeTaskForWorkerCommand = new CompleteTaskForWorkerCommand(mContext, mWorker.id, taskId);
+                                if (mWorker.hasScheduledTasks()) {
+                                    Task task = mWorker.getScheduledTasks().get(0);
+                                    mWorker.setWipTask(task);
+                                    mWorker.removeScheduleTask(task);
+                                } else {
+                                    mWorker.status = Worker.Status.PENDING;
+                                    mWorker.setWipTask(null);
+                                }
+                                setupCurrentTask();
+                                mAdapter.updateData((mWorker.getScheduledTasks()));
+
+                                showConfirmDialog(ConfirmDialogFragment.Type.ADD_TASK);
+                            }
+
+                            @Override
+                            public void onFailCompleteTask() {
+
+                            }
+                        });
                 completeTaskForWorkerCommand.execute();
-                WorkingData.getInstance(mContext).getTaskById(taskId).status = Task.Status.IN_REVIEW;
-
-                if (mWorker.hasScheduledTasks()) {
-                    Task task = mWorker.getScheduledTasks().get(0);
-                    mWorker.setWipTask(task);
-                    mWorker.removeScheduleTask(task);
-                } else {
-                    mWorker.status = Worker.Status.PENDING;
-                    mWorker.setWipTask(null);
-                }
-                setupCurrentTask();
-                mAdapter.updateData((mWorker.getScheduledTasks()));
 
                 break;
 
@@ -440,7 +447,7 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                     setupCurrentTask();
                     mAdapter.updateData((mWorker.getScheduledTasks()));
 
-                    showWarningConfirmDialog();
+                    showConfirmDialog(ConfirmDialogFragment.Type.ADD_WARNING);
                 }
 
                 break;
@@ -450,21 +457,21 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    private void showWarningConfirmDialog() {
-        mWarningConfirmDialogFragment =
+    private void showConfirmDialog(int type) {
+        mConfirmDialogFragment =
                 (DialogFragment) getFragmentManager().findFragmentByTag(ConfirmDialogFragment.TAG_CONFIRM_DIALOG);
 
-        if (mWarningConfirmDialogFragment == null) {
-            mWarningConfirmDialogFragment = new ConfirmDialogFragment();
+        if (mConfirmDialogFragment == null) {
+            mConfirmDialogFragment = new ConfirmDialogFragment();
         }
 
-        mWarningConfirmDialogFragment.setTargetFragment(this, REQUEST_TASK_SCHEDULE_FRAGMENT);
+        mConfirmDialogFragment.setTargetFragment(this, REQUEST_TASK_SCHEDULE_FRAGMENT);
 
         Bundle bundle = new Bundle();
-        bundle.putInt(ConfirmDialogFragment.EXTRA_CONFIRM_TYPE, ConfirmDialogFragment.Type.ADD_WARNING);
-        mWarningConfirmDialogFragment.setArguments(bundle);
+        bundle.putInt(ConfirmDialogFragment.EXTRA_CONFIRM_TYPE, type);
+        mConfirmDialogFragment.setArguments(bundle);
 
-        mWarningConfirmDialogFragment.show(getFragmentManager(), ConfirmDialogFragment.TAG_CONFIRM_DIALOG);
+        mConfirmDialogFragment.show(getFragmentManager(), ConfirmDialogFragment.TAG_CONFIRM_DIALOG);
     }
 
     @Override
@@ -474,12 +481,13 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClickCancel() {
-
+        mConfirmDialogFragment.dismiss();
+        mConfirmDialogFragment = null;
     }
 
     @Override
     public void onClickOk() {
-        mWarningConfirmDialogFragment.dismiss();
-        mWarningConfirmDialogFragment = null;
+        mConfirmDialogFragment.dismiss();
+        mConfirmDialogFragment = null;
     }
 }
