@@ -5,12 +5,13 @@
     <string name="action_refresh">Refresh</string>
     <string name="date_format_string">%1$s/%2$s/%3$s</string>
     <string name="edit">Edit</string>
-    <string name="cancel">Cancel</string>
     <string name="no_internet_connection">Check your connection and try again.</string>
     <string name="retry">Retry</string>
     <string name="processing">Processing</string>
     <string name="no_equipment">No equipment</string>
     <string name="complete_task">Complete task:  %1$s</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Task status -->
     <string name="task_status_unclaimed">Not start</string>
@@ -346,4 +347,9 @@
     <string name="download_file">"Download File  %1$s"</string>
     <string name="downloading">Downloading...</string>
     <string name="download_completed">Download Completed</string>
+
+    <!-- Confirm dialog -->
+    <string name="confirm_dialog_add_warning_completed_text">Warning has been added</string>
+    <string name="confirm_dialog_add_task_completed_text">Task completed</string>
+
 </resources>

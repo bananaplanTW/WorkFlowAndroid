@@ -186,4 +186,9 @@
     <!-- Display image -->
     <color name="display_image_actionbar_title_text_color">#FF4A4A4A</color>
 
+    <!-- Confirm dialog -->
+    <color name="confirm_dialog_background_color">#FFFFFFFF</color>
+    <color name="confirm_dialog_ok_button_stroke_color">#FF979797</color>
+    <color name="confirm_dialog_ok_button_background_color">#FFFFFFFF</color>
+
 </resources>

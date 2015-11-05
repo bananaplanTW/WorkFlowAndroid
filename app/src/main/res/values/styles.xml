@@ -165,6 +165,19 @@
     </style>
 
 
+    <style name="ConfirmDialogButtonStyle">
+        <item name="android:layout_width">@dimen/confirm_dialog_button_width</item>
+        <item name="android:layout_height">@dimen/confirm_dialog_button_height</item>
+        <item name="android:textSize">@dimen/confirm_dialog_button_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="ConfirmDialogButtonStyle.OK">
+        <item name="android:text">@string/ok</item>
+        <item name="android:background">@drawable/confirm_dialog_ok_button_background</item>
+    </style>
+
+
     <style name="TitleEditText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

@@ -3,12 +3,13 @@
     <string name="app_name">nicloud 雲工廠</string>
     <string name="action_refresh">更新</string>
     <string name="edit">編輯</string>
-    <string name="cancel">取消</string>
     <string name="no_internet_connection">請檢查您的連線狀態，然後再試一次。</string>
     <string name="retry">重試</string>
     <string name="processing">處理中</string>
     <string name="no_equipment">無使用機器</string>
     <string name="complete_task">完成工作:  %1$s</string>
+    <string name="ok">確定</string>
+    <string name="cancel">取消</string>
 
     <!-- Task status -->
     <string name="task_status_unclaimed">尚無排程</string>
@@ -334,5 +335,9 @@
     <string name="download_file">下載檔案  %1$s</string>
     <string name="downloading">下載中...</string>
     <string name="download_completed">下載完成</string>
+
+    <!-- Confirm dialog -->
+    <string name="confirm_dialog_add_warning_completed_text">已經新增警訊</string>
+    <string name="confirm_dialog_add_task_completed_text">已完成</string>
 
 </resources>

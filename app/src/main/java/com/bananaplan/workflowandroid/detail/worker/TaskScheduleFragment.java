@@ -21,6 +21,7 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.worker.actions.CompleteTaskForWorkerCommand;
+import com.bananaplan.workflowandroid.dialog.ConfirmDialogFragment;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.warning.AddWarningDialog;
 import com.mobeta.android.dslv.DragSortController;
@@ -432,8 +433,12 @@ public class TaskScheduleFragment extends Fragment implements View.OnClickListen
                     }
                     setupCurrentTask();
                     mAdapter.updateData((mWorker.getScheduledTasks()));
+
+                    ConfirmDialogFragment.showConfirmDialog(getFragmentManager(), ConfirmDialogFragment.Type.ADD_WARNING);
                 }
+
                 break;
+
             default:
                 break;
         }
