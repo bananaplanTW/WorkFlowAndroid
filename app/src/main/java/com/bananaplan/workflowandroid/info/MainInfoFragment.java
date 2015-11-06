@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.info;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import com.bananaplan.workflowandroid.data.TaskWarning;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
+import com.bananaplan.workflowandroid.detail.warning.DetailedWarningActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.DividerItemDecoration;
 
@@ -34,6 +36,8 @@ import java.util.List;
  * @since 2015/8/22.
  */
 public class MainInfoFragment extends Fragment implements DataObserver {
+
+    public static final int REQUEST_DETAILED_WARNING = 5;
 
     private Context mContext;
 
@@ -217,8 +221,11 @@ public class MainInfoFragment extends Fragment implements DataObserver {
         mWarningTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Utils.showDetailedWarningActivity(mContext,
+                Intent intent = new Intent(getActivity(), DetailedWarningActivity.class);
+                intent.putExtra(DetailedWarningActivity.EXTRA_WARNING_ID,
                         ((WarningListViewAdapter) mWarningTasks.getAdapter()).getItem(position).id);
+
+                startActivityForResult(intent, REQUEST_DETAILED_WARNING);
             }
         });
     }
@@ -258,5 +265,16 @@ public class MainInfoFragment extends Fragment implements DataObserver {
         mDelayTasks.clear();
         mTaskWarnings.clear();
         mReviewTasks.clear();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_DETAILED_WARNING:
+                updateData();
+
+                break;
+        }
     }
 }
