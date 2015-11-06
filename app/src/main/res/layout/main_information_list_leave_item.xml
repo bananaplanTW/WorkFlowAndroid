@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:minHeight="@dimen/main_information_list_item_min_height"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="?selectableItemBackground">
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/main_information_list_leave_type"
