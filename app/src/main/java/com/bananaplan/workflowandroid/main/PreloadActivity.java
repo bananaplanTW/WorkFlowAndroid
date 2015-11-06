@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -23,7 +25,9 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
     // NIC = NoInternetConnection
     private View mNICContainer;
     private Button mNICRetryButton;
-    private ProgressBar mNICProgressBar;
+
+    private Animation mFadeInAnimation;
+    private Animation mFadeOutAnimation;
 
 
     @Override
@@ -34,6 +38,8 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
     }
 
     private void initialize() {
+        mFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.abc_fade_in);
+        mFadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.abc_fade_out);
         findViews();
         setupViews();
     }
@@ -42,15 +48,16 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
         mNiCloud = (ImageView) findViewById(R.id.ni_cloud);
         mNICContainer = findViewById(R.id.no_internet_connection_container);
         mNICRetryButton = (Button) findViewById(R.id.no_internet_connection_retry_button);
-        mNICProgressBar = (ProgressBar) findViewById(R.id.no_internet_connection_progress_bar);
     }
 
     private void setupViews() {
         mNICRetryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mNICContainer.startAnimation(mFadeOutAnimation);
+                mNiCloud.startAnimation(mFadeInAnimation);
                 mNICContainer.setVisibility(View.GONE);
-                mNICProgressBar.setVisibility(View.VISIBLE);
+                mNiCloud.setVisibility(View.VISIBLE);
                 startLoadingData();
             }
         });
@@ -94,11 +101,10 @@ public class PreloadActivity extends AppCompatActivity implements LoadingDataTas
 
     @Override
     public void onFailLoadingData(boolean isFailCausedByInternet) {
-        if (isFailCausedByInternet) {
-            mNICContainer.setVisibility(View.VISIBLE);
-            mNICProgressBar.setVisibility(View.GONE);
-            mNiCloud.setVisibility(View.GONE);
-            mLoadingDataTask = null;
-        }
+        mNICContainer.startAnimation(mFadeInAnimation);
+        mNiCloud.startAnimation(mFadeOutAnimation);
+        mNICContainer.setVisibility(View.VISIBLE);
+        mNiCloud.setVisibility(View.GONE);
+        mLoadingDataTask = null;
     }
 }

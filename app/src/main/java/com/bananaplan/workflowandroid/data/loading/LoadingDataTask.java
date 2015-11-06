@@ -45,12 +45,18 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         if (!MainApplication.sUseTestData) {
             if (RestfulUtils.isConnectToInternet(mContext)) {
-                loadCases();
-                loadFactories();
-                loadEmployees();
-                loadEquipments();
-                loadWarnings();
-                loadLeaveWorkersIn7Days();  // TODO: Need to load the data of leave workers separately.
+                try {
+                    loadCases();
+                    loadFactories();
+                    loadEmployees();
+                    loadEquipments();
+                    loadWarnings();
+                    loadLeaveWorkersIn7Days();  // TODO: Need to load the data of leave workers separately.
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    cancel(true);
+                }
+
                 putWorkerIdsIntoCases();
                 putTasksIntoWorkers();
                 putCasesIntoVendors();
@@ -65,7 +71,7 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onCancelled(Void aVoid) {
-        super.onCancelled(aVoid);
+        //super.onCancelled(aVoid);
         mOnFinishLoadingDataListener.onFailLoadingData(isFailCausedByInternet);
     }
 

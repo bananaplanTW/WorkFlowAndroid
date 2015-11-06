@@ -36,7 +36,10 @@ public class CheckLoggedInStatusStrategy implements IGetRequestStrategy {
         } catch (JSONException e) {
             Log.e(TAG, "Exception in CheckLoggedInStatusStrategy()");
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 }

@@ -302,6 +302,7 @@ public class UIController implements OnClickDrawerItemListener, LoadingDataTask.
 
     @Override
     public void onFailLoadingData(boolean isFailCausedByInternet) {
-
+        setRefreshMenuItemState(false);
+        Toast.makeText(mMainActivity, mMainActivity.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
     }
 }
