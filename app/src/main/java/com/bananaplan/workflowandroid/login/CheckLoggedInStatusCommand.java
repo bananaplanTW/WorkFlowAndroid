@@ -15,7 +15,7 @@ public class CheckLoggedInStatusCommand implements IWorkerActionCommand, GetRequ
 
     public interface OnFinishCheckingLoggedInStatusListener {
         void onLoggedIn();
-        void onLoggedOut();
+        void onLoggedOut(boolean isFailCausedByInternet);
     }
 
     private GetRequestAsyncTask mGetRequestAsyncTask;
@@ -44,15 +44,15 @@ public class CheckLoggedInStatusCommand implements IWorkerActionCommand, GetRequ
             if (result != null && result.getString("ud") != null) {
                 mOnFinishCheckingLoggedInStatusListener.onLoggedIn();
             } else {
-                mOnFinishCheckingLoggedInStatusListener.onLoggedOut();
+                mOnFinishCheckingLoggedInStatusListener.onLoggedOut(false);
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            mOnFinishCheckingLoggedInStatusListener.onLoggedOut();
+            mOnFinishCheckingLoggedInStatusListener.onLoggedOut(false);
         }
     }
     @Override
     public void onFailGettingData(boolean isFailCausedByInternet) {
-        mOnFinishCheckingLoggedInStatusListener.onLoggedOut();
+        mOnFinishCheckingLoggedInStatusListener.onLoggedOut(isFailCausedByInternet);
     }
 }

@@ -9,7 +9,14 @@
     tools:context="com.bananaplan.workflowandroid.main.LoginActivity"
     android:background="@color/blue1">
 
+    <include
+        layout="@layout/no_internet_connection_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
     <ImageView
+        android:id="@+id/login_nicloud_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/nicloud"

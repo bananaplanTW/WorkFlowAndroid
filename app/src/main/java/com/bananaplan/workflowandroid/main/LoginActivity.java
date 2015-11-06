@@ -5,8 +5,11 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -28,6 +31,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mPasswordEditText;
     private Button mLoginButton;
 
+    private ImageView mNiCloudImage;
+    private View mNICContainer;
+    private Button mNICRetryButton;
+
+    private Animation mFadeInAnimation;
+    private Animation mFadeOutAnimation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +55,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initialize() {
         mSharedPreferences = getSharedPreferences(WorkingData.SHARED_PREFERENCE_KEY, 0);
-
+        mFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.abc_fade_in);
+        mFadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.abc_fade_out);
         findViews();
         setupViews();
-
         hideAllViews();
     }
     private void findViews () {
+        mNiCloudImage = (ImageView) findViewById(R.id.login_nicloud_image);
         mLoginContainerLinearLayout = (LinearLayout) findViewById(R.id.login_container);
         mAccountEditText = (EditText) findViewById(R.id.login_account_edit_text);
         mPasswordEditText = (EditText) findViewById(R.id.login_password_edit_text);
         mLoginButton = (Button) findViewById(R.id.login_button);
+        mNICContainer = findViewById(R.id.no_internet_connection_container);
+        mNICRetryButton = (Button) findViewById(R.id.no_internet_connection_retry_button);
     }
 
     private void setupViews () {
         mLoginButton.setOnClickListener(this);
+        mNICRetryButton.setOnClickListener(this);
     }
 
     private void hideAllViews () {
@@ -77,6 +91,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         WorkingData.setUserId(mSharedPreferences.getString(WorkingData.USER_ID, ""));
         WorkingData.setAuthToken(mSharedPreferences.getString(WorkingData.AUTH_TOKEN, ""));
 
+        checkLoggedInStatus();
+    }
+
+    private void checkLoggedInStatus() {
         CheckLoggedInStatusCommand checkLoggedInStatusCommand = new CheckLoggedInStatusCommand(this, this);
         checkLoggedInStatusCommand.execute();
     }
@@ -95,13 +113,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String password = mPasswordEditText.getText().toString();
                 UserLoggingInCommand userLoggingInCommand = new UserLoggingInCommand(this, username, password, this);
                 userLoggingInCommand.execute();
+
                 break;
-            default:
-                // no ops
+
+            case R.id.no_internet_connection_retry_button:
+                mNICContainer.startAnimation(mFadeOutAnimation);
+                mNiCloudImage.startAnimation(mFadeInAnimation);
+                mNICContainer.setVisibility(View.GONE);
+                mNiCloudImage.setVisibility(View.VISIBLE);
+                checkLoggedInStatus();
+
                 break;
         }
     }
-
 
     @Override
     public void onLoggedIn() {
@@ -110,11 +134,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
         finish();
     }
-    @Override
-    public void onLoggedOut() {
-        showAllViews();
-    }
 
+    @Override
+    public void onLoggedOut(boolean isFailCausedByInternet) {
+        if (isFailCausedByInternet) {
+            mNICContainer.startAnimation(mFadeInAnimation);
+            mNiCloudImage.startAnimation(mFadeOutAnimation);
+            mNICContainer.setVisibility(View.VISIBLE);
+            mNiCloudImage.setVisibility(View.GONE);
+        } else {
+            showAllViews();
+        }
+    }
 
     @Override
     public void onLoggedInSucceed(String userId, String authToken) {
@@ -127,8 +158,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(new Intent(LoginActivity.this, PreloadActivity.class));
         finish();
     }
+
     @Override
-    public void onLoggedInFailed() {
-        Toast.makeText(this, "帳號或密碼錯誤", Toast.LENGTH_SHORT).show();
+    public void onLoggedInFailed(boolean isFailCausedByInternet) {
+        if (isFailCausedByInternet) {
+            Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "帳號或密碼錯誤", Toast.LENGTH_SHORT).show();
+        }
     }
 }

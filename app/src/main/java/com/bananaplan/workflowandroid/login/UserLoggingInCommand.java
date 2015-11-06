@@ -18,7 +18,7 @@ public class UserLoggingInCommand implements IWorkerActionCommand, PostRequestAs
 
     public interface OnFinishLoggedInListener {
         void onLoggedInSucceed(String userId, String authToken);
-        void onLoggedInFailed();
+        void onLoggedInFailed(boolean isFailCausedByInternet);
     }
 
     private Context mContext;
@@ -55,14 +55,15 @@ public class UserLoggingInCommand implements IWorkerActionCommand, PostRequestAs
                 mOnFinishLoggedInListener.onLoggedInSucceed(result.getString("userId"), result.getString("authToken"));
             } catch (JSONException e) {
                 e.printStackTrace();
-                mOnFinishLoggedInListener.onLoggedInFailed();
+                mOnFinishLoggedInListener.onLoggedInFailed(false);
             }
         } else {
-            mOnFinishLoggedInListener.onLoggedInFailed();
+            mOnFinishLoggedInListener.onLoggedInFailed(false);
         }
     }
+
     @Override
     public void onFailPostingData(boolean isFailCausedByInternet) {
-        mOnFinishLoggedInListener.onLoggedInFailed();
+        mOnFinishLoggedInListener.onLoggedInFailed(true);
     }
 }
