@@ -4,6 +4,7 @@
     <string name="action_refresh">更新</string>
     <string name="edit">編輯</string>
     <string name="no_internet_connection">請檢查您的連線狀態，然後再試一次。</string>
+    <string name="no_internet_connection_information">有些資訊無法正常顯示，請檢查您的連線狀態，然後再試一次。</string>
     <string name="retry">重試</string>
     <string name="processing">處理中</string>
     <string name="no_equipment">無使用機器</string>

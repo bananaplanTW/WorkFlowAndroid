@@ -1,8 +1,6 @@
 package com.bananaplan.workflowandroid.data.activity.actions;
 
 import android.content.Context;
-import android.os.Handler;
-import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
@@ -45,7 +43,7 @@ public class LeaveAFileCommentToTaskWarningCommand implements ICreateActivityCom
 
     @Override
     public void onFinishPostingData() {
-        Utils.showToast(mContext,
+        Utils.showToastInNonUiThread(mContext,
                 String.format(mContext.getString(R.string.status_record_completed), mContext.getString(R.string.ov_tab_file)));
     }
 

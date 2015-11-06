@@ -20,6 +20,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.widget.Toast;
+
+import com.bananaplan.workflowandroid.R;
 
 
 /**
@@ -29,9 +32,11 @@ import android.os.Handler;
  *
  */
 public class AsyncDialog {
+
     private ProgressDialog mProgressDialog;
     private final Activity mActivity;
     private final Handler mHandler;
+
 
     public AsyncDialog(Activity activity) {
         mActivity = activity;
@@ -134,6 +139,10 @@ public class AsyncDialog {
 //                        Thread.sleep(2000);
 //                    } catch (Exception e) {
 //                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    cancel(true);
+
                 } finally {
                     // Cancel pending display of the progress bar if the background task has
                     // finished before the progress bar has popped up.
@@ -157,6 +166,13 @@ public class AsyncDialog {
             if (mPostExecuteTask != null) {
                 mPostExecuteTask.run();
             }
+        }
+
+        @Override
+        protected void onCancelled(Void result) {
+            //super.onCancelled();
+            Toast.makeText(mActivity,
+                    mActivity.getString(R.string.no_internet_connection_information), Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -42,7 +42,7 @@ public class LeaveAPhotoCommentToTaskCommand implements ICreateActivityCommand, 
 
     @Override
     public void onFinishPostingData() {
-        Utils.showToast(mContext,
+        Utils.showToastInNonUiThread(mContext,
                 String.format(mContext.getString(R.string.status_record_completed), mContext.getString(R.string.ov_tab_photo)));
     }
 

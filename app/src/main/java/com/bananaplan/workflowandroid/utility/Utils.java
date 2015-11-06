@@ -573,7 +573,7 @@ public class Utils {
      * @param context
      * @param text
      */
-    public static void showToast(final Context context, final String text) {
+    public static void showToastInNonUiThread(final Context context, final String text) {
         new Handler().post(new Runnable() {
             public void run() {
                 Toast.makeText(context, text, Toast.LENGTH_SHORT).show();

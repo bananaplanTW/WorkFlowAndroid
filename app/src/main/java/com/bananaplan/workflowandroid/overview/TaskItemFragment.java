@@ -130,10 +130,11 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         }
     }
 
-    AsyncDialog getAsyncDialog() {
+    private AsyncDialog getAsyncDialog() {
         if (mAsyncDialog == null) {
             mAsyncDialog = new AsyncDialog(getActivity());
         }
+
         return mAsyncDialog;
     }
 
@@ -519,9 +520,11 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
 
     private void updateStatisticsView(final Object obj, final int resId) {
         getAsyncDialog().runAsync(new Runnable() {
+
             @Override
             public void run() {
                 if (MainApplication.sUseTestData) return;
+
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, 0);
                 cal.clear(Calendar.MINUTE);
@@ -531,6 +534,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                 long start = cal.getTimeInMillis();
                 cal.add(Calendar.WEEK_OF_YEAR, 1);
                 long end = cal.getTimeInMillis();
+
                 if (obj instanceof Case) {
                     LoadingDataUtils.loadTimeCardsByCase(getActivity(), ((Case) obj).id, start, end);
                 } else if (obj instanceof Worker) {
@@ -539,6 +543,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                     LoadingDataUtils.loadTimeCardsByEquipment(getActivity(), ((Equipment) obj).id, start, end);
                 }
             }
+
         }, new Runnable() {
             @Override
             public void run() {

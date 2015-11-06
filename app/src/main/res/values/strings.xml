@@ -6,6 +6,7 @@
     <string name="date_format_string">%1$s/%2$s/%3$s</string>
     <string name="edit">Edit</string>
     <string name="no_internet_connection">Check your connection and try again.</string>
+    <string name="no_internet_connection_information">Some information can not display normally. Check your connection and try again.</string>
     <string name="retry">Retry</string>
     <string name="processing">Processing</string>
     <string name="no_equipment">No equipment</string>
