@@ -33,7 +33,7 @@ public class DetailedTaskActivity extends AppCompatActivity {
 
     private TextView mDetailedInformationCaseName;
     private TextView mDetailedInformationTaskName;
-    private TextView mDetailedInformaationExpectedTime;
+    private TextView mDetailedInformationExpectedTime;
     private TextView mDetailedInformationSpentTime;
     private TextView mDetailedInformationEquipment;
     private TextView mDetailedInformationWarning;
@@ -61,7 +61,7 @@ public class DetailedTaskActivity extends AppCompatActivity {
         mDetailedCaseName = (TextView) findViewById(R.id.detailed_case_name);
         mDetailedInformationCaseName = (TextView) findViewById(R.id.detailed_information_case_name);
         mDetailedInformationTaskName = (TextView) findViewById(R.id.detailed_information_task_name);
-        mDetailedInformaationExpectedTime = (TextView) findViewById(R.id.detailed_information_expected_time);
+        mDetailedInformationExpectedTime = (TextView) findViewById(R.id.detailed_information_expected_time);
         mDetailedInformationSpentTime = (TextView) findViewById(R.id.detailed_information_spent_time);
         mDetailedInformationEquipment = (TextView) findViewById(R.id.detailed_information_equipment);
         mDetailedInformationWarning = (TextView) findViewById(R.id.detailed_information_warning);
@@ -87,7 +87,7 @@ public class DetailedTaskActivity extends AppCompatActivity {
         mDetailedCaseName.setText(caseName);
         mDetailedInformationCaseName.setText(caseName);
         mDetailedInformationTaskName.setText(taskName);
-        mDetailedInformaationExpectedTime.setText(Utils.millisecondsToTimeString(mTask.expectedTime));
+        mDetailedInformationExpectedTime.setText(Utils.millisecondsToTimeString(mTask.expectedTime));
         mDetailedInformationSpentTime.setText(Utils.millisecondsToTimeString(mTask.spentTime));
         mDetailedInformationEquipment.setText(equipment == null ?
                 getString(R.string.no_equipment) : equipment.name);

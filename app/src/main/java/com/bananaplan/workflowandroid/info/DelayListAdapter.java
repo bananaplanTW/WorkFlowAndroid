@@ -1,8 +1,8 @@
 package com.bananaplan.workflowandroid.info;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,7 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.task.actions.IncrementTaskAlertScheduleCommand;
+import com.bananaplan.workflowandroid.detail.task.DetailedTaskActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.Calendar;
@@ -33,6 +34,7 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        public View view;
         public TextView delayTime;
         public TextView caseName;
         public TextView taskName;
@@ -44,9 +46,20 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(view);
             findViews(view);
             setupButtons();
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DetailedTaskActivity.class);
+                    intent.putExtra(DetailedTaskActivity.EXTRA_TASK_ID, mData.get(getAdapterPosition()).id);
+
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         private void findViews(View view) {
+            this.view = view;
             delayTime = (TextView) view.findViewById(R.id.main_information_list_title_delay_time);
             caseName = (TextView) view.findViewById(R.id.main_information_list_title_case_name);
             taskName = (TextView) view.findViewById(R.id.main_information_list_title_task_name);
