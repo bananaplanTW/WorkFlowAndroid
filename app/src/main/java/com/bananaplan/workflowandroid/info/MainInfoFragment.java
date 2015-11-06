@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -213,6 +214,13 @@ public class MainInfoFragment extends Fragment implements DataObserver {
         //mWarningTasks.addHeaderView(LayoutInflater.from(getActivity())
         //        .inflate(R.layout.main_information_list_warning_title, null), null, false);
         mWarningTasks.setAdapter(mWarningAdapter);
+        mWarningTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Utils.showDetailedWarningActivity(mContext,
+                        ((WarningListViewAdapter) mWarningTasks.getAdapter()).getItem(position).id);
+            }
+        });
     }
 
     private void setupReviewList() {
