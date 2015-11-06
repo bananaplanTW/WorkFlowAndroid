@@ -9,7 +9,8 @@
         android:layout_gravity="right"
         android:layout_marginRight="@dimen/equipment_maintenance_ov_add_maintenance_record_margin_right"
         android:layout_marginTop="@dimen/equipment_maintenance_ov_add_maintenance_record_margin_top"
-        android:text="@string/add_maintenance_record"/>
+        android:text="@string/add_maintenance_record"
+        android:visibility="gone"/>
 
     <ListView
         android:id="@+id/listview_maintenance_records"
