@@ -3,6 +3,7 @@ package com.bananaplan.workflowandroid.utility;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -36,6 +37,9 @@ import com.bananaplan.workflowandroid.data.Equipment;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.download.DownloadFileFromURLCommand;
+import com.bananaplan.workflowandroid.detail.task.DetailedTaskActivity;
+import com.bananaplan.workflowandroid.detail.warning.DetailedWarningActivity;
+import com.bananaplan.workflowandroid.detail.worker.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
 import com.bananaplan.workflowandroid.overview.equipmentoverview.EquipmentOverviewFragment;
 import com.bananaplan.workflowandroid.overview.workeroverview.WorkerOverviewFragment;
@@ -622,5 +626,23 @@ public class Utils {
                 status.setBackground(null);
                 break;
         }
+    }
+
+    public static final void showDetailedTaskActivity(Context context, String taskId) {
+        Intent intent = new Intent(context, DetailedTaskActivity.class);
+        intent.putExtra(DetailedTaskActivity.EXTRA_TASK_ID, taskId);
+        context.startActivity(intent);
+    }
+
+    public static final void showDetailedWarningActivity(Context context, String warningId) {
+        Intent intent = new Intent(context, DetailedWarningActivity.class);
+        intent.putExtra(DetailedWarningActivity.EXTRA_WARNING_ID, warningId);
+        context.startActivity(intent);
+    }
+
+    public static final void showDetailedWorkerActivity(Context context, String workerId) {
+        Intent intent = new Intent(context, DetailedWorkerActivity.class);
+        intent.putExtra(DetailedWorkerActivity.EXTRA_WORKER_ID, workerId);
+        context.startActivity(intent);
     }
 }

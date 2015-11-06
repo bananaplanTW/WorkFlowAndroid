@@ -50,10 +50,7 @@ public class DelayListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, DetailedTaskActivity.class);
-                    intent.putExtra(DetailedTaskActivity.EXTRA_TASK_ID, mData.get(getAdapterPosition()).id);
-
-                    mContext.startActivity(intent);
+                    Utils.showDetailedTaskActivity(mContext, mData.get(getAdapterPosition()).id);
                 }
             });
         }

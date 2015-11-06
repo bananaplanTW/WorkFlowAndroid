@@ -1,6 +1,7 @@
 package com.bananaplan.workflowandroid.info;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.task.actions.FailTaskCommand;
 import com.bananaplan.workflowandroid.data.task.actions.PassTaskCommand;
+import com.bananaplan.workflowandroid.detail.task.DetailedTaskActivity;
+import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        public View view;
         public TextView caseName;
         public TextView taskName;
         public TextView pic;
@@ -40,9 +44,17 @@ public class ReviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(view);
             findViews(view);
             setupButtons();
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.showDetailedTaskActivity(mContext, mData.get(getAdapterPosition()).id);
+                }
+            });
         }
 
         private void findViews(View view) {
+            this.view = view;
             caseName = (TextView) view.findViewById(R.id.main_information_list_title_case_name);
             taskName = (TextView) view.findViewById(R.id.main_information_list_title_task_name);
             pic = (TextView) view.findViewById(R.id.main_information_list_title_pic);
