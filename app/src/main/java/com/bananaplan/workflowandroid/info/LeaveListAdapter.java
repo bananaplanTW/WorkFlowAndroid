@@ -2,6 +2,7 @@ package com.bananaplan.workflowandroid.info;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.LeaveInMainInfo;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.detail.task.DetailedTaskActivity;
+import com.bananaplan.workflowandroid.detail.worker.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.utility.Utils;
 
 import java.util.Date;
@@ -29,15 +32,27 @@ public class LeaveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
+        public View view;
         public TextView leaveType;
         public TextView leaveWorker;
         public TextView leaveDate;
 
         public ItemViewHolder(View view) {
             super(view);
+            this.view = view;
             leaveType = (TextView) view.findViewById(R.id.main_information_list_leave_type);
             leaveWorker = (TextView) view.findViewById(R.id.main_information_list_leave_worker);
             leaveDate = (TextView) view.findViewById(R.id.main_information_list_leave_date);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DetailedWorkerActivity.class);
+                    intent.putExtra(DetailedWorkerActivity.EXTRA_WORKER_ID, mDataSet.get(getAdapterPosition()).workerId);
+
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 
