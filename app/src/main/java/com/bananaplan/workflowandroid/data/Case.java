@@ -164,10 +164,20 @@ public class Case extends IdData {
 
     public String getHoursExpected() {
         long time = 0L;
+        boolean isLagged = false;
         for (Task task : tasks) {
-            time += task.expectedTime;
+            if (task.status == Task.Status.DONE) {
+                time += (task.spentTime - task.expectedTime);
+            }
         }
-        return Utils.millisecondsToTimeString(time);
+
+        if (time > 0) {
+            isLagged = true;
+        }
+
+        time = Math.abs(time);
+
+        return isLagged ? "-" + Utils.millisecondsToTimeString(time) : Utils.millisecondsToTimeString(time);
     }
 
     public int getFinishItemsCount() {
