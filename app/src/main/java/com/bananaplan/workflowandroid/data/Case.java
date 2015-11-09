@@ -39,6 +39,8 @@ public class Case extends IdData {
         }
     }
 
+    public double cost = 0.0;
+
     public long lastUpdatedTime = -1L;
 
     public String description;
@@ -75,6 +77,7 @@ public class Case extends IdData {
                 String description,
                 String vendorId,
                 String managerId,
+                double cost,
                 Date deliveredDate,
                 Date materialPurchasedDate,
                 Date layoutDeliveredDate,
@@ -91,6 +94,7 @@ public class Case extends IdData {
         this.description = description;
         this.vendorId = vendorId;
         this.managerId = managerId;
+        this.cost = cost;
         this.deliveredDate = deliveredDate;
         this.materialPurchasedDate = materialPurchasedDate;
         this.layoutDeliveredDate = layoutDeliveredDate;
@@ -122,6 +126,7 @@ public class Case extends IdData {
         this.description = aCase.description;
         this.vendorId = aCase.vendorId;
         this.managerId = aCase.managerId;
+        this.cost = aCase.cost;
         this.deliveredDate = aCase.deliveredDate;
         this.materialPurchasedDate = aCase.materialPurchasedDate;
         this.layoutDeliveredDate = aCase.layoutDeliveredDate;

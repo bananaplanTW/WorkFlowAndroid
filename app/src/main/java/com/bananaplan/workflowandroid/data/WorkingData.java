@@ -9,7 +9,6 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.equipment.MaintenanceRecord;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.data.dataobserver.DataSubject;
-import com.bananaplan.workflowandroid.data.worker.attendance.WorkerAttendance;
 import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.data.worker.status.DataFactory;
 import com.bananaplan.workflowandroid.data.worker.status.FileData;
@@ -59,7 +58,6 @@ public final class WorkingData implements DataSubject {
 
     private static String sUserId;
     private static String sAuthToken;
-    private static int sCosts = 0;
 
     private HashMap<String, Manager> mManagersMap = new HashMap<>();
     private HashMap<String, Worker> mWorkersMap = new HashMap<>();
@@ -133,11 +131,13 @@ public final class WorkingData implements DataSubject {
     }
 
 
-    public void setCosts(int costs) {
-        sCosts = costs;
-    }
     public int getCosts() {
-        return sCosts;
+        double totalCost = 0;
+        for (Case c : getCases()) {
+            totalCost += c.cost;
+        }
+
+        return (int) Math.round(totalCost);
     }
 
 

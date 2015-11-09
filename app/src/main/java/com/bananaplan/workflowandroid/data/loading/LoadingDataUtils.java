@@ -748,6 +748,7 @@ public class LoadingDataUtils {
             String id = caseJson.getString("_id");
             String name = caseJson.getString("name");
             String description = getStringFromJson(caseJson, "details");
+            double cost = caseJson.getDouble("cost");
 
             addVendorToWorkingData(context, caseVendor);
             String vendorId = caseVendor.getString("_id");
@@ -826,6 +827,7 @@ public class LoadingDataUtils {
                     description,
                     vendorId,
                     managerId,
+                    cost,
                     deliveredDate,
                     materialPurchasedDate,
                     layoutDeliveredDate,
