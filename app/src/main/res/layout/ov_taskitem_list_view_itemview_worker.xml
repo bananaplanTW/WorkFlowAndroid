@@ -132,21 +132,6 @@
 
         <include layout="@layout/ov_listview_vertical_divider"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="50">
-
-            <TextView
-                android:id="@+id/error_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/worker_ov_taskItem_listView_error_count"
-                android:textColor="@color/black1"
-                android:textSize="14dp" />
-        </LinearLayout>
-
         <include layout="@layout/ov_listview_vertical_divider"/>
 
         <RelativeLayout

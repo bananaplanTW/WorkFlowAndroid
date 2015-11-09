@@ -139,6 +139,7 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
      * Put WIP-task and scheduled-tasks into each worker
      */
     private void putTasksIntoWorkers() {
+        // WIP task and scheduled tasks
         for (Worker worker : WorkingData.getInstance(mContext).getWorkers()) {
             if (WorkingData.getInstance(mContext).hasTask(worker.wipTaskId)) {
                 worker.setWipTask(WorkingData.getInstance(mContext).getTaskById(worker.wipTaskId));
@@ -146,11 +147,22 @@ public class LoadingDataTask extends AsyncTask<Void, Void, Void> {
 
             // We need task ids to find the corresponding case data, so we don't use clearScheduleTasks() here.
             worker.getScheduledTasks().clear();
+            worker.warningTasks.clear();
+            worker.completedTasks.clear();
 
             for (String stId : worker.scheduledTaskIds) {
                 if (WorkingData.getInstance(mContext).hasTask(stId)) {
                     worker.addScheduledTask(WorkingData.getInstance(mContext).getTaskById(stId));
                 }
+            }
+        }
+
+        // Warning tasks and completed tasks
+        for (Task task : WorkingData.getInstance(mContext).getTasks()) {
+            if (task.status.equals(Task.Status.WARNING)) {
+                WorkingData.getInstance(mContext).getWorkerById(task.workerId).warningTasks.add(task);
+            } else if (task.status.equals(Task.Status.DONE)) {
+                WorkingData.getInstance(mContext).getWorkerById(task.workerId).completedTasks.add(task);
             }
         }
     }

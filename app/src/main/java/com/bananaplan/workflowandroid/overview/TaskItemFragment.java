@@ -29,6 +29,7 @@ import com.bananaplan.workflowandroid.data.Task;
 import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
+import com.bananaplan.workflowandroid.data.worker.status.BaseData;
 import com.bananaplan.workflowandroid.detail.worker.DetailedWorkerActivity;
 import com.bananaplan.workflowandroid.main.MainApplication;
 import com.bananaplan.workflowandroid.overview.caseoverview.CaseOverviewFragment;
@@ -43,6 +44,8 @@ import com.bananaplan.workflowandroid.utility.view.DatePickerDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 import it.sephiroth.android.library.widget.HListView;
 
@@ -211,6 +214,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TaskItemListViewAdapterViewHolder holder;
+
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(getItemViewLayoutId(), parent, false);
                 holder = new TaskItemListViewAdapterViewHolder(convertView, false);
@@ -234,6 +238,7 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             } else {
                 holder = (TaskItemListViewAdapterViewHolder) convertView.getTag();
             }
+
             final Task task = getItem(position);
             final Worker worker = WorkingData.getInstance(getActivity()).getWorkerById(task.workerId);
 
@@ -277,10 +282,6 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                         WorkingData.getInstance(getActivity()).getEquipmentById(task.equipmentId).name : "");
                 holder.equipment.setTextColor(txtColor);
             }
-            if (holder.errorCount != null) {
-                holder.errorCount.setText(String.valueOf(task.errorCount));
-                holder.errorCount.setTextColor(txtColor);
-            }
             if (worker != null) {
                 if (holder.workerName != null) {
                     holder.workerName.setText(worker.name);
@@ -289,17 +290,19 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
                     holder.workerAvatar.setImageDrawable(worker.getAvator());
                 }
                 if (holder.workerInfo != null) {
-                    holder.workerInfo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(getActivity(), "View worker's info = " + worker.name, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                    holder.workerInfo.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Toast.makeText(getActivity(), "View worker's info = " + worker.name, Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 }
             }
+
             if (holder.warning != null) {
-                Utils.setTaskItemWarningTextView(getActivity(), task, holder.warning, true);
+                Utils.setTaskItemWarningTextView(getActivity(), task, holder.warning, false);
             }
+
             return convertView;
         }
     }
@@ -313,7 +316,6 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         TextView expectedTime;
         TextView workTime;
         TextView equipment;
-        TextView errorCount;
         TextView warning;
         TextView workerNameString;
         TextView workerName;
@@ -331,7 +333,6 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
             expectedTime = (TextView) view.findViewById(R.id.expected_time);
             workTime = (TextView) view.findViewById(R.id.work_time);
             equipment = (TextView) view.findViewById(R.id.equipment_used);
-            errorCount = (TextView) view.findViewById(R.id.error_count);
             warning = (TextView) view.findViewById(R.id.warning);
             workerNameString = (TextView) view.findViewById(R.id.worker_name_string);
             workerName = (TextView) view.findViewById(R.id.worker_card_name);
@@ -464,6 +465,25 @@ public class TaskItemFragment extends OvTabFragmentBase implements View.OnClickL
         if (worker.getWipTask() != null) {
             items.add(0, worker.getWipTask());
         }
+        items.addAll(worker.warningTasks);
+        items.addAll(worker.completedTasks);
+
+
+        Collections.sort(items, new Comparator<Task>() {
+            @Override
+            public int compare(Task lTask, Task rTask) {
+                if (lTask.startDate == null) {
+                    return -1;
+                }
+
+                if (rTask.startDate == null) {
+                    return 1;
+                }
+
+                return Long.compare(lTask.startDate.getTime(), rTask.startDate.getTime());
+            }
+        });
+
         if (mTaskItemListViewAdapter == null) {
             mTaskItemListViewAdapter = new TaskItemListViewAdapter(items);
             mTaskItemListView.setAdapter(mTaskItemListViewAdapter);

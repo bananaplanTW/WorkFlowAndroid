@@ -55,6 +55,7 @@ public class Worker extends IdData {
     public List<String> scheduledTaskIds = new ArrayList<>();
     private List<Task> scheduledTasks = new ArrayList<>();
 
+    public List<Task> completedTasks = new ArrayList<>();
     public List<Task> warningTasks = new ArrayList<>();
 
     public ArrayList<BaseData> records = new ArrayList<>();
