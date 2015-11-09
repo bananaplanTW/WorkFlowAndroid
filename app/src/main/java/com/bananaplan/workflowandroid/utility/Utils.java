@@ -243,6 +243,8 @@ public class Utils {
             return;
         }
 
+        v.setVisibility(View.VISIBLE);
+
         String displayTxt = "";
         int txtColor;
         Drawable background;
