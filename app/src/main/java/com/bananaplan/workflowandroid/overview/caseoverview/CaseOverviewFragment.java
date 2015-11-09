@@ -367,7 +367,7 @@ public class CaseOverviewFragment extends Fragment implements TextWatcher,
         mTvCaseHoursUnfinished.setText(Utils.millisecondsToTimeString(aCase.getUnfinishedTime()));
         mTvCaseHoursExpected.setText(aCase.getHoursExpected());
         mPbCaseSelected.setProgress(aCase.getFinishedPercent());
-        mTvTaskItemCount.setText(String.valueOf(aCase.tasks.size()));
+        mTvTaskItemCount.setText(String.valueOf(aCase.getWipItemsCount()));
         mTvCaseProgress.setText(aCase.getFinishItemsCount() + "/" + aCase.tasks.size());
         mTvCaseFeedDate.setText(Utils.timestamp2Date(aCase.materialPurchasedDate, Utils.DATE_FORMAT_YMD));
         mTvCaseFigureDate.setText(Utils.timestamp2Date(aCase.layoutDeliveredDate, Utils.DATE_FORMAT_YMD));

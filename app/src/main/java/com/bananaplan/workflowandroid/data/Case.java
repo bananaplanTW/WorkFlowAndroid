@@ -180,6 +180,16 @@ public class Case extends IdData {
         return count;
     }
 
+    public int getWipItemsCount() {
+        int count = 0;
+        for (Task item : tasks) {
+            if (item.status == Task.Status.WIP) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public String getSize() {
         if (this.movableMoldSize == null) return "0 x 0 x 0";
         return this.movableMoldSize.length + " x " + this.movableMoldSize.width + " x " + this.movableMoldSize.height;
