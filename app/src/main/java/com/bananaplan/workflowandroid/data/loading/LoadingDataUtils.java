@@ -44,6 +44,7 @@ public class LoadingDataUtils {
 
         //public static final String BASE_URL = "http://128.199.198.169:3000";
         public static final String BASE_URL = "http://188.166.248.171";
+        // public static final String BASE_URL = "http://188.166.235.141";  // Released version
         public static final String DEBUG_BASE_URL = "http://128.199.198.169:3000";
 
         public static final String WORKERS = BASE_URL + "/api/employees";
