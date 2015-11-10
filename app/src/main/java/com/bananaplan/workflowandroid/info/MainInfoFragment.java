@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,7 +23,6 @@ import com.bananaplan.workflowandroid.data.Worker;
 import com.bananaplan.workflowandroid.data.WorkingData;
 import com.bananaplan.workflowandroid.data.dataobserver.DataObserver;
 import com.bananaplan.workflowandroid.detail.warning.DetailedWarningActivity;
-import com.bananaplan.workflowandroid.utility.Utils;
 import com.bananaplan.workflowandroid.utility.view.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -48,73 +46,23 @@ public class MainInfoFragment extends Fragment implements DataObserver {
 
     private RecyclerView mDelayList;
     private DelayListAdapter mDelayListAdapter;
+    private List<Task> mDelayTasks = new ArrayList<>();
 
     private RecyclerView mReviewList;
     private ReviewListAdapter mReviewListAdapter;
+    private List<Task> mReviewTasks = new ArrayList<>();
 
     private RecyclerView mLeaveList;
     private LeaveListAdapter mLeaveListAdapter;
 
-    private ListView mWarningTasks;
-    private WarningListViewAdapter mWarningAdapter;
+    private ListView mWarningList;
+    private WarningListAdapter mWarningListAdapter;
+    private List<TaskWarning> mTaskWarnings = new ArrayList<>();
 
     private int mWorkerOnCount = 0;
     private int mWorkerOvertimeCount = 0;
     private int mWarningCount = 0;
 
-    private List<Task> mDelayTasks = new ArrayList<>();
-    private List<TaskWarning> mTaskWarnings = new ArrayList<>();
-    private List<Task> mReviewTasks = new ArrayList<>();
-
-
-    private class WarningListViewAdapter extends ArrayAdapter<TaskWarning> {
-
-        private class ViewHolder {
-
-            TextView title;
-            TextView _case;
-            TextView task;
-            TextView manager;
-
-            public ViewHolder(View v) {
-                title = (TextView) v.findViewById(R.id.title);
-                _case = (TextView) v.findViewById(R.id.case_name);
-                task = (TextView) v.findViewById(R.id.task);
-                manager = (TextView) v.findViewById(R.id.manager);
-            }
-        }
-
-        public WarningListViewAdapter(List<TaskWarning> taskWarnings) {
-            super(getActivity(), 0, taskWarnings);
-        }
-
-        public void updateData(List<TaskWarning> data) {
-            clear();
-            addAll(data);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = getActivity().getLayoutInflater().inflate(R.layout.main_information_list_warning_content, parent, false);
-                holder = new ViewHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            WorkingData data = WorkingData.getInstance(getActivity());
-            TaskWarning taskWarning = getItem(position);
-            if (taskWarning != null) {
-                Utils.setTaskItemWarningTextView(getActivity(), data.getTaskById(taskWarning.taskId), holder.title, false);
-                holder._case.setText(data.getCaseById(data.getTaskById(taskWarning.taskId).caseId).name);
-                holder.task.setText(data.getTaskById(taskWarning.taskId).name);
-                holder.manager.setText(data.getManagerById(taskWarning.managerId).name);
-            }
-            return convertView;
-        }
-    }
 
     @Nullable
     @Override
@@ -155,7 +103,7 @@ public class MainInfoFragment extends Fragment implements DataObserver {
         mDelayList = (RecyclerView) getView().findViewById(R.id.main_information_list_delay);
         mReviewList = (RecyclerView) getView().findViewById(R.id.main_information_list_review);
         mLeaveList = (RecyclerView) getView().findViewById(R.id.main_information_list_leave);
-        mWarningTasks = (ListView) getView().findViewById(R.id.main_information_list_warning);
+        mWarningList = (ListView) getView().findViewById(R.id.main_information_list_warning);
     }
 
     private void retrieveDatas() {
@@ -213,17 +161,15 @@ public class MainInfoFragment extends Fragment implements DataObserver {
     }
 
     private void setupWarningList() {
-        mWarningAdapter = new WarningListViewAdapter(mTaskWarnings);
-        mWarningTasks.setHeaderDividersEnabled(true);
-        //mWarningTasks.addHeaderView(LayoutInflater.from(getActivity())
-        //        .inflate(R.layout.main_information_list_warning_title, null), null, false);
-        mWarningTasks.setAdapter(mWarningAdapter);
-        mWarningTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mWarningListAdapter = new WarningListAdapter(getActivity(), mTaskWarnings);
+        mWarningList.setHeaderDividersEnabled(true);
+        mWarningList.setAdapter(mWarningListAdapter);
+        mWarningList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), DetailedWarningActivity.class);
                 intent.putExtra(DetailedWarningActivity.EXTRA_WARNING_ID,
-                        ((WarningListViewAdapter) mWarningTasks.getAdapter()).getItem(position).id);
+                        ((WarningListAdapter) mWarningList.getAdapter()).getItem(position).id);
 
                 startActivityForResult(intent, REQUEST_DETAILED_WARNING);
             }
@@ -253,7 +199,7 @@ public class MainInfoFragment extends Fragment implements DataObserver {
 
         setupBoards();
         mDelayListAdapter.notifyDataSetChanged();
-        mWarningAdapter.notifyDataSetChanged();
+        mWarningListAdapter.notifyDataSetChanged();
         mReviewListAdapter.notifyDataSetChanged();
         mLeaveListAdapter.notifyDataSetChanged();
     }
