@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 /**
+ * Use this class to display ConfirmDialog,
+ * don't forget to pass OnConfirmDialogActionListener and set the dialog type(task or warning or complete-task).
+ *
  * @author Danny Lin
  * @since 2015/11/4.
  */

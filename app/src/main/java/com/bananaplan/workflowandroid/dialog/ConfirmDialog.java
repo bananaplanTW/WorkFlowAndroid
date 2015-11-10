@@ -12,6 +12,8 @@ import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.dialog.ConfirmDialogFragment.OnConfirmDialogActionListener;
 
 /**
+ * Do not use this class directly, if you want to display the dialog, use ConfirmDialogFragment.
+ *
  * @author Danny Lin
  * @since 2015/11/4.
  */
@@ -98,6 +100,8 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (mOnConfirmDialogActionListener == null) return;
+
         switch (v.getId()) {
             case R.id.confirm_dialog_ok_button:
                 mOnConfirmDialogActionListener.onClickOk();
