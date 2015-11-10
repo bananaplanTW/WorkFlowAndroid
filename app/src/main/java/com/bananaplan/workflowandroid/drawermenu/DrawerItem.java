@@ -12,7 +12,7 @@ import android.graphics.drawable.Drawable;
 public class DrawerItem {
 
     public static final class LayoutTemplate {
-        public static final int SETTING = 0;
+        public static final int HEADER = 0;
         public static final int INFO = 1;
         public static final int NORMAL = 2;
         public static final int GROUP = 3;
@@ -27,7 +27,7 @@ public class DrawerItem {
     public DrawerSubItem[] subItems;
 
 
-    public static DrawerItem generateSettingItem(Drawable leftIcon, String text) {
+    public static DrawerItem generateHeaderItem(Drawable leftIcon, String text) {
         return new DrawerItem(leftIcon, text);
     }
 
@@ -44,10 +44,10 @@ public class DrawerItem {
     }
 
     /**
-     * For setting item.
+     * For header item.
      */
     private DrawerItem(Drawable leftIcon, String text) {
-        this.layoutTemplate = LayoutTemplate.SETTING;
+        this.layoutTemplate = LayoutTemplate.HEADER;
         this.text = text;
         this.leftIcon = leftIcon;
     }

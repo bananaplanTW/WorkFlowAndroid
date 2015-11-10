@@ -17,7 +17,7 @@ import com.bananaplan.workflowandroid.utility.view.ExpandableLayout.OnExpandColl
 import java.util.ArrayList;
 
 /**
- * Adatper for drawer
+ * Adapter for drawer
  *
  * @author Danny Lin
  * @since 2015/8/8.
@@ -57,7 +57,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private static final class DrawerItemIndex {
         public static final int SIZE = 7;
-        public static final int SETTING = 0;
+        public static final int HEADER = 0;
         public static final int INFO = 1;
         public static final int ASSIGN_TASK = 2;
         public static final int CASE = 3;
@@ -80,11 +80,11 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private final class SettingViewHolder extends BaseViewHolder {
+    private final class HeaderViewHolder extends BaseViewHolder {
 
         public ImageView settingIcon;
 
-        public SettingViewHolder(View v) {
+        public HeaderViewHolder(View v) {
             super(v);
             settingIcon = (ImageView) v.findViewById(R.id.drawer_setting_button);
         }
@@ -128,8 +128,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             DrawerItem item = null;
 
             switch (i) {
-                case DrawerItemIndex.SETTING:
-                    item = DrawerItem.generateSettingItem(null, mManagerName);
+                case DrawerItemIndex.HEADER:
+                    item = DrawerItem.generateHeaderItem(null, mManagerName);
                     break;
 
                 case DrawerItemIndex.INFO:
@@ -223,9 +223,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View v = null;
 
         switch (viewType) {
-            case DrawerItem.LayoutTemplate.SETTING:
+            case DrawerItem.LayoutTemplate.HEADER:
                 v = LayoutInflater.from(mContext).inflate(R.layout.drawer_item_setting, parent, false);
-                return new SettingViewHolder(v);
+                return new HeaderViewHolder(v);
 
             case DrawerItem.LayoutTemplate.INFO:
                 v = LayoutInflater.from(mContext).inflate(R.layout.drawer_item_info, parent, false);
@@ -246,8 +246,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (mDrawerItemDatas.get(position).layoutTemplate) {
-            case DrawerItem.LayoutTemplate.SETTING:
-                onBindSettingViewHolder((SettingViewHolder) holder, position);
+            case DrawerItem.LayoutTemplate.HEADER:
+                onBindHeaderViewHolder((HeaderViewHolder) holder, position);
                 break;
             case DrawerItem.LayoutTemplate.INFO:
                 onBindInfoViewHolder((InfoViewHolder) holder, position);
@@ -261,7 +261,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private void onBindSettingViewHolder(SettingViewHolder holder, int position) {
+    private void onBindHeaderViewHolder(HeaderViewHolder holder, int position) {
         if (mDrawerItemDatas.get(position).leftIcon != null) {
             holder.licon.setImageDrawable(mDrawerItemDatas.get(position).leftIcon);
         }
@@ -300,7 +300,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         ((ExpandableLayout) holder.view).setOnExpandCollapseListener(mOnExpandCollapseListener);
 
-        // Subitems
+        // Sub items
         if (mDrawerItemDatas.get(position).subItems != null) {
             int length = mDrawerItemDatas.get(position).subItems.length;
 
