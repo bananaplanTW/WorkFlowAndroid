@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bananaplan.workflowandroid.R;
 import com.bananaplan.workflowandroid.data.WorkingData;
+import com.bananaplan.workflowandroid.data.loading.LoadingDataUtils;
 import com.bananaplan.workflowandroid.login.CheckLoggedInStatusCommand;
 import com.bananaplan.workflowandroid.login.UserLoggingInCommand;
 import com.parse.ParsePush;
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private LinearLayout mLoginContainerLinearLayout;
 
+    private EditText mCompanyDomain;
     private EditText mAccountEditText;
     private EditText mPasswordEditText;
     private Button mLoginButton;
@@ -64,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void findViews () {
         mNiCloudImage = (ImageView) findViewById(R.id.login_nicloud_image);
         mLoginContainerLinearLayout = (LinearLayout) findViewById(R.id.login_container);
+        mCompanyDomain = (EditText) findViewById(R.id.login_company_domain);
         mAccountEditText = (EditText) findViewById(R.id.login_account_edit_text);
         mPasswordEditText = (EditText) findViewById(R.id.login_password_edit_text);
         mLoginButton = (Button) findViewById(R.id.login_button);
@@ -88,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
 
+        LoadingDataUtils.sBaseUrl = mSharedPreferences.getString(LoadingDataUtils.BASE_URL, "");
         WorkingData.setUserId(mSharedPreferences.getString(WorkingData.USER_ID, ""));
         WorkingData.setAuthToken(mSharedPreferences.getString(WorkingData.AUTH_TOKEN, ""));
 
@@ -109,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_button:
+                LoadingDataUtils.sBaseUrl = "http://" + mCompanyDomain.getText().toString();
                 String username = mAccountEditText.getText().toString();
                 String password = mPasswordEditText.getText().toString();
                 UserLoggingInCommand userLoggingInCommand = new UserLoggingInCommand(this, username, password, this);
@@ -149,7 +154,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onLoggedInSucceed(String userId, String authToken) {
-        mSharedPreferences.edit().putString(WorkingData.USER_ID, userId).putString(WorkingData.AUTH_TOKEN, authToken).commit();
+        mSharedPreferences.edit()
+                .putString(WorkingData.USER_ID, userId)
+                .putString(WorkingData.AUTH_TOKEN, authToken)
+                .putString(LoadingDataUtils.BASE_URL, LoadingDataUtils.sBaseUrl)
+                .apply();
+
         WorkingData.setUserId(userId);
         WorkingData.setAuthToken(authToken);
 

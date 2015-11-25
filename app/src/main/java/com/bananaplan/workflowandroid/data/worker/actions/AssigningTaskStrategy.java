@@ -39,7 +39,7 @@ public class AssigningTaskStrategy implements IPostRequestStrategy {
             bodies.put("ed", mWorkerId);
             bodies.put("td", mTaskId);
 
-            String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.DISPATCH, null);
+            String urlString = URLUtils.buildURLString(LoadingDataUtils.sBaseUrl, LoadingDataUtils.WorkingDataUrl.EndPoints.DISPATCH, null);
             String responseString = RestfulUtils.restfulPostRequest(urlString, headers, bodies);
 
             if (responseString != null) {

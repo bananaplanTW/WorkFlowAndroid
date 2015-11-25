@@ -269,6 +269,7 @@
     <string name="main_information_list_reject_toast">"審核不通過   工作: %1$s   負責人: %2$s"</string>
 
     <!-- Login Activity -->
+    <string name="login_company_domain">公司網域</string>
     <string name="login_account">帳號</string>
     <string name="login_password">密碼</string>
     <string name="login">登入</string>

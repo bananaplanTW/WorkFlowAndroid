@@ -39,7 +39,7 @@ public class UpdateEmployeeScoreStrategy implements IPostRequestStrategy {
             bodies.put("ed", mWorkerId);
             bodies.put("sc", "" + mScore);
 
-            String urlString = URLUtils.buildURLString(LoadingDataUtils.WorkingDataUrl.BASE_URL, LoadingDataUtils.WorkingDataUrl.EndPoints.SCORE_EMPLOYEE, null);
+            String urlString = URLUtils.buildURLString(LoadingDataUtils.sBaseUrl, LoadingDataUtils.WorkingDataUrl.EndPoints.SCORE_EMPLOYEE, null);
             String responseString = RestfulUtils.restfulPostRequest(urlString, headers, bodies);
 
             if (responseString != null) {

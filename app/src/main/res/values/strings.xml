@@ -281,6 +281,7 @@
     <string name="main_information_list_reject_toast">"Review failed   Task: %1$s   PIC: %2$s"</string>
 
     <!-- Login Activity -->
+    <string name="login_company_domain">Company domain</string>
     <string name="login_account">Account</string>
     <string name="login_password">Password</string>
     <string name="login">Login</string>

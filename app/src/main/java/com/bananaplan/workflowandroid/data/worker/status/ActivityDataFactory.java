@@ -63,14 +63,14 @@ public class ActivityDataFactory {
                     photoData.time = new Date(recordJSON.getLong("createdAt"));
                     photoData.fileName = recordJSON.getString("name");
 
-                    Uri.Builder thumbBuilder = Uri.parse(LoadingDataUtils.WorkingDataUrl.BASE_URL).buildUpon();
+                    Uri.Builder thumbBuilder = Uri.parse(LoadingDataUtils.sBaseUrl).buildUpon();
                     thumbBuilder.path(recordJSON.getString("thumbUrl"));
                     Uri thumbUri = thumbBuilder.build();
                     // TODO: DO NOT load all thumbnails into memory to avoid OOM
                     LoadingPhotoDataCommand loadingPhotoDataCommand = new LoadingPhotoDataCommand(context, thumbUri, photoData);
                     loadingPhotoDataCommand.execute();
 
-                    Uri.Builder imageBuilder = Uri.parse(LoadingDataUtils.WorkingDataUrl.BASE_URL).buildUpon();
+                    Uri.Builder imageBuilder = Uri.parse(LoadingDataUtils.sBaseUrl).buildUpon();
                     imageBuilder.path(recordJSON.getString("imageUrl"));
                     photoData.filePath = imageBuilder.build();
                     return photoData;
@@ -81,7 +81,7 @@ public class ActivityDataFactory {
                     fileData.time = new Date(recordJSON.getLong("createdAt"));
                     fileData.fileName = recordJSON.getString("name");
 
-                    Uri.Builder builder = Uri.parse(LoadingDataUtils.WorkingDataUrl.BASE_URL).buildUpon();
+                    Uri.Builder builder = Uri.parse(LoadingDataUtils.sBaseUrl).buildUpon();
                     builder.path(recordJSON.getString("fileUrl"));
                     fileData.filePath = builder.build();
                     return fileData;
