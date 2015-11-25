@@ -5,6 +5,7 @@
     <color name="main_window_divider_color">#FFF5F5F5</color>
     <color name="common_block_stroke_color">#FFE1E1E1</color>
     <color name="no_internet_connection_text_color">@android:color/white</color>
+    <color name="login_container_background_stroke_color">#FF979797</color>
 
     <!-- Views -->
     <color name="button_white_text_color">@android:color/white</color>

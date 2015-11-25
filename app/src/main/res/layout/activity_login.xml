@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.bananaplan.workflowandroid.main.LoginActivity"
-    android:background="@color/blue1">
+    android:background="@android:color/white">
 
     <include
         layout="@layout/no_internet_connection_view"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/button_white_text_color"
+        android:background="@drawable/login_container_background"
         android:padding="10dp"
         android:orientation="vertical">
 
