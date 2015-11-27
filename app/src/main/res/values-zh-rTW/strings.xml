@@ -28,7 +28,7 @@
     <string name="worker_status_off">休假中</string>
     <string name="worker_status_stop">非上班時段</string>
     <string name="worker_status_pause">暫停工作</string>
-    <string name="worker_status_pending">無工作</string>
+    <string name="worker_status_pending">準備下個工作中...</string>
     <string name="worker_status_wip">工作中</string>
 
     <!-- Leave type -->

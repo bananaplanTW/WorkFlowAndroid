@@ -71,7 +71,8 @@
     <color name="worker_card_divider_color">#FFE1E1E1</color>
     <color name="worker_card_background_color">#FFFFFFFF</color>
     <color name="worker_card_status_text_color">@android:color/white</color>
-    <color name="worker_card_status_background_color">#FF858585</color>
+    <color name="worker_card_status_stop_background_color">#FF858585</color>
+    <color name="worker_card_status_pending_background_color">#FF88D188</color>
     <color name="working_status_ok">#FF55931F</color>
 
     <!-- CaseOverviewFragment -->

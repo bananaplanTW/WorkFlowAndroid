@@ -273,6 +273,14 @@ public class WorkerGridViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             workerCardViewHolder.statusContainer.setVisibility(View.VISIBLE);
             workerCardViewHolder.wipTaskContainer.setVisibility(View.GONE);
 
+            if (Worker.Status.PENDING.equals(worker.status)) {
+                workerCardViewHolder.statusContainer.setBackgroundColor(
+                        mContext.getResources().getColor(R.color.worker_card_status_pending_background_color));
+            } else {
+                workerCardViewHolder.statusContainer.setBackgroundColor(
+                        mContext.getResources().getColor(R.color.worker_card_status_stop_background_color));
+            }
+
             workerCardViewHolder.status.setText(Worker.getWorkerStatusString(mContext, worker.status));
         } else {
             workerCardViewHolder.statusContainer.setVisibility(View.GONE);
